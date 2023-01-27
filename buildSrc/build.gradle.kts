@@ -28,3 +28,12 @@ dependencies {
 
    detektPlugins(libs.detekt.formatting)
 }
+
+tasks.register("pre-commit-hook", Copy::class) {
+   from("$rootDir/../config/hooks/")
+   into("$rootDir/../.git/hooks")
+}
+
+afterEvaluate {
+   tasks.getByName("check").dependsOn("pre-commit-hook")
+}
