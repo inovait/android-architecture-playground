@@ -3,6 +3,8 @@ import util.commonKotlinOptions
 
 plugins {
    id("org.jetbrains.kotlin.android")
+
+   id("checks")
 }
 
 commonAndroid {
