@@ -7,8 +7,6 @@ import com.android.build.api.dsl.ProductFlavor
 import com.android.build.gradle.internal.dsl.InternalTestedExtension
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.gradle.plugin.use.PluginDependenciesSpec
-import org.gradle.plugin.use.PluginDependencySpec
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 /**

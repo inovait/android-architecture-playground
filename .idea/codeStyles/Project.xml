@@ -132,7 +132,7 @@
       <option name="ENUM_CONSTANTS_WRAP" value="5" />
       <indentOptions>
         <option name="INDENT_SIZE" value="3" />
-        <option name="CONTINUATION_INDENT_SIZE" value="6" />
+        <option name="CONTINUATION_INDENT_SIZE" value="3" />
         <option name="TAB_SIZE" value="3" />
       </indentOptions>
     </codeStyleSettings>
