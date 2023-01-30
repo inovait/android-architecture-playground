@@ -10,6 +10,8 @@ plugins {
 }
 
 tasks.withType<DependencyUpdatesTask> {
+   gradleReleaseChannel = "current"
+
    rejectVersionIf {
       candidate.version.contains("alpha", ignoreCase = true) ||
          candidate.version.contains("beta", ignoreCase = true) ||
