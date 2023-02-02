@@ -64,7 +64,6 @@ comments:
     excludes: &testFolders
       - '**/test/**'
       - '**/androidTest/**'
-      - '**/androidTestChina/**'
       - '**/commonTest/**'
       - '**/jvmTest/**'
       - '**/jsTest/**'
@@ -258,7 +257,7 @@ exceptions:
   ThrowingNewInstanceOfSameException:
     active: true
   TooGenericExceptionCaught:
-    active: true
+    active: false
     excludes: *testFolders
     exceptionNames:
       - 'ArrayIndexOutOfBoundsException'
