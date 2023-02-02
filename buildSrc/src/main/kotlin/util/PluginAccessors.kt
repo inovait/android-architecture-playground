@@ -6,3 +6,6 @@ inline val PluginDependenciesSpec.commonAndroid: PluginDependencySpec
 
 inline val PluginDependenciesSpec.compose: PluginDependencySpec
    get() = id("compose")
+
+inline val PluginDependenciesSpec.androidAppModule: PluginDependencySpec
+   get() = id("app-module")

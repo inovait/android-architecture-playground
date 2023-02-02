@@ -1,10 +1,14 @@
+import org.gradle.accessors.dm.LibrariesForLibs
 import util.commonAndroid
 import util.commonKotlinOptions
+
+val libs = the<LibrariesForLibs>()
 
 plugins {
    id("org.jetbrains.kotlin.android")
 
    id("checks")
+   id("com.squareup.anvil")
 }
 
 commonAndroid {
@@ -28,4 +32,9 @@ commonAndroid {
          excludes += "/META-INF/{AL2.0,LGPL2.1}"
       }
    }
+}
+
+dependencies {
+   add("implementation", libs.whetstone.runtime)
+   add("anvil", libs.whetstone.compiler)
 }
