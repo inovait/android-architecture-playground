@@ -621,8 +621,10 @@ style:
   ForbiddenMethodCall:
     active: true
     methods:
-      - 'kotlin.io.print'
-      - 'kotlin.io.println'
+      - value: 'kotlin.io.print'
+        reason: "Use logcat for logging"
+      - value: 'kotlin.io.println'
+        reason: "Use logcat for logging"
   ForbiddenVoid:
     active: false
     ignoreOverridden: false
