@@ -30,28 +30,6 @@ android {
       }
    }
 
-
-   signingConfigs {
-      getByName("debug") {
-         // SHA1: TODO
-         // SHA256: TODO
-
-         storeFile = File(rootDir, "keys/debug.jks")
-         storePassword = "android"
-         keyAlias = "androiddebugkey"
-         keyPassword = "android"
-      }
-      create("release") {
-         // SHA1: TODO
-         // SHA256: TODO
-
-         storeFile = File(rootDir, "keys/release.jks")
-         storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
-         keyAlias = "app"
-         keyPassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
-      }
-   }
-
    buildTypes {
       getByName("release") {
          isMinifyEnabled = true
@@ -59,8 +37,6 @@ android {
             getDefaultProguardFile("proguard-android-optimize.txt"),
             "proguard-rules.pro"
          )
-
-         signingConfig = signingConfigs.getByName("release")
       }
 
    }
