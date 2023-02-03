@@ -1,3 +1,18 @@
+# Empty Android project
+
+Empty android project with basic architecture set up.
+
+To create new Android project from that:
+
+1. Clone this repo
+2. Copy all files (except for the .git and this README.MD) into your new project's folder
+3. Rename si.inova.androidarchitectureplayground folder (package)
+4. Rename theme in `app/res/values/themes.xml`
+5. Rename `namespace` and `applicatonId` in `app/build.gradle.kts`
+6. Rename `rootProject.name` in `settings.gradle.kts
+7. Rename `app_name` in `app/res/values/strings.xml`
+8. Rename theme in `app/src/main/java/si/inova/impactwrap/tv/Theme.kt`
+
 ## Keystore
 
 To generate keys, you can execute these command inside `keys` folder:
