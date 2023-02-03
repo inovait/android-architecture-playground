@@ -723,7 +723,7 @@ style:
   UnnecessaryAnnotationUseSiteTarget:
     active: false
   UnnecessaryApply:
-    active: true
+    active: false
   UnnecessaryFilter:
     active: true
   UnnecessaryInheritance:
