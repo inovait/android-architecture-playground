@@ -1,12 +1,25 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.kotlin.dsl.the
+import util.commonAndroid
+import util.isAndroidProject
 
 val libs = the<LibrariesForLibs>()
 
 plugins {
    id("com.github.ben-manes.versions")
    id("io.gitlab.arturbosch.detekt")
+}
+
+if (isAndroidProject()) {
+   commonAndroid {
+      lint {
+         lintConfig = file("$rootDir/config/android-lint.xml")
+         abortOnError = true
+
+         warningsAsErrors = true
+      }
+   }
 }
 
 tasks.withType<DependencyUpdatesTask> {
