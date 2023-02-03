@@ -12,7 +12,6 @@ android {
 
    defaultConfig {
       applicationId = "si.inova.androidarchitectureplayground"
-      minSdk = 24
       targetSdk = 33
       versionCode = 1
       versionName = "1.0"
@@ -43,6 +42,8 @@ android {
 }
 
 dependencies {
+   implementation(projects.libmodule)
+
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
    implementation(libs.androidx.lifecycle.runtime)

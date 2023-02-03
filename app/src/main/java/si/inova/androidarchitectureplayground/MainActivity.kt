@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground
 
+import android.content.res.Resources
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -10,11 +10,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentActivity
+import com.deliveryhero.whetstone.Whetstone
+import com.deliveryhero.whetstone.activity.ContributesActivityInjector
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
+import javax.inject.Inject
 
-class MainActivity : ComponentActivity() {
+@ContributesActivityInjector
+class MainActivity : FragmentActivity() {
+   @Inject
+   lateinit var injectedResources: Resources
+
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
+      Whetstone.inject(this)
+
       setContent {
          AndroidArchitecturePlaygroundTheme {
             // A surface container using the 'background' color from the theme

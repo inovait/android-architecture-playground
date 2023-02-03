@@ -25,8 +25,9 @@ dependencyResolutionManagement {
    }
 }
 
-
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "AndroidArchitecturePlayground"
 
 include(":app")
+include(":libmodule")
