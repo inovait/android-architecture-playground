@@ -16,6 +16,7 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeSpec
@@ -72,9 +73,15 @@ class ScreenInjectionGenerator : CodeGenerator {
 
       val providesFunction = FunSpec.builder("provides")
          .apply {
-            for (parameter in constructorParameters) {
-               addParameter(parameter.name, parameter.type().asTypeName())
-            }
+            addParameters(constructorParameters.map { parameter ->
+               ParameterSpec.builder(parameter.name, parameter.type().asTypeName())
+                  .apply {
+                     for (annotation in parameter.annotations) {
+                        addAnnotation(annotation.toAnnotationSpec())
+                     }
+                  }
+                  .build()
+            })
          }
          .returns(screenClassName)
          .addAnnotation(Provides::class)

@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
 import si.inova.androidarchitectureplayground.screens.Screen
+import si.inova.androidarchitectureplayground.screens.ScreenAKey
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import javax.inject.Inject
 import javax.inject.Provider
@@ -30,6 +31,8 @@ class MainActivity : FragmentActivity() {
       super.onCreate(savedInstanceState)
       Whetstone.inject(this)
 
+      val key = ScreenAKey
+      val screenA = screens.getValue(Class.forName(key.screenClass)).get()
       setContent {
          AndroidArchitecturePlaygroundTheme {
             // A surface container using the 'background' color from the theme
@@ -37,7 +40,7 @@ class MainActivity : FragmentActivity() {
                modifier = Modifier.fillMaxSize(),
                color = MaterialTheme.colorScheme.background
             ) {
-               Greeting("Android")
+               screenA.Content()
             }
          }
       }
