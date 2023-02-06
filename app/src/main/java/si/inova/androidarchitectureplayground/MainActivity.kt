@@ -2,17 +2,21 @@ package si.inova.androidarchitectureplayground
 
 import android.content.res.Resources
 import android.os.Bundle
+import android.view.Window
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.FragmentActivity
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
+import com.zhuinden.simplestack.AsyncStateChanger
+import com.zhuinden.simplestack.History
+import com.zhuinden.simplestack.navigator.Navigator
+import si.inova.androidarchitectureplayground.screens.BackstackProvider
+import si.inova.androidarchitectureplayground.screens.ComposeStateChanger
 import si.inova.androidarchitectureplayground.screens.Screen
 import si.inova.androidarchitectureplayground.screens.ScreenAKey
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
@@ -25,14 +29,22 @@ class MainActivity : FragmentActivity() {
    lateinit var injectedResources: Resources
 
    @Inject
-   lateinit var screens: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>
+   lateinit var screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>
+
+   lateinit var composeStateChanger: ComposeStateChanger
 
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       Whetstone.inject(this)
 
-      val key = ScreenAKey
-      val screenA = screens.getValue(Class.forName(key.screenClass)).get()
+      composeStateChanger = ComposeStateChanger(screenFactories = screenFactories)
+
+      val backstack = Navigator.configure()
+         .setStateChanger(AsyncStateChanger(composeStateChanger))
+         .install(this, findViewById(Window.ID_ANDROID_CONTENT), History.of(ScreenAKey))
+
+      onBackPressedDispatcher.addCallback(simpleStackBackPressedCallback)
+
       setContent {
          AndroidArchitecturePlaygroundTheme {
             // A surface container using the 'background' color from the theme
@@ -40,25 +52,24 @@ class MainActivity : FragmentActivity() {
                modifier = Modifier.fillMaxSize(),
                color = MaterialTheme.colorScheme.background
             ) {
-               screenA.Content()
+               BackstackProvider(backstack) {
+                  composeStateChanger.RenderScreen()
+               }
             }
          }
       }
    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-   Text(
-      text = "Hello $name!",
-      modifier = modifier
-   )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-   AndroidArchitecturePlaygroundTheme {
-      Greeting("Android")
-   }
+   private val simpleStackBackPressedCallback =
+      object : OnBackPressedCallback(true) {
+         override fun handleOnBackPressed() {
+            if (!Navigator.onBackPressed(this@MainActivity)) {
+               // Hack until https://github.com/Zhuinden/simple-stack/issues/259 is resolved
+               this.remove()
+               @Suppress("DEPRECATION")
+               onBackPressed()
+               this@MainActivity.onBackPressedDispatcher.addCallback(this)
+            }
+         }
+      }
 }

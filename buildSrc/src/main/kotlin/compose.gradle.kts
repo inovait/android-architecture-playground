@@ -17,6 +17,7 @@ dependencies {
    add("implementation", libs.androidx.compose.ui)
    add("implementation", libs.androidx.compose.ui.graphics)
    add("implementation", libs.androidx.compose.ui.tooling.preview)
+   add("implementation", libs.androidx.compose.ui.util)
    add("implementation", libs.androidx.compose.material3)
 
    add("debugImplementation", libs.androidx.compose.ui.test.manifest)
