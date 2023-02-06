@@ -16,12 +16,11 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeSpec
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import org.jetbrains.kotlin.descriptors.ModuleDescriptor
@@ -69,13 +68,23 @@ class ScreenInjectionGenerator : CodeGenerator {
       val screenClassName = ClassName("si.inova.androidarchitectureplayground.screens", "Screen")
          .parameterizedBy(STAR)
 
-      val bindsFunction = FunSpec.builder("binds")
-         .addParameter("target", className)
+      val constructorParameters = clas.constructors.firstOrNull()?.parameters ?: emptyList()
+
+      val providesFunction = FunSpec.builder("provides")
+         .apply {
+            for (parameter in constructorParameters) {
+               addParameter(parameter.name, parameter.type().asTypeName())
+            }
+         }
          .returns(screenClassName)
-         .addModifiers(KModifier.ABSTRACT)
-         .addAnnotation(Binds::class)
+         .addAnnotation(Provides::class)
          .addAnnotation(IntoMap::class)
          .addAnnotation(classKeyAnnotation)
+         .addStatement(
+            "return %T(${constructorParameters.joinToString { "%L" }})",
+            className,
+            *constructorParameters.map { it.name }.toTypedArray()
+         )
          .build()
 
       val content = FileSpec.buildFile(
@@ -83,10 +92,10 @@ class ScreenInjectionGenerator : CodeGenerator {
          fileName = outputFileName,
          generatorComment = "Automatically generated file. DO NOT MODIFY!"
       ) {
-         val moduleInterfaceSpec = TypeSpec.interfaceBuilder(outputFileName)
+         val moduleInterfaceSpec = TypeSpec.classBuilder(outputFileName)
             .addAnnotation(Module::class)
             .addAnnotation(contributesToAnnotation)
-            .addFunction(bindsFunction)
+            .addFunction(providesFunction)
             .build()
 
          addType(moduleInterfaceSpec)
