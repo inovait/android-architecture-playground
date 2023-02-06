@@ -13,13 +13,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.FragmentActivity
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
+import si.inova.androidarchitectureplayground.screens.Screen
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import javax.inject.Inject
+import javax.inject.Provider
 
 @ContributesActivityInjector
 class MainActivity : FragmentActivity() {
    @Inject
    lateinit var injectedResources: Resources
+
+   @Inject
+   lateinit var screens: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>
 
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)

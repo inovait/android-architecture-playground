@@ -5,6 +5,7 @@
 plugins {
    androidAppModule
    compose
+   id("kotlin-parcelize")
 }
 
 android {
@@ -43,10 +44,12 @@ android {
 
 dependencies {
    implementation(projects.libmodule)
+   anvil(projects.anvil)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
    implementation(libs.androidx.lifecycle.runtime)
+   implementation(libs.simpleStack)
 
    testImplementation(libs.junit4)
 }
