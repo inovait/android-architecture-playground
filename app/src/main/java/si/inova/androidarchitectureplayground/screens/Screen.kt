@@ -4,5 +4,7 @@ import androidx.compose.runtime.Composable
 
 abstract class Screen<T : ScreenKey> {
    lateinit var key: T
-   abstract @Composable fun Content()
+
+   @Composable
+   abstract fun Content()
 }

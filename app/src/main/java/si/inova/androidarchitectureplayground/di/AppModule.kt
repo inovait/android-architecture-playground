@@ -9,7 +9,7 @@ import dagger.Module
 
 @Suppress("unused")
 @ContributesTo(ApplicationScope::class)
-@Module
+@Module(subcomponents = [SimpleStackActivityComponent::class])
 abstract class AppModule {
    @Binds
    abstract fun Application.bindToContext(): Context

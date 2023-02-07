@@ -9,6 +9,7 @@ import com.squareup.anvil.compiler.api.GeneratedFile
 import com.squareup.anvil.compiler.api.createGeneratedFile
 import com.squareup.anvil.compiler.internal.buildFile
 import com.squareup.anvil.compiler.internal.reference.ClassReference
+import com.squareup.anvil.compiler.internal.reference.TypeReference
 import com.squareup.anvil.compiler.internal.reference.asClassName
 import com.squareup.anvil.compiler.internal.reference.classAndInnerClassReferences
 import com.squareup.anvil.compiler.internal.safePackageString
@@ -20,6 +21,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asTypeName
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.ClassKey
@@ -38,19 +40,21 @@ class ScreenInjectionGenerator : CodeGenerator {
       projectFiles: Collection<KtFile>
    ): Collection<GeneratedFile> {
       return projectFiles.classAndInnerClassReferences(module).mapNotNull {
-         if (!it.directSuperTypeReferences()
-               .any { superType ->
-                  superType.asClassReference().fqName.asString() == SCREEN_TYPE
-               }
-         ) {
+         if (it.isAbstract()) {
             return@mapNotNull null
          }
 
-         generateScreenFactory(codeGenDir, it)
+         val screenType = it.getScreenTypeIfItExists() ?: return@mapNotNull null
+
+         generateScreenFactory(codeGenDir, it, screenType)
       }.flatten().toList()
    }
 
-   private fun generateScreenFactory(codeGenDir: File, clas: ClassReference.Psi): Collection<GeneratedFile> {
+   private fun generateScreenFactory(
+      codeGenDir: File,
+      clas: ClassReference.Psi,
+      screenType: TypeReference
+   ): Collection<GeneratedFile> {
       val className = clas.asClassName()
       val packageName = clas.packageFqName.safePackageString(
          dotPrefix = false,
@@ -59,11 +63,15 @@ class ScreenInjectionGenerator : CodeGenerator {
       val outputFileName = className.simpleName + "Module"
 
       val contributesToAnnotation = AnnotationSpec.builder(ContributesTo::class)
-         .addMember("%T::class", ClassName("com.deliveryhero.whetstone.app", "ApplicationScope"))
+         .addMember("%T::class", ClassName("si.inova.androidarchitectureplayground.di", "SimpleStackActivityScope"))
          .build()
 
       val classKeyAnnotation = AnnotationSpec.builder(ClassKey::class)
          .addMember("%T::class", className)
+         .build()
+
+      val screenKeyClassKeyAnnotation = AnnotationSpec.builder(ClassKey::class)
+         .addMember("%T::class", screenType.unwrappedTypes.first().asTypeName())
          .build()
 
       val screenClassName = ClassName("si.inova.androidarchitectureplayground.screens", "Screen")
@@ -71,13 +79,17 @@ class ScreenInjectionGenerator : CodeGenerator {
 
       val constructorParameters = clas.constructors.firstOrNull()?.parameters ?: emptyList()
 
-      val providesFunction = FunSpec.builder("provides")
+      val providesScreenFunction = FunSpec.builder("providesScreen")
          .apply {
             addParameters(constructorParameters.map { parameter ->
                ParameterSpec.builder(parameter.name, parameter.type().asTypeName())
                   .apply {
                      for (annotation in parameter.annotations) {
                         addAnnotation(annotation.toAnnotationSpec())
+                     }
+
+                     if (parameter.type().isScopedService()) {
+                        addAnnotation(ClassName("si.inova.androidarchitectureplayground.screens", "SimpleStackScoped"))
                      }
                   }
                   .build()
@@ -94,6 +106,20 @@ class ScreenInjectionGenerator : CodeGenerator {
          )
          .build()
 
+      val scopedServiceParameters = constructorParameters.filter { it.type().isScopedService() }
+
+      val providesServiceListFunction = FunSpec.builder("providesScopedServiceList")
+         .returns(List::class.asTypeName().parameterizedBy(Class::class.asTypeName().parameterizedBy(STAR)))
+         .addAnnotation(Provides::class)
+         .addAnnotation(IntoMap::class)
+         .addAnnotation(screenKeyClassKeyAnnotation)
+         .addStatement(
+            "return %L(${scopedServiceParameters.joinToString { "%T::class.java" }})",
+            "listOf",
+            *scopedServiceParameters.map { it.type().asTypeName() }.toTypedArray()
+         )
+         .build()
+
       val content = FileSpec.buildFile(
          packageName = packageName,
          fileName = outputFileName,
@@ -102,7 +128,8 @@ class ScreenInjectionGenerator : CodeGenerator {
          val moduleInterfaceSpec = TypeSpec.classBuilder(outputFileName)
             .addAnnotation(Module::class)
             .addAnnotation(contributesToAnnotation)
-            .addFunction(providesFunction)
+            .addFunction(providesScreenFunction)
+            .addFunction(providesServiceListFunction)
             .build()
 
          addType(moduleInterfaceSpec)
@@ -111,6 +138,20 @@ class ScreenInjectionGenerator : CodeGenerator {
       return listOf(
          createGeneratedFile(codeGenDir, packageName, outputFileName, content)
       )
+   }
+
+   private fun ClassReference.getScreenTypeIfItExists(): TypeReference? {
+      for (superReference in directSuperTypeReferences()) {
+         val superClassReference = superReference.asClassReference()
+
+         if (superClassReference.fqName.asString() == SCREEN_TYPE) {
+            return superReference
+         } else {
+            superClassReference.getScreenTypeIfItExists()?.let { return it }
+         }
+      }
+
+      return null
    }
 
    override fun isApplicable(context: AnvilContext): Boolean = true

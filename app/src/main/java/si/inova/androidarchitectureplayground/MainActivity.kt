@@ -15,6 +15,7 @@ import com.deliveryhero.whetstone.activity.ContributesActivityInjector
 import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.History
 import com.zhuinden.simplestack.navigator.Navigator
+import si.inova.androidarchitectureplayground.di.SimpleStackActivityComponent
 import si.inova.androidarchitectureplayground.screens.BackstackProvider
 import si.inova.androidarchitectureplayground.screens.ComposeStateChanger
 import si.inova.androidarchitectureplayground.screens.Screen
@@ -29,7 +30,7 @@ class MainActivity : FragmentActivity() {
    lateinit var injectedResources: Resources
 
    @Inject
-   lateinit var screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>
+   lateinit var activityComponentFactory: SimpleStackActivityComponent.Factory
 
    lateinit var composeStateChanger: ComposeStateChanger
 
@@ -37,13 +38,27 @@ class MainActivity : FragmentActivity() {
       super.onCreate(savedInstanceState)
       Whetstone.inject(this)
 
-      composeStateChanger = ComposeStateChanger(screenFactories = screenFactories)
+      lateinit var screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>
+
+      composeStateChanger = ComposeStateChanger(screenFactories = lazy { screenFactories })
+
+      val scopedServices = MyScopedServices()
 
       val backstack = Navigator.configure()
          .setStateChanger(AsyncStateChanger(composeStateChanger))
+         .setScopedServices(scopedServices)
+         .setDeferredInitialization(true)
          .install(this, findViewById(Window.ID_ANDROID_CONTENT), History.of(ScreenAKey))
 
+      val activityComponent = activityComponentFactory.create(backstack)
+      screenFactories = activityComponent.screenFactories()
+      scopedServices.scopedServicesFactories = activityComponent.scopedServicesFactories()
+      scopedServices.scopedServicesKeys = activityComponent.scopedServicesKeys()
+
+      Navigator.executeDeferredInitialization(this)
+
       onBackPressedDispatcher.addCallback(simpleStackBackPressedCallback)
+
 
       setContent {
          AndroidArchitecturePlaygroundTheme {

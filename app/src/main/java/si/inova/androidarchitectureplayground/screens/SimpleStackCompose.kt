@@ -43,7 +43,7 @@ import javax.inject.Provider
  */
 class ComposeStateChanger(
    private val animationConfiguration: AnimationConfiguration = AnimationConfiguration(),
-   private val screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>
+   private val screenFactories: Lazy<Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>>
 ) : AsyncStateChanger.NavigationHandler {
    private var backstackState by mutableStateOf(
       BackstackState(
@@ -148,7 +148,7 @@ class ComposeStateChanger(
       private val animationConfiguration: AnimationConfiguration,
       private val stateChange: StateChange? = null,
       private val callback: StateChanger.Callback? = null,
-      private val screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>
+      private val screenFactories: Lazy<Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>>
    ) {
       @Composable
       fun RenderScreen(modifier: Modifier = Modifier) {
@@ -257,7 +257,7 @@ class ComposeStateChanger(
                               ) {
                                  val screen = remember(key) {
                                     val screenClass = Class.forName(key.screenClass)
-                                    val screenFactory = screenFactories[screenClass]
+                                    val screenFactory = screenFactories.value[screenClass]
                                        ?: throw IllegalStateException(
                                           "Screen $screenClass is missing from factory map. " +
                                              "Did you specify screen's FQN properly?"
