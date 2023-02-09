@@ -9,22 +9,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.zhuinden.simplestack.Backstack
-import si.inova.libmodule.TestQualifier
+import com.zhuinden.simplestack.StateChange
 
-class ScreenA(
-   @TestQualifier
-   val helloText: String,
-   private val viewModel: ScreenAViewModel,
+class ScreenB(
    private val backstack: Backstack
-) : Screen<ScreenAKey>() {
+) : Screen<ScreenBKey>() {
    @Composable
    override fun Content() {
       Box(
          Modifier
             .fillMaxSize()
-            .background(Color.Red)) {
-         Button(onClick = { backstack.goTo(ScreenBKey) }) {
-            Text("Go to screen B")
+            .background(Color.Green)) {
+         Button(onClick = { backstack.replaceTop(ScreenCKey, StateChange.REPLACE) }) {
+            Text("Replace with C")
          }
       }
    }

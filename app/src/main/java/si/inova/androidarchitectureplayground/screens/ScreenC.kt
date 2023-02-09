@@ -9,22 +9,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.zhuinden.simplestack.Backstack
-import si.inova.libmodule.TestQualifier
 
-class ScreenA(
-   @TestQualifier
-   val helloText: String,
-   private val viewModel: ScreenAViewModel,
+class ScreenC(
    private val backstack: Backstack
-) : Screen<ScreenAKey>() {
+) : Screen<ScreenCKey>() {
    @Composable
    override fun Content() {
       Box(
          Modifier
             .fillMaxSize()
-            .background(Color.Red)) {
-         Button(onClick = { backstack.goTo(ScreenBKey) }) {
-            Text("Go to screen B")
+            .background(Color.Blue)) {
+         Button(onClick = { backstack.goBack() }) {
+            Text("Go back")
          }
       }
    }
