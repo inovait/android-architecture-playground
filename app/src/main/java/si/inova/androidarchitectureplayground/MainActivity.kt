@@ -16,10 +16,10 @@ import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.History
 import com.zhuinden.simplestack.navigator.Navigator
 import si.inova.androidarchitectureplayground.di.SimpleStackActivityComponent
-import si.inova.androidarchitectureplayground.screens.BackstackProvider
-import si.inova.androidarchitectureplayground.screens.ComposeStateChanger
 import si.inova.androidarchitectureplayground.screens.Screen
 import si.inova.androidarchitectureplayground.screens.ScreenAKey
+import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
+import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import javax.inject.Inject
 import javax.inject.Provider

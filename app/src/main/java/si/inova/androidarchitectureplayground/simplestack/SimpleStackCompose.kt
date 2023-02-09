@@ -1,7 +1,7 @@
 /*
  * Based on https://github.com/Zhuinden/simple-stack-compose-integration/blob/047febda99801993914556a76d8c2094b59be055/core/src/main/java/com/zhuinden/simplestackcomposeintegration/core/ComposeIntegrationCore.kt
  */
-package si.inova.androidarchitectureplayground.screens
+package si.inova.androidarchitectureplayground.simplestack
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -34,8 +34,10 @@ import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.StateChange
 import com.zhuinden.simplestack.StateChanger
 import kotlinx.coroutines.launch
-import si.inova.androidarchitectureplayground.screens.ComposeStateChanger.AnimationConfiguration.ComposableAnimationSpec
-import si.inova.androidarchitectureplayground.screens.ComposeStateChanger.AnimationConfiguration.ComposableTransition
+import si.inova.androidarchitectureplayground.screens.Screen
+import si.inova.androidarchitectureplayground.screens.ScreenKey
+import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger.AnimationConfiguration.ComposableAnimationSpec
+import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger.AnimationConfiguration.ComposableTransition
 import javax.inject.Provider
 
 /**
@@ -56,13 +58,12 @@ class ComposeStateChanger(
       stateChange: StateChange,
       completionCallback: StateChanger.Callback
    ) {
-      this.backstackState =
-         BackstackState(
-            animationConfiguration = animationConfiguration,
-            stateChange = stateChange,
-            callback = completionCallback,
-            screenFactories = screenFactories
-         )
+      this.backstackState = BackstackState(
+         animationConfiguration = animationConfiguration,
+         stateChange = stateChange,
+         callback = completionCallback,
+         screenFactories = screenFactories
+      )
    }
 
    /**
