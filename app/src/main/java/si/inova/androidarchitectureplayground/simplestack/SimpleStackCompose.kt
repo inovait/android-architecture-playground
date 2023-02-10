@@ -48,16 +48,25 @@ class ComposeStateChanger(
 
       CleanupStaleSavedStates(saveableStateHolder)
 
-      val topKey = currentStateChange?.stateChange?.getNewKeys<ScreenKey>()?.lastOrNull()
+      val currentStateChange = currentStateChange
+      val topKey = currentStateChange?.stateChange?.getNewKeys<ScreenKey>()?.lastOrNull() ?: return
+      val stateChangeResult = StateChangeResult(currentStateChange.stateChange.direction, topKey)
 
-      AnimatedContent(topKey) {
+      AnimatedContent(
+         stateChangeResult,
+         transitionSpec = {
+            if (targetState.direction == StateChange.BACKWARD) {
+               with(initialState.newTopKey) { backAnimation() }
+            } else {
+               with(targetState.newTopKey) { forwardAnimation() }
+            }
+         }
+      ) { (_, topKey) ->
          TriggerCompletionCallback()
 
-         if (it != null) {
-            saveableStateHolder.SaveableStateProvider(it) {
-               screenWrapper(it) {
-                  ShowScreen(it)
-               }
+         saveableStateHolder.SaveableStateProvider(topKey) {
+            screenWrapper(topKey) {
+               ShowScreen(topKey)
             }
          }
       }
@@ -118,6 +127,14 @@ class ComposeStateChanger(
 
    class StateChangeData(val stateChange: StateChange, val completionCallback: Callback)
 }
+
+data class StateChangeResult(
+   /**
+    * Either [StateChange.REPLACE], [StateChange.FORWARD], [StateChange.BACKWARD]
+    */
+   val direction: Int,
+   val newTopKey: ScreenKey
+)
 
 /**
  * Composition local to access the Backstack within screens.
