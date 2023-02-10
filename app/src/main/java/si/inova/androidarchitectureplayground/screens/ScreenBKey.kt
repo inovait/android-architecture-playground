@@ -6,4 +6,8 @@ import kotlinx.parcelize.Parcelize
 object ScreenBKey : ScreenKey() {
    override val screenClass: String
       get() = "si.inova.androidarchitectureplayground.screens.ScreenB"
+
+   override fun getScopeTag(): String {
+      return "CommonScope"
+   }
 }
