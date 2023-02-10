@@ -719,7 +719,7 @@ style:
   UnderscoresInNumericLiterals:
     active: true
   UnnecessaryAbstractClass:
-    active: true
+    active: false # Disabled until https://github.com/detekt/detekt/issues/5778 is resolved
     ignoreAnnotated: [ 'Module', 'Component' ]
   UnnecessaryAnnotationUseSiteTarget:
     active: false
