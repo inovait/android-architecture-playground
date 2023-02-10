@@ -59,7 +59,6 @@ class MainActivity : FragmentActivity() {
 
       onBackPressedDispatcher.addCallback(simpleStackBackPressedCallback)
 
-
       setContent {
          AndroidArchitecturePlaygroundTheme {
             // A surface container using the 'background' color from the theme
@@ -68,7 +67,7 @@ class MainActivity : FragmentActivity() {
                color = MaterialTheme.colorScheme.background
             ) {
                BackstackProvider(backstack) {
-                  composeStateChanger.RenderScreen()
+                  composeStateChanger.Content()
                }
             }
          }
