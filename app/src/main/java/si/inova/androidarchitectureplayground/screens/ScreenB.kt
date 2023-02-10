@@ -19,9 +19,10 @@ class ScreenB(
       Box(
          Modifier
             .fillMaxSize()
-            .background(Color.Green)) {
+            .background(Color.Green)
+      ) {
          Button(onClick = { backstack.replaceTop(ScreenCKey, StateChange.REPLACE) }) {
-            Text("Replace with C")
+            Text("Replace with C ")
          }
       }
    }

@@ -1,30 +1,33 @@
 package si.inova.androidarchitectureplayground.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.zhuinden.simplestack.Backstack
-import si.inova.libmodule.TestQualifier
+import kotlin.random.Random
 
 class ScreenA(
-   @TestQualifier
-   val helloText: String,
-   private val viewModel: ScreenAViewModel,
    private val backstack: Backstack
 ) : Screen<ScreenAKey>() {
    @Composable
    override fun Content() {
-      Box(
+      val rememberedNumber = rememberSaveable() { Random.nextInt() }
+
+      Column(
          Modifier
             .fillMaxSize()
-            .background(Color.Red)) {
+            .background(Color.Red)
+      ) {
+         Text("Number: $rememberedNumber")
+
          Button(onClick = { backstack.goTo(ScreenBKey) }) {
-            Text("Go to screen B")
+            Text("Go to screen B ")
          }
       }
    }

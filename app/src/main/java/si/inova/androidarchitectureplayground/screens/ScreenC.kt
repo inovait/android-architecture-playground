@@ -18,7 +18,8 @@ class ScreenC(
       Box(
          Modifier
             .fillMaxSize()
-            .background(Color.Blue)) {
+            .background(Color.Blue)
+      ) {
          Button(onClick = { backstack.goBack() }) {
             Text("Go back")
          }
