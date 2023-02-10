@@ -12,8 +12,10 @@ import androidx.compose.ui.graphics.Color
 import com.zhuinden.simplestack.Backstack
 import kotlin.random.Random
 
-class ScreenA(
-   private val backstack: Backstack
+@Suppress("unused")
+class ScreenA constructor(
+   private val backstack: Backstack,
+   private val viewModel: ScreenAViewModel
 ) : Screen<ScreenAKey>() {
    @Composable
    override fun Content() {

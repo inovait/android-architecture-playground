@@ -3,6 +3,8 @@ package si.inova.androidarchitectureplayground
 import com.zhuinden.simplestack.ScopedServices
 import com.zhuinden.simplestack.ServiceBinder
 import si.inova.androidarchitectureplayground.screens.ScopedService
+import si.inova.androidarchitectureplayground.screens.ScreenKey
+import si.inova.androidarchitectureplayground.simplestack.SingleScreenViewModel
 import javax.inject.Provider
 
 class MyScopedServices : ScopedServices {
@@ -14,6 +16,10 @@ class MyScopedServices : ScopedServices {
 
       for (key in serviceKeys) {
          val service = scopedServicesFactories.getValue(key).get()
+         if (service is SingleScreenViewModel<*>) {
+            @Suppress("UNCHECKED_CAST")
+            (service as SingleScreenViewModel<ScreenKey>).init(serviceBinder.getKey() as ScreenKey)
+         }
          serviceBinder.addService(key.name, service)
       }
    }
