@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.zhuinden.simplestack.Backstack
+import si.inova.androidarchitectureplayground.simplestack.Navigator
 import kotlin.random.Random
 
 @Suppress("unused")
 class ScreenA constructor(
-   private val backstack: Backstack,
-   private val viewModel: ScreenAViewModel
+   private val viewModel: ScreenAViewModel,
+   private val navigator: Navigator
 ) : Screen<ScreenAKey>() {
    @Composable
    override fun Content() {
@@ -28,7 +28,7 @@ class ScreenA constructor(
       ) {
          Text("Number: $rememberedNumber")
 
-         Button(onClick = { backstack.goTo(ScreenBKey) }) {
+         Button(onClick = { navigator.navigateTo(ScreenBKey) }) {
             Text("Go to screen B ")
          }
       }

@@ -8,11 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.zhuinden.simplestack.Backstack
-import com.zhuinden.simplestack.StateChange
+import si.inova.androidarchitectureplayground.simplestack.Navigator
 
 class ScreenB(
-   private val backstack: Backstack,
+   private val navigator: Navigator,
    private val viewModel: SharedViewModel
 ) : Screen<ScreenBKey>() {
    @Composable
@@ -23,7 +22,7 @@ class ScreenB(
             .background(Color.Green)
       ) {
          Text("ViewModel: $viewModel")
-         Button(onClick = { backstack.replaceTop(ScreenCKey, StateChange.REPLACE) }) {
+         Button(onClick = { navigator.navigateTo(ScreenCKey) }) {
             Text("Replace with C ")
          }
       }

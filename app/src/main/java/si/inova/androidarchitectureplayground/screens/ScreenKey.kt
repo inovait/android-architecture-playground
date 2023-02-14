@@ -8,6 +8,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
+import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.ScopeKey
 import com.zhuinden.simplestack.StateChange
 import si.inova.androidarchitectureplayground.simplestack.StateChangeResult
@@ -47,5 +48,9 @@ abstract class ScreenKey : Parcelable, ScopeKey {
    open fun AnimatedContentScope<StateChangeResult>.backAnimation(): ContentTransform {
       return slideIntoContainer(AnimatedContentScope.SlideDirection.Right) with
          slideOutOfContainer(AnimatedContentScope.SlideDirection.Right)
+   }
+
+   open fun performNavigation(backstack: Backstack) {
+      backstack.goTo(this)
    }
 }
