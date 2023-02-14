@@ -8,6 +8,7 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,7 +18,12 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.util.fastForEach
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.StateChange
@@ -65,8 +71,10 @@ class ComposeStateChanger(
          TriggerCompletionCallback()
 
          saveableStateHolder.SaveableStateProvider(topKey) {
-            screenWrapper(topKey) {
-               ShowScreen(topKey)
+            LocalDestroyedLifecycle {
+               screenWrapper(topKey) {
+                  ShowScreen(topKey)
+               }
             }
          }
       }
@@ -126,6 +134,46 @@ class ComposeStateChanger(
    }
 
    class StateChangeData(val stateChange: StateChange, val completionCallback: Callback)
+}
+
+/**
+ * Wrapper that puts provided [child] into local lifecycle. Whenever this child is removed from
+ * composition, its [LocalLifecycleOwner] will also get destroyed.
+ */
+@Composable
+private fun LocalDestroyedLifecycle(child: @Composable () -> Unit) {
+   val childLifecycleOwner = remember {
+      object : LifecycleOwner {
+         val lifecycle = LifecycleRegistry(this)
+         override fun getLifecycle(): Lifecycle {
+            return lifecycle
+         }
+      }
+   }
+
+   val childLifecycle = childLifecycleOwner.lifecycle
+
+   val parentLifecycle = LocalLifecycleOwner.current.lifecycle
+
+   DisposableEffect(parentLifecycle) {
+      val parentListener = LifecycleEventObserver { _, event ->
+         childLifecycle.handleLifecycleEvent(event)
+      }
+
+      parentLifecycle.addObserver(parentListener)
+
+      onDispose {
+         parentLifecycle.removeObserver(parentListener)
+
+         if (childLifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
+            childLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+         }
+      }
+   }
+
+   CompositionLocalProvider(LocalLifecycleOwner provides childLifecycleOwner) {
+      child()
+   }
 }
 
 data class StateChangeResult(
