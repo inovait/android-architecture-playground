@@ -28,12 +28,12 @@ abstract class ScreenKey : Parcelable, ScopeKey {
     * for syntax and examples.
     */
    @OptIn(ExperimentalAnimationApi::class)
-   open fun AnimatedContentScope<StateChangeResult>.forwardAnimation(): ContentTransform {
-      return if (targetState.direction == StateChange.REPLACE) {
+   open fun forwardAnimation(scope: AnimatedContentScope<StateChangeResult>): ContentTransform {
+      return if (scope.targetState.direction == StateChange.REPLACE) {
          fadeIn() with fadeOut()
       } else {
-         slideIntoContainer(AnimatedContentScope.SlideDirection.Left) with
-            slideOutOfContainer(AnimatedContentScope.SlideDirection.Left)
+         scope.slideIntoContainer(AnimatedContentScope.SlideDirection.Left) with
+            scope.slideOutOfContainer(AnimatedContentScope.SlideDirection.Left)
       }
    }
 
@@ -45,9 +45,9 @@ abstract class ScreenKey : Parcelable, ScopeKey {
     * for syntax and examples.
     */
    @OptIn(ExperimentalAnimationApi::class)
-   open fun AnimatedContentScope<StateChangeResult>.backAnimation(): ContentTransform {
-      return slideIntoContainer(AnimatedContentScope.SlideDirection.Right) with
-         slideOutOfContainer(AnimatedContentScope.SlideDirection.Right)
+   open fun backAnimation(scope: AnimatedContentScope<StateChangeResult>): ContentTransform {
+      return scope.slideIntoContainer(AnimatedContentScope.SlideDirection.Right) with
+         scope.slideOutOfContainer(AnimatedContentScope.SlideDirection.Right)
    }
 
    open fun performNavigation(backstack: Backstack) {

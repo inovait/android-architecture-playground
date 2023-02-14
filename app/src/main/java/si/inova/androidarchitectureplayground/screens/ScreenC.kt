@@ -1,30 +1,52 @@
 package si.inova.androidarchitectureplayground.screens
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.zhuinden.simplestack.Backstack
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import si.inova.androidarchitectureplayground.simplestack.Navigator
+import kotlin.math.roundToInt
 
 class ScreenC(
-   private val backstack: Backstack,
-   private val sharedViewModel: SharedViewModel
+   private val navigator: Navigator,
+   private val sharedViewModel: SharedViewModel,
 ) : Screen<ScreenCKey>() {
    @Composable
-   override fun Content() {
+   override fun Content(key: ScreenCKey) {
       Column(
          Modifier
             .fillMaxSize()
             .background(Color.Blue)
       ) {
          Text("ViewModel: $sharedViewModel")
-         Button(onClick = { backstack.goBack() }) {
+         Text("Key: ${key.number}")
+
+         Button(onClick = { navigator.navigateTo(ScreenCKey(key.number + 1)) }) {
+            Text("Open another C")
+         }
+
+         Button(onClick = { navigator.goBack() }) {
             Text("Go back")
          }
+
+         @Suppress("MagicNumber") // Just for testing
+         val keyBasedAnimation = animateFloatAsState(key.number * 32f)
+         Box(
+            Modifier
+               .offset { IntOffset(0, keyBasedAnimation.value.roundToInt()) }
+               .size(32.dp, 32.dp)
+               .background(Color.Red)
+         )
       }
    }
 }

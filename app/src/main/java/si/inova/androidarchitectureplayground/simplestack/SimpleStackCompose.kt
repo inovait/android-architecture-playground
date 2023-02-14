@@ -6,6 +6,7 @@ package si.inova.androidarchitectureplayground.simplestack
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.takeWhile
 import si.inova.androidarchitectureplayground.screens.Screen
 import si.inova.androidarchitectureplayground.screens.ScreenKey
+import si.inova.androidarchitectureplayground.screens.SingleTopKey
 import javax.inject.Provider
 
 /**
@@ -58,19 +60,20 @@ class ComposeStateChanger(
       val topKey = currentStateChange?.stateChange?.getNewKeys<ScreenKey>()?.lastOrNull() ?: return
       val stateChangeResult = StateChangeResult(currentStateChange.stateChange.direction, topKey)
 
-      AnimatedContent(
-         stateChangeResult,
+      val transition = updateTransition(stateChangeResult, "AnimatedContent")
+      transition.AnimatedContent(
          transitionSpec = {
             if (targetState.direction == StateChange.BACKWARD) {
-               with(initialState.newTopKey) { backAnimation() }
+               with(initialState.newTopKey) { backAnimation(this@AnimatedContent) }
             } else {
-               with(targetState.newTopKey) { forwardAnimation() }
+               with(targetState.newTopKey) { forwardAnimation(this@AnimatedContent) }
             }
-         }
+         },
+         contentKey = { it.newTopKey.contentKey() }
       ) { (_, topKey) ->
          TriggerCompletionCallback()
 
-         saveableStateHolder.SaveableStateProvider(topKey) {
+         saveableStateHolder.SaveableStateProvider(topKey.contentKey()) {
             LocalDestroyedLifecycle {
                screenWrapper(topKey) {
                   ShowScreen(topKey)
@@ -82,7 +85,7 @@ class ComposeStateChanger(
 
    @Composable
    private fun ShowScreen(key: ScreenKey) {
-      val screen = remember(key) {
+      val screen = remember(key.contentKey()) {
          val screenClass = Class.forName(key.screenClass)
          val screenFactory = screenFactories.value[screenClass] ?: error(
             "Screen $screenClass is missing from factory map. " +
@@ -91,13 +94,11 @@ class ComposeStateChanger(
 
          val screen = screenFactory.get()
 
-         @Suppress("UNCHECKED_CAST")
-         (screen as Screen<ScreenKey>).key = key
-
          screen
       }
 
-      screen.Content()
+      @Suppress("UNCHECKED_CAST")
+      (screen as Screen<ScreenKey>).Content(key)
    }
 
    @Composable
@@ -134,6 +135,14 @@ class ComposeStateChanger(
    }
 
    class StateChangeData(val stateChange: StateChange, val completionCallback: Callback)
+
+   private fun ScreenKey.contentKey(): Any {
+      return if (this is SingleTopKey && isSingleTop) {
+         this.javaClass
+      } else {
+         this
+      }
+   }
 }
 
 /**

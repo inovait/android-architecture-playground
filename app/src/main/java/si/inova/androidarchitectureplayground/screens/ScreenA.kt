@@ -18,7 +18,7 @@ class ScreenA constructor(
    private val navigator: Navigator
 ) : Screen<ScreenAKey>() {
    @Composable
-   override fun Content() {
+   override fun Content(key: ScreenAKey) {
       val rememberedNumber = rememberSaveable() { Random.nextInt() }
 
       Column(

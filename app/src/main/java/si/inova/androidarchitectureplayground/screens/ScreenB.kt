@@ -15,14 +15,14 @@ class ScreenB(
    private val viewModel: SharedViewModel
 ) : Screen<ScreenBKey>() {
    @Composable
-   override fun Content() {
+   override fun Content(key: ScreenBKey) {
       Column(
          Modifier
             .fillMaxSize()
             .background(Color.Green)
       ) {
          Text("ViewModel: $viewModel")
-         Button(onClick = { navigator.navigateTo(ScreenCKey) }) {
+         Button(onClick = { navigator.navigateTo(ScreenCKey(1)) }) {
             Text("Replace with C ")
          }
       }
