@@ -8,4 +8,8 @@ class SimpleStackNavigator @Inject constructor(private val backstack: Backstack)
    override fun navigateTo(key: ScreenKey) {
       key.performNavigation(backstack)
    }
+
+   override fun goBack() {
+      backstack.goBack()
+   }
 }
