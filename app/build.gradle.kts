@@ -45,6 +45,7 @@ android {
 dependencies {
    implementation(projects.libmodule)
    implementation(projects.navigationCommon)
+   implementation(projects.screenC)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)

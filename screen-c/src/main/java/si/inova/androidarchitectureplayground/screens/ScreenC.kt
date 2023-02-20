@@ -14,13 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.Screen
-import si.inova.androidarchitectureplayground.simplestack.Navigator
 import kotlin.math.roundToInt
 
 class ScreenC(
    private val navigator: Navigator,
-   private val sharedViewModel: SharedViewModel,
+   private val viewModel: ScreenCViewModel
 ) : Screen<ScreenCKey>() {
    @Composable
    override fun Content(key: ScreenCKey) {
@@ -29,8 +29,7 @@ class ScreenC(
             .fillMaxSize()
             .background(Color.Blue)
       ) {
-         Text("ViewModel: $sharedViewModel")
-         Text("Key: ${key.number}")
+         Text("Key: ${key.number} from $viewModel")
 
          Button(onClick = { navigator.navigateTo(ScreenCKey(key.number + 1)) }) {
             Text("Open another C")
