@@ -25,6 +25,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.StateChange
@@ -53,8 +58,9 @@ class ComposeStateChanger(
    @Composable
    fun Content(screenWrapper: @Composable (key: ScreenKey, screen: @Composable () -> Unit) -> Unit = { _, screen -> screen() }) {
       val saveableStateHolder = rememberSaveableStateHolder()
+      val viewModelStores = viewModel<StoreHolderViewModel>()
 
-      CleanupStaleSavedStates(saveableStateHolder)
+      CleanupStaleSavedStates(saveableStateHolder, viewModelStores)
 
       val currentStateChange = currentStateChange
       val topKey = currentStateChange?.stateChange?.getNewKeys<ScreenKey>()?.lastOrNull() ?: return
@@ -72,11 +78,14 @@ class ComposeStateChanger(
          contentKey = { it.newTopKey.contentKey() }
       ) { (_, topKey) ->
          TriggerCompletionCallback()
+         val contentKey = topKey.contentKey()
 
-         saveableStateHolder.SaveableStateProvider(topKey.contentKey()) {
-            LocalDestroyedLifecycle {
-               screenWrapper(topKey) {
-                  ShowScreen(topKey)
+         saveableStateHolder.SaveableStateProvider(contentKey) {
+            viewModelStores.WithLocalViewModelStore(contentKey) {
+               LocalDestroyedLifecycle {
+                  screenWrapper(topKey) {
+                     ShowScreen(topKey)
+                  }
                }
             }
          }
@@ -102,7 +111,10 @@ class ComposeStateChanger(
    }
 
    @Composable
-   private fun CleanupStaleSavedStates(saveableStateHolder: SaveableStateHolder) {
+   private fun CleanupStaleSavedStates(
+      saveableStateHolder: SaveableStateHolder,
+      storeHolderViewModel: StoreHolderViewModel
+   ) {
       LaunchedEffect(currentStateChange) {
          val stateChange = currentStateChange?.stateChange ?: return@LaunchedEffect
          val previousKeys = stateChange.getPreviousKeys<Any>()
@@ -110,6 +122,7 @@ class ComposeStateChanger(
          previousKeys.fastForEach { previousKey ->
             if (!newKeys.contains(previousKey)) {
                saveableStateHolder.removeState(previousKey)
+               storeHolderViewModel.removeKey(previousKey)
             }
          }
       }
@@ -182,6 +195,32 @@ private fun LocalDestroyedLifecycle(child: @Composable () -> Unit) {
 
    CompositionLocalProvider(LocalLifecycleOwner provides childLifecycleOwner) {
       child()
+   }
+}
+
+class StoreHolderViewModel : ViewModel() {
+   private val viewModelStores = HashMap<Any, ViewModelStoreOwner>()
+
+   fun removeKey(key: Any) {
+      viewModelStores.remove(key)?.viewModelStore?.clear()
+   }
+
+   @Composable
+   fun WithLocalViewModelStore(key: Any, block: @Composable () -> Unit) {
+      val storeOwner = viewModelStores.getOrPut(key) {
+         val store = ViewModelStore()
+         ViewModelStoreOwner { store }
+      }
+
+      CompositionLocalProvider(LocalViewModelStoreOwner provides storeOwner) {
+         block()
+      }
+   }
+
+   override fun onCleared() {
+      for (store in viewModelStores.values) {
+         store.viewModelStore.clear()
+      }
    }
 }
 

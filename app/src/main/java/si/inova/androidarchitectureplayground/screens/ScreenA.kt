@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import kotlin.random.Random
@@ -28,6 +29,7 @@ class ScreenA constructor(
             .background(Color.Red)
       ) {
          Text("Number: $rememberedNumber")
+         Text("VM: ${viewModel<TestAndroidXViewModel>().hashCode()}")
 
          Button(onClick = { navigator.navigateTo(ScreenBKey) }) {
             Text("Go to screen B ")

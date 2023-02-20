@@ -50,6 +50,8 @@ dependencies {
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
    implementation(libs.androidx.lifecycle.runtime)
+   implementation(libs.androidx.lifecycle.viewModel)
+   implementation(libs.androidx.lifecycle.viewModel.compose)
    implementation(libs.simpleStack)
 
    testImplementation(libs.junit4)
