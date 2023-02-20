@@ -31,9 +31,9 @@ import com.zhuinden.simplestack.StateChange
 import com.zhuinden.simplestack.StateChanger.Callback
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.takeWhile
-import si.inova.androidarchitectureplayground.screens.Screen
-import si.inova.androidarchitectureplayground.screens.ScreenKey
-import si.inova.androidarchitectureplayground.screens.SingleTopKey
+import si.inova.androidarchitectureplayground.navigation.base.Screen
+import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.SingleTopKey
 import javax.inject.Provider
 
 /**
@@ -184,14 +184,6 @@ private fun LocalDestroyedLifecycle(child: @Composable () -> Unit) {
       child()
    }
 }
-
-data class StateChangeResult(
-   /**
-    * Either [StateChange.REPLACE], [StateChange.FORWARD], [StateChange.BACKWARD]
-    */
-   val direction: Int,
-   val newTopKey: ScreenKey
-)
 
 /**
  * Composition local to access the Backstack within screens.

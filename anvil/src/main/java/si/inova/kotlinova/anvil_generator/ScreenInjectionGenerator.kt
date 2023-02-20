@@ -14,7 +14,6 @@ import com.squareup.anvil.compiler.internal.reference.asClassName
 import com.squareup.anvil.compiler.internal.reference.classAndInnerClassReferences
 import com.squareup.anvil.compiler.internal.safePackageString
 import com.squareup.kotlinpoet.AnnotationSpec
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
@@ -63,7 +62,7 @@ class ScreenInjectionGenerator : CodeGenerator {
       val outputFileName = className.simpleName + "Module"
 
       val contributesToAnnotation = AnnotationSpec.builder(ContributesTo::class)
-         .addMember("%T::class", ClassName("si.inova.androidarchitectureplayground.di", "SimpleStackActivityScope"))
+         .addMember("%T::class", ACTIVITY_SCOPE_ANNOTATION)
          .build()
 
       val classKeyAnnotation = AnnotationSpec.builder(ClassKey::class)
@@ -74,8 +73,7 @@ class ScreenInjectionGenerator : CodeGenerator {
          .addMember("%T::class", screenType.unwrappedTypes.first().asTypeName())
          .build()
 
-      val screenClassName = ClassName("si.inova.androidarchitectureplayground.screens", "Screen")
-         .parameterizedBy(STAR)
+      val screenClassName = SCREEN_BASE_CLASS.parameterizedBy(STAR)
 
       val constructorParameters = clas.constructors.firstOrNull()?.parameters ?: emptyList()
 
@@ -89,7 +87,7 @@ class ScreenInjectionGenerator : CodeGenerator {
                      }
 
                      if (parameter.type().isScopedService()) {
-                        addAnnotation(ClassName("si.inova.androidarchitectureplayground.screens", "SimpleStackScoped"))
+                        addAnnotation(SIMPLE_STACK_SCOPED_ANNOTATION)
                      }
                   }
                   .build()
@@ -144,7 +142,7 @@ class ScreenInjectionGenerator : CodeGenerator {
       for (superReference in directSuperTypeReferences()) {
          val superClassReference = superReference.asClassReference()
 
-         if (superClassReference.fqName.asString() == SCREEN_TYPE) {
+         if (superClassReference.asClassName() == SCREEN_BASE_CLASS) {
             return superReference
          } else {
             superClassReference.getScreenTypeIfItExists()?.let { return it }
@@ -157,4 +155,4 @@ class ScreenInjectionGenerator : CodeGenerator {
    override fun isApplicable(context: AnvilContext): Boolean = true
 }
 
-private const val SCREEN_TYPE = "si.inova.androidarchitectureplayground.screens.Screen"
+

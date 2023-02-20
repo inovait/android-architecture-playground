@@ -8,7 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import si.inova.androidarchitectureplayground.simplestack.Navigator
+import si.inova.androidarchitectureplayground.navigation.Navigator
+import si.inova.androidarchitectureplayground.navigation.base.Screen
 
 class ScreenB(
    private val navigator: Navigator,

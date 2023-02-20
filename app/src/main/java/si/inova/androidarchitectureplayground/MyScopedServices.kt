@@ -2,9 +2,9 @@ package si.inova.androidarchitectureplayground
 
 import com.zhuinden.simplestack.ScopedServices
 import com.zhuinden.simplestack.ServiceBinder
-import si.inova.androidarchitectureplayground.screens.ScopedService
-import si.inova.androidarchitectureplayground.screens.ScreenKey
-import si.inova.androidarchitectureplayground.simplestack.SingleScreenViewModel
+import si.inova.androidarchitectureplayground.navigation.base.ScopedService
+import si.inova.androidarchitectureplayground.navigation.base.SingleScreenViewModel
+import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import javax.inject.Provider
 
 class MyScopedServices : ScopedServices {

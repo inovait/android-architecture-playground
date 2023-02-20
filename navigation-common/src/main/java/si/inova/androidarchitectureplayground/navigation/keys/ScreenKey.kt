@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.screens
+package si.inova.androidarchitectureplayground.navigation.keys
 
 import android.os.Parcelable
 import androidx.compose.animation.AnimatedContent

@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.screens
+package si.inova.androidarchitectureplayground.navigation.base
 
 import javax.inject.Qualifier
 

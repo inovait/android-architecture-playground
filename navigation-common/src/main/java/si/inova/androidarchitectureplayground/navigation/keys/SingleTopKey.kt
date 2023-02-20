@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.screens
+package si.inova.androidarchitectureplayground.navigation.keys
 
 import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.StateChange

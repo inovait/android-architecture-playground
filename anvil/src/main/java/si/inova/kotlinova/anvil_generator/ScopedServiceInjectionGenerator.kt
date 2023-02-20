@@ -14,7 +14,6 @@ import com.squareup.anvil.compiler.internal.reference.asClassName
 import com.squareup.anvil.compiler.internal.reference.classAndInnerClassReferences
 import com.squareup.anvil.compiler.internal.safePackageString
 import com.squareup.kotlinpoet.AnnotationSpec
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -58,22 +57,19 @@ class ScopedServiceInjectionGenerator : CodeGenerator {
       val outputFileName = className.simpleName + "Module"
 
       val contributesToAnnotation = AnnotationSpec.builder(ContributesTo::class)
-         .addMember("%T::class", ClassName("com.deliveryhero.whetstone.app", "ApplicationScope"))
+         .addMember("%T::class", APPLICATION_SCOPE_ANNOTATION)
          .build()
 
       val backstackContributesToAnnotation = AnnotationSpec.builder(ContributesTo::class)
-         .addMember("%T::class", ClassName("si.inova.androidarchitectureplayground.di", "SimpleStackActivityScope"))
+         .addMember("%T::class", ACTIVITY_SCOPE_ANNOTATION)
          .build()
 
       val classKeyAnnotation = AnnotationSpec.builder(ClassKey::class)
          .addMember("%T::class", className)
          .build()
 
-      val scopedServiceClassName = ClassName("si.inova.androidarchitectureplayground.screens", "ScopedService")
-      val backstackClassName = ClassName("com.zhuinden.simplestack", "Backstack")
-
       val bindsServiceFunction = FunSpec.builder("bindConstructor")
-         .returns(scopedServiceClassName)
+         .returns(SCOPED_SERVICE_BASE_CLASS)
          .addParameter("service", className)
          .addAnnotation(Binds::class)
          .addAnnotation(IntoMap::class)
@@ -83,9 +79,9 @@ class ScopedServiceInjectionGenerator : CodeGenerator {
 
       val provideFromSimpleStackFunction = FunSpec.builder("provideFromSimpleStack")
          .returns(className)
-         .addParameter("backstack", backstackClassName)
+         .addParameter("backstack", SIMPLE_STACK_BACKSTACK_CLASS)
          .addAnnotation(Provides::class)
-         .addAnnotation(ClassName("si.inova.androidarchitectureplayground.screens", "SimpleStackScoped"))
+         .addAnnotation(SIMPLE_STACK_SCOPED_ANNOTATION)
          .addCode("return backstack.lookupService(%T::class.java.name)", className)
          .build()
 
@@ -122,7 +118,7 @@ class ScopedServiceInjectionGenerator : CodeGenerator {
 fun TypeReference.isScopedService(): Boolean {
    val classReference = this.asClassReference()
 
-   return classReference.fqName.asString() == "si.inova.androidarchitectureplayground.screens.ScopedService" ||
+   return classReference.asClassName() == SCOPED_SERVICE_BASE_CLASS ||
       classReference.directSuperTypeReferences().any { it.isScopedService() }
 }
 

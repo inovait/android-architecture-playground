@@ -1,8 +1,7 @@
-package si.inova.androidarchitectureplayground.simplestack
+package si.inova.androidarchitectureplayground.navigation.base
 
 import androidx.annotation.CallSuper
-import si.inova.androidarchitectureplayground.screens.ScopedService
-import si.inova.androidarchitectureplayground.screens.ScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 
 abstract class SingleScreenViewModel<K : ScreenKey> : ScopedService {
    lateinit var key: K

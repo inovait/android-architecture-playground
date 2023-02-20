@@ -9,7 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import si.inova.androidarchitectureplayground.simplestack.Navigator
+import si.inova.androidarchitectureplayground.navigation.Navigator
+import si.inova.androidarchitectureplayground.navigation.base.Screen
 import kotlin.random.Random
 
 @Suppress("unused")

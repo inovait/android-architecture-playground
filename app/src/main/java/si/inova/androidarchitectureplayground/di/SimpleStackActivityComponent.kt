@@ -4,8 +4,8 @@ import com.squareup.anvil.annotations.MergeSubcomponent
 import com.zhuinden.simplestack.Backstack
 import dagger.BindsInstance
 import dagger.Subcomponent
-import si.inova.androidarchitectureplayground.screens.ScopedService
-import si.inova.androidarchitectureplayground.screens.Screen
+import si.inova.androidarchitectureplayground.navigation.base.ScopedService
+import si.inova.androidarchitectureplayground.navigation.base.Screen
 import javax.inject.Provider
 
 @MergeSubcomponent(SimpleStackActivityScope::class)

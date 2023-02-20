@@ -44,7 +44,7 @@ android {
 
 dependencies {
    implementation(projects.libmodule)
-   anvil(projects.anvil)
+   implementation(projects.navigationCommon)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
