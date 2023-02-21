@@ -13,7 +13,7 @@ import com.zhuinden.simplestack.ScopeKey
 import com.zhuinden.simplestack.StateChange
 import si.inova.androidarchitectureplayground.simplestack.StateChangeResult
 
-abstract class ScreenKey : Parcelable, ScopeKey {
+abstract class ScreenKey : NavigationKey(), Parcelable, ScopeKey {
    abstract val screenClass: String
 
    override fun getScopeTag(): String {
@@ -50,7 +50,7 @@ abstract class ScreenKey : Parcelable, ScopeKey {
          scope.slideOutOfContainer(AnimatedContentScope.SlideDirection.Right)
    }
 
-   open fun performNavigation(backstack: Backstack) {
+   override fun performNavigation(backstack: Backstack) {
       backstack.goTo(this)
    }
 }

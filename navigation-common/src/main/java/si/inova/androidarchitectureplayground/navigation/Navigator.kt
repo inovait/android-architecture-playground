@@ -1,9 +1,9 @@
 package si.inova.androidarchitectureplayground.navigation
 
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.NavigationKey
 
 interface Navigator {
-   fun navigateTo(key: ScreenKey)
+   fun navigateTo(key: NavigationKey)
 
    fun goBack()
 }
