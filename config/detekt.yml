@@ -570,7 +570,8 @@ potential-bugs:
   UnreachableCatchBlock:
     active: true
   UnreachableCode:
-    active: true
+    # Disabled until https://github.com/detekt/detekt/issues/5186 is resolved
+    active: false
   UnsafeCallOnNullableType:
     active: true
     excludes: *testFolders
