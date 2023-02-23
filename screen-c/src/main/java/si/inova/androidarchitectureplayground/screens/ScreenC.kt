@@ -29,9 +29,9 @@ class ScreenC(
             .fillMaxSize()
             .background(Color.Blue)
       ) {
-         Text("Key: ${key.number} from ${viewModel.number}")
+         Text("Key: ${key.number} from ${viewModel.number}. Key: ${key.key}")
 
-         Button(onClick = { navigator.navigateTo(ScreenCKey(key.number + 1)) }) {
+         Button(onClick = { navigator.navigateTo(ScreenCKey(key.number + 1, "")) }) {
             Text("Open another C")
          }
 

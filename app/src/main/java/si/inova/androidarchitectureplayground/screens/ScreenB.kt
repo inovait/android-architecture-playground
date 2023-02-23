@@ -26,7 +26,7 @@ class ScreenB(
       ) {
          Text("ViewModel: $viewModel")
          Text("android VM: ${viewModel<TestAndroidXViewModel>().hashCode()}")
-         Button(onClick = { navigator.navigateTo(ScreenCKey(1)) }) {
+         Button(onClick = { navigator.navigateTo(ScreenCKey(1, "")) }) {
             Text("Replace with C ")
          }
       }

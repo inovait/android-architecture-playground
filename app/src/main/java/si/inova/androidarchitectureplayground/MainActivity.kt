@@ -1,6 +1,8 @@
 package si.inova.androidarchitectureplayground
 
+import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
 import android.view.Window
 import androidx.activity.OnBackPressedCallback
@@ -13,11 +15,15 @@ import androidx.fragment.app.FragmentActivity
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
 import com.zhuinden.simplestack.AsyncStateChanger
+import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.History
 import com.zhuinden.simplestack.navigator.Navigator
 import si.inova.androidarchitectureplayground.di.SimpleStackActivityComponent
+import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 import si.inova.androidarchitectureplayground.navigation.base.Screen
-import si.inova.androidarchitectureplayground.screens.ScreenAKey
+import si.inova.androidarchitectureplayground.navigation.keys.NavigationKey
+import si.inova.androidarchitectureplayground.navigation.keys.ReplaceHistoryKey
+import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
@@ -32,7 +38,11 @@ class MainActivity : FragmentActivity() {
    @Inject
    lateinit var activityComponentFactory: SimpleStackActivityComponent.Factory
 
+   @Inject
+   lateinit var deepLinkHandlers: Set<@JvmSuppressWildcards DeepLinkHandler>
+
    lateinit var composeStateChanger: ComposeStateChanger
+   lateinit var backstack: Backstack
 
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
@@ -44,11 +54,18 @@ class MainActivity : FragmentActivity() {
 
       val scopedServices = MyScopedServices()
 
-      val backstack = Navigator.configure()
+      val deepLinkTarget = intent?.data?.let { getDeepLinkTarget(it) }
+      val initialScreen = if (deepLinkTarget is ReplaceHistoryKey) {
+         deepLinkTarget.history.toList()
+      } else {
+         History.of(ScreenAKey)
+      }
+
+      backstack = Navigator.configure()
          .setStateChanger(AsyncStateChanger(composeStateChanger))
          .setScopedServices(scopedServices)
          .setDeferredInitialization(true)
-         .install(this, findViewById(Window.ID_ANDROID_CONTENT), History.of(ScreenAKey))
+         .install(this, findViewById(Window.ID_ANDROID_CONTENT), initialScreen)
 
       val activityComponent = activityComponentFactory.create(backstack)
       screenFactories = activityComponent.screenFactories()
@@ -56,6 +73,10 @@ class MainActivity : FragmentActivity() {
       scopedServices.scopedServicesKeys = activityComponent.scopedServicesKeys()
 
       Navigator.executeDeferredInitialization(this)
+
+      if (deepLinkTarget != null && deepLinkTarget !is ReplaceHistoryKey) {
+         deepLinkTarget.performNavigation(backstack)
+      }
 
       onBackPressedDispatcher.addCallback(simpleStackBackPressedCallback)
 
@@ -72,6 +93,21 @@ class MainActivity : FragmentActivity() {
             }
          }
       }
+   }
+
+   override fun onNewIntent(intent: Intent?) {
+      super.onNewIntent(intent)
+
+      intent?.data?.let {
+         val navigationKey = getDeepLinkTarget(it)
+         navigationKey?.performNavigation(backstack)
+         Unit
+      }
+   }
+
+   private fun getDeepLinkTarget(uri: Uri): NavigationKey? {
+      return deepLinkHandlers.asSequence<@JvmSuppressWildcards DeepLinkHandler>()
+         .mapNotNull<@JvmSuppressWildcards DeepLinkHandler, NavigationKey> { it.handleDeepLink(uri) }.firstOrNull()
    }
 
    private val simpleStackBackPressedCallback =
