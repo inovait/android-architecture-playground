@@ -1,7 +1,6 @@
-package si.inova.androidarchitectureplayground.screens
+package si.inova.androidarchitectureplayground.navigation.keys
 
 import kotlinx.parcelize.Parcelize
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 
 @Parcelize
 object ScreenAKey : ScreenKey() {
