@@ -1,7 +1,6 @@
 package si.inova.androidarchitectureplayground.navigation.base
 
 import com.zhuinden.simplestack.Bundleable
-import com.zhuinden.simplestack.ScopedServices
 import com.zhuinden.statebundle.StateBundle
 import si.inova.androidarchitectureplayground.util.set
 import kotlin.properties.ReadWriteProperty
@@ -17,7 +16,7 @@ import kotlin.reflect.KProperty
  * }
  * ```
  */
-abstract class SaveableScopedService : ScopedService, ScopedServices.Registered, Bundleable {
+abstract class SaveableScopedService : CoroutineScopedService(), Bundleable {
    protected var bundle = StateBundle()
 
    /**
@@ -33,9 +32,6 @@ abstract class SaveableScopedService : ScopedService, ScopedServices.Registered,
    ): ReadWriteProperty<SaveableScopedService, T> {
       return StateSavedProperty(defaultValue, setNotification)
    }
-
-   override fun onServiceRegistered() {}
-   override fun onServiceUnregistered() {}
 
    override fun toBundle(): StateBundle {
       return bundle
