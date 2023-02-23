@@ -5,9 +5,7 @@ import si.inova.androidarchitectureplayground.navigation.base.SingleScreenViewMo
 import javax.inject.Inject
 
 class ScreenAViewModel @Inject constructor() : SingleScreenViewModel<ScreenAKey>() {
-   override fun init(key: ScreenAKey) {
-      super.init(key)
-
+   override fun onServiceRegistered() {
       Log.d("ViewModel", "got key $key")
    }
 }

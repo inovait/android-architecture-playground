@@ -18,7 +18,7 @@ class MyScopedServices : ScopedServices {
          val service = scopedServicesFactories.getValue(key).get()
          if (service is SingleScreenViewModel<*>) {
             @Suppress("UNCHECKED_CAST")
-            (service as SingleScreenViewModel<ScreenKey>).init(serviceBinder.getKey() as ScreenKey)
+            (service as SingleScreenViewModel<ScreenKey>).key = serviceBinder.getKey() as ScreenKey
          }
          serviceBinder.addService(key.name, service)
       }
