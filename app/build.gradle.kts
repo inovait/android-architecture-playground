@@ -53,6 +53,7 @@ dependencies {
    implementation(libs.androidx.lifecycle.viewModel)
    implementation(libs.androidx.lifecycle.viewModel.compose)
    implementation(libs.simpleStack)
+   implementation("app.rive:rive-android:4.0.0")
 
    testImplementation(libs.junit4)
 }
