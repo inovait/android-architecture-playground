@@ -21,8 +21,8 @@ import com.zhuinden.simplestack.navigator.Navigator
 import si.inova.androidarchitectureplayground.di.SimpleStackActivityComponent
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 import si.inova.androidarchitectureplayground.navigation.base.Screen
+import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
 import si.inova.androidarchitectureplayground.navigation.keys.InitialNavigationKey
-import si.inova.androidarchitectureplayground.navigation.keys.NavigationKey
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
@@ -105,9 +105,9 @@ class MainActivity : FragmentActivity() {
       }
    }
 
-   private fun getDeepLinkTarget(uri: Uri): NavigationKey? {
+   private fun getDeepLinkTarget(uri: Uri): NavigationInstruction? {
       return deepLinkHandlers.asSequence<@JvmSuppressWildcards DeepLinkHandler>()
-         .mapNotNull<@JvmSuppressWildcards DeepLinkHandler, NavigationKey> { it.handleDeepLink(uri) }.firstOrNull()
+         .mapNotNull<@JvmSuppressWildcards DeepLinkHandler, NavigationInstruction> { it.handleDeepLink(uri) }.firstOrNull()
    }
 
    private val simpleStackBackPressedCallback =

@@ -8,12 +8,11 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
-import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.ScopeKey
 import com.zhuinden.simplestack.StateChange
 import si.inova.androidarchitectureplayground.simplestack.StateChangeResult
 
-abstract class ScreenKey : NavigationKey(), Parcelable, ScopeKey {
+abstract class ScreenKey : Parcelable, ScopeKey {
    abstract val screenClass: String
 
    override fun getScopeTag(): String {
@@ -48,9 +47,5 @@ abstract class ScreenKey : NavigationKey(), Parcelable, ScopeKey {
    open fun backAnimation(scope: AnimatedContentScope<StateChangeResult>): ContentTransform {
       return scope.slideIntoContainer(AnimatedContentScope.SlideDirection.Right) with
          scope.slideOutOfContainer(AnimatedContentScope.SlideDirection.Right)
-   }
-
-   override fun performNavigation(backstack: Backstack) {
-      backstack.goTo(this)
    }
 }

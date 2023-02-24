@@ -1,9 +1,9 @@
 package si.inova.androidarchitectureplayground.navigation
 
-import si.inova.androidarchitectureplayground.navigation.keys.NavigationKey
+import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
 
 interface Navigator {
-   fun navigateTo(key: NavigationKey)
+   fun navigate(navigationInstruction: NavigationInstruction)
 
    fun goBack()
 }

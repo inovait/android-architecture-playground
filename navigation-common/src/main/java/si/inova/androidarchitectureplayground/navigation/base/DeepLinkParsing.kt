@@ -2,11 +2,14 @@ package si.inova.androidarchitectureplayground.navigation.base
 
 import android.net.Uri
 import androidx.collection.ArrayMap
-import si.inova.androidarchitectureplayground.navigation.keys.NavigationKey
+import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-inline fun Uri.matchDeepLink(vararg patterns: String, mapper: (Map<String, String>) -> NavigationKey?): NavigationKey? {
+inline fun Uri.matchDeepLink(
+   vararg patterns: String,
+   mapper: (Map<String, String>) -> NavigationInstruction?
+): NavigationInstruction? {
    val arguments = patterns.asSequence().mapNotNull {
       NavDeepLink(it).getMatchingArguments(this)
    }.firstOrNull() ?: return null

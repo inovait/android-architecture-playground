@@ -1,8 +1,8 @@
-package si.inova.androidarchitectureplayground.navigation.keys
+package si.inova.androidarchitectureplayground.navigation.instructions
 
 import android.os.Parcelable
 import com.zhuinden.simplestack.Backstack
 
-abstract class NavigationKey : Parcelable {
+abstract class NavigationInstruction : Parcelable {
    abstract fun performNavigation(backstack: Backstack)
 }
