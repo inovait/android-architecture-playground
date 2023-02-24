@@ -4,6 +4,4 @@ import si.inova.androidarchitectureplayground.navigation.instructions.Navigation
 
 interface Navigator {
    fun navigate(navigationInstruction: NavigationInstruction)
-
-   fun goBack()
 }

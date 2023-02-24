@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.Screen
+import si.inova.androidarchitectureplayground.navigation.instructions.goBack
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import kotlin.math.roundToInt
 

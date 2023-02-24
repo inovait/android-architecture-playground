@@ -11,8 +11,4 @@ class SimpleStackNavigator @Inject constructor(private val backstack: Backstack)
 
       backstack.setHistory(res.newBackstack, res.direction)
    }
-
-   override fun goBack() {
-      backstack.goBack()
-   }
 }
