@@ -10,8 +10,8 @@ fun interface DeepLinkHandler {
 class MultiDeepLinkHandler : DeepLinkHandler {
    private val handlers = ArrayList<DeepLinkHandler>()
 
-   fun matchDeepLink(pattern: String, mapper: (Map<String, String>) -> NavigationKey?) {
-      handlers += DeepLinkHandler { it.matchDeepLink(pattern, mapper) }
+   fun matchDeepLink(vararg patterns: String, mapper: (Map<String, String>) -> NavigationKey?) {
+      handlers += DeepLinkHandler { it.matchDeepLink(*patterns, mapper = mapper) }
    }
 
    fun customHandler(block: DeepLinkHandler) {

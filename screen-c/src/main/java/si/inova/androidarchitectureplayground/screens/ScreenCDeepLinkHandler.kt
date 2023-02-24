@@ -13,7 +13,10 @@ import javax.inject.Inject
 @ContributesMultibinding(ApplicationScope::class)
 class ScreenCDeepLinkHandler @Inject constructor() : DeepLinkHandler {
    override fun handleDeepLink(uri: Uri) = handleMultipleDeepLinks(uri) {
-      matchDeepLink("inova://test/{number}?key={value}") {
+      matchDeepLink(
+         "inova://test/d/{number}?key={value}",
+         "inova://test/other?key={value}&number={number}"
+      ) {
          val id = it["number"]?.toIntOrNull() ?: return@matchDeepLink null
          val key = it["value"] ?: return@matchDeepLink null
 

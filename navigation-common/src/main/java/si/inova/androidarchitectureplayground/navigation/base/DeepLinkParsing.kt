@@ -6,8 +6,10 @@ import si.inova.androidarchitectureplayground.navigation.keys.NavigationKey
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-inline fun Uri.matchDeepLink(pattern: String, mapper: (Map<String, String>) -> NavigationKey?): NavigationKey? {
-   val arguments = NavDeepLink(pattern).getMatchingArguments(this) ?: return null
+inline fun Uri.matchDeepLink(vararg patterns: String, mapper: (Map<String, String>) -> NavigationKey?): NavigationKey? {
+   val arguments = patterns.asSequence().mapNotNull {
+      NavDeepLink(it).getMatchingArguments(this)
+   }.firstOrNull() ?: return null
 
    return mapper(arguments)
 }
