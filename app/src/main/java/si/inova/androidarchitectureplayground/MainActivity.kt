@@ -21,8 +21,8 @@ import com.zhuinden.simplestack.navigator.Navigator
 import si.inova.androidarchitectureplayground.di.SimpleStackActivityComponent
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 import si.inova.androidarchitectureplayground.navigation.base.Screen
+import si.inova.androidarchitectureplayground.navigation.keys.InitialNavigationKey
 import si.inova.androidarchitectureplayground.navigation.keys.NavigationKey
-import si.inova.androidarchitectureplayground.navigation.keys.ReplaceHistoryKey
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
@@ -55,8 +55,8 @@ class MainActivity : FragmentActivity() {
       val scopedServices = MyScopedServices()
 
       val deepLinkTarget = intent?.data?.let { getDeepLinkTarget(it) }
-      val initialScreen = if (deepLinkTarget is ReplaceHistoryKey) {
-         deepLinkTarget.history.toList()
+      val initialScreen = if (deepLinkTarget is InitialNavigationKey) {
+         deepLinkTarget.getInitialHistory()
       } else {
          History.of(ScreenAKey)
       }
@@ -74,7 +74,7 @@ class MainActivity : FragmentActivity() {
 
       Navigator.executeDeferredInitialization(this)
 
-      if (deepLinkTarget != null && deepLinkTarget !is ReplaceHistoryKey) {
+      if (deepLinkTarget != null && deepLinkTarget !is InitialNavigationKey) {
          deepLinkTarget.performNavigation(backstack)
       }
 
