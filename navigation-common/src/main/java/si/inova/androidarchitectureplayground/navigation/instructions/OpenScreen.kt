@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.navigation.instructions
 
-import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.StateChange
 import kotlinx.parcelize.Parcelize
 import si.inova.androidarchitectureplayground.navigation.Navigator
@@ -9,11 +8,12 @@ import si.inova.androidarchitectureplayground.navigation.keys.SingleTopKey
 
 @Parcelize
 class OpenScreen(val screen: ScreenKey) : NavigationInstruction() {
-   override fun performNavigation(backstack: Backstack) {
-      if (screen is SingleTopKey && backstack.top<Any>().javaClass == screen.javaClass) {
-         backstack.replaceTop(screen, StateChange.REPLACE)
+   override fun performNavigation(backstack: List<ScreenKey>): NavigationResult {
+      return if (backstack.isNotEmpty() && screen is SingleTopKey && backstack.last().javaClass == screen.javaClass) {
+         val newBackstack = backstack.dropLast(1) + screen
+         NavigationResult(newBackstack, StateChange.REPLACE)
       } else {
-         backstack.goTo(screen)
+         NavigationResult(backstack + screen, StateChange.FORWARD)
       }
    }
 }

@@ -7,7 +7,9 @@ import javax.inject.Inject
 
 class SimpleStackNavigator @Inject constructor(private val backstack: Backstack) : Navigator {
    override fun navigate(navigationInstruction: NavigationInstruction) {
-      navigationInstruction.performNavigation(backstack)
+      val res = navigationInstruction.performNavigation(backstack.getHistory())
+
+      backstack.setHistory(res.newBackstack, res.direction)
    }
 
    override fun goBack() {
