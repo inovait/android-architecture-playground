@@ -2,6 +2,7 @@ package si.inova.androidarchitectureplayground.navigation.instructions
 
 import com.zhuinden.simplestack.StateChange
 import kotlinx.parcelize.Parcelize
+import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.NavigationContext
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.SingleTopKey
@@ -16,4 +17,14 @@ data class OpenScreen(val screen: ScreenKey) : NavigationInstruction() {
          NavigationResult(backstack + screen, StateChange.FORWARD)
       }
    }
+}
+
+fun Navigator.navigateTo(screen: ScreenKey) {
+   val instruction = if (screen.navigationConditions.isEmpty()) {
+      OpenScreen(screen)
+   } else {
+      NavigateWithConditions(OpenScreen(screen), *screen.navigationConditions.toTypedArray())
+   }
+
+   navigate(instruction)
 }

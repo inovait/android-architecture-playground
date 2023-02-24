@@ -5,6 +5,8 @@ import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesMultibinding
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 import si.inova.androidarchitectureplayground.navigation.base.handleMultipleDeepLinks
+import si.inova.androidarchitectureplayground.navigation.conditions.UserLoggedIn
+import si.inova.androidarchitectureplayground.navigation.instructions.NavigateWithConditions
 import si.inova.androidarchitectureplayground.navigation.instructions.ReplaceHistory
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
@@ -20,10 +22,13 @@ class ScreenCDeepLinkHandler @Inject constructor() : DeepLinkHandler {
          val id = it["number"]?.toIntOrNull() ?: return@matchDeepLink null
          val key = it["value"] ?: return@matchDeepLink null
 
-         ReplaceHistory(
-            ScreenAKey,
-            ScreenBKey,
-            ScreenCKey(id, key)
+         NavigateWithConditions(
+            ReplaceHistory(
+               ScreenAKey,
+               ScreenBKey,
+               ScreenCKey(id, key)
+            ),
+            UserLoggedIn
          )
       }
    }
