@@ -2,10 +2,14 @@ package si.inova.androidarchitectureplayground.screens
 
 import androidx.annotation.RawRes
 import androidx.compose.animation.core.Animatable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -22,6 +26,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -45,7 +51,7 @@ class ScreenA constructor(
          AnimationFromTeam("Animation 2", R.raw.animation_2)
       )
 
-      Column {
+      Column(Modifier.background(Color(0xFFF5F5F5))) {
          val scope = rememberCoroutineScope()
 
          var sliderValue by remember { mutableStateOf(50f) }
@@ -56,7 +62,7 @@ class ScreenA constructor(
          Row(
             Modifier
                .horizontalScroll(rememberScrollState())
-               .padding(32.dp),
+               .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
          ) {
@@ -76,11 +82,11 @@ class ScreenA constructor(
             sliderValue,
             onValueChange = { sliderValue = it.also { println("target $it") } },
             valueRange = 0f..100f,
-            modifier = Modifier.padding(start = 32.dp, end = 32.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
          )
 
          Row(
-            Modifier.padding(32.dp),
+            Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
          ) {
@@ -106,13 +112,44 @@ class ScreenA constructor(
             Text("Lock to slider", fontSize = 16.sp)
          }
 
+         Box(
+            Modifier
+               .fillMaxWidth()
+               .padding(bottom = 8.dp)
+               .height(1.dp)
+               .background(Color.Black)
+         )
+
+         Box(
+            Modifier
+               .fillMaxWidth()
+               .height(224.dp), propagateMinConstraints = true
+         ) {
+            LevelAnimation(animations[selectedAnimationIndex].res, animatable.value)
+         }
+
+         Text(
+            animatable.value.roundToInt().toString(),
+            Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            color = Color(0xFF181818),
+            fontSize = 46.sp
+         )
+
+         Text(
+            "impact score",
+            Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            fontSize = 18.sp,
+            color = Color(0xFF888888),
+         )
+
          LaunchedEffect(lock, sliderValue) {
             if (lock) {
                animatable.snapTo(sliderValue)
             }
          }
 
-         LevelAnimation(animations[selectedAnimationIndex].res, animatable.value)
       }
    }
 
