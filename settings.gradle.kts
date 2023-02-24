@@ -35,5 +35,6 @@ rootProject.name = "AndroidArchitecturePlayground"
 
 include(":app")
 include(":libmodule")
+include(":login")
 include(":navigation-common")
 include(":screen-c")

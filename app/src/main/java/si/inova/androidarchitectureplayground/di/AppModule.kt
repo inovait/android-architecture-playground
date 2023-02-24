@@ -7,6 +7,7 @@ import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.Multibinds
+import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 
 @Suppress("unused")
@@ -18,4 +19,8 @@ abstract class AppModule {
 
    @Multibinds
    abstract fun provideDeepLinkHandlers(): Set<@JvmSuppressWildcards DeepLinkHandler>
+
+   @Multibinds
+   abstract fun provideConditionalNavigationHandlers():
+      Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards ConditionalNavigationHandler>
 }

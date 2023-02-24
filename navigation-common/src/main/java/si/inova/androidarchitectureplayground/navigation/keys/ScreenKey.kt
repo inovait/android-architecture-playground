@@ -10,10 +10,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import com.zhuinden.simplestack.ScopeKey
 import com.zhuinden.simplestack.StateChange
+import si.inova.androidarchitectureplayground.navigation.base.NavigationCondition
 import si.inova.androidarchitectureplayground.simplestack.StateChangeResult
 
 abstract class ScreenKey : Parcelable, ScopeKey {
    abstract val screenClass: String
+
+   open val navigationConditions: List<NavigationCondition>
+      get() = emptyList()
 
    override fun getScopeTag(): String {
       return toString()

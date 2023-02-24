@@ -25,6 +25,7 @@ import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
+import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import javax.inject.Inject
 import javax.inject.Provider
@@ -44,6 +45,9 @@ class MainActivity : FragmentActivity() {
 
    lateinit var navigator: si.inova.androidarchitectureplayground.navigation.Navigator
 
+   @Inject
+   lateinit var navigationContext: NavigationContextImpl
+
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       Whetstone.inject(this)
@@ -57,7 +61,7 @@ class MainActivity : FragmentActivity() {
       val deepLinkTarget = intent?.data?.let { getDeepLinkTarget(it) }
       var initialHistory: List<ScreenKey> = History.of(ScreenAKey)
       if (deepLinkTarget != null) {
-         initialHistory = deepLinkTarget.performNavigation(initialHistory).newBackstack
+         initialHistory = deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack
       }
 
       val backstack = Navigator.configure()

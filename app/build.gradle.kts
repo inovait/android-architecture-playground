@@ -44,6 +44,7 @@ android {
 
 dependencies {
    implementation(projects.libmodule)
+   implementation(projects.login)
    implementation(projects.navigationCommon)
    implementation(projects.screenC)
 

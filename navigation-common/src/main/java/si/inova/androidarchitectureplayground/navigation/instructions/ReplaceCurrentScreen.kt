@@ -5,13 +5,12 @@ import kotlinx.parcelize.Parcelize
 import si.inova.androidarchitectureplayground.navigation.base.NavigationContext
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 
+/**
+ * @param direction The direction of the [StateChange]: [StateChange.BACKWARD], [StateChange.FORWARD] or [StateChange.REPLACE].
+ */
 @Parcelize
-class ReplaceHistory(vararg val history: ScreenKey) : NavigationInstruction() {
+data class ReplaceCurrentScreen(val screen: ScreenKey, val direction: Int = StateChange.REPLACE) : NavigationInstruction() {
    override fun performNavigation(backstack: List<ScreenKey>, context: NavigationContext): NavigationResult {
-      return NavigationResult(history.toList(), StateChange.FORWARD)
-   }
-
-   override fun toString(): String {
-      return "ReplaceHistory(history=${history.contentToString()})"
+      return NavigationResult(backstack.dropLast(1) + backstack, direction)
    }
 }

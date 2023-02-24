@@ -7,6 +7,7 @@ import dagger.Subcomponent
 import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.ScopedService
 import si.inova.androidarchitectureplayground.navigation.base.Screen
+import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
 import javax.inject.Provider
 
 @MergeSubcomponent(SimpleStackActivityScope::class)
@@ -15,6 +16,7 @@ interface SimpleStackActivityComponent {
    fun scopedServicesFactories(): Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<ScopedService>>
    fun scopedServicesKeys(): Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<List<Class<*>>>>
    fun navigator(): Navigator
+   fun navigationContext(): NavigationContextImpl
 
    @Subcomponent.Factory
    interface Factory {
