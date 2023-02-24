@@ -2,6 +2,7 @@ package si.inova.androidarchitectureplayground.screens
 
 import androidx.annotation.RawRes
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -47,8 +48,9 @@ class ScreenA constructor(
    @Composable
    override fun Content(key: ScreenAKey) {
       val animations = listOf(
-         AnimationFromTeam("Animation 1", R.raw.animation_1),
-         AnimationFromTeam("Animation 2", R.raw.animation_2)
+         AnimationFromTeam("Ekipa 1", R.raw.team_1, "State Machine 1"),
+         AnimationFromTeam("Ekipa 2", R.raw.prekrasnaanimacija, "State machine 1"),
+         AnimationFromTeam("Ekipa 3", R.raw.new_file, "State Machine 1")
       )
 
       Column(Modifier.background(Color(0xFFF5F5F5))) {
@@ -80,7 +82,7 @@ class ScreenA constructor(
 
          Slider(
             sliderValue,
-            onValueChange = { sliderValue = it.also { println("target $it") } },
+            onValueChange = { sliderValue = it },
             valueRange = 0f..100f,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
          )
@@ -108,6 +110,14 @@ class ScreenA constructor(
                Text("Animate")
             }
 
+            Button(onClick = {
+               scope.launch {
+                  animatable.animateTo(sliderValue, tween(2_000))
+               }
+            }) {
+               Text("Slow")
+            }
+
             Checkbox(lock, onCheckedChange = { lock = it })
             Text("Lock to slider", fontSize = 16.sp)
          }
@@ -125,7 +135,11 @@ class ScreenA constructor(
                .fillMaxWidth()
                .height(224.dp), propagateMinConstraints = true
          ) {
-            LevelAnimation(animations[selectedAnimationIndex].res, animatable.value)
+            LevelAnimation(
+               animations[selectedAnimationIndex].res,
+               animations[selectedAnimationIndex].stateMachine,
+               animatable.value
+            )
          }
 
          Text(
@@ -157,6 +171,7 @@ class ScreenA constructor(
    private fun LevelAnimation(
       @RawRes
       animationRes: Int,
+      stateMachine: String,
       level: Float,
       modifier: Modifier = Modifier
    ) {
@@ -166,9 +181,10 @@ class ScreenA constructor(
          }, update = {
             if (it.tag != animationRes) {
                it.tag = animationRes
-               it.setRiveResource(animationRes, stateMachineName = "State Machine")
+               it.setRiveResource(animationRes, stateMachineName = stateMachine)
             }
 
+            println("M ${it.stateMachines} ${it.playingStateMachines} $level")
             for (machine in it.stateMachines) {
                for (input in machine.inputs) {
                   if (input.isNumber) {
@@ -185,5 +201,6 @@ class ScreenA constructor(
 data class AnimationFromTeam(
    val name: String,
    @RawRes
-   val res: Int
+   val res: Int,
+   val stateMachine: String
 )
