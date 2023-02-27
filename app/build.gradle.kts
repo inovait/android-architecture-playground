@@ -78,11 +78,7 @@ abstract class GitVersionTask : DefaultTask() {
 }
 
 val gitVersionProvider = tasks.register<GitVersionTask>("gitVersionProvider") {
-   val targetFile = if (File("/tmp").exists()) {
-      File("/tmp", "gitVersionProvider-${System.currentTimeMillis()}")
-   } else {
-      File(project.buildDir, "intermediates/gitVersionProvider/output")
-   }
+   val targetFile = File(project.buildDir, "intermediates/gitVersionProvider/output")
 
    targetFile.also {
       it.parentFile.mkdirs()
