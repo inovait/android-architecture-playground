@@ -58,7 +58,7 @@ class MainActivity : FragmentActivity() {
 
       val scopedServices = MyScopedServices()
 
-      val deepLinkTarget = intent?.data?.let { getDeepLinkTarget(it) }
+      val deepLinkTarget = intent?.data?.let { getDeepLinkTarget(it, startup = true) }
       var initialHistory: List<ScreenKey> = History.of(ScreenAKey)
       if (deepLinkTarget != null) {
          initialHistory = deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack
@@ -99,16 +99,17 @@ class MainActivity : FragmentActivity() {
       super.onNewIntent(intent)
 
       intent?.data?.let { url ->
-         val navigationKey = getDeepLinkTarget(url)
+         val navigationKey = getDeepLinkTarget(url, startup = false)
          navigationKey?.let {
             navigator.navigate(it)
          }
       }
    }
 
-   private fun getDeepLinkTarget(uri: Uri): NavigationInstruction? {
+   private fun getDeepLinkTarget(uri: Uri, startup: Boolean): NavigationInstruction? {
       return deepLinkHandlers.asSequence<@JvmSuppressWildcards DeepLinkHandler>()
-         .mapNotNull<@JvmSuppressWildcards DeepLinkHandler, NavigationInstruction> { it.handleDeepLink(uri) }.firstOrNull()
+         .mapNotNull<@JvmSuppressWildcards DeepLinkHandler, NavigationInstruction> { it.handleDeepLink(uri, startup) }
+         .firstOrNull()
    }
 
    private val simpleStackBackPressedCallback =

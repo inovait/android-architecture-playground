@@ -5,8 +5,19 @@ import si.inova.androidarchitectureplayground.navigation.base.NavigationConditio
 import si.inova.androidarchitectureplayground.navigation.base.NavigationContext
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 
+/**
+ * Navigate to [target] if all [conditions] are met.
+ *
+ * If conditions are not met, Navigator will first navigate to a screen where user can meet the conditions (for example, log-in
+ * screen) and then redirect back to the target screen. You can intercept navigation to the condition meeting screen via
+ * [conditionScreenWrapper] argument.
+ */
 @Parcelize
-class NavigateWithConditions(val target: NavigationInstruction, vararg val conditions: NavigationCondition) :
+class NavigateWithConditions(
+   val target: NavigationInstruction,
+   vararg val conditions: NavigationCondition,
+   val conditionScreenWrapper: (NavigationInstruction) -> NavigationInstruction = { it }
+) :
    NavigationInstruction() {
    override fun performNavigation(backstack: List<ScreenKey>, context: NavigationContext): NavigationResult {
       for (condition in conditions) {
@@ -16,7 +27,7 @@ class NavigateWithConditions(val target: NavigationInstruction, vararg val condi
          )
 
          if (overridenTarget != null) {
-            return overridenTarget.performNavigation(backstack, context)
+            return conditionScreenWrapper(overridenTarget).performNavigation(backstack, context)
          }
       }
 
