@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground
+package si.inova.androidarchitectureplayground.simplestack
 
 import com.zhuinden.simplestack.ScopedServices
 import com.zhuinden.simplestack.ServiceBinder

@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @SingleIn(ApplicationScope::class)
 @Singleton
 interface MyApplicationComponent : ApplicationComponent {
-   fun provideSimpleStackComponentFactory(): SimpleStackActivityComponent.Factory
+   fun provideNavigationStackComponentFactory(): NavigationStackComponent.Factory
 
    @Component.Factory
    interface Factory {

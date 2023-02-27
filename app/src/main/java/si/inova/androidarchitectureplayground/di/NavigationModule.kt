@@ -7,7 +7,7 @@ import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.simplestack.SimpleStackNavigator
 
 @Suppress("unused")
-@ContributesTo(SimpleStackActivityScope::class)
+@ContributesTo(NavigationStackScope::class)
 @Module
 abstract class NavigationModule {
    @Binds

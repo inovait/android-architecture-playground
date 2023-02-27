@@ -60,8 +60,6 @@ class ComposeStateChanger(
       val saveableStateHolder = rememberSaveableStateHolder()
       val viewModelStores = viewModel<StoreHolderViewModel>()
 
-      CleanupStaleSavedStates(saveableStateHolder, viewModelStores)
-
       val currentStateChange = currentStateChange
       val topKey = currentStateChange?.stateChange?.getNewKeys<ScreenKey>()?.lastOrNull() ?: return
       val stateChangeResult = StateChangeResult(currentStateChange.stateChange.direction, topKey)
@@ -77,7 +75,7 @@ class ComposeStateChanger(
          },
          contentKey = { it.newTopKey.contentKey() }
       ) { (_, topKey) ->
-         TriggerCompletionCallback()
+         TriggerCompletionCallback(saveableStateHolder, viewModelStores)
          val contentKey = topKey.contentKey()
 
          saveableStateHolder.SaveableStateProvider(contentKey) {
@@ -110,27 +108,28 @@ class ComposeStateChanger(
       (screen as Screen<ScreenKey>).Content(key)
    }
 
-   @Composable
-   private fun CleanupStaleSavedStates(
+   private fun cleanupStaleSaveStates(
+      currentStateChange: StateChangeData,
       saveableStateHolder: SaveableStateHolder,
-      storeHolderViewModel: StoreHolderViewModel
+      viewModelStores: StoreHolderViewModel
    ) {
-      LaunchedEffect(currentStateChange) {
-         val stateChange = currentStateChange?.stateChange ?: return@LaunchedEffect
-         val previousKeys = stateChange.getPreviousKeys<Any>()
-         val newKeys = stateChange.getNewKeys<Any>()
-         previousKeys.fastForEach { previousKey ->
-            if (!newKeys.contains(previousKey)) {
-               saveableStateHolder.removeState(previousKey)
-               storeHolderViewModel.removeKey(previousKey)
-            }
+      val stateChange = currentStateChange.stateChange
+      val previousKeys = stateChange.getPreviousKeys<Any>()
+      val newKeys = stateChange.getNewKeys<Any>()
+      previousKeys.fastForEach { previousKey ->
+         if (!newKeys.contains(previousKey)) {
+            saveableStateHolder.removeState(previousKey)
+            viewModelStores.removeKey(previousKey)
          }
       }
    }
 
    @Composable
    @OptIn(ExperimentalAnimationApi::class)
-   private fun AnimatedVisibilityScope.TriggerCompletionCallback() {
+   private fun AnimatedVisibilityScope.TriggerCompletionCallback(
+      saveableStateHolder: SaveableStateHolder,
+      viewModelStores: StoreHolderViewModel
+   ) {
       LaunchedEffect(currentStateChange) {
          val currentStateChange = currentStateChange ?: return@LaunchedEffect
 
@@ -139,6 +138,9 @@ class ComposeStateChanger(
                if (remainingAnimationDuration == 0L && lastCallback != currentStateChange.completionCallback) {
                   lastCompletedCallback = currentStateChange.completionCallback
                   currentStateChange.completionCallback.stateChangeComplete()
+
+                  cleanupStaleSaveStates(currentStateChange, saveableStateHolder, viewModelStores)
+
                   return@takeWhile false
                }
 

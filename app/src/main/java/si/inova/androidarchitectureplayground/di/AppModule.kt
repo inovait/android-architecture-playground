@@ -12,7 +12,7 @@ import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 
 @Suppress("unused")
 @ContributesTo(ApplicationScope::class)
-@Module(subcomponents = [SimpleStackActivityComponent::class])
+@Module(subcomponents = [NavigationStackComponent::class])
 abstract class AppModule {
    @Binds
    abstract fun Application.bindToContext(): Context

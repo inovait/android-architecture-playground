@@ -4,7 +4,7 @@ import com.squareup.kotlinpoet.ClassName
 
 internal val ACTIVITY_SCOPE_ANNOTATION = ClassName(
    "si.inova.androidarchitectureplayground.di",
-   "SimpleStackActivityScope"
+   "NavigationStackScope"
 )
 
 internal val SIMPLE_STACK_SCOPED_ANNOTATION = ClassName(

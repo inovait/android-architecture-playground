@@ -17,7 +17,7 @@ import com.deliveryhero.whetstone.activity.ContributesActivityInjector
 import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.History
 import com.zhuinden.simplestack.navigator.Navigator
-import si.inova.androidarchitectureplayground.di.SimpleStackActivityComponent
+import si.inova.androidarchitectureplayground.di.NavigationStackComponent
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
@@ -25,6 +25,7 @@ import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
+import si.inova.androidarchitectureplayground.simplestack.MyScopedServices
 import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class MainActivity : FragmentActivity() {
    lateinit var injectedResources: Resources
 
    @Inject
-   lateinit var activityComponentFactory: SimpleStackActivityComponent.Factory
+   lateinit var navigationStackComponentFactory: NavigationStackComponent.Factory
 
    @Inject
    lateinit var deepLinkHandlers: Set<@JvmSuppressWildcards DeepLinkHandler>
@@ -70,7 +71,7 @@ class MainActivity : FragmentActivity() {
          .setDeferredInitialization(true)
          .install(this, findViewById(Window.ID_ANDROID_CONTENT), initialHistory)
 
-      val activityComponent = activityComponentFactory.create(backstack)
+      val activityComponent = navigationStackComponentFactory.create(backstack, backstack)
       screenFactories = activityComponent.screenFactories()
       scopedServices.scopedServicesFactories = activityComponent.scopedServicesFactories()
       scopedServices.scopedServicesKeys = activityComponent.scopedServicesKeys()
