@@ -28,6 +28,12 @@ commonAndroid {
       testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
    }
 
+   testOptions {
+      unitTests.all {
+         it.useJUnitPlatform()
+      }
+   }
+
    packagingOptions {
       resources {
          excludes += "/META-INF/{AL2.0,LGPL2.1}"

@@ -8,5 +8,9 @@ plugins {
    id("all-modules-commons")
 }
 
+tasks.test {
+   useJUnitPlatform()
+}
+
 dependencies {
 }
