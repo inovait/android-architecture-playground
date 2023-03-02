@@ -36,7 +36,6 @@ commonAndroid {
 }
 
 dependencies {
-   add("implementation", libs.logcat)
    add("implementation", libs.whetstone.runtime)
    add("anvil", libs.whetstone.compiler)
 }

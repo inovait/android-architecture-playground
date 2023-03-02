@@ -3,9 +3,9 @@ package si.inova.androidarchitectureplayground
 import android.app.Application
 import com.deliveryhero.whetstone.app.ApplicationComponentOwner
 import com.deliveryhero.whetstone.app.ContributesAppInjector
-import logcat.AndroidLogcatLogger
-import logcat.LogPriority
 import si.inova.androidarchitectureplayground.di.DaggerMyApplicationComponent
+import si.inova.androidarchitectureplayground.logging.AndroidLogcatLogger
+import si.inova.androidarchitectureplayground.logging.LogPriority
 
 @ContributesAppInjector(generateAppComponent = false)
 class MyApplication : Application(), ApplicationComponentOwner {
