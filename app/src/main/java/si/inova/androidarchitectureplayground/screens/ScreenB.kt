@@ -32,7 +32,7 @@ class ScreenB(
             .fillMaxSize()
             .background(Color.Green)
       ) {
-         Text("ViewModel: $viewModel")
+         Text("ViewModel: $viewModel ${viewModel.number}")
          Text("android VM: ${viewModel<TestAndroidXViewModel>().hashCode()}")
 
          Box(

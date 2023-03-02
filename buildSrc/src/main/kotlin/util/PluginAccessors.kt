@@ -12,3 +12,9 @@ inline val PluginDependenciesSpec.androidAppModule: PluginDependencySpec
 
 inline val PluginDependenciesSpec.androidLibraryModule: PluginDependencySpec
    get() = id("library-android-module")
+
+inline val PluginDependenciesSpec.pureKotlinModule: PluginDependencySpec
+   get() = id("pure-kotlin-module")
+
+inline val PluginDependenciesSpec.parcelize: PluginDependencySpec
+   get() = id("kotlin-parcelize")

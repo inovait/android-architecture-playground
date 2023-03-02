@@ -53,6 +53,7 @@ dependencies {
    implementation(projects.login)
    implementation(projects.navigationCommon)
    implementation(projects.screenC)
+   implementation(projects.pureKotlinModule)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
