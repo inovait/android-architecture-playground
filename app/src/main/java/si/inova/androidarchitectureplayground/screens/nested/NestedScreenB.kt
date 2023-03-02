@@ -29,4 +29,8 @@ class NestedScreenB(
 class NestedScreenBKey : ScreenKey() {
    override val screenClass: String
       get() = "si.inova.androidarchitectureplayground.screens.nested.NestedScreenB"
+
+   override fun toString(): String {
+      return "NestedScreenBKey"
+   }
 }

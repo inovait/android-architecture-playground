@@ -6,4 +6,8 @@ import kotlinx.parcelize.Parcelize
 object ScreenAKey : ScreenKey() {
    override val screenClass: String
       get() = "si.inova.androidarchitectureplayground.screens.ScreenA"
+
+   override fun toString(): String {
+      return "ScreenAKey"
+   }
 }

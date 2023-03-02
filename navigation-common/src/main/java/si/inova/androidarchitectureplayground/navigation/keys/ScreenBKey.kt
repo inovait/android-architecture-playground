@@ -10,4 +10,8 @@ object ScreenBKey : ScreenKey() {
    override fun getScopeTag(): String {
       return "CommonScope"
    }
+
+   override fun toString(): String {
+      return "ScreenBKey"
+   }
 }

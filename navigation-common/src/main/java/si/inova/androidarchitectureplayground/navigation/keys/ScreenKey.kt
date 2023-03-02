@@ -52,4 +52,8 @@ abstract class ScreenKey : Parcelable, ScopeKey {
       return scope.slideIntoContainer(AnimatedContentScope.SlideDirection.Right) with
          scope.slideOutOfContainer(AnimatedContentScope.SlideDirection.Right)
    }
+
+   // Force subclasses to implement toString, since default getScopeTag relies on it.
+   // This forces objects to implement it, but data classes are not affected since Kotlin generates toString for you.
+   abstract override fun toString(): String
 }
