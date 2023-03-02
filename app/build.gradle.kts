@@ -2,6 +2,8 @@
 // AGP 7.4.0 has a bug where it marks most things as incubating
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
+import com.android.build.api.variant.BuildConfigField
+
 plugins {
    androidAppModule
    compose
@@ -19,12 +21,16 @@ android {
 
       androidComponents {
          onVariants {
-            it.buildConfigFields.put("GIT_HASH", gitVersionProvider.map { task ->
-               com.android.build.api.variant.BuildConfigField(
-                  "String",
-                  "\"${task.gitVersionOutputFile.get().asFile.readText(Charsets.UTF_8)}\"",
-                  "Git Version"
-               )
+            it.buildConfigFields.put("GIT_HASH", gitVersionProvider.flatMap { task ->
+               task.gitVersionOutputFile.map { file ->
+                  val gitHash = file.asFile.readText(Charsets.UTF_8)
+
+                  BuildConfigField(
+                     "String",
+                     "\"$gitHash\"",
+                     "Git Version"
+                  )
+               }
             })
          }
       }
@@ -62,7 +68,6 @@ abstract class GitVersionTask : DefaultTask() {
    @get:OutputFile
    abstract val gitVersionOutputFile: RegularFileProperty
 
-   @ExperimentalStdlibApi
    @TaskAction
    fun taskAction() {
       val gitProcess = ProcessBuilder("git", "rev-parse", "--short", "HEAD").start()
