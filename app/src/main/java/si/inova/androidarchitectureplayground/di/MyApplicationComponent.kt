@@ -7,9 +7,11 @@ import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
+import si.inova.androidarchitectureplayground.PureApplicationScope
 import javax.inject.Singleton
 
 @MergeComponent(ApplicationScope::class)
+@MergeComponent(PureApplicationScope::class)
 @SingleIn(ApplicationScope::class)
 @Singleton
 interface MyApplicationComponent : ApplicationComponent {

@@ -34,6 +34,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "AndroidArchitecturePlayground"
 
 include(":app")
+include(":common:pure")
 include(":libmodule")
 include(":login")
 include(":navigation-common")

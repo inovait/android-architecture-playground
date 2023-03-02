@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+   implementation(projects.common.pure)
    implementation(projects.libmodule)
    implementation(projects.login)
    implementation(projects.navigationCommon)
