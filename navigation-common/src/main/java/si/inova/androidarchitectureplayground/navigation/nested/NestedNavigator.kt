@@ -19,7 +19,7 @@ class NestedNavigator @Inject constructor(
    private val navigationStackComponentFactory: NavigationInjection.Factory
 ) {
    @Composable
-   fun NestedNavigation(initialKeys: () -> History<ScreenKey>) {
+   fun NestedNavigation(id: String = "SINGLE", initialKeys: () -> History<ScreenKey>) {
       val parentBackstack = LocalBackstack.current
 
       var screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>? = null
@@ -28,7 +28,7 @@ class NestedNavigator @Inject constructor(
          ComposeStateChanger(screenFactories = lazy { requireNotNull(screenFactories) })
       }
       val asyncStateChanger = remember(stateChanger) { AsyncStateChanger(stateChanger) }
-      val backstack = rememberBackstack(asyncStateChanger) {
+      val backstack = rememberBackstack(asyncStateChanger, id) {
          val scopedServices = MyScopedServices()
          val backstack = createBackstack(
             initialKeys = initialKeys(),
