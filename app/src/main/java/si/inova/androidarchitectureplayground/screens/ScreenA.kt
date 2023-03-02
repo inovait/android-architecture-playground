@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
+import logcat.logcat
 import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
@@ -34,9 +35,17 @@ class ScreenA constructor(
          Text("Number: $rememberedNumber")
          Text("VM: ${viewModel<TestAndroidXViewModel>().hashCode()}")
 
+         logcat { "Log inside ScreenA" }
+
          Button(onClick = { navigator.navigateTo(ScreenBKey) }) {
-            Text("Go to screen B ")
+            TopLevelFunction()
          }
       }
    }
+}
+
+@Composable
+private fun TopLevelFunction() {
+   logcat("TopLevelFunction") { "Log inside top level function" }
+   Text("Go to screen B ")
 }

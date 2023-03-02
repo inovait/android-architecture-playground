@@ -12,6 +12,7 @@ dagger = "2.44.2"
 detekt = "1.22.0"
 kotlin = "1.8.0"
 junit4 = "4.13.2"
+logcat = "0.1"
 versionsChecker = "0.44.0"
 simpleStack = "2.6.5"
 whetstone = "0.4.0"
@@ -42,6 +43,7 @@ detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", v
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 junit4 = { module = "junit:junit", version.ref = "junit4" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+logcat = { module = "com.squareup.logcat:logcat", version.ref = "logcat" }
 versionsCheckerPlugin = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "versionsChecker" }
 simpleStack = { module = "com.github.Zhuinden:simple-stack", version.ref = "simpleStack" }
 whetstone-compiler = { module = "com.deliveryhero.whetstone:whetstone-compiler", version.ref = "whetstone" }
