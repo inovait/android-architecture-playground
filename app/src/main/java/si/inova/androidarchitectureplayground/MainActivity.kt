@@ -15,6 +15,7 @@ import com.deliveryhero.whetstone.activity.ContributesActivityInjector
 import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.History
 import si.inova.androidarchitectureplayground.di.NavigationStackComponent
+import si.inova.androidarchitectureplayground.migration.NavigatorActivity
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
@@ -30,14 +31,14 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @ContributesActivityInjector
-class MainActivity : FragmentActivity() {
+class MainActivity : FragmentActivity(), NavigatorActivity {
    @Inject
    lateinit var navigationStackComponentFactory: NavigationStackComponent.Factory
 
    @Inject
    lateinit var deepLinkHandlers: Set<@JvmSuppressWildcards DeepLinkHandler>
 
-   lateinit var navigator: si.inova.androidarchitectureplayground.navigation.Navigator
+   override lateinit var navigator: si.inova.androidarchitectureplayground.navigation.Navigator
 
    @Inject
    lateinit var navigationContext: NavigationContextImpl
@@ -80,6 +81,7 @@ class MainActivity : FragmentActivity() {
          if (screenFactories == null) {
             val component = navigationStackComponentFactory.create(backstack, backstack)
             screenFactories = component.screenFactories()
+            navigator = component.navigator()
          }
 
          AndroidArchitecturePlaygroundTheme {

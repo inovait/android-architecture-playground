@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zhuinden.simplestack.History
+import si.inova.androidarchitectureplayground.migration.TestFragmentKey
 import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
@@ -45,6 +46,10 @@ class ScreenB(
 
          Button(onClick = { navigator.navigateTo(ScreenCKey(1, "")) }) {
             Text("Replace with C ")
+         }
+
+         Button(onClick = { navigator.navigateTo(TestFragmentKey("Hello from B")) }) {
+            Text("OpenFragment ")
          }
       }
    }

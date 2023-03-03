@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-   implementation(projects.common.pure)
+   implementation(projects.common.android)
    implementation(projects.libmodule)
    implementation(projects.login)
    implementation(projects.navigationCommon)
