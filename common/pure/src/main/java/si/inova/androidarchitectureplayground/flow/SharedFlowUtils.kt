@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
-fun <T> MutableSharedFlow<T>.hasActiveSubscribersFlow(): Flow<Boolean> {
+fun MutableSharedFlow<*>.hasActiveSubscribersFlow(): Flow<Boolean> {
    return subscriptionCount.map { it > 0 }.distinctUntilChanged()
 }

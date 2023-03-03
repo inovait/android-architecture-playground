@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
    implementation(libs.kotlin.coroutines)
-   implementation(libs.turbine)
 
-   testImplementation(projects.common.pure.test)
+   api(projects.common.pure)
 }
