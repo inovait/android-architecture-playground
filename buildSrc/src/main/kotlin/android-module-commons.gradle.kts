@@ -20,6 +20,8 @@ commonAndroid {
 
    commonKotlinOptions {
       jvmTarget = "1.8"
+
+      freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
    }
 
    defaultConfig {

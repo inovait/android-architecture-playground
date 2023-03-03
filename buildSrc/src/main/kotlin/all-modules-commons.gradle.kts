@@ -13,5 +13,6 @@ dependencies {
 
    add("testImplementation", libs.junit5.api)
    add("testImplementation", libs.kotest.assertions)
+   add("testImplementation", libs.kotlin.coroutines.test)
    add("testRuntimeOnly", libs.junit5.engine)
 }
