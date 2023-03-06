@@ -8,4 +8,5 @@ android {
 
 dependencies {
    api(projects.common.pure)
+   compileOnly(libs.androidx.compose.runtime)
 }

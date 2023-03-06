@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zhuinden.simplestack.History
@@ -20,11 +21,15 @@ import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
 import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigator
 import si.inova.androidarchitectureplayground.screens.nested.NestedScreenAKey
+import si.inova.androidarchitectureplayground.time.AndroidTimeProvider
+import si.inova.androidarchitectureplayground.time.FakeAndroidTimeProvider
+import java.time.LocalDateTime
 
 class ScreenB(
    private val navigator: Navigator,
    private val viewModel: SharedViewModel,
-   private val nestedNavigator: NestedNavigator
+   private val nestedNavigator: NestedNavigator,
+   private val timeProvider: AndroidTimeProvider
 ) : Screen<ScreenBKey>() {
    @Composable
    override fun Content(key: ScreenBKey) {
@@ -36,6 +41,7 @@ class ScreenB(
          Text("ViewModel: $viewModel ${viewModel.number}")
          Text("android VM: ${viewModel<TestAndroidXViewModel>().hashCode()}")
 
+         CurrentTime(timeProvider)
          Box(
             Modifier
                .padding(64.dp)
@@ -53,4 +59,19 @@ class ScreenB(
          }
       }
    }
+}
+
+@Composable
+private fun CurrentTime(timeProvider: AndroidTimeProvider) {
+   Text("Current time: ${timeProvider.currentLocalDateTime()}")
+}
+
+@Preview
+@Composable
+private fun CurrentTimePreview() {
+   val timeProvider = FakeAndroidTimeProvider(
+      currentLocalDateTime = { LocalDateTime.of(2020, 1, 12, 12, 30) }
+   )
+
+   CurrentTime(timeProvider)
 }

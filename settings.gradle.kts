@@ -35,6 +35,7 @@ rootProject.name = "AndroidArchitecturePlayground"
 
 include(":app")
 include(":common:android")
+include(":common:android:test")
 include(":common:pure")
 include(":common:pure:test")
 include(":libmodule")

@@ -10,6 +10,7 @@ androidx-lifecycle = "2.6.0-rc01"
 anvil = "2.4.4"
 autoService = "1.0"
 dagger = "2.44.2"
+desugarJdkLibs = "2.0.2"
 detekt = "1.22.0"
 dispatch = "1.0.0-beta10"
 kotlin = "1.8.0"
@@ -32,6 +33,7 @@ androidx-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmode
 androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-runtime" }
+androidx-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "androidx-compose-runtime" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "androidx-compose-runtime" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-compose-runtime" }
 androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "androidx-compose-runtime" }
@@ -48,6 +50,7 @@ dagger-runtime = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+desugarJdkLibs = { module = " com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 dispatch = { module = "com.rickbusarow.dispatch:dispatch-core", version.ref = "dispatch" }
 junit4 = { module = "junit:junit", version.ref = "junit4" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }

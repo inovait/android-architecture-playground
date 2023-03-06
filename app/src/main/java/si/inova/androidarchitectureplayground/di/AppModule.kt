@@ -9,8 +9,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.Multibinds
 import dispatch.core.MainImmediateCoroutineScope
+import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
+import si.inova.androidarchitectureplayground.time.AndroidTimeProvider
+import si.inova.androidarchitectureplayground.time.DefaultAndroidTimeProvider
 
 @Suppress("unused")
 @ContributesTo(ApplicationScope::class)
@@ -26,11 +29,19 @@ abstract class AppModule {
    abstract fun provideConditionalNavigationHandlers():
       Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards ConditionalNavigationHandler>
 
+   @Binds
+   abstract fun AndroidTimeProvider.bindToTimeProvider(): TimeProvider
+
    @Module
    companion object {
       @Provides
       fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
          return MainImmediateCoroutineScope()
+      }
+
+      @Provides
+      fun provideAndroidTimeProvider(): AndroidTimeProvider {
+         return DefaultAndroidTimeProvider
       }
    }
 }

@@ -65,7 +65,7 @@ dependencies {
    implementation(libs.dispatch)
    implementation(libs.simpleStack)
 
-   testImplementation(projects.common.pure.test)
+   testImplementation(projects.common.android.test)
    testImplementation(libs.junit4)
 }
 

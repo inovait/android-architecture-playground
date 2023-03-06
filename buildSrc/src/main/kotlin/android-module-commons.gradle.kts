@@ -16,6 +16,8 @@ commonAndroid {
    compileOptions {
       sourceCompatibility = JavaVersion.VERSION_1_8
       targetCompatibility = JavaVersion.VERSION_1_8
+
+      isCoreLibraryDesugaringEnabled = true
    }
 
    commonKotlinOptions {
@@ -47,4 +49,5 @@ commonAndroid {
 dependencies {
    add("implementation", libs.whetstone.runtime)
    add("anvil", libs.whetstone.compiler)
+   add("coreLibraryDesugaring", libs.desugarJdkLibs)
 }
