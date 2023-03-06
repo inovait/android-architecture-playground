@@ -4,22 +4,27 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
 import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.History
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import si.inova.androidarchitectureplayground.di.NavigationStackComponent
 import si.inova.androidarchitectureplayground.migration.NavigatorActivity
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
@@ -43,63 +48,82 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
    @Inject
    lateinit var navigationContext: NavigationContextImpl
 
+   private val viewModel by viewModels<MainViewModel>()
+   private var initComplete = false
+
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       Whetstone.inject(this)
 
-      val deepLinkTarget = intent?.data?.let { getDeepLinkTarget(it, startup = true) }
-      var initialHistory: List<ScreenKey> = History.of(ScreenAKey)
-      if (deepLinkTarget != null) {
-         initialHistory = deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack
-      }
+      val splashScreen = installSplashScreen()
+      splashScreen.setKeepOnScreenCondition { !initComplete }
 
-      setContent {
-         var screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>? = null
+      beginInitialisation()
+   }
 
-         val composeStateChanger = remember {
-            ComposeStateChanger(screenFactories = lazy { requireNotNull(screenFactories) })
+   private fun beginInitialisation() {
+      lifecycleScope.launch {
+         var initialHistory: List<ScreenKey> = History.of(viewModel.startingScreen.filterNotNull().first())
+         val deepLinkTarget = intent?.data?.let { getDeepLinkTarget(it, startup = true) }
+         if (deepLinkTarget != null) {
+            initialHistory = deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack
          }
 
-         val asyncStateChanger = remember() { AsyncStateChanger(composeStateChanger) }
-         val backstack = rememberBackstack(asyncStateChanger) {
-            val scopedServices = MyScopedServices()
+         setContent {
+            var screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>? = null
 
-            val backstack = createBackstack(
-               initialHistory,
-               scopedServices = scopedServices
-            )
+            val composeStateChanger = remember {
+               ComposeStateChanger(screenFactories = lazy { requireNotNull(screenFactories) })
+            }
 
-            val activityComponent = navigationStackComponentFactory.create(backstack, backstack)
-            screenFactories = activityComponent.screenFactories()
-            scopedServices.scopedServicesFactories = activityComponent.scopedServicesFactories()
-            scopedServices.scopedServicesKeys = activityComponent.scopedServicesKeys()
-            navigator = activityComponent.navigator()
+            val asyncStateChanger = remember() { AsyncStateChanger(composeStateChanger) }
+            val backstack = rememberBackstack(asyncStateChanger) {
+               val scopedServices = MyScopedServices()
 
-            backstack
-         }
+               val backstack = createBackstack(
+                  initialHistory,
+                  scopedServices = scopedServices
+               )
 
-         if (screenFactories == null) {
-            val component = navigationStackComponentFactory.create(backstack, backstack)
-            screenFactories = component.screenFactories()
-            navigator = component.navigator()
-         }
+               val activityComponent = navigationStackComponentFactory.create(backstack, backstack)
+               screenFactories = activityComponent.screenFactories()
+               scopedServices.scopedServicesFactories = activityComponent.scopedServicesFactories()
+               scopedServices.scopedServicesKeys = activityComponent.scopedServicesKeys()
+               navigator = activityComponent.navigator()
 
-         AndroidArchitecturePlaygroundTheme {
-            // A surface container using the 'background' color from the theme
-            Surface(
-               modifier = Modifier.fillMaxSize(),
-               color = MaterialTheme.colorScheme.background
-            ) {
-               BackstackProvider(backstack) {
-                  composeStateChanger.Content()
+               backstack
+            }
+
+            if (screenFactories == null) {
+               val component = navigationStackComponentFactory.create(backstack, backstack)
+               screenFactories = component.screenFactories()
+               navigator = component.navigator()
+            }
+
+            AndroidArchitecturePlaygroundTheme {
+               // A surface container using the 'background' color from the theme
+               Surface(
+                  modifier = Modifier.fillMaxSize(),
+                  color = MaterialTheme.colorScheme.background
+               ) {
+                  BackstackProvider(backstack) {
+                     composeStateChanger.Content()
+                  }
                }
             }
          }
       }
+
+      initComplete = true
    }
 
    override fun onNewIntent(intent: Intent?) {
       super.onNewIntent(intent)
+
+      if (!initComplete) {
+         this.intent = intent
+         return
+      }
 
       intent?.data?.let { url ->
          val navigationKey = getDeepLinkTarget(url, startup = false)
