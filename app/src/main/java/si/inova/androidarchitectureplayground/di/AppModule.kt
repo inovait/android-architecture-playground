@@ -6,7 +6,9 @@ import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.Multibinds
+import dispatch.core.MainImmediateCoroutineScope
 import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
 
@@ -23,4 +25,12 @@ abstract class AppModule {
    @Multibinds
    abstract fun provideConditionalNavigationHandlers():
       Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards ConditionalNavigationHandler>
+
+   @Module
+   companion object {
+      @Provides
+      fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
+         return MainImmediateCoroutineScope()
+      }
+   }
 }

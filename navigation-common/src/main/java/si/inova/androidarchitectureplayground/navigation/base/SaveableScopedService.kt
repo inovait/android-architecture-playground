@@ -2,6 +2,7 @@ package si.inova.androidarchitectureplayground.navigation.base
 
 import com.zhuinden.simplestack.Bundleable
 import com.zhuinden.statebundle.StateBundle
+import kotlinx.coroutines.CoroutineScope
 import si.inova.androidarchitectureplayground.util.set
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -15,8 +16,12 @@ import kotlin.reflect.KProperty
  *   val savedNumber by saved(10)
  * }
  * ```
+ *
+ * @param [coroutineScope] See documentation for [CoroutineScopedService]
  */
-abstract class SaveableScopedService : CoroutineScopedService(), Bundleable {
+abstract class SaveableScopedService(
+   coroutineScope: CoroutineScope
+) : CoroutineScopedService(coroutineScope), Bundleable {
    protected var bundle = StateBundle()
 
    /**

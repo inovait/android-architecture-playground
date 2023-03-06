@@ -3,15 +3,19 @@ package si.inova.androidarchitectureplayground.navigation.base
 import androidx.annotation.CallSuper
 import com.zhuinden.simplestack.ScopedServices
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlin.coroutines.CoroutineContext
 
-abstract class CoroutineScopedService(context: CoroutineContext = Dispatchers.Main.immediate) : ScopedService,
-   ScopedServices.Registered {
+/**
+ * Scoped service with a coroutine scope.
+ *
+ * Scope is provided via constructor, allowing mocks with tests. Provided scope will get cancelled when this scoped service
+ * gets unloaded.
+ */
+abstract class CoroutineScopedService(
    @Suppress("MemberVisibilityCanBePrivate")
-   val coroutineScope = CoroutineScope(SupervisorJob() + context)
+   val coroutineScope: CoroutineScope
+) : ScopedService,
+   ScopedServices.Registered {
 
    override fun onServiceRegistered() {}
 

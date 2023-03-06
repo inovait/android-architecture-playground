@@ -2,6 +2,7 @@ package si.inova.androidarchitectureplayground.screens
 
 import android.util.Log
 import com.squareup.anvil.annotations.ContributesBinding
+import dispatch.core.MainImmediateCoroutineScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.launch
@@ -11,7 +12,9 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @ContributesBinding(NavigationStackScope::class, boundType = ScreenCViewModel::class)
-class ScreenCViewModelImpl @Inject constructor() : SingleScreenViewModel<ScreenCKey>(), ScreenCViewModel {
+class ScreenCViewModelImpl @Inject constructor(
+   scope: MainImmediateCoroutineScope,
+) : SingleScreenViewModel<ScreenCKey>(scope), ScreenCViewModel {
    override var number by saved(0)
 
    @OptIn(ExperimentalStdlibApi::class)

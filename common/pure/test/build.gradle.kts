@@ -3,7 +3,9 @@ plugins {
 }
 
 dependencies {
-   implementation(libs.kotlin.coroutines)
-
    api(projects.common.pure)
+   implementation(libs.kotlin.coroutines.test)
+   implementation(libs.kotlin.coroutines)
+   implementation(libs.dispatch)
+
 }
