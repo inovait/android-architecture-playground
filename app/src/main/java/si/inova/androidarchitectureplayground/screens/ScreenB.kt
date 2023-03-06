@@ -21,15 +21,19 @@ import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
 import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigator
 import si.inova.androidarchitectureplayground.screens.nested.NestedScreenAKey
+import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.time.AndroidTimeProvider
 import si.inova.androidarchitectureplayground.time.FakeAndroidTimeProvider
+import si.inova.androidarchitectureplayground.time.FakeDateTimeFormatter
 import java.time.LocalDateTime
+import java.time.format.FormatStyle
 
 class ScreenB(
    private val navigator: Navigator,
    private val viewModel: SharedViewModel,
    private val nestedNavigator: NestedNavigator,
-   private val timeProvider: AndroidTimeProvider
+   private val timeProvider: AndroidTimeProvider,
+   private val dateTimeFormatter: AndroidDateTimeFormatter
 ) : Screen<ScreenBKey>() {
    @Composable
    override fun Content(key: ScreenBKey) {
@@ -41,7 +45,7 @@ class ScreenB(
          Text("ViewModel: $viewModel ${viewModel.number}")
          Text("android VM: ${viewModel<TestAndroidXViewModel>().hashCode()}")
 
-         CurrentTime(timeProvider)
+         CurrentTime(timeProvider, dateTimeFormatter)
          Box(
             Modifier
                .padding(64.dp)
@@ -62,8 +66,8 @@ class ScreenB(
 }
 
 @Composable
-private fun CurrentTime(timeProvider: AndroidTimeProvider) {
-   Text("Current time: ${timeProvider.currentLocalDateTime()}")
+private fun CurrentTime(timeProvider: AndroidTimeProvider, dateTimeFormatter: AndroidDateTimeFormatter) {
+   Text("Current time: ${dateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(timeProvider.currentZonedDateTime())}")
 }
 
 @Preview
@@ -73,5 +77,9 @@ private fun CurrentTimePreview() {
       currentLocalDateTime = { LocalDateTime.of(2020, 1, 12, 12, 30) }
    )
 
-   CurrentTime(timeProvider)
+   val formatter = FakeDateTimeFormatter(
+      use24hTime = false
+   )
+
+   CurrentTime(timeProvider, formatter)
 }

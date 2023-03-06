@@ -16,6 +16,8 @@ import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
+import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
+import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatterImpl
 import si.inova.androidarchitectureplayground.time.AndroidTimeProvider
 import si.inova.androidarchitectureplayground.time.DefaultAndroidTimeProvider
 
@@ -35,6 +37,9 @@ abstract class AppModule {
 
    @Binds
    abstract fun AndroidTimeProvider.bindToTimeProvider(): TimeProvider
+
+   @Binds
+   abstract fun AndroidDateTimeFormatterImpl.bindToAndroidDateTimeFormatter(): AndroidDateTimeFormatter
 
    @Module
    companion object {
