@@ -731,7 +731,7 @@ style:
   UnnecessaryInheritance:
     active: true
   UnnecessaryLet:
-    active: true
+    active: false # Disabled due to https://github.com/detekt/detekt/issues/5701
   UnnecessaryParentheses:
     active: false # This rule can make precedence of operators confusing since we are prevented from inserting clarifying parentheses
   UntilInsteadOfRangeTo:
