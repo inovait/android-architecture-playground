@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.logging
+package si.inova.androidarchitectureplayground.common.logging
 
 /**
  * An enum for log priorities

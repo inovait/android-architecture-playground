@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.os.Build
 import android.util.Log
+import si.inova.androidarchitectureplayground.common.logging.LogPriority
+import si.inova.androidarchitectureplayground.common.logging.LogcatLogger
 import si.inova.androidarchitectureplayground.logging.AndroidLogcatLogger.Companion.installOnDebuggableApp
 import kotlin.math.min
 

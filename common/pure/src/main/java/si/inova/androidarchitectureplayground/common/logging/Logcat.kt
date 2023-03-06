@@ -2,7 +2,7 @@
  * From https://github.com/square/logcat/blob/f877f806e8dce98a3abbc2ca80e6447b38cd8f42/logcat/src/main/java/logcat/Logcat.kt
  */
 
-package si.inova.androidarchitectureplayground.logging
+package si.inova.androidarchitectureplayground.common.logging
 
 /**
  * A tiny Kotlin API for cheap logging on top of Android's normal `Log` class.

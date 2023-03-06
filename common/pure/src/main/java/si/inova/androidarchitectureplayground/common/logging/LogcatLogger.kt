@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.logging
+package si.inova.androidarchitectureplayground.common.logging
 
 /**
  * Logger that [logcat] delegates to. Call [install] to install a new logger, the default is a

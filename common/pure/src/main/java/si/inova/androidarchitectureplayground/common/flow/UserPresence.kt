@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.flow
+package si.inova.androidarchitectureplayground.common.flow
 
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow

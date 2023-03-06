@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.logging
+package si.inova.androidarchitectureplayground.common.logging
 
 import java.io.PrintWriter
 import java.io.StringWriter

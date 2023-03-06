@@ -1,8 +1,8 @@
 package si.inova.androidarchitectureplayground.purekotlin
 
 import com.squareup.anvil.annotations.ContributesBinding
-import si.inova.androidarchitectureplayground.PureApplicationScope
-import si.inova.androidarchitectureplayground.logging.logcat
+import si.inova.androidarchitectureplayground.common.PureApplicationScope
+import si.inova.androidarchitectureplayground.common.logging.logcat
 import javax.inject.Inject
 
 @ContributesBinding(PureApplicationScope::class)

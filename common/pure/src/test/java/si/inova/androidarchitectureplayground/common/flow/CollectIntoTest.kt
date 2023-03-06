@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.flow
+package si.inova.androidarchitectureplayground.common.flow
 
 import app.cash.turbine.test
 import io.kotest.matchers.nulls.shouldNotBeNull
