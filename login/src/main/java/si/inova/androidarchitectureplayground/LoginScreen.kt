@@ -7,15 +7,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
 
 class LoginScreen(private val viewModel: LoginViewModel) : Screen<LoginScreenKey>() {
    @Composable
    override fun Content(key: LoginScreenKey) {
-      val loggedIn = viewModel.isLoggedIn.collectAsState()
+      val loggedIn = viewModel.isLoggedIn.collectAsStateWithLifecycle()
 
       Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
          Row {

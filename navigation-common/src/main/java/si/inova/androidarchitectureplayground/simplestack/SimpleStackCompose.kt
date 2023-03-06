@@ -168,10 +168,7 @@ class ComposeStateChanger(
 private fun LocalDestroyedLifecycle(child: @Composable () -> Unit) {
    val childLifecycleOwner = remember {
       object : LifecycleOwner {
-         val lifecycle = LifecycleRegistry(this)
-         override fun getLifecycle(): Lifecycle {
-            return lifecycle
-         }
+         override val lifecycle = LifecycleRegistry(this)
       }
    }
 
@@ -210,8 +207,9 @@ class StoreHolderViewModel : ViewModel() {
    @Composable
    fun WithLocalViewModelStore(key: Any, block: @Composable () -> Unit) {
       val storeOwner = viewModelStores.getOrPut(key) {
-         val store = ViewModelStore()
-         ViewModelStoreOwner { store }
+         object : ViewModelStoreOwner {
+            override val viewModelStore: ViewModelStore = ViewModelStore()
+         }
       }
 
       CompositionLocalProvider(LocalViewModelStoreOwner provides storeOwner) {
