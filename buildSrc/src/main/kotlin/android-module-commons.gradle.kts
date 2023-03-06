@@ -23,8 +23,8 @@ commonAndroid {
    commonKotlinOptions {
       jvmTarget = "1.8"
 
-      freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-      freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
+      freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+      freeCompilerArgs += "-opt-in=kotlinx.coroutines.FlowPreview"
    }
 
    defaultConfig {

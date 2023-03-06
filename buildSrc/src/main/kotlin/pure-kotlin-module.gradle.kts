@@ -10,8 +10,8 @@ plugins {
 }
 
 tasks.withType(KotlinCompilationTask::class.java) {
-   compilerOptions.freeCompilerArgs.add("-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
-   compilerOptions.freeCompilerArgs.add("-Xopt-in=kotlinx.coroutines.FlowPreview")
+   compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
+   compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
 }
 
 tasks.test {
