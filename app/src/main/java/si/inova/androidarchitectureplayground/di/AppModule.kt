@@ -9,6 +9,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.Multibinds
 import dispatch.core.MainImmediateCoroutineScope
+import si.inova.androidarchitectureplayground.common.logging.logcat
+import si.inova.androidarchitectureplayground.common.outcome.CauseException
+import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
+import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
@@ -42,6 +46,23 @@ abstract class AppModule {
       @Provides
       fun provideAndroidTimeProvider(): AndroidTimeProvider {
          return DefaultAndroidTimeProvider
+      }
+
+      @Provides
+      fun provideDefaultCoroutineResourceManager(
+         mainCoroutineScope: MainImmediateCoroutineScope,
+         errorReporter: ErrorReporter
+      ): CoroutineResourceManager {
+         return CoroutineResourceManager(mainCoroutineScope, errorReporter)
+      }
+
+      @Provides
+      fun provideErrorReporter(): ErrorReporter {
+         return ErrorReporter {
+            if (it !is CauseException || !it.shouldReport) {
+               logcat { "Reporting $it to Firebase" }
+            }
+         }
       }
    }
 }

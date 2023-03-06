@@ -1,6 +1,6 @@
 package si.inova.androidarchitectureplayground.navigation.base
 
-import dispatch.core.MainImmediateCoroutineScope
+import kotlinx.coroutines.CoroutineScope
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 
 /**
@@ -10,7 +10,7 @@ import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
  *
  * @param [coroutineScope] See documentation for [CoroutineScopedService]
  */
-abstract class SingleScreenViewModel<K : ScreenKey>(coroutineScope: MainImmediateCoroutineScope) :
+abstract class SingleScreenViewModel<K : ScreenKey>(coroutineScope: CoroutineScope) :
    SaveableScopedService(coroutineScope) {
    lateinit var key: K
 }
