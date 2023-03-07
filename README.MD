@@ -18,10 +18,10 @@ To create new Android project from that:
 To generate keys, you can execute these command inside `keys` folder:
 
 ```bash
-KEYSTORE_PASSWORD=$(dd if=/dev/random bs=3 count=20 2>/dev/null | md5sum | sed 's/ .*$//')
-echo y | keytool -genkey -keystore ./release.jks -dname "ou=Inova IT" -alias app -storepass $KEYSTORE_PASSWORD -keyalg RSA -keysize 2048 -validity 2000
-echo y | keytool -genkey -keystore ./debug.jks -dname "ou=Inova IT" -alias androiddebugkey -storepass android -keyalg RSA -keysize 2048 -validity 2000
-echo "RELEASE_KEYSTORE_PASSWORD = '$KEYSTORE_PASSWORD"
+KEYSTORE_PASSWORD=$(dd if=/dev/random bs=3 count=12 2>/dev/null | base64 | sed 's/ .*$//')
+echo y | keytool -genkey -keystore ./release.jks -dname "ou=Inova IT" -alias app -storepass $KEYSTORE_PASSWORD -keyalg RSA -keysize 2048 -validity 9125
+echo y | keytool -genkey -keystore ./debug.jks -dname "ou=Inova IT" -alias androiddebugkey -storepass android -keyalg RSA -keysize 2048 -validity 9125
+echo "RELEASE_KEYSTORE_PASSWORD = '$KEYSTORE_PASSWORD'"
 
 echo
 
