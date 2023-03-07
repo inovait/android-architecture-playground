@@ -40,6 +40,10 @@ class ScreenA constructor(
          Button(onClick = { navigator.navigateTo(ScreenBKey) }) {
             TopLevelFunction()
          }
+
+         Button(onClick = { navigator.navigateTo(ProductListScreenKey) }) {
+            Text("Products")
+         }
       }
    }
 }

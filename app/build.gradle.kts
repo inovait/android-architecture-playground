@@ -53,6 +53,8 @@ dependencies {
    implementation(projects.libmodule)
    implementation(projects.login)
    implementation(projects.navigationCommon)
+   implementation(projects.networkCommon)
+   implementation(projects.products.ui)
    implementation(projects.screenC)
    implementation(projects.pureKotlinModule)
    implementation(projects.uiCommon)
@@ -64,6 +66,7 @@ dependencies {
    implementation(libs.androidx.lifecycle.viewModel)
    implementation(libs.androidx.lifecycle.viewModel.compose)
    implementation(libs.dispatch)
+   implementation(libs.retrofit.moshi)
    implementation(libs.simpleStack)
 
    testImplementation(projects.common.android.test)
