@@ -64,8 +64,9 @@ abstract class AppModule {
       @Provides
       fun provideErrorReporter(): ErrorReporter {
          return ErrorReporter {
-            if (it !is CauseException || !it.shouldReport) {
+            if (it !is CauseException || it.shouldReport) {
                logcat { "Reporting $it to Firebase" }
+               it.printStackTrace()
             }
          }
       }

@@ -14,17 +14,21 @@ class ServiceFactory @Inject constructor(
       return create(S::class.java, configuration)
    }
 
-   @Suppress("UnusedPrivateMember") // Unused for now
    fun <S> create(klass: Class<S>, configuration: ServiceCreationScope.() -> Unit = {}): S {
+      val scope = ServiceCreationScope()
+      configuration(scope)
+
       return Retrofit.Builder()
          .client(okHttpClient)
          .baseUrl("https://dummyjson.com/")
          .addConverterFactory(MoshiConverterFactory.create(moshi))
+         .addCallAdapterFactory(ModelResultHandlerCallAdapterFactory(scope.errorHandler))
          .build()
          .create(klass)
    }
 
    class ServiceCreationScope {
+      var errorHandler: ErrorHandler? = null
       // To add later
    }
 }
