@@ -1,3 +1,3 @@
 #!/bin/bash
 set -e
-./gradlew -q --parallel detektMain detektTest
+./gradlew -q --parallel detektMain detektTest --continue
