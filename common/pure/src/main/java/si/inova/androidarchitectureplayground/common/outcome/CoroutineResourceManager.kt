@@ -35,6 +35,7 @@ class CoroutineResourceManager(
     *
     * 1. Cancels any previous coroutines using this resource to prevent clashing
     * 2. Automatically puts the outcome into loading state with previous data as partial data
+    *    (this data can be overridden using [currentValue] parameter)
     * 3. Calls your provided task
     * 4. Automatically handles cancellation exceptions
     * 5. Automatically forwards exceptions to the resource as [Outcome.Error]
