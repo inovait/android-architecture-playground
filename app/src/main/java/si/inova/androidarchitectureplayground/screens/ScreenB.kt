@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,10 +22,11 @@ import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
 import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigator
 import si.inova.androidarchitectureplayground.screens.nested.NestedScreenAKey
-import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.time.AndroidTimeProvider
 import si.inova.androidarchitectureplayground.time.FakeAndroidTimeProvider
 import si.inova.androidarchitectureplayground.time.FakeDateTimeFormatter
+import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
+import si.inova.androidarchitectureplayground.ui.time.LocalDateFormatter
 import java.time.LocalDateTime
 import java.time.format.FormatStyle
 
@@ -32,8 +34,7 @@ class ScreenB(
    private val navigator: Navigator,
    private val viewModel: SharedViewModel,
    private val nestedNavigator: NestedNavigator,
-   private val timeProvider: AndroidTimeProvider,
-   private val dateTimeFormatter: AndroidDateTimeFormatter
+   private val timeProvider: AndroidTimeProvider
 ) : Screen<ScreenBKey>() {
    @Composable
    override fun Content(key: ScreenBKey) {
@@ -45,7 +46,7 @@ class ScreenB(
          Text("ViewModel: $viewModel ${viewModel.number}")
          Text("android VM: ${viewModel<TestAndroidXViewModel>().hashCode()}")
 
-         CurrentTime(timeProvider, dateTimeFormatter)
+         CurrentTime(timeProvider)
          Box(
             Modifier
                .padding(64.dp)
@@ -66,8 +67,11 @@ class ScreenB(
 }
 
 @Composable
-private fun CurrentTime(timeProvider: AndroidTimeProvider, dateTimeFormatter: AndroidDateTimeFormatter) {
-   Text("Current time: ${dateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(timeProvider.currentZonedDateTime())}")
+private fun CurrentTime(timeProvider: AndroidTimeProvider) {
+   val time = LocalDateFormatter.current.ofLocalizedDateTime(FormatStyle.FULL).format(timeProvider.currentZonedDateTime())
+   Text(
+      "Current time: $time"
+   )
 }
 
 @Preview
@@ -81,5 +85,7 @@ private fun CurrentTimePreview() {
       use24hTime = false
    )
 
-   CurrentTime(timeProvider, formatter)
+   CompositionLocalProvider(LocalDateFormatter provides ComposeAndroidDateTimeFormatter(formatter)) {
+      CurrentTime(timeProvider)
+   }
 }

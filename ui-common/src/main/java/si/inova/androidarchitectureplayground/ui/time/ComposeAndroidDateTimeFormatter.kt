@@ -1,17 +1,29 @@
-package si.inova.androidarchitectureplayground.time
+package si.inova.androidarchitectureplayground.ui.time
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.platform.LocalConfiguration
+import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
 
-interface AndroidDateTimeFormatter {
+/**
+ * Date formatter that automatically refreshes whenever user's configuration changes
+ */
+class ComposeAndroidDateTimeFormatter(private val androidDateTimeFormatter: AndroidDateTimeFormatter) {
    /**
     * Returns a [DateTimeFormatter] that can format the time according to the context's locale and the user's
     * 12-/24-hour clock preference. Convenience for [.ofLocalizedTime] which uses [ ][FormatStyle.SHORT].
     *
     * @return the time formatter
     */
-   fun ofLocalizedTime(): DateTimeFormatter
+   @Composable
+   fun ofLocalizedTime(): DateTimeFormatter {
+      LocalConfiguration.current // Reload this when configuration changes
+
+      return androidDateTimeFormatter.ofLocalizedTime()
+   }
 
    /**
     * Returns a locale specific date format for the ISO chronology.
@@ -35,17 +47,22 @@ interface AndroidDateTimeFormatter {
     * @param dateStyle the formatter style to obtain
     * @return the date formatter
     */
-   fun ofLocalizedDate(dateStyle: FormatStyle): DateTimeFormatter
+   @Composable
+   fun ofLocalizedDate(dateStyle: FormatStyle): DateTimeFormatter {
+      LocalConfiguration.current // Reload this when configuration changes
+
+      return androidDateTimeFormatter.ofLocalizedDate(dateStyle)
+   }
 
    /**
-    * Returns a locale specific date-time formatter for the ISO chronology.
+    * Returns a locale specific date and time format for the ISO chronology.
     *
     *
     * This returns a formatter that will format or parse a date-time. The exact format pattern used varies by locale.
     *
     *
     * The locale is determined from the formatter. The formatter returned directly by this method will use the provided
-    * Context's primary locale.
+    * context's primary locale.
     *
     *
     * Note that the localized pattern is looked up lazily. This `DateTimeFormatter` holds the style required and
@@ -56,10 +73,17 @@ interface AndroidDateTimeFormatter {
     * converted. It has no override zone and uses the [SMART][java.time.format.ResolverStyle.SMART] resolver
     * style.
     *
-    * @param dateStyle the formatter style to obtain for the date
-    * @return the date-time formatter
+    * @param dateStyle the date formatter style to obtain
+    * @return the date, time or date-time formatter
     */
-   fun ofLocalizedDateTime(dateStyle: FormatStyle): DateTimeFormatter
+   @Composable
+   fun ofLocalizedDateTime(
+      dateStyle: FormatStyle
+   ): DateTimeFormatter {
+      LocalConfiguration.current // Reload this when configuration changes
+
+      return androidDateTimeFormatter.ofLocalizedDateTime(dateStyle)
+   }
 
    /**
     * Returns the best possible localized formatter of the given skeleton for the given context's primary locale. A
@@ -90,7 +114,12 @@ interface AndroidDateTimeFormatter {
     * @param skeleton a skeleton as described above
     * @return a formatter with the localized pattern based on the skeleton
     */
-   fun ofSkeleton(skeleton: String): DateTimeFormatter
+   @Composable
+   fun ofSkeleton(skeleton: String): DateTimeFormatter {
+      LocalConfiguration.current // Reload this when configuration changes
+
+      return androidDateTimeFormatter.ofSkeleton(skeleton)
+   }
 
    /**
     * Returns the best possible localized formatter of the given skeleton for the given locale. A skeleton is similar
@@ -122,5 +151,14 @@ interface AndroidDateTimeFormatter {
     * @param locale the locale into which the skeleton should be localized
     * @return a formatter with the localized pattern based on the skeleton
     */
-   fun ofSkeleton(skeleton: String, locale: Locale): DateTimeFormatter
+   @Composable
+   fun ofSkeleton(skeleton: String, locale: Locale): DateTimeFormatter {
+      LocalConfiguration.current // Reload this when configuration changes
+
+      return androidDateTimeFormatter.ofSkeleton(skeleton, locale)
+   }
+}
+
+val LocalDateFormatter = compositionLocalOf<ComposeAndroidDateTimeFormatter> {
+   error("Missing LocalDateFormatter")
 }

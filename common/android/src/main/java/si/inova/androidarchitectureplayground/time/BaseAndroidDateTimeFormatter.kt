@@ -1,18 +1,41 @@
 package si.inova.androidarchitectureplayground.time
 
+import android.text.format.DateFormat
+import java.time.chrono.IsoChronology
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
 import java.util.Locale
 
-interface AndroidDateTimeFormatter {
+/**
+ * Provides Android-specific [DateTimeFormatter]s, such as a localized time formatter that respects the user's
+ * 12-/24-hour clock preference.
+ *
+ * Adapted from https://github.com/drewhamilton/AndroidDateTimeFormatters/blob/9dee359a916a6d6e30bfa83613638ece0c3eb688/javatime/src/main/java/dev/drewhamilton/androidtime/format/AndroidDateTimeFormatter.java
+ */
+abstract class BaseAndroidDateTimeFormatter : AndroidDateTimeFormatter {
+
    /**
-    * Returns a [DateTimeFormatter] that can format the time according to the context's locale and the user's
-    * 12-/24-hour clock preference. Convenience for [.ofLocalizedTime] which uses [ ][FormatStyle.SHORT].
+    * Returns a [DateTimeFormatter] that can format the time according to the context's locale.
+    * If `timeStyle` is [FormatStyle.SHORT], the formatter also respects the user's 12-/24-hour clock preference.
+    *
+    * The [FormatStyle.FULL] and [FormatStyle.LONG] styles typically require a time-zone. When formatting
+    * using these styles, a [java.time.ZoneId] must be available, either by using [java.time.ZonedDateTime]
+    * or [DateTimeFormatter.withZone].
     *
     * @return the time formatter
     */
-   fun ofLocalizedTime(): DateTimeFormatter
+   override fun ofLocalizedTime(): DateTimeFormatter {
+      val contextPrimaryLocale = extractPrimaryLocale()
 
+      val pattern = getSystemTimeSettingAwareShortTimePattern()
+      return DateTimeFormatterBuilder()
+         .appendPattern(pattern)
+         .toFormatter(contextPrimaryLocale) // Match java.time's ofLocalizedTime, which also hard-codes IsoChronology:
+         .withChronology(IsoChronology.INSTANCE)
+   }
+   //endregion
+   //region ofLocalizedDate
    /**
     * Returns a locale specific date format for the ISO chronology.
     *
@@ -35,17 +58,21 @@ interface AndroidDateTimeFormatter {
     * @param dateStyle the formatter style to obtain
     * @return the date formatter
     */
-   fun ofLocalizedDate(dateStyle: FormatStyle): DateTimeFormatter
-
+   override fun ofLocalizedDate(dateStyle: FormatStyle): DateTimeFormatter {
+      return DateTimeFormatter.ofLocalizedDate(dateStyle)
+         .withLocale(extractPrimaryLocale())
+   }
+   //endregion
+   //region ofLocalizedDateTime
    /**
-    * Returns a locale specific date-time formatter for the ISO chronology.
+    * Returns a locale specific date and time format for the ISO chronology.
     *
     *
     * This returns a formatter that will format or parse a date-time. The exact format pattern used varies by locale.
     *
     *
     * The locale is determined from the formatter. The formatter returned directly by this method will use the provided
-    * Context's primary locale.
+    * context's primary locale.
     *
     *
     * Note that the localized pattern is looked up lazily. This `DateTimeFormatter` holds the style required and
@@ -56,11 +83,33 @@ interface AndroidDateTimeFormatter {
     * converted. It has no override zone and uses the [SMART][java.time.format.ResolverStyle.SMART] resolver
     * style.
     *
-    * @param dateStyle the formatter style to obtain for the date
-    * @return the date-time formatter
+    * @param dateStyle the date formatter style to obtain
+    * @return the date, time or date-time formatter
     */
-   fun ofLocalizedDateTime(dateStyle: FormatStyle): DateTimeFormatter
+   override fun ofLocalizedDateTime(
+      dateStyle: FormatStyle
+   ): DateTimeFormatter {
+      // If time format is SHORT, try system 12-/24-hour setting-specific time format:
+      return attemptSystemSettingDateTimeFormatter(dateStyle)
+   }
 
+   private fun attemptSystemSettingDateTimeFormatter(
+      dateStyle: FormatStyle,
+   ): DateTimeFormatter {
+      val timePattern = getSystemTimeSettingAwareShortTimePattern()
+      val contextPrimaryLocale = extractPrimaryLocale()
+      val dateFormatter = DateTimeFormatter.ofLocalizedDate(dateStyle)
+
+      return DateTimeFormatterBuilder()
+         .append(dateFormatter)
+         .appendLiteral(' ')
+         .appendPattern(timePattern)
+         .toFormatter(contextPrimaryLocale) // Match java.time's ofLocalizedDateTime, which also hard-codes IsoChronology:
+         .withChronology(IsoChronology.INSTANCE)
+   }
+
+   //endregion
+   //region ofSkeleton
    /**
     * Returns the best possible localized formatter of the given skeleton for the given context's primary locale. A
     * skeleton is similar to, and uses the same format characters as, a Unicode
@@ -90,7 +139,9 @@ interface AndroidDateTimeFormatter {
     * @param skeleton a skeleton as described above
     * @return a formatter with the localized pattern based on the skeleton
     */
-   fun ofSkeleton(skeleton: String): DateTimeFormatter
+   override fun ofSkeleton(skeleton: String): DateTimeFormatter {
+      return ofSkeleton(skeleton, extractPrimaryLocale())
+   }
 
    /**
     * Returns the best possible localized formatter of the given skeleton for the given locale. A skeleton is similar
@@ -122,5 +173,12 @@ interface AndroidDateTimeFormatter {
     * @param locale the locale into which the skeleton should be localized
     * @return a formatter with the localized pattern based on the skeleton
     */
-   fun ofSkeleton(skeleton: String, locale: Locale): DateTimeFormatter
+   override fun ofSkeleton(skeleton: String, locale: Locale): DateTimeFormatter {
+      val pattern = DateFormat.getBestDateTimePattern(locale, skeleton)
+      return DateTimeFormatter.ofPattern(pattern, locale)
+   }
+
+   //endregion
+   abstract fun extractPrimaryLocale(): Locale
+   abstract fun getSystemTimeSettingAwareShortTimePattern(): String
 }

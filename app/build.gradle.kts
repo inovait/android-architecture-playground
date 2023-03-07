@@ -55,6 +55,7 @@ dependencies {
    implementation(projects.navigationCommon)
    implementation(projects.screenC)
    implementation(projects.pureKotlinModule)
+   implementation(projects.uiCommon)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)

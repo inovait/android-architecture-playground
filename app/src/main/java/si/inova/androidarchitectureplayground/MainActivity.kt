@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -31,7 +32,10 @@ import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
 import si.inova.androidarchitectureplayground.simplestack.MyScopedServices
 import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
 import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
+import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
+import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
+import si.inova.androidarchitectureplayground.ui.time.LocalDateFormatter
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -47,6 +51,9 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
 
    @Inject
    lateinit var navigationContext: NavigationContextImpl
+
+   @Inject
+   lateinit var dateFormatter: AndroidDateTimeFormatter
 
    private val viewModel by viewModels<MainViewModel>()
    private var initComplete = false
@@ -100,14 +107,16 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
                navigator = component.navigator()
             }
 
-            AndroidArchitecturePlaygroundTheme {
-               // A surface container using the 'background' color from the theme
-               Surface(
-                  modifier = Modifier.fillMaxSize(),
-                  color = MaterialTheme.colorScheme.background
-               ) {
-                  BackstackProvider(backstack) {
-                     composeStateChanger.Content()
+            CompositionLocalProvider(LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter)) {
+               AndroidArchitecturePlaygroundTheme {
+                  // A surface container using the 'background' color from the theme
+                  Surface(
+                     modifier = Modifier.fillMaxSize(),
+                     color = MaterialTheme.colorScheme.background
+                  ) {
+                     BackstackProvider(backstack) {
+                        composeStateChanger.Content()
+                     }
                   }
                }
             }
