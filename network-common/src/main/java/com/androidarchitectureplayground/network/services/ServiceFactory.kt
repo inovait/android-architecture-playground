@@ -5,10 +5,11 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Inject
+import javax.inject.Provider
 
 class ServiceFactory @Inject constructor(
    private val moshi: Moshi,
-   private val okHttpClient: OkHttpClient
+   private val okHttpClient: Provider<OkHttpClient>
 ) {
    inline fun <reified S> create(noinline configuration: ServiceCreationScope.() -> Unit = {}): S {
       return create(S::class.java, configuration)
@@ -19,7 +20,7 @@ class ServiceFactory @Inject constructor(
       configuration(scope)
 
       return Retrofit.Builder()
-         .client(okHttpClient)
+         .callFactory { okHttpClient.get().newCall(it) }
          .baseUrl("https://dummyjson.com/")
          .addConverterFactory(MoshiConverterFactory.create(moshi))
          .addCallAdapterFactory(ModelResultHandlerCallAdapterFactory(scope.errorHandler))

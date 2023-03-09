@@ -1,5 +1,8 @@
 package com.androidarchitectureplayground.network.services
 
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call
@@ -44,21 +47,25 @@ class ModelResultHandlerCallAdapterFactory(
 
    @Suppress("UNCHECKED_CAST")
    private inner class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, T>(proxy) {
+      @OptIn(DelicateCoroutinesApi::class)
       override fun enqueueImpl(callback: Callback<T>) {
-         proxy.enqueue(object : Callback<T> {
-            override fun onFailure(call: Call<T>, t: Throwable) {
-               callback.onFailure(call, transformRetrofitException(t))
-            }
-
-            override fun onResponse(call: Call<T>, response: Response<T>) {
-               return try {
-                  val result = convertResponseIntoModelResult(response)
-                  callback.onResponse(call, Response.success(result))
-               } catch (e: Exception) {
-                  callback.onFailure(call, transformRetrofitException(e))
+         // Perform enqueue on the background thread to ensure OkHttp initialization does not block the main thread
+         GlobalScope.launch {
+            proxy.enqueue(object : Callback<T> {
+               override fun onFailure(call: Call<T>, t: Throwable) {
+                  callback.onFailure(call, transformRetrofitException(t))
                }
-            }
-         })
+
+               override fun onResponse(call: Call<T>, response: Response<T>) {
+                  return try {
+                     val result = convertResponseIntoModelResult(response)
+                     callback.onResponse(call, Response.success(result))
+                  } catch (e: Exception) {
+                     callback.onFailure(call, transformRetrofitException(e))
+                  }
+               }
+            })
+         }
       }
 
       private fun convertResponseIntoModelResult(response: Response<T>): T = if (response.isSuccessful) {

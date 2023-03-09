@@ -8,6 +8,7 @@ dependencies {
    api(libs.retrofit)
 
    implementation(libs.retrofit.moshi)
+   implementation(libs.kotlin.coroutines)
 
    implementation(projects.common.pure)
 }
