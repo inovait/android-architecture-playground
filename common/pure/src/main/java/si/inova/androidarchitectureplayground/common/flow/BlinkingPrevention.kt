@@ -19,7 +19,7 @@ import si.inova.androidarchitectureplayground.common.outcome.Outcome
  * * Once [Outcome.Progress] will be emitted, it will not emit any non-progress
  *   state for at least [keepLoadingActiveForAtLeastMs] milliseconds
  */
-@Suppress("LongMethod") // Splitting this would cause even more complexity.
+@Suppress("LongMethod", "CyclomaticComplexMethod") // Splitting this would cause even more complexity.
 fun <T> Flow<Outcome<T>>.withBlinkingPrevention(
    waitThisLongToShowLoadingMs: Long = 100,
    keepLoadingActiveForAtLeastMs: Long = 500,
@@ -32,6 +32,7 @@ fun <T> Flow<Outcome<T>>.withBlinkingPrevention(
    var lastData: T? = null
    var lastProgress: Float? = null
    var lastError: CauseException? = null
+   var gotSuccessDuringLoading = false
    var gotAtLeastOneSuccess = false
 
    return flow {
@@ -61,6 +62,7 @@ fun <T> Flow<Outcome<T>>.withBlinkingPrevention(
                         if (waitingForProlongedLoadingToFinish) {
                            lastData = it.data
                            emit(Outcome.Progress(lastData, lastProgress))
+                           gotSuccessDuringLoading = true
                         } else {
                            waitingToSeeIfLoadingJustFlashes = false
                            emit(it)
@@ -95,8 +97,9 @@ fun <T> Flow<Outcome<T>>.withBlinkingPrevention(
                      if (currentLastError != null) {
                         emit(Outcome.Error(currentLastError, lastData))
                         lastError = null
-                     } else {
+                     } else if (gotSuccessDuringLoading) {
                         emit(Outcome.Success(requireNotNull(lastData)))
+                        gotSuccessDuringLoading = false
                      }
                      waitingForProlongedLoadingToFinish = false
                   }
