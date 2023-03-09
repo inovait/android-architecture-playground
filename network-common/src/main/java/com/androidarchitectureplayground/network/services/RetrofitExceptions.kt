@@ -17,7 +17,4 @@ fun transformRetrofitException(throwable: Throwable): CauseException {
    }
 }
 
-class JsonParsingException(cause: Throwable? = null) : CauseException(cause = cause) {
-   override val isUsersFault: Boolean
-      get() = false
-}
+class JsonParsingException(cause: Throwable? = null) : CauseException(cause = cause)
