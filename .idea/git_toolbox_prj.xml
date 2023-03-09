@@ -13,8 +13,8 @@
           <CommitMessageValidationConfig>
             <option name="regexConfig">
               <RegexConfig>
+                <option name="dotAll" value="true" />
                 <option name="expression" value="(?:fix|chore|docs|feat|refactor|style|test|ci|build)(?:\(.*\))?: [a-z].*" />
-                <option name="testInput" value="fix: bug" />
               </RegexConfig>
             </option>
           </CommitMessageValidationConfig>
