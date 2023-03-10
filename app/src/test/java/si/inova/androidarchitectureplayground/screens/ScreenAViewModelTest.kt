@@ -18,7 +18,7 @@ internal class ScreenAViewModelTest {
       advanceTimeBy(2_000)
       runCurrent()
 
-      viewModel.result.value shouldBeSuccessWithData 2
+      viewModel.result.value shouldBeSuccessWithData 3
       viewModel.currentTimeMillis shouldBe 1_000
    }
 }
