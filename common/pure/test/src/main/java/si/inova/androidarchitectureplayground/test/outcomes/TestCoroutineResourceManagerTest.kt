@@ -1,7 +1,8 @@
-package si.inova.androidarchitectureplayground.common.outcome
+package si.inova.androidarchitectureplayground.test.outcomes
 
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.test.TestScope
+import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
 
 /**
  * Return [CoroutineResourceManager] that runs with test dispatcher and
