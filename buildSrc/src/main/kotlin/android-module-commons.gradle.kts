@@ -8,6 +8,7 @@ plugins {
    id("org.jetbrains.kotlin.android")
 
    id("all-modules-commons")
+   id("org.gradle.android.cache-fix")
 }
 
 commonAndroid {

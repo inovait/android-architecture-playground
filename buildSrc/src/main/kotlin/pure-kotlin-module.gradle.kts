@@ -1,4 +1,3 @@
-import gradle.kotlin.dsl.accessors._e32387044cc8239e021de8f797e2fd34.anvil
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 

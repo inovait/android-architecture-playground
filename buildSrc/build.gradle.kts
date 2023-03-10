@@ -18,6 +18,7 @@ detekt {
 }
 
 dependencies {
+   implementation(libs.androidGradleCacheFix)
    implementation(libs.android.agp)
    implementation(libs.anvil)
    implementation(libs.detekt.plugin)
