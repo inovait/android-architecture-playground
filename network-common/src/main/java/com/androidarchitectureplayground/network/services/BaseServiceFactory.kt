@@ -5,12 +5,16 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
+import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import javax.inject.Inject
 import javax.inject.Provider
 
 open class BaseServiceFactory @Inject constructor(
    private val moshi: Moshi,
-   private val okHttpClient: Provider<OkHttpClient>
+   private val okHttpClient: Provider<OkHttpClient>,
+   private val errorReporter: ErrorReporter,
+   private val timeProvider: TimeProvider
 ) : ServiceFactory {
    override fun <S> create(klass: Class<S>, configuration: ServiceFactory.ServiceCreationScope.() -> Unit): S {
       val scope = ServiceFactory.ServiceCreationScope()
@@ -33,7 +37,8 @@ open class BaseServiceFactory @Inject constructor(
          .callFactory { updatedClient.value.newCall(it) }
          .baseUrl("https://dummyjson.com/")
          .addConverterFactory(MoshiConverterFactory.create(moshi))
-         .addCallAdapterFactory(ModelResultHandlerCallAdapterFactory(scope.errorHandler))
+         .addCallAdapterFactory(StaleWhileRevalidateCallAdapterFactory(scope.errorHandler, errorReporter, timeProvider))
+         .addCallAdapterFactory(SuspendCallAdapterFactory(scope.errorHandler))
          .build()
          .create(klass)
    }

@@ -7,6 +7,7 @@ dependencies {
    api(libs.moshi)
    api(libs.retrofit)
 
+   implementation(libs.dispatch)
    implementation(libs.retrofit.moshi)
    implementation(libs.kotlin.coroutines)
 

@@ -10,7 +10,6 @@ import retrofit2.CallAdapter
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import si.inova.androidarchitectureplayground.common.exceptions.UnknownCauseException
 import si.inova.androidarchitectureplayground.common.outcome.CauseException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
@@ -19,7 +18,7 @@ import java.lang.reflect.Type
  * A [CallAdapter.Factory] that will throw proper [CauseException] exceptions on all retrofit calls
  *
  */
-class ModelResultHandlerCallAdapterFactory(
+class SuspendCallAdapterFactory(
    private val errorHandler: ErrorHandler? = null
 ) : CallAdapter.Factory() {
    override fun get(
@@ -45,7 +44,6 @@ class ModelResultHandlerCallAdapterFactory(
       override fun responseType(): Type = responseType
    }
 
-   @Suppress("UNCHECKED_CAST")
    private inner class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, T>(proxy) {
       @OptIn(DelicateCoroutinesApi::class)
       override fun enqueueImpl(callback: Callback<T>) {
@@ -53,41 +51,19 @@ class ModelResultHandlerCallAdapterFactory(
          GlobalScope.launch {
             proxy.enqueue(object : Callback<T> {
                override fun onFailure(call: Call<T>, t: Throwable) {
-                  callback.onFailure(call, transformRetrofitException(t))
+                  callback.onFailure(call, t.transformRetrofitException())
                }
 
                override fun onResponse(call: Call<T>, response: Response<T>) {
                   return try {
-                     val result = convertResponseIntoModelResult(response)
+                     val result = response.bodyOrThrow(errorHandler)
                      callback.onResponse(call, Response.success(result))
                   } catch (e: Exception) {
-                     callback.onFailure(call, transformRetrofitException(e))
+                     callback.onFailure(call, e.transformRetrofitException())
                   }
                }
             })
          }
-      }
-
-      private fun convertResponseIntoModelResult(response: Response<T>): T = if (response.isSuccessful) {
-         val body = response.body()
-         @Suppress("IfThenToElvis")
-         if (body == null) {
-            // Body can be null when server returns 204. Assume we are expecting
-            // Unit type and return it accordingly
-            Unit as T
-         } else {
-            body
-         }
-      } else {
-         val exception = try {
-            val rawRequestException = response.createParentException()
-
-            errorHandler?.generateExceptionFromErrorBody(response, rawRequestException) ?: rawRequestException
-         } catch (e: Exception) {
-            e
-         }
-
-         throw UnknownCauseException(exception)
       }
 
       override fun cloneImpl(): Call<T> = ResultCall(proxy.clone())
@@ -99,7 +75,7 @@ class ModelResultHandlerCallAdapterFactory(
                ?: response.createParentException()
          }
 
-         return Response.success(convertResponseIntoModelResult(response))
+         return Response.success(response.bodyOrThrow(errorHandler))
       }
 
       override fun timeout(): Timeout = proxy.timeout()
@@ -120,9 +96,5 @@ class ModelResultHandlerCallAdapterFactory(
       abstract fun enqueueImpl(callback: Callback<TOut>)
       abstract fun cloneImpl(): Call<TOut>
       abstract fun executeImpl(): Response<TOut>
-   }
-
-   private fun Response<*>.createParentException(): Exception {
-      return Exception("Endpoint call to ${raw().request.url} failed: ${code()} ${message()}")
    }
 }
