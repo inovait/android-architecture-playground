@@ -5,6 +5,7 @@ plugins {
    id("org.jetbrains.kotlin.android")
 
    id("checks")
+   id("org.gradle.android.cache-fix")
 }
 
 commonAndroid {
