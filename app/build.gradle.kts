@@ -53,7 +53,7 @@ dependencies {
    implementation(projects.libmodule)
    implementation(projects.login)
    implementation(projects.navigationCommon)
-   implementation(projects.networkCommon)
+   implementation(projects.networkCommon.android)
    implementation(projects.products.ui)
    implementation(projects.screenC)
    implementation(projects.pureKotlinModule)
