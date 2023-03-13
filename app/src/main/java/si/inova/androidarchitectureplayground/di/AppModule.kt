@@ -2,6 +2,7 @@ package si.inova.androidarchitectureplayground.di
 
 import android.app.Application
 import android.content.Context
+import com.androidarchitectureplayground.network.services.BaseServiceFactory
 import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
@@ -69,6 +70,12 @@ abstract class AppModule {
                it.printStackTrace()
             }
          }
+      }
+
+      @Provides
+      @BaseServiceFactory.BaseUrl
+      fun provideBaseUrl(): String {
+         return "https://dummyjson.com/"
       }
    }
 }

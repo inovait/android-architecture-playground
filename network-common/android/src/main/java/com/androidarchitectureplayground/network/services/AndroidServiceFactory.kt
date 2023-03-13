@@ -14,8 +14,10 @@ class AndroidServiceFactory @Inject constructor(
    errorReporter: ErrorReporter,
    timeProvider: TimeProvider,
    okHttpClient: Provider<OkHttpClient>,
+   @BaseUrl
+   baseUrl: String,
    private val cacheManager: GlobalOkHttpDiskCacheManager
-) : BaseServiceFactory(moshi, okHttpClient, errorReporter, timeProvider) {
+) : BaseServiceFactory(moshi, okHttpClient, errorReporter, timeProvider, baseUrl) {
    override fun createCache(): Cache {
       return cacheManager.cache
    }
