@@ -3,6 +3,7 @@ package si.inova.androidarchitectureplayground.products.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +24,9 @@ class ProductListScreen(private val viewModel: ProductListViewModel) : Screen<Pr
       Column(Modifier.verticalScroll(rememberScrollState())) {
          CircularProgressIndicator(Modifier.alpha(if (productList is Outcome.Progress) 1f else 0f))
 
+         Button(onClick = viewModel::refresh) {
+            Text("Refresh")
+         }
          Text("Products: ${productList?.valueOrNull?.joinToString("\n") { it.title } ?: "NULL"}")
          if (productList is Outcome.Error) {
             Text("ERROR: '${productList.exception.commonUserFriendlyMessage()}'")

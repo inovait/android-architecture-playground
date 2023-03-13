@@ -9,5 +9,5 @@ import si.inova.androidarchitectureplayground.navigation.base.ScopedService
 @Stable
 interface ProductListViewModel : ScopedService {
    val products: StateFlow<Outcome<List<ProductDto>>>
-   fun loadProducts()
+   fun refresh()
 }

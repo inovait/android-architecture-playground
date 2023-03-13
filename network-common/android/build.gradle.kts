@@ -10,4 +10,5 @@ dependencies {
    api(projects.networkCommon)
 
    implementation(projects.common.android)
+   implementation(libs.dispatch)
 }

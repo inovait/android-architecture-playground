@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.storage.StorageManager
 import androidx.annotation.WorkerThread
+import com.androidarchitectureplayground.network.cache.DiskCache
+import dispatch.core.withDefault
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -40,8 +42,8 @@ private const val KEY_CACHE_SIZE = "CacheSize"
 @Singleton
 class GlobalOkHttpDiskCacheManager @Inject constructor(
    private val context: Context,
-   private val errorReporter: ErrorReporter
-) {
+   private val errorReporter: ErrorReporter,
+) : DiskCache {
    val cache: Cache
 
    init {
@@ -88,5 +90,17 @@ class GlobalOkHttpDiskCacheManager @Inject constructor(
       }
 
       preferences.edit().putLong(KEY_CACHE_SIZE, cacheSize).apply()
+   }
+
+   override suspend fun clearForRequest(url: String) {
+      withDefault {
+         val iterator = cache.urls()
+         while (iterator.hasNext()) {
+            val checkUrl = iterator.next()
+            if (checkUrl.endsWith(url)) {
+               iterator.remove()
+            }
+         }
+      }
    }
 }

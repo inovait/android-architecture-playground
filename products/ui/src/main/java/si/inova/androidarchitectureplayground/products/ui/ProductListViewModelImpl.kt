@@ -21,12 +21,16 @@ class ProductListViewModelImpl @Inject constructor(
    override val products = MutableStateFlow<Outcome<List<ProductDto>>>(Outcome.Progress())
 
    override fun onServiceRegistered() {
-      loadProducts()
+      loadProducts(force = false)
    }
 
-   override fun loadProducts() {
+   private fun loadProducts(force: Boolean) {
       resources.launchResourceControlTask(products) {
-         emitAll(productsRepository.getProducts())
+         emitAll(productsRepository.getProducts(force))
       }
+   }
+
+   override fun refresh() {
+      loadProducts(true)
    }
 }
