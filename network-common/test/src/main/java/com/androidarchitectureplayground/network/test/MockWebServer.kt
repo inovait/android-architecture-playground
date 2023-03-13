@@ -1,9 +1,8 @@
 package com.androidarchitectureplayground.network.test
 
+import com.androidarchitectureplayground.network.di.NetworkModule
 import com.androidarchitectureplayground.network.services.BaseServiceFactory
-import com.squareup.moshi.Moshi
 import kotlinx.coroutines.test.TestScope
-import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -21,9 +20,10 @@ import si.inova.androidarchitectureplayground.test.time.virtualTimeProvider
 inline fun TestScope.mockWebServer(block: MockWebServerScope.() -> Unit) {
    val server = MockWebServer()
 
+   val networkModule = NetworkModule()
    val serviceFactory = BaseServiceFactory(
-      Moshi.Builder().build(),
-      { OkHttpClient() },
+      networkModule.provideMoshi(),
+      { networkModule.provideOkHttpClient() },
       throwingErrorReporter(),
       virtualTimeProvider(),
       server.url("").toString()
