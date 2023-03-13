@@ -108,7 +108,7 @@ class ProductListScreenTest {
    }
 }
 
-private fun fakeProduct(name: String): ProductDto {
+fun fakeProduct(name: String): ProductDto {
    return ProductDto(
       "",
       "",

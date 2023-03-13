@@ -21,3 +21,6 @@ inline val PluginDependenciesSpec.parcelize: PluginDependencySpec
 
 inline val PluginDependenciesSpec.moshi: PluginDependencySpec
    get() = id("moshi")
+
+inline val PluginDependenciesSpec.screenshotTests: PluginDependencySpec
+   get() = id("screenshot-testing")
