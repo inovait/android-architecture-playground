@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplayground.common.outcome.Outcome
-import si.inova.androidarchitectureplayground.common.outcome.valueOrNull
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.screens.ProductListScreenKey
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
@@ -34,7 +33,7 @@ class ProductListScreen(private val viewModel: ProductListViewModel) : Screen<Pr
          Button(onClick = viewModel::refresh) {
             Text("Refresh")
          }
-         Text("Products: ${productList?.valueOrNull?.joinToString("\n") { it.title } ?: "NULL"}")
+         Text("Products: ${productList?.data?.joinToString("\n") { it.title } ?: "NULL"}")
          if (productList is Outcome.Error) {
             Text("ERROR: '${productList.exception.commonUserFriendlyMessage()}'")
          }

@@ -17,7 +17,6 @@ import si.inova.androidarchitectureplayground.common.exceptions.UnknownCauseExce
 import si.inova.androidarchitectureplayground.common.outcome.CauseException
 import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.common.outcome.catchIntoOutcome
-import si.inova.androidarchitectureplayground.common.outcome.valueOrNull
 import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import java.lang.reflect.ParameterizedType
@@ -132,7 +131,7 @@ class StaleWhileRevalidateCallAdapterFactory(
                send(result)
             }
 
-            networkRequest to result.valueOrNull
+            networkRequest to result.data
          } catch (e: Exception) {
             handleCacheError(networkRequest, e.transformRetrofitException(), originalCall)
             networkRequest to null

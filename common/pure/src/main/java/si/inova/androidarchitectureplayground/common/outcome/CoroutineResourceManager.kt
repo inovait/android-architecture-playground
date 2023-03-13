@@ -43,7 +43,7 @@ class CoroutineResourceManager(
     */
    fun <T> launchResourceControlTask(
       resource: MutableStateFlow<Outcome<T>>,
-      currentValue: T? = resource.value.valueOrNull,
+      currentValue: T? = resource.value.data,
       context: CoroutineContext = EmptyCoroutineContext,
       block: suspend ResourceControlBlock<T>.() -> Unit
    ) = launchBoundControlTask(resource, context) {

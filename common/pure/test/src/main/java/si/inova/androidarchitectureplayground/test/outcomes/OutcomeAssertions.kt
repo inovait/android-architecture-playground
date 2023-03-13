@@ -8,7 +8,6 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import si.inova.androidarchitectureplayground.common.outcome.CauseException
 import si.inova.androidarchitectureplayground.common.outcome.Outcome
-import si.inova.androidarchitectureplayground.common.outcome.valueOrNull
 
 infix fun <T> Outcome<T>.shouldBeSuccessWithData(expectedData: T) {
    assertSoftly {
@@ -45,7 +44,7 @@ infix fun <T> Outcome<T>.shouldBeProgressWithData(expectedData: T?) {
 }
 
 fun <T> Outcome<T>.shouldBeProgressWith(
-   expectedData: T? = valueOrNull,
+   expectedData: T? = data,
    expectedProgress: Float? = null
 ) {
    assertSoftly {
@@ -77,7 +76,7 @@ fun <T> Outcome<T>.shouldBeProgressWith(
 }
 
 fun <T> Outcome<T>.shouldBeErrorWith(
-   expectedData: T? = valueOrNull,
+   expectedData: T? = data,
    exceptionType: Class<out CauseException>? = null,
    exceptionMessage: String? = null
 ) {

@@ -28,7 +28,7 @@ fun <A, B> Outcome<A>.mapData(mapper: (A) -> B): Outcome<B> {
  */
 fun <A, B> Flow<Outcome<A>>.flatMapLatestOutcome(mapper: (A) -> Flow<Outcome<B>>): Flow<Outcome<B>> {
    return flatMapLatest { upstreamOutcome ->
-      val data = upstreamOutcome.valueOrNull
+      val data = upstreamOutcome.data
       if (data == null) {
          @Suppress("UNCHECKED_CAST")
          return@flatMapLatest flowOf(upstreamOutcome as Outcome<B>)
@@ -54,7 +54,7 @@ fun <T> Outcome<T>.downgradeTo(
 ): Outcome<T> {
    return when {
       this is Outcome.Error -> this
-      targetType is Outcome.Error -> Outcome.Error(targetType.exception, valueOrNull)
+      targetType is Outcome.Error -> Outcome.Error(targetType.exception, data)
       this is Outcome.Progress -> {
          if (targetType is Outcome.Progress) {
             val combinedProgress = targetType.progress?.let { progress?.times(it) }
@@ -64,7 +64,7 @@ fun <T> Outcome<T>.downgradeTo(
          }
       }
 
-      targetType is Outcome.Progress -> Outcome.Progress(valueOrNull, targetType.progress)
+      targetType is Outcome.Progress -> Outcome.Progress(data, targetType.progress)
       else -> this
    }
 }
