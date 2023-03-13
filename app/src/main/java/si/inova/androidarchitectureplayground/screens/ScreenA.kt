@@ -44,6 +44,10 @@ class ScreenA constructor(
          Button(onClick = { navigator.navigateTo(ProductListScreenKey) }) {
             Text("Products")
          }
+
+         Button(onClick = { navigator.navigateTo(MasterDetailDemoScreenKey) }) {
+            Text("Master Detail")
+         }
       }
    }
 }

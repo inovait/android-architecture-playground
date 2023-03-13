@@ -52,6 +52,7 @@ dependencies {
    implementation(projects.common.android)
    implementation(projects.libmodule)
    implementation(projects.login)
+   implementation(projects.masterdetail)
    implementation(projects.navigationCommon)
    implementation(projects.networkCommon.android)
    implementation(projects.products.ui)
