@@ -14,15 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidArchitecturePlayground"
+        android:enableOnBackInvokedCallback="true"
         android:name=".MyApplication"
-        tools:targetApi="31">
-<!--
-In production application, we should also add that to the activity:
-android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|locale|layoutDirection"
+        tools:targetApi="33">
+        <!--
+        In production application, we should also add that to the activity:
+        android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|locale|layoutDirection"
 
-Compose handles all of those for us, so for 100% compose app, we do not need to recreate the activity. However, to ensure
-everything is still configuration-change safe, this will not be enabled in the demo app
--->
+        Compose handles all of those for us, so for 100% compose app, we do not need to recreate the activity. However, to ensure
+        everything is still configuration-change safe, this will not be enabled in the demo app
+        -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
