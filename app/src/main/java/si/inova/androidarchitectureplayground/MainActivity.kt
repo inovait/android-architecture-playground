@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
@@ -106,6 +107,8 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
                screenFactories = component.screenFactories()
                navigator = component.navigator()
             }
+
+            FragmentTransaction.TRANSIT_FRAGMENT_OPEN
 
             CompositionLocalProvider(LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter)) {
                AndroidArchitecturePlaygroundTheme {

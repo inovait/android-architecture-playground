@@ -5,8 +5,11 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.with
 import com.zhuinden.simplestack.ScopeKey
 import com.zhuinden.simplestack.StateChange
@@ -35,8 +38,19 @@ abstract class ScreenKey : Parcelable, ScopeKey {
       return if (scope.targetState.direction == StateChange.REPLACE) {
          fadeIn() with fadeOut()
       } else {
-         scope.slideIntoContainer(AnimatedContentScope.SlideDirection.Left) with
-            scope.slideOutOfContainer(AnimatedContentScope.SlideDirection.Left)
+         // Rough match of the FragmentTransaction.TRANSITION_OPEN
+
+         val enter = scaleIn(
+            tween(durationMillis = 150),
+            initialScale = 0.90f
+         ) + fadeIn(tween(durationMillis = 150))
+
+         val exit = scaleOut(
+            tween(durationMillis = 150),
+            targetScale = 1.10f,
+         ) + fadeOut(tween(delayMillis = 100, durationMillis = 50))
+
+         enter with exit
       }
    }
 
@@ -49,8 +63,19 @@ abstract class ScreenKey : Parcelable, ScopeKey {
     */
    @OptIn(ExperimentalAnimationApi::class)
    open fun backAnimation(scope: AnimatedContentScope<StateChangeResult>): ContentTransform {
-      return scope.slideIntoContainer(AnimatedContentScope.SlideDirection.Right) with
-         scope.slideOutOfContainer(AnimatedContentScope.SlideDirection.Right)
+      // Rough match of the FragmentTransaction.TRANSITION_CLOSE
+
+      val enter = scaleIn(
+         tween(durationMillis = 150),
+         initialScale = 1.10f
+      ) + fadeIn(tween(durationMillis = 150))
+
+      val exit = scaleOut(
+         tween(durationMillis = 150),
+         targetScale = 0.90f,
+      ) + fadeOut(tween(delayMillis = 100, durationMillis = 50))
+
+      return enter with exit
    }
 
    // Force subclasses to implement toString, since default getScopeTag relies on it.
