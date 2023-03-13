@@ -51,4 +51,6 @@ dependencies {
    add("implementation", libs.whetstone.runtime)
    add("anvil", libs.whetstone.compiler)
    add("coreLibraryDesugaring", libs.desugarJdkLibs)
+
+   add("androidTestImplementation", libs.kotest.assertions)
 }

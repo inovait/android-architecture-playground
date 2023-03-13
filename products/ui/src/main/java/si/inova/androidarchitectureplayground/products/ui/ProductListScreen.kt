@@ -1,6 +1,8 @@
 package si.inova.androidarchitectureplayground.products.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -8,7 +10,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.common.outcome.valueOrNull
 import si.inova.androidarchitectureplayground.navigation.base.Screen
@@ -22,7 +25,11 @@ class ProductListScreen(private val viewModel: ProductListViewModel) : Screen<Pr
       val productList = viewModel.products.collectAsStateWithLifecycleAndBlinkingPrevention().value
 
       Column(Modifier.verticalScroll(rememberScrollState())) {
-         CircularProgressIndicator(Modifier.alpha(if (productList is Outcome.Progress) 1f else 0f))
+         Box(Modifier.size(48.dp), propagateMinConstraints = true) {
+            if (productList is Outcome.Progress) {
+               CircularProgressIndicator(Modifier.testTag("loader"))
+            }
+         }
 
          Button(onClick = viewModel::refresh) {
             Text("Refresh")
