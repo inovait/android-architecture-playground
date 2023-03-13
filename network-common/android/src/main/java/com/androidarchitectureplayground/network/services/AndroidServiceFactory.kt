@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class AndroidServiceFactory @Inject constructor(
-   moshi: Moshi,
+   moshi: Provider<Moshi>,
    errorReporter: ErrorReporter,
    timeProvider: TimeProvider,
    okHttpClient: Provider<OkHttpClient>,

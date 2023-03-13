@@ -12,7 +12,7 @@ import javax.inject.Provider
 import javax.inject.Qualifier
 
 open class BaseServiceFactory @Inject constructor(
-   private val moshi: Moshi,
+   private val moshi: Provider<Moshi>,
    private val okHttpClient: Provider<OkHttpClient>,
    private val errorReporter: ErrorReporter,
    private val timeProvider: TimeProvider,
@@ -36,10 +36,14 @@ open class BaseServiceFactory @Inject constructor(
             .build()
       }
 
+      val moshiConverter = lazy {
+         MoshiConverterFactory.create(moshi.get())
+      }
+
       return Retrofit.Builder()
          .callFactory { updatedClient.value.newCall(it) }
          .baseUrl(baseUrl)
-         .addConverterFactory(MoshiConverterFactory.create(moshi))
+         .addConverterFactory(LazyRetrofitConverterFactory(moshiConverter))
          .addCallAdapterFactory(StaleWhileRevalidateCallAdapterFactory(scope.errorHandler, errorReporter, timeProvider))
          .addCallAdapterFactory(SuspendCallAdapterFactory(scope.errorHandler))
          .build()
