@@ -28,7 +28,8 @@
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:exported="true"
-            android:theme="@style/Theme.AndroidArchitecturePlayground.Splash">
+            android:theme="@style/Theme.AndroidArchitecturePlayground.Splash"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

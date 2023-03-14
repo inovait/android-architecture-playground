@@ -1,5 +1,8 @@
 package si.inova.androidarchitectureplayground.products.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.karumi.shot.ScreenshotTest
 import org.junit.Rule
@@ -18,7 +21,9 @@ class ProductListScreenshotTest : ScreenshotTest {
    @Test
    fun productListSnapshot() {
       composeTestRule.setContent {
-         screen.Content(ProductListScreenKey)
+         Box(Modifier.fillMaxSize()) {
+            screen.Content(ProductListScreenKey)
+         }
       }
 
       viewModel.products.value = Outcome.Success(
@@ -39,7 +44,9 @@ class ProductListScreenshotTest : ScreenshotTest {
    @Test
    fun productListLoadingSnapshot() {
       composeTestRule.setContent {
-         screen.Content(ProductListScreenKey)
+         Box(Modifier.fillMaxSize()) {
+            screen.Content(ProductListScreenKey)
+         }
       }
 
       viewModel.products.value = Outcome.Progress(
@@ -60,7 +67,9 @@ class ProductListScreenshotTest : ScreenshotTest {
    @Test
    fun errorSnapshot() {
       composeTestRule.setContent {
-         screen.Content(ProductListScreenKey)
+         Box(Modifier.fillMaxSize()) {
+            screen.Content(ProductListScreenKey)
+         }
       }
 
       viewModel.products.value = Outcome.Error(
