@@ -26,7 +26,7 @@ class ScreenCDeepLinkHandler @Inject constructor() : DeepLinkHandler {
          NavigateWithConditions(
             ReplaceHistory(
                ScreenAKey,
-               ScreenBKey,
+               ScreenBKey(),
                ScreenCKey(id, key)
             ),
             UserLoggedIn,

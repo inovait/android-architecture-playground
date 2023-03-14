@@ -1,9 +1,10 @@
 package si.inova.androidarchitectureplayground.navigation.keys
 
 import kotlinx.parcelize.Parcelize
+import si.inova.androidarchitectureplayground.navigation.base.ResultKey
 
 @Parcelize
-object ScreenBKey : NoArgsScreenKey() {
+data class ScreenBKey(val result: ResultKey<String>? = null) : ScreenKey() {
    override val screenClass: String
       get() = "si.inova.androidarchitectureplayground.screens.ScreenB"
 

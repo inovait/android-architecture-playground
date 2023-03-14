@@ -1,6 +1,7 @@
 plugins {
    androidLibraryModule
    compose
+   parcelize
 }
 
 android {
@@ -9,4 +10,5 @@ android {
 
 dependencies {
    implementation(projects.commonAndroid)
+   implementation(projects.commonNavigation)
 }

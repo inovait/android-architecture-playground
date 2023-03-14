@@ -16,16 +16,21 @@ import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
+import si.inova.androidarchitectureplayground.ui.result.registerResultReceiver
 import kotlin.random.Random
 
 @Suppress("unused")
 class ScreenA constructor(
    private val viewModel: ScreenAViewModel,
-   private val navigator: Navigator
+   private val navigator: Navigator,
 ) : Screen<ScreenAKey>() {
    @Composable
    override fun Content(key: ScreenAKey) {
       val rememberedNumber = rememberSaveable() { Random.nextInt() }
+
+      val resultKey = registerResultReceiver<String> {
+         logcat { "Received $it" }
+      }
 
       Column(
          Modifier
@@ -37,7 +42,7 @@ class ScreenA constructor(
 
          logcat { "Log inside ScreenA" }
 
-         Button(onClick = { navigator.navigateTo(ScreenBKey) }) {
+         Button(onClick = { navigator.navigateTo(ScreenBKey(resultKey)) }) {
             TopLevelFunction()
          }
 

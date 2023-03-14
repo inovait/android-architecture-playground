@@ -18,6 +18,7 @@ import com.zhuinden.simplestack.History
 import si.inova.androidarchitectureplayground.migration.TestFragmentKey
 import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.Screen
+import si.inova.androidarchitectureplayground.navigation.instructions.goBack
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
 import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigator
@@ -25,6 +26,7 @@ import si.inova.androidarchitectureplayground.screens.nested.NestedScreenAKey
 import si.inova.androidarchitectureplayground.time.AndroidTimeProvider
 import si.inova.androidarchitectureplayground.time.FakeAndroidTimeProvider
 import si.inova.androidarchitectureplayground.time.FakeDateTimeFormatter
+import si.inova.androidarchitectureplayground.ui.result.LocalResultPassingStore
 import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.ui.time.LocalDateFormatter
 import java.time.LocalDateTime
@@ -57,6 +59,15 @@ class ScreenB(
 
          Button(onClick = { navigator.navigateTo(ScreenCKey(1, "")) }) {
             Text("Replace with C ")
+         }
+
+         val store = LocalResultPassingStore.current
+
+         Button(onClick = {
+            key.result?.let { store.sendResult(it, "Hello from B") }
+            navigator.goBack()
+         }) {
+            Text("Go back to A with result ")
          }
 
          Button(onClick = { navigator.navigateTo(TestFragmentKey("Hello from B")) }) {

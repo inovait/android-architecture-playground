@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
@@ -34,6 +35,8 @@ import si.inova.androidarchitectureplayground.simplestack.MyScopedServices
 import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
 import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
 import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
+import si.inova.androidarchitectureplayground.ui.result.LocalResultPassingStore
+import si.inova.androidarchitectureplayground.ui.result.ResultPassingStore
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.ui.time.LocalDateFormatter
@@ -110,7 +113,12 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
 
             FragmentTransaction.TRANSIT_FRAGMENT_OPEN
 
-            CompositionLocalProvider(LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter)) {
+            val resultPassingStore = rememberSaveable { ResultPassingStore() }
+
+            CompositionLocalProvider(
+               LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter),
+               LocalResultPassingStore provides resultPassingStore
+            ) {
                AndroidArchitecturePlaygroundTheme {
                   // A surface container using the 'background' color from the theme
                   Surface(
