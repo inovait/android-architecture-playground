@@ -1,14 +1,10 @@
 package si.inova.androidarchitectureplayground.screens
 
 import kotlinx.parcelize.Parcelize
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.NoArgsScreenKey
 
 @Parcelize
-object ProductListScreenKey : ScreenKey() {
+object ProductListScreenKey : NoArgsScreenKey() {
    override val screenClass: String
       get() = "si.inova.androidarchitectureplayground.products.ui.ProductListScreen"
-
-   override fun toString(): String {
-      return "ProductListScreenKey"
-   }
 }

@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.goBack
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.NoArgsScreenKey
 
 class NestedScreenB(
    private val navigator: Navigator,
@@ -26,11 +26,7 @@ class NestedScreenB(
 }
 
 @Parcelize
-class NestedScreenBKey : ScreenKey() {
+object NestedScreenBKey : NoArgsScreenKey() {
    override val screenClass: String
       get() = "si.inova.androidarchitectureplayground.screens.nested.NestedScreenB"
-
-   override fun toString(): String {
-      return "NestedScreenBKey"
-   }
 }

@@ -52,7 +52,7 @@ class ScreenB(
                .padding(64.dp)
                .background(Color.Red)
          ) {
-            nestedNavigator.NestedNavigation { History.of(NestedScreenAKey()) }
+            nestedNavigator.NestedNavigation { History.of(NestedScreenAKey) }
          }
 
          Button(onClick = { navigator.navigateTo(ScreenCKey(1, "")) }) {

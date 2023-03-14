@@ -78,7 +78,9 @@ abstract class ScreenKey : Parcelable, ScopeKey {
       return enter with exit
    }
 
-   // Force subclasses to implement toString, since default getScopeTag relies on it.
+   // Force subclasses to implement toString, equals and hashCode, since compose and default getScopeTag relies on it.
    // This forces objects to implement it, but data classes are not affected since Kotlin generates toString for you.
    abstract override fun toString(): String
+   abstract override fun equals(other: Any?): Boolean
+   abstract override fun hashCode(): Int
 }

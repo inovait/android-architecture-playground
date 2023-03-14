@@ -10,7 +10,7 @@ import si.inova.androidarchitectureplayground.di.MainNavigation
 import si.inova.androidarchitectureplayground.navigation.Navigator
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.NoArgsScreenKey
 
 class NestedScreenA(
    private val navigator: Navigator,
@@ -22,7 +22,7 @@ class NestedScreenA(
       Column() {
          Text("Nested screen A")
 
-         Button(onClick = { navigator.navigateTo(NestedScreenBKey()) }) {
+         Button(onClick = { navigator.navigateTo(NestedScreenBKey) }) {
             Text("Navigate to nested screen B")
          }
 
@@ -34,11 +34,7 @@ class NestedScreenA(
 }
 
 @Parcelize
-class NestedScreenAKey : ScreenKey() {
+object NestedScreenAKey : NoArgsScreenKey() {
    override val screenClass: String
       get() = "si.inova.androidarchitectureplayground.screens.nested.NestedScreenA"
-
-   override fun toString(): String {
-      return "NestedScreenAKey"
-   }
 }
