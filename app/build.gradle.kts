@@ -19,6 +19,9 @@ android {
       versionCode = 1
       versionName = "1.0"
 
+      testInstrumentationRunner = "si.inova.androidarchitectureplayground.instrumentation.TestRunner"
+      testInstrumentationRunnerArguments += "clearPackageData" to "true"
+
       androidComponents {
          onVariants {
             it.buildConfigFields.put("GIT_HASH", gitVersionProvider.flatMap { task ->
@@ -71,6 +74,9 @@ dependencies {
    implementation(libs.simpleStack)
 
    testImplementation(projects.commonAndroid.test)
+   androidTestImplementation(projects.commonAndroid.test)
+   androidTestImplementation(projects.commonRetrofit.test)
+   androidTestImplementation(libs.dispatch.espresso)
    testImplementation(libs.junit4)
 }
 

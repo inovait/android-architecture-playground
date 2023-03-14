@@ -18,4 +18,6 @@ dependencies {
    implementation(libs.whetstone.runtime)
    anvil(libs.whetstone.compiler)
    kapt(libs.dagger.compiler)
+   kaptAndroidTest(libs.dagger.compiler)
+   androidTestImplementation(libs.androidx.test.runner)
 }

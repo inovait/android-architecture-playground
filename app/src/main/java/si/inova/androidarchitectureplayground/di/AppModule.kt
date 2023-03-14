@@ -8,10 +8,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.Multibinds
-import dispatch.core.MainImmediateCoroutineScope
 import si.inova.androidarchitectureplayground.common.logging.logcat
 import si.inova.androidarchitectureplayground.common.outcome.CauseException
-import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
 import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
@@ -45,21 +43,8 @@ abstract class AppModule {
    @Module
    companion object {
       @Provides
-      fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
-         return MainImmediateCoroutineScope()
-      }
-
-      @Provides
       fun provideAndroidTimeProvider(): AndroidTimeProvider {
          return DefaultAndroidTimeProvider
-      }
-
-      @Provides
-      fun provideDefaultCoroutineResourceManager(
-         mainCoroutineScope: MainImmediateCoroutineScope,
-         errorReporter: ErrorReporter
-      ): CoroutineResourceManager {
-         return CoroutineResourceManager(mainCoroutineScope, errorReporter)
       }
 
       @Provides
@@ -70,12 +55,6 @@ abstract class AppModule {
                it.printStackTrace()
             }
          }
-      }
-
-      @Provides
-      @BaseServiceFactory.BaseUrl
-      fun provideBaseUrl(): String {
-         return "https://dummyjson.com/"
       }
    }
 }

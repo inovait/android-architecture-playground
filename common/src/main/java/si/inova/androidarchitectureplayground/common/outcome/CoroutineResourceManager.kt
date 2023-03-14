@@ -22,7 +22,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  *
  * Adapted from https://github.com/inovait/kotlinova/blob/master/android/src/main/java/si/inova/kotlinova/coroutines/LiveDataCoroutineResourceManager.kt
  */
-class CoroutineResourceManager(
+open class CoroutineResourceManager(
    val scope: CoroutineScope,
    private val reportService: ErrorReporter
 ) {
@@ -41,7 +41,7 @@ class CoroutineResourceManager(
     * 5. Automatically forwards exceptions to the resource as [Outcome.Error]
     * 6. Automatically reports exceptions to the provided ReportService
     */
-   fun <T> launchResourceControlTask(
+   open fun <T> launchResourceControlTask(
       resource: MutableStateFlow<Outcome<T>>,
       currentValue: T? = resource.value.data,
       context: CoroutineContext = EmptyCoroutineContext,
