@@ -2,7 +2,6 @@ package si.inova.androidarchitectureplayground.di
 
 import android.app.Application
 import android.content.Context
-import com.androidarchitectureplayground.network.services.BaseServiceFactory
 import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
@@ -17,6 +16,7 @@ import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
+import si.inova.androidarchitectureplayground.network.services.BaseServiceFactory
 import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatterImpl
 import si.inova.androidarchitectureplayground.time.AndroidTimeProvider

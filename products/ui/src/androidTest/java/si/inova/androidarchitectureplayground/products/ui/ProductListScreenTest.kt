@@ -5,11 +5,11 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.androidarchitectureplayground.products.data.model.ProductDto
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test
 import si.inova.androidarchitectureplayground.common.outcome.Outcome
+import si.inova.androidarchitectureplayground.products.data.model.ProductDto
 import si.inova.androidarchitectureplayground.screens.ProductListScreenKey
 
 class ProductListScreenTest {

@@ -1,14 +1,14 @@
 package si.inova.androidarchitectureplayground.products.ui
 
 import androidx.compose.runtime.Stable
-import com.androidarchitectureplayground.products.data.ProductsRepository
-import com.androidarchitectureplayground.products.data.model.ProductDto
 import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.flow.MutableStateFlow
 import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
 import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.navigation.base.SingleScreenViewModel
+import si.inova.androidarchitectureplayground.products.data.ProductsRepository
+import si.inova.androidarchitectureplayground.products.data.model.ProductDto
 import si.inova.androidarchitectureplayground.screens.ProductListScreenKey
 import javax.inject.Inject
 
