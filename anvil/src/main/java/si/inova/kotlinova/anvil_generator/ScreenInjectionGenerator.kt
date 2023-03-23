@@ -16,11 +16,13 @@ import com.squareup.anvil.compiler.internal.safePackageString
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.ClassKey
@@ -93,15 +95,22 @@ class ScreenInjectionGenerator : CodeGenerator {
                   .build()
             })
          }
-         .returns(screenClassName)
+         .returns(className)
          .addAnnotation(Provides::class)
-         .addAnnotation(IntoMap::class)
-         .addAnnotation(classKeyAnnotation)
          .addStatement(
             "return %T(${constructorParameters.joinToString { "%L" }})",
             className,
             *constructorParameters.map { it.name }.toTypedArray()
          )
+         .build()
+
+      val bindsScreenFunction = FunSpec.builder("bindsScreen")
+         .addModifiers(KModifier.ABSTRACT)
+         .returns(screenClassName)
+         .addAnnotation(Binds::class)
+         .addAnnotation(IntoMap::class)
+         .addParameter("screen", className)
+         .addAnnotation(classKeyAnnotation)
          .build()
 
       val scopedServiceParameters = constructorParameters.filter { it.type().isScopedService() }
@@ -123,11 +132,17 @@ class ScreenInjectionGenerator : CodeGenerator {
          fileName = outputFileName,
          generatorComment = "Automatically generated file. DO NOT MODIFY!"
       ) {
-         val moduleInterfaceSpec = TypeSpec.classBuilder(outputFileName)
-            .addAnnotation(Module::class)
-            .addAnnotation(contributesToAnnotation)
+         val companionObject = TypeSpec.companionObjectBuilder()
             .addFunction(providesScreenFunction)
             .addFunction(providesServiceListFunction)
+            .build()
+
+         val moduleInterfaceSpec = TypeSpec.classBuilder(outputFileName)
+            .addAnnotation(Module::class)
+            .addModifiers(KModifier.ABSTRACT)
+            .addAnnotation(contributesToAnnotation)
+            .addFunction(bindsScreenFunction)
+            .addType(companionObject)
             .build()
 
          addType(moduleInterfaceSpec)
