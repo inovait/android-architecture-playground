@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-   implementation(projects.navigationCommon)
+   implementation(projects.commonNavigation)
 
    implementation(libs.dispatch)
 }

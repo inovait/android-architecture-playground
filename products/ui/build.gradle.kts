@@ -11,7 +11,7 @@ android {
 dependencies {
    api(projects.products.data)
 
-   implementation(projects.common.android)
-   implementation(projects.navigationCommon)
-   implementation(projects.uiCommon)
+   implementation(projects.commonAndroid)
+   implementation(projects.commonNavigation)
+   implementation(projects.commonCompose)
 }

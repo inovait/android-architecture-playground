@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-   api(projects.common.pure)
+   api(projects.common)
    implementation(libs.kotlin.coroutines.test)
    implementation(libs.kotlin.coroutines)
    implementation(libs.dispatch)

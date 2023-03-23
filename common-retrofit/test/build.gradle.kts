@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-   api(projects.networkCommon)
+   api(projects.commonRetrofit)
    api(libs.okhttp.mockWebServer)
 
-   implementation(projects.common.pure.test)
+   implementation(projects.common.test)
    implementation(libs.kotlin.coroutines.test)
 }

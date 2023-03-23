@@ -8,9 +8,9 @@ android {
 }
 
 dependencies {
-   implementation(projects.common.android)
-   implementation(projects.navigationCommon)
-   implementation(projects.uiCommon)
+   implementation(projects.commonAndroid)
+   implementation(projects.commonNavigation)
+   implementation(projects.commonCompose)
 
    implementation(libs.androidx.compose.material3.sizeClasses)
    implementation(libs.androidx.activity.compose)

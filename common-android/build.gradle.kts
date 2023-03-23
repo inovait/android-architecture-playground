@@ -7,6 +7,6 @@ android {
 }
 
 dependencies {
-   api(projects.common.pure)
+   api(projects.common)
    compileOnly(libs.androidx.compose.runtime)
 }

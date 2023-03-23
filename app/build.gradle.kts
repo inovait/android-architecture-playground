@@ -49,16 +49,16 @@ android {
 }
 
 dependencies {
-   implementation(projects.common.android)
+   implementation(projects.commonAndroid)
    implementation(projects.libmodule)
    implementation(projects.login)
    implementation(projects.masterdetail)
-   implementation(projects.navigationCommon)
-   implementation(projects.networkCommon.android)
+   implementation(projects.commonNavigation)
+   implementation(projects.commonRetrofit.android)
    implementation(projects.products.ui)
    implementation(projects.screenC)
    implementation(projects.pureKotlinModule)
-   implementation(projects.uiCommon)
+   implementation(projects.commonCompose)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
@@ -70,7 +70,7 @@ dependencies {
    implementation(libs.retrofit.moshi)
    implementation(libs.simpleStack)
 
-   testImplementation(projects.common.android.test)
+   testImplementation(projects.commonAndroid.test)
    testImplementation(libs.junit4)
 }
 

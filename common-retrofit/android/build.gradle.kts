@@ -7,8 +7,8 @@ android {
 }
 
 dependencies {
-   api(projects.networkCommon)
+   api(projects.commonRetrofit)
 
-   implementation(projects.common.android)
+   implementation(projects.commonAndroid)
    implementation(libs.dispatch)
 }

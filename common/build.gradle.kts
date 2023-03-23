@@ -6,5 +6,5 @@ dependencies {
    implementation(libs.kotlin.coroutines)
    implementation(libs.turbine)
 
-   testImplementation(projects.common.pure.test)
+   testImplementation(projects.common.test)
 }

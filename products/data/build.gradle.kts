@@ -4,11 +4,11 @@ plugins {
 }
 
 dependencies {
-   implementation(projects.common.pure)
-   implementation(projects.networkCommon)
+   implementation(projects.common)
+   implementation(projects.commonRetrofit)
 
-   implementation(projects.common.pure.test)
+   implementation(projects.common.test)
    implementation(libs.kotlin.coroutines)
 
-   testImplementation(projects.networkCommon.test)
+   testImplementation(projects.commonRetrofit.test)
 }

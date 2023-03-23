@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-   implementation(projects.common.pure)
+   implementation(projects.common)
 }
