@@ -10,17 +10,11 @@ import si.inova.androidarchitectureplayground.products.data.model.ProductDto
 import javax.inject.Inject
 
 class ProductsRepository @Inject constructor(
-   private val productsService: ProductsService,
-   private val cache: DiskCache
+   private val productsService: ProductsService
 ) {
    fun getProducts(force: Boolean): Flow<Outcome<List<ProductDto>>> {
 
-      return productsService.getProducts()
-         .onStart {
-            if (force) {
-               cache.clearForRequest("/products")
-            }
-         }
+      return productsService.getProducts(force)
          .map { outcome -> outcome.mapData { it.products } }
    }
 }

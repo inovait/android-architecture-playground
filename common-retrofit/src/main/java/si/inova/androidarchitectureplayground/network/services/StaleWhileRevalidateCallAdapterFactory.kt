@@ -22,6 +22,7 @@ import si.inova.androidarchitectureplayground.network.util.enqueueAndAwait
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.net.HttpURLConnection
+import java.util.concurrent.TimeUnit
 
 /**
  * Call adapter factory that handles Flow<Outcome<T>> return types.
@@ -77,7 +78,10 @@ class StaleWhileRevalidateCallAdapterFactory(
          var networkRequest: Request? = originalCall.request()
 
          return try {
+            val forceNetwork = originalCall.request().header(HEADER_FORCE_REFRESH)?.toBoolean() ?: false
+
             val cacheRequest = originalCall.request().newBuilder()
+               .removeHeader(HEADER_FORCE_REFRESH)
                .cacheControl(CacheControl.FORCE_CACHE)
                .build()
 
@@ -88,13 +92,21 @@ class StaleWhileRevalidateCallAdapterFactory(
                return originalCall.request() to null
             }
 
+            val responseWithAddedCacheParameters = if (forceNetwork) {
+               rawCacheResponse.newBuilder()
+                  .header("Cache-Control", CacheControl.Builder().maxAge(1, TimeUnit.MILLISECONDS).build().toString())
+                  .build()
+            } else {
+               rawCacheResponse
+            }
+
             val strategy = CacheStrategy.Factory(
                timeProvider.currentTimeMillis(),
                originalCall.request(),
-               rawCacheResponse
+               responseWithAddedCacheParameters
             ).compute()
 
-            networkRequest = strategy.networkRequest
+            networkRequest = strategy.networkRequest?.newBuilder()?.removeHeader(HEADER_FORCE_REFRESH)?.build()
 
             val cacheResponse = strategy.cacheResponse
             if (networkRequest == null && cacheResponse == null) {
@@ -175,3 +187,5 @@ class StaleWhileRevalidateCallAdapterFactory(
       override fun responseType(): Type = responseType
    }
 }
+
+const val HEADER_FORCE_REFRESH = "Force-Refresh-From-Network"
