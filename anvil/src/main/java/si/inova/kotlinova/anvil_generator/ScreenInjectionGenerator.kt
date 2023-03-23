@@ -72,8 +72,10 @@ class ScreenInjectionGenerator : CodeGenerator {
          .addMember("%T::class", className)
          .build()
 
+      val screenKey = screenType.unwrappedTypes.first().asTypeName()
+
       val screenKeyClassKeyAnnotation = AnnotationSpec.builder(ClassKey::class)
-         .addMember("%T::class", screenType.unwrappedTypes.first().asTypeName())
+         .addMember("%T::class", screenKey)
          .build()
 
       val screenClassName = SCREEN_BASE_CLASS.parameterizedBy(STAR)
@@ -116,17 +118,21 @@ class ScreenInjectionGenerator : CodeGenerator {
 
       val scopedServiceParameters = getRequiredScopedServices(constructorParameters)
 
-      val providesServiceListFunction = FunSpec.builder("providesScopedServiceList")
-         .returns(List::class.asTypeName().parameterizedBy(Class::class.asTypeName().parameterizedBy(STAR)))
-         .addAnnotation(Provides::class)
-         .addAnnotation(IntoMap::class)
-         .addAnnotation(screenKeyClassKeyAnnotation)
-         .addStatement(
-            "return %L(${scopedServiceParameters.joinToString { "%T::class.java" }})",
-            "listOf",
-            *scopedServiceParameters.map { it.type().asTypeName() }.toTypedArray()
-         )
-         .build()
+      val providesServiceListFunction = if (screenKey != SCREEN_KEY_BASE_CLASS) {
+         FunSpec.builder("providesScopedServiceList")
+            .returns(List::class.asTypeName().parameterizedBy(Class::class.asTypeName().parameterizedBy(STAR)))
+            .addAnnotation(Provides::class)
+            .addAnnotation(IntoMap::class)
+            .addAnnotation(screenKeyClassKeyAnnotation)
+            .addStatement(
+               "return %L(${scopedServiceParameters.joinToString { "%T::class.java" }})",
+               "listOf",
+               *scopedServiceParameters.map { it.type().asTypeName() }.toTypedArray()
+            )
+            .build()
+      } else {
+         null
+      }
 
       val content = FileSpec.buildFile(
          packageName = packageName,
@@ -135,7 +141,7 @@ class ScreenInjectionGenerator : CodeGenerator {
       ) {
          val companionObject = TypeSpec.companionObjectBuilder()
             .addFunction(providesScreenFunction)
-            .addFunction(providesServiceListFunction)
+            .also { if (providesServiceListFunction != null) it.addFunction(providesServiceListFunction) }
             .build()
 
          val moduleInterfaceSpec = TypeSpec.classBuilder(outputFileName)
