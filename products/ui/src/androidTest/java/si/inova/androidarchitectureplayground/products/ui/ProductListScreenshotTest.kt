@@ -22,11 +22,15 @@ class ProductListScreenshotTest : ScreenshotTest {
       }
 
       viewModel.products.value = Outcome.Success(
-         listOf(
-            fakeProduct("A"),
-            fakeProduct("B"),
-            fakeProduct("C")
+         ProductListScreenData(
+            listOf(
+               fakeProduct("A"),
+               fakeProduct("B"),
+               fakeProduct("C")
+            ),
+            true
          )
+
       )
 
       compareScreenshot(composeTestRule)
@@ -39,11 +43,15 @@ class ProductListScreenshotTest : ScreenshotTest {
       }
 
       viewModel.products.value = Outcome.Progress(
-         listOf(
-            fakeProduct("A"),
-            fakeProduct("B"),
-            fakeProduct("C")
+         ProductListScreenData(
+            listOf(
+               fakeProduct("A"),
+               fakeProduct("B"),
+               fakeProduct("C")
+            ),
+            true
          )
+
       )
 
       compareScreenshot(composeTestRule)
@@ -57,11 +65,15 @@ class ProductListScreenshotTest : ScreenshotTest {
 
       viewModel.products.value = Outcome.Error(
          NoNetworkException(),
-         listOf(
-            fakeProduct("A"),
-            fakeProduct("B"),
-            fakeProduct("C")
+         ProductListScreenData(
+            listOf(
+               fakeProduct("A"),
+               fakeProduct("B"),
+               fakeProduct("C")
+            ),
+            true
          )
+
       )
 
       compareScreenshot(composeTestRule)

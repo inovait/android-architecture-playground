@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 fun <A, B> Outcome<A>.mapData(mapper: (A) -> B): Outcome<B> {
    return when (this) {
       is Outcome.Error -> Outcome.Error(exception, data?.let { mapper(it) })
-      is Outcome.Progress -> Outcome.Progress(data?.let { mapper(it) }, progress)
+      is Outcome.Progress -> Outcome.Progress(data?.let { mapper(it) }, progress, style)
       is Outcome.Success -> Outcome.Success(mapper(data))
    }
 }
@@ -58,13 +58,18 @@ fun <T> Outcome<T>.downgradeTo(
       this is Outcome.Progress -> {
          if (targetType is Outcome.Progress) {
             val combinedProgress = targetType.progress?.let { progress?.times(it) }
-            Outcome.Progress(data, combinedProgress)
+            val style = if (targetType.style == LoadingStyle.ADDITIONAL_DATA || this.style == LoadingStyle.ADDITIONAL_DATA) {
+               LoadingStyle.ADDITIONAL_DATA
+            } else {
+               LoadingStyle.NORMAL
+            }
+            Outcome.Progress(data, combinedProgress, style)
          } else {
             this
          }
       }
 
-      targetType is Outcome.Progress -> Outcome.Progress(data, targetType.progress)
+      targetType is Outcome.Progress -> Outcome.Progress(data, targetType.progress, targetType.style)
       else -> this
    }
 }

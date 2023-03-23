@@ -43,7 +43,7 @@ private class BlinkingPrevention<T>(
    var waitingToSeeIfLoadingJustFlashes = false
    var waitingForProlongedLoadingToFinish = false
    var lastData: T? = null
-   var lastProgress: Float? = null
+   var lastProgress: Outcome.Progress<T>? = null
    var lastError: CauseException? = null
    var gotSuccessDuringLoading = false
    var gotAtLeastOneSuccess = false
@@ -59,10 +59,10 @@ private class BlinkingPrevention<T>(
                      when (it) {
                         is Outcome.Progress -> {
                            lastData = it.data
-                           lastProgress = it.progress
+                           lastProgress = it
 
                            if (waitingForProlongedLoadingToFinish || (gotAtLeastOneSuccess && doNotWaitForInterimLoadings)) {
-                              emit(Outcome.Progress(lastData, lastProgress))
+                              emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
                            } else if (waitingToSeeIfLoadingJustFlashes) {
                               // Do nothing, only update current data
                            } else {
@@ -75,7 +75,7 @@ private class BlinkingPrevention<T>(
 
                            if (waitingForProlongedLoadingToFinish) {
                               lastData = it.data
-                              emit(Outcome.Progress(lastData, lastProgress))
+                              emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
                               gotSuccessDuringLoading = true
                            } else {
                               waitingToSeeIfLoadingJustFlashes = false
@@ -87,7 +87,7 @@ private class BlinkingPrevention<T>(
                            if (waitingForProlongedLoadingToFinish) {
                               lastData = it.data
                               lastError = it.exception
-                              emit(Outcome.Progress(lastData, lastProgress))
+                              emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
                            } else {
                               waitingToSeeIfLoadingJustFlashes = false
                               lastError = null
@@ -132,7 +132,7 @@ private class BlinkingPrevention<T>(
       flowCollector: FlowCollector<Outcome<T>>
    ) {
       selectBuilder.onTimeout(waitThisLongToShowLoadingMs) {
-         flowCollector.emit(Outcome.Progress(lastData, lastProgress))
+         flowCollector.emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
          waitingToSeeIfLoadingJustFlashes = false
          waitingForProlongedLoadingToFinish = true
       }

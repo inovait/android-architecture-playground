@@ -26,14 +26,19 @@ class ProductListScreenTest {
       }
 
       viewModel.products.value = Outcome.Success(
-         listOf(
-            fakeProduct("A"),
-            fakeProduct("B"),
-            fakeProduct("C")
+         ProductListScreenData(
+            listOf(
+               fakeProduct("A"),
+               fakeProduct("B"),
+               fakeProduct("C")
+            ),
+            true
          )
       )
 
-      composeTestRule.onNodeWithText("Products: A\nB\nC").assertIsDisplayed()
+      composeTestRule.onNodeWithText("A").assertIsDisplayed()
+      composeTestRule.onNodeWithText("B").assertIsDisplayed()
+      composeTestRule.onNodeWithText("C").assertIsDisplayed()
    }
 
    @Test
@@ -43,14 +48,19 @@ class ProductListScreenTest {
       }
 
       viewModel.products.value = Outcome.Progress(
-         listOf(
-            fakeProduct("A"),
-            fakeProduct("B"),
-            fakeProduct("C")
+         ProductListScreenData(
+            listOf(
+               fakeProduct("A"),
+               fakeProduct("B"),
+               fakeProduct("C")
+            ),
+            true
          )
       )
 
-      composeTestRule.onNodeWithText("Products: A\nB\nC").assertIsDisplayed()
+      composeTestRule.onNodeWithText("A").assertIsDisplayed()
+      composeTestRule.onNodeWithText("B").assertIsDisplayed()
+      composeTestRule.onNodeWithText("C").assertIsDisplayed()
    }
 
    @Test
@@ -60,10 +70,13 @@ class ProductListScreenTest {
       }
 
       viewModel.products.value = Outcome.Progress(
-         listOf(
-            fakeProduct("A"),
-            fakeProduct("B"),
-            fakeProduct("C")
+         ProductListScreenData(
+            listOf(
+               fakeProduct("A"),
+               fakeProduct("B"),
+               fakeProduct("C")
+            ),
+            true
          )
       )
 
@@ -77,10 +90,13 @@ class ProductListScreenTest {
       }
 
       viewModel.products.value = Outcome.Success(
-         listOf(
-            fakeProduct("A"),
-            fakeProduct("B"),
-            fakeProduct("C")
+         ProductListScreenData(
+            listOf(
+               fakeProduct("A"),
+               fakeProduct("B"),
+               fakeProduct("C")
+            ),
+            true
          )
       )
 
@@ -95,10 +111,13 @@ class ProductListScreenTest {
       }
 
       viewModel.products.value = Outcome.Success(
-         listOf(
-            fakeProduct("A"),
-            fakeProduct("B"),
-            fakeProduct("C")
+         ProductListScreenData(
+            listOf(
+               fakeProduct("A"),
+               fakeProduct("B"),
+               fakeProduct("C")
+            ),
+            true
          )
       )
 

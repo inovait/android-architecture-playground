@@ -18,7 +18,7 @@ class ProductsDataModule {
       okHttp {
          addNetworkInterceptor {
             @Suppress("MagicNumber") // Demo purposes
-            Thread.sleep(1_000) // Add extra delay to demonstrate cache
+            Thread.sleep(3_000) // Add extra delay to demonstrate cache
             val response = it.proceed(it.request())
 
             // Dummyjson response contains no-cache by default. Remove to demonstrate cache use.

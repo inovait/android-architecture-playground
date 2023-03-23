@@ -1,0 +1,14 @@
+package si.inova.androidarchitectureplayground.common.pagination
+
+import kotlinx.coroutines.flow.Flow
+import si.inova.androidarchitectureplayground.common.outcome.Outcome
+
+interface PaginatedDataStream<T> {
+   val data: Flow<PaginationResult<T>>
+   fun nextPage()
+
+   data class PaginationResult<T>(
+      val items: Outcome<T>,
+      val hasAnyDataLeft: Boolean
+   )
+}

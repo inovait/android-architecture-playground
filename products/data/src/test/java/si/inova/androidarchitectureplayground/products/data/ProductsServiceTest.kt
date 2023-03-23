@@ -17,7 +17,7 @@ class ProductsServiceTest {
       mockWebServer {
          val service = ProductsDataModule().provideProductService(serviceFactory)
 
-         mockResponse("/products") {
+         mockResponse("/products?skip=0") {
             setJsonBodyFromResource("product_list.json")
          }
 

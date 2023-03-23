@@ -131,7 +131,7 @@ class StaleWhileRevalidateCallAdapterFactory(
                val data = parsedResponse.bodyOrThrow(errorHandler)
 
                if (networkRequest != null) {
-                  Outcome.Progress(data)
+                  Outcome.Progress()
                } else {
                   Outcome.Success(data)
                }

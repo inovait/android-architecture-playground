@@ -1,20 +1,20 @@
 package si.inova.androidarchitectureplayground.products.data
 
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.common.outcome.mapData
-import si.inova.androidarchitectureplayground.network.cache.DiskCache
+import si.inova.androidarchitectureplayground.common.pagination.OffsetBasedPaginatedDataStream
+import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.products.data.model.ProductDto
 import javax.inject.Inject
 
 class ProductsRepository @Inject constructor(
    private val productsService: ProductsService
 ) {
-   fun getProducts(force: Boolean): Flow<Outcome<List<ProductDto>>> {
+   fun getProducts(force: Boolean): PaginatedDataStream<List<ProductDto>> {
 
-      return productsService.getProducts(force)
-         .map { outcome -> outcome.mapData { it.products } }
+      return OffsetBasedPaginatedDataStream { offset ->
+         productsService.getProducts(force, offset).map { outcome -> outcome.mapData { it.products } }
+      }
    }
 }
+
