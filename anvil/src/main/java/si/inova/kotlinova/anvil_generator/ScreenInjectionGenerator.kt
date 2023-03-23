@@ -9,6 +9,7 @@ import com.squareup.anvil.compiler.api.GeneratedFile
 import com.squareup.anvil.compiler.api.createGeneratedFile
 import com.squareup.anvil.compiler.internal.buildFile
 import com.squareup.anvil.compiler.internal.reference.ClassReference
+import com.squareup.anvil.compiler.internal.reference.ParameterReference
 import com.squareup.anvil.compiler.internal.reference.TypeReference
 import com.squareup.anvil.compiler.internal.reference.asClassName
 import com.squareup.anvil.compiler.internal.reference.classAndInnerClassReferences
@@ -113,7 +114,7 @@ class ScreenInjectionGenerator : CodeGenerator {
          .addAnnotation(classKeyAnnotation)
          .build()
 
-      val scopedServiceParameters = constructorParameters.filter { it.type().isScopedService() }
+      val scopedServiceParameters = getRequiredScopedServices(constructorParameters)
 
       val providesServiceListFunction = FunSpec.builder("providesScopedServiceList")
          .returns(List::class.asTypeName().parameterizedBy(Class::class.asTypeName().parameterizedBy(STAR)))
@@ -151,6 +152,18 @@ class ScreenInjectionGenerator : CodeGenerator {
       return listOf(
          createGeneratedFile(codeGenDir, packageName, outputFileName, content)
       )
+   }
+
+   private fun getRequiredScopedServices(constructorParameters: List<ParameterReference.Psi>): List<ParameterReference> {
+      val constructorsOfAllNestedScreens = constructorParameters
+         .map { it.type().asClassReference() }
+         .filter { it.getScreenTypeIfItExists() != null }
+         .map { it.constructors.firstOrNull()?.parameters ?: emptyList() }
+
+      val mergedConstructors = constructorsOfAllNestedScreens + listOf(constructorParameters)
+      return mergedConstructors.flatMap { constructor ->
+         constructor.filter { it.type().isScopedService() }
+      }
    }
 
    private fun ClassReference.getScreenTypeIfItExists(): TypeReference? {
