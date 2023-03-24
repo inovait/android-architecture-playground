@@ -20,4 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class * extends si.inova.androidarchitectureplayground.screens.Screen
+-keepnames class * extends si.inova.androidarchitectureplayground.navigation.base.Screen
