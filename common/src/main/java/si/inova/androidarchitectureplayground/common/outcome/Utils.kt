@@ -11,6 +11,6 @@ inline fun <T> catchIntoOutcome(block: () -> Outcome<T>): Outcome<T> {
    } catch (e: CauseException) {
       Outcome.Error(e)
    } catch (e: Exception) {
-      Outcome.Error(UnknownCauseException(e))
+      Outcome.Error(UnknownCauseException(cause = e))
    }
 }

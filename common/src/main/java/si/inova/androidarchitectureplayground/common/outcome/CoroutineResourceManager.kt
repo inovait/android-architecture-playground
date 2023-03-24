@@ -57,7 +57,7 @@ open class CoroutineResourceManager(
          val exception = if (e is CauseException) {
             e
          } else {
-            UnknownCauseException(e)
+            UnknownCauseException(cause = e)
          }
 
          interceptException(e)

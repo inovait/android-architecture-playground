@@ -15,9 +15,9 @@ import java.net.UnknownHostException
 fun Throwable.transformRetrofitException(): CauseException {
    return when (this) {
       is SocketTimeoutException, is ConnectException, is UnknownHostException -> NoNetworkException(cause = this)
-      is JsonDataException, is JsonEncodingException -> JsonParsingException(this)
-      else -> UnknownCauseException(this)
+      is JsonDataException, is JsonEncodingException -> JsonParsingException(cause = this)
+      else -> UnknownCauseException(cause = this)
    }
 }
 
-class JsonParsingException(cause: Throwable? = null) : CauseException(cause = cause)
+class JsonParsingException(message: String? = null, cause: Throwable? = null) : CauseException(message, cause)
