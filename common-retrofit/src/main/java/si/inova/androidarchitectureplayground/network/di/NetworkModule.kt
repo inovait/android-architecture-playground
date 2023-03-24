@@ -6,11 +6,12 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import si.inova.androidarchitectureplayground.common.PureApplicationScope
+import si.inova.androidarchitectureplayground.network.interceptors.BypassCacheInterceptor
 import javax.inject.Singleton
 
 @Module
 @ContributesTo(PureApplicationScope::class)
-class NetworkModule {
+object NetworkModule {
    @Provides
    @Singleton
    fun provideMoshi(): Moshi {
@@ -28,6 +29,11 @@ class NetworkModule {
          throw IllegalStateException("OkHttp should not be initialized on the main thread")
       }
 
-      return OkHttpClient()
+      return prepareDefaultOkHttpClient().build()
+   }
+
+   fun prepareDefaultOkHttpClient(): OkHttpClient.Builder {
+      return OkHttpClient.Builder()
+         .addInterceptor(BypassCacheInterceptor())
    }
 }

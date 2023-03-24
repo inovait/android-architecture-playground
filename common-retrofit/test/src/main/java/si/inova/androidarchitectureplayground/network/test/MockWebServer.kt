@@ -19,11 +19,10 @@ import si.inova.androidarchitectureplayground.test.outcomes.throwingErrorReporte
 inline fun TestScope.mockWebServer(block: MockWebServerScope.() -> Unit) {
    val server = MockWebServer()
 
-   val networkModule = NetworkModule()
    val serviceFactory = BaseServiceFactory(
       this,
-      { networkModule.provideMoshi() },
-      { networkModule.provideOkHttpClient() },
+      { NetworkModule.provideMoshi() },
+      { NetworkModule.provideOkHttpClient() },
       throwingErrorReporter(),
       server.url("").toString()
    )

@@ -79,6 +79,7 @@ class StaleWhileRevalidateCallAdapterFactory(
 
             val cacheRequest = originalCall.request().newBuilder()
                .cacheControl(CacheControl.FORCE_CACHE)
+               .removeHeader(HEADER_FORCE_REFRESH)
                .build()
 
             val rawCacheResponse = retrofit.callFactory().newCall(cacheRequest).enqueueAndAwait()
