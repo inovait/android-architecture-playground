@@ -23,9 +23,9 @@ fun <T> Response<T>.bodyOrThrow(errorHandler: ErrorHandler? = null): T = if (isS
       val rawRequestException = createParentException()
 
       errorHandler?.generateExceptionFromErrorBody(this, rawRequestException)
-         ?: rawRequestException.transformRetrofitException()
+         ?: rawRequestException.transformRetrofitException(raw().request.url)
    } catch (e: Exception) {
-      e.transformRetrofitException()
+      e.transformRetrofitException(raw().request.url)
    }
 
    throw exception

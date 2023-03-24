@@ -51,7 +51,7 @@ class SuspendCallAdapterFactory(
          GlobalScope.launch {
             proxy.enqueue(object : Callback<T> {
                override fun onFailure(call: Call<T>, t: Throwable) {
-                  callback.onFailure(call, t.transformRetrofitException())
+                  callback.onFailure(call, t.transformRetrofitException(request().url))
                }
 
                override fun onResponse(call: Call<T>, response: Response<T>) {
@@ -59,7 +59,7 @@ class SuspendCallAdapterFactory(
                      val result = response.bodyOrThrow(errorHandler)
                      callback.onResponse(call, Response.success(result))
                   } catch (e: Exception) {
-                     callback.onFailure(call, e.transformRetrofitException())
+                     callback.onFailure(call, e.transformRetrofitException(request().url))
                   }
                }
             })
