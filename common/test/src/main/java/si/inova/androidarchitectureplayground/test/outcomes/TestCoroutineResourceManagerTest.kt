@@ -9,7 +9,7 @@ import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
  * Return [CoroutineResourceManager] that runs with test dispatcher and
  * reports all unknown exceptions to the test coroutine runner.
  */
-fun TestScope.testCoroutineResourceManagerTest(): CoroutineResourceManager {
+fun TestScope.testCoroutineResourceManager(): CoroutineResourceManager {
    return CoroutineResourceManager(backgroundScope, throwingErrorReporter())
 }
 

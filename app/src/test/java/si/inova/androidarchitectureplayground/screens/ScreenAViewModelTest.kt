@@ -6,13 +6,13 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import si.inova.androidarchitectureplayground.test.outcomes.shouldBeSuccessWithData
-import si.inova.androidarchitectureplayground.test.outcomes.testCoroutineResourceManagerTest
+import si.inova.androidarchitectureplayground.test.outcomes.testCoroutineResourceManager
 import si.inova.androidarchitectureplayground.test.time.virtualTimeProvider
 
 internal class ScreenAViewModelTest {
    @Test
    internal fun `Do A Task testing`() = runTest {
-      val viewModel = ScreenAViewModel(testCoroutineResourceManagerTest(), virtualTimeProvider())
+      val viewModel = ScreenAViewModel(testCoroutineResourceManager(), virtualTimeProvider())
 
       viewModel.doATask()
       advanceTimeBy(2_000)
