@@ -2,6 +2,7 @@ package si.inova.androidarchitectureplayground.network.services
 
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonEncodingException
+import si.inova.androidarchitectureplayground.common.exceptions.JsonParsingException
 import si.inova.androidarchitectureplayground.common.exceptions.NoNetworkException
 import si.inova.androidarchitectureplayground.common.exceptions.UnknownCauseException
 import si.inova.androidarchitectureplayground.common.outcome.CauseException
@@ -20,4 +21,3 @@ fun Throwable.transformRetrofitException(): CauseException {
    }
 }
 
-class JsonParsingException(message: String? = null, cause: Throwable? = null) : CauseException(message, cause)
