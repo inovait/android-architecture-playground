@@ -1,8 +1,12 @@
 package si.inova.androidarchitectureplayground.test.outcomes
 
+import io.kotest.assertions.Actual
+import io.kotest.assertions.Expected
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.collectOrThrow
 import io.kotest.assertions.errorCollector
+import io.kotest.assertions.intellijFormatError
+import io.kotest.assertions.print.Printed
 import io.kotest.assertions.withClue
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -79,7 +83,9 @@ fun <T> Outcome<T>.shouldBeErrorWith(
    expectedData: T? = data,
    exceptionType: Class<out CauseException>? = null,
    exceptionMessage: String? = null
-) {
+): Exception {
+   lateinit var returnException: Exception
+
    assertSoftly {
       this
          .shouldBeInstanceOf<Outcome.Error<T>>()
@@ -93,11 +99,15 @@ fun <T> Outcome<T>.shouldBeErrorWith(
          }
          .exception
          .apply {
+            returnException = exception
+
             if (exceptionMessage != null) {
                message
                   .let {
-                     withClue("Exception's message") {
-                        it.shouldBe(exceptionMessage)
+                     if (it != exceptionMessage) {
+                        val expected = Expected(Printed(exceptionMessage))
+                        val actual = Actual(Printed(it ?: "null"))
+                        throw AssertionError("Exception's message: ${intellijFormatError(expected, actual)}", exception)
                      }
                   }
             }
@@ -105,11 +115,15 @@ fun <T> Outcome<T>.shouldBeErrorWith(
             if (exceptionType != null) {
                javaClass
                   .let {
-                     withClue("Exception's type does not match") {
-                        it.shouldBe(exceptionType)
+                     if (exception.javaClass != exceptionType) {
+                        val expected = Expected(Printed(exceptionType.name))
+                        val actual = Actual(Printed(it.name))
+                        throw AssertionError("Exception type: ${intellijFormatError(expected, actual)}", exception)
                      }
                   }
             }
          }
    }
+
+   return returnException
 }
