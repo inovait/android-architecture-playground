@@ -9,7 +9,6 @@ import org.intellij.lang.annotations.Language
 import si.inova.androidarchitectureplayground.network.di.NetworkModule
 import si.inova.androidarchitectureplayground.network.services.BaseServiceFactory
 import si.inova.androidarchitectureplayground.test.outcomes.throwingErrorReporter
-import si.inova.androidarchitectureplayground.test.time.virtualTimeProvider
 
 /**
  * Create and prepare [MockWebServer] for creating tests for web services.
@@ -26,7 +25,6 @@ inline fun TestScope.mockWebServer(block: MockWebServerScope.() -> Unit) {
       { networkModule.provideMoshi() },
       { networkModule.provideOkHttpClient() },
       throwingErrorReporter(),
-      virtualTimeProvider(),
       server.url("").toString()
    )
 

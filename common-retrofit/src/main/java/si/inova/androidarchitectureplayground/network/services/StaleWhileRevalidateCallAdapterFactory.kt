@@ -17,7 +17,6 @@ import si.inova.androidarchitectureplayground.common.outcome.CauseException
 import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.common.outcome.catchIntoOutcome
 import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
-import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.network.util.enqueueAndAwait
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
@@ -34,7 +33,6 @@ import java.util.concurrent.TimeUnit
 class StaleWhileRevalidateCallAdapterFactory(
    private val errorHandler: ErrorHandler?,
    private val errorReporter: ErrorReporter,
-   private val timeProvider: TimeProvider
 ) : CallAdapter.Factory() {
    override fun get(returnType: Type, annotations: Array<out Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
       if (returnType !is ParameterizedType) {
@@ -55,13 +53,12 @@ class StaleWhileRevalidateCallAdapterFactory(
       }
 
       val secondNestedType = getParameterUpperBound(0, firstNestedType)
-      return ResultAdapter<Any>(secondNestedType, retrofit, timeProvider)
+      return ResultAdapter<Any>(secondNestedType, retrofit)
    }
 
    private inner class ResultAdapter<T>(
       private val responseType: Type,
       private val retrofit: Retrofit,
-      private val timeProvider: TimeProvider
    ) : CallAdapter<T, Flow<Outcome<T>>> {
       @DelicateCoroutinesApi
       override fun adapt(call: Call<T>): Flow<Outcome<T>> {
@@ -101,7 +98,7 @@ class StaleWhileRevalidateCallAdapterFactory(
             }
 
             val strategy = CacheStrategy.Factory(
-               timeProvider.currentTimeMillis(),
+               System.currentTimeMillis(),
                originalCall.request(),
                responseWithAddedCacheParameters
             ).compute()

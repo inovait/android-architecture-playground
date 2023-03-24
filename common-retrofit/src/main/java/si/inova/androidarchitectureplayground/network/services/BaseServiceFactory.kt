@@ -7,7 +7,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
-import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Qualifier
@@ -17,7 +16,6 @@ open class BaseServiceFactory @Inject constructor(
    private val moshi: Provider<Moshi>,
    private val okHttpClient: Provider<OkHttpClient>,
    private val errorReporter: ErrorReporter,
-   private val timeProvider: TimeProvider,
    @BaseUrl
    private val baseUrl: String
 ) : ServiceFactory {
@@ -46,7 +44,7 @@ open class BaseServiceFactory @Inject constructor(
          .callFactory { updatedClient.value.newCall(it) }
          .baseUrl(baseUrl)
          .addConverterFactory(LazyRetrofitConverterFactory(moshiConverter))
-         .addCallAdapterFactory(StaleWhileRevalidateCallAdapterFactory(scope.errorHandler, errorReporter, timeProvider))
+         .addCallAdapterFactory(StaleWhileRevalidateCallAdapterFactory(scope.errorHandler, errorReporter))
          .addCallAdapterFactory(SuspendCallAdapterFactory(coroutineScope, scope.errorHandler))
          .build()
          .create(klass)

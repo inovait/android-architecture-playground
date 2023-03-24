@@ -35,7 +35,6 @@ inline fun ComposeTestRule.mockWebServer(block: MockWebServerScope.() -> Unit) {
       { networkModule.provideMoshi() },
       { networkModule.provideOkHttpClient() },
       { throw it },
-      mainClock.virtualTimeProvider(),
       baseUrl
    )
 
