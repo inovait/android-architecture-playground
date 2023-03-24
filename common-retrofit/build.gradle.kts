@@ -12,4 +12,8 @@ dependencies {
    implementation(libs.kotlin.coroutines)
 
    implementation(projects.common)
+
+   testImplementation(projects.common.test)
+   testImplementation(projects.commonRetrofit.test)
+   testImplementation(libs.turbine)
 }
