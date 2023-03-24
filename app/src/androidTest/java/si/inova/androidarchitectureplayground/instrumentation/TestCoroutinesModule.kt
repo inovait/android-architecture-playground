@@ -7,6 +7,7 @@ import dagger.Provides
 import dispatch.core.DefaultDispatcherProvider
 import dispatch.core.DispatcherProvider
 import dispatch.core.MainImmediateCoroutineScope
+import dispatch.core.DefaultCoroutineScope
 import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
 import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.di.CoroutinesModule
@@ -28,6 +29,11 @@ object TestCoroutinesModule {
    @Provides
    fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
       return MainImmediateCoroutineScope(dispatcherProvider = dispatcherProvider)
+   }
+
+   @Provides
+   fun provideDefaultCoroutineScope(): DefaultCoroutineScope {
+      return DefaultCoroutineScope(dispatcherProvider = dispatcherProvider)
    }
 
    @Provides

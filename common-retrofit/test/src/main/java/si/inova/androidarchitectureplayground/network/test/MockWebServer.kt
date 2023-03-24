@@ -22,6 +22,7 @@ inline fun TestScope.mockWebServer(block: MockWebServerScope.() -> Unit) {
 
    val networkModule = NetworkModule()
    val serviceFactory = BaseServiceFactory(
+      this,
       { networkModule.provideMoshi() },
       { networkModule.provideOkHttpClient() },
       throwingErrorReporter(),

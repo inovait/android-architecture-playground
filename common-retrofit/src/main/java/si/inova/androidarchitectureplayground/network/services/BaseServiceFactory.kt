@@ -1,6 +1,7 @@
 package si.inova.androidarchitectureplayground.network.services
 
 import com.squareup.moshi.Moshi
+import kotlinx.coroutines.CoroutineScope
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -12,6 +13,7 @@ import javax.inject.Provider
 import javax.inject.Qualifier
 
 open class BaseServiceFactory @Inject constructor(
+   private val coroutineScope: CoroutineScope,
    private val moshi: Provider<Moshi>,
    private val okHttpClient: Provider<OkHttpClient>,
    private val errorReporter: ErrorReporter,
@@ -45,7 +47,7 @@ open class BaseServiceFactory @Inject constructor(
          .baseUrl(baseUrl)
          .addConverterFactory(LazyRetrofitConverterFactory(moshiConverter))
          .addCallAdapterFactory(StaleWhileRevalidateCallAdapterFactory(scope.errorHandler, errorReporter, timeProvider))
-         .addCallAdapterFactory(SuspendCallAdapterFactory(scope.errorHandler))
+         .addCallAdapterFactory(SuspendCallAdapterFactory(coroutineScope, scope.errorHandler))
          .build()
          .create(klass)
    }

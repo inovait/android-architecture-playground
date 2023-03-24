@@ -1,6 +1,7 @@
 package si.inova.androidarchitectureplayground.network.services
 
 import com.squareup.moshi.Moshi
+import dispatch.core.DefaultCoroutineScope
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
@@ -14,10 +15,11 @@ class AndroidServiceFactory @Inject constructor(
    errorReporter: ErrorReporter,
    timeProvider: TimeProvider,
    okHttpClient: Provider<OkHttpClient>,
+   defaultCoroutineScope: DefaultCoroutineScope,
    @BaseUrl
    baseUrl: String,
    private val cacheManager: GlobalOkHttpDiskCacheManager
-) : BaseServiceFactory(moshi, okHttpClient, errorReporter, timeProvider, baseUrl) {
+) : BaseServiceFactory(defaultCoroutineScope, moshi, okHttpClient, errorReporter, timeProvider, baseUrl) {
    override fun createCache(): Cache {
       return cacheManager.cache
    }

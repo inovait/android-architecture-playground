@@ -3,6 +3,7 @@ package si.inova.androidarchitectureplayground.util
 import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.MainTestClock
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import dispatch.core.DefaultCoroutineScope
 import okhttp3.mockwebserver.MockWebServer
 import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.instrumentation.TestCoroutinesModule
@@ -30,6 +31,7 @@ inline fun ComposeTestRule.mockWebServer(block: MockWebServerScope.() -> Unit) {
    val networkModule = NetworkModule()
    val baseUrl = server.url("").toString()
    val serviceFactory = BaseServiceFactory(
+      DefaultCoroutineScope(dispatcherProvider = TestCoroutinesModule.dispatcherProvider),
       { networkModule.provideMoshi() },
       { networkModule.provideOkHttpClient() },
       { throw it },

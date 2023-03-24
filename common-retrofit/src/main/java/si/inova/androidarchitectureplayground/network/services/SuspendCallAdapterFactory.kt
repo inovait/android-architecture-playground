@@ -1,7 +1,6 @@
 package si.inova.androidarchitectureplayground.network.services
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.Request
 import okio.Timeout
@@ -19,6 +18,7 @@ import java.lang.reflect.Type
  *
  */
 class SuspendCallAdapterFactory(
+   private val coroutineScope: CoroutineScope,
    private val errorHandler: ErrorHandler? = null
 ) : CallAdapter.Factory() {
    override fun get(
@@ -45,10 +45,8 @@ class SuspendCallAdapterFactory(
    }
 
    private inner class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, T>(proxy) {
-      @OptIn(DelicateCoroutinesApi::class)
       override fun enqueueImpl(callback: Callback<T>) {
-         // Perform enqueue on the background thread to ensure OkHttp initialization does not block the main thread
-         GlobalScope.launch {
+         coroutineScope.launch {
             proxy.enqueue(object : Callback<T> {
                override fun onFailure(call: Call<T>, t: Throwable) {
                   callback.onFailure(call, t.transformRetrofitException(request().url))

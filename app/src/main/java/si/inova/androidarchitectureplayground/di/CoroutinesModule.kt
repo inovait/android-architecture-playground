@@ -4,6 +4,7 @@ import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Module
 import dagger.Provides
+import dispatch.core.DefaultCoroutineScope
 import dispatch.core.MainImmediateCoroutineScope
 import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
 import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
@@ -15,6 +16,11 @@ class CoroutinesModule {
    @Provides
    fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
       return MainImmediateCoroutineScope()
+   }
+
+   @Provides
+   fun provideDefaultCoroutineScope(): DefaultCoroutineScope {
+      return DefaultCoroutineScope()
    }
 
    @Provides
