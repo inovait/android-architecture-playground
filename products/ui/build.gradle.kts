@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.androidarchitecutreplayground.products.ui"
+   namespace = "si.inova.androidarchitectureplayground.products.ui"
 }
 
 dependencies {

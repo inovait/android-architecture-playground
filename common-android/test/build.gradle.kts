@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.arch.androidarchitectureplayground.test"
+   namespace = "si.inova.androidarchitectureplayground.test"
 }
 
 dependencies {

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.arch.androidarchitectureplayground.network.android"
+   namespace = "si.inova.androidarchitectureplayground.network.android"
 }
 
 dependencies {

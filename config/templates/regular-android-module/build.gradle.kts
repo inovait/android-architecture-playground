@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.arch.CHANGE_ME"
+   namespace = "si.inova.androidarchitectureplayground.CHANGE_ME"
 }
 
 dependencies {

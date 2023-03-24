@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.archandroidarchitectureplayground.masterdetail"
+   namespace = "si.inova.androidarchitectureplayground.masterdetail"
 }
 
 dependencies {

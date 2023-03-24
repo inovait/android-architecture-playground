@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.arch.CHANGE_ME"
+   namespace = "si.inova.androidarchitectureplayground.screenc"
 }
 
 dependencies {
