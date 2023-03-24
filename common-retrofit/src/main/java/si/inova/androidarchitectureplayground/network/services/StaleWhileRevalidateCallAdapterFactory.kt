@@ -78,7 +78,6 @@ class StaleWhileRevalidateCallAdapterFactory(
             val forceNetwork = originalCall.request().header(HEADER_FORCE_REFRESH)?.toBoolean() ?: false
 
             val cacheRequest = originalCall.request().newBuilder()
-               .removeHeader(HEADER_FORCE_REFRESH)
                .cacheControl(CacheControl.FORCE_CACHE)
                .build()
 
@@ -86,7 +85,7 @@ class StaleWhileRevalidateCallAdapterFactory(
 
             if (rawCacheResponse.code == HttpURLConnection.HTTP_GATEWAY_TIMEOUT) {
                // OkHttp returns gateway timeout when there is no cache or cache is not valid
-               return originalCall.request() to null
+               return originalCall.request().removeSyntheticHeaders() to null
             }
 
             val responseWithAddedCacheParameters = if (forceNetwork) {
@@ -103,7 +102,7 @@ class StaleWhileRevalidateCallAdapterFactory(
                responseWithAddedCacheParameters
             ).compute()
 
-            networkRequest = strategy.networkRequest?.newBuilder()?.removeHeader(HEADER_FORCE_REFRESH)?.build()
+            networkRequest = strategy.networkRequest?.removeSyntheticHeaders()
 
             val cacheResponse = strategy.cacheResponse
             if (networkRequest == null && cacheResponse == null) {
@@ -183,6 +182,10 @@ class StaleWhileRevalidateCallAdapterFactory(
 
       override fun responseType(): Type = responseType
    }
+}
+
+internal fun Request.removeSyntheticHeaders(): Request {
+   return newBuilder().removeHeader(HEADER_FORCE_REFRESH).build()
 }
 
 const val HEADER_FORCE_REFRESH = "Force-Refresh-From-Network"
