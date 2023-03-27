@@ -28,12 +28,11 @@ import java.time.ZonedDateTime
 inline fun ComposeTestRule.mockWebServer(block: MockWebServerScope.() -> Unit) {
    val server = MockWebServer()
 
-   val networkModule = NetworkModule()
    val baseUrl = server.url("").toString()
    val serviceFactory = BaseServiceFactory(
       DefaultCoroutineScope(dispatcherProvider = TestCoroutinesModule.dispatcherProvider),
-      { networkModule.provideMoshi() },
-      { networkModule.provideOkHttpClient() },
+      { NetworkModule.provideMoshi() },
+      { NetworkModule.provideOkHttpClient() },
       { throw it },
       baseUrl
    )
