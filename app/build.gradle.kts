@@ -39,7 +39,9 @@ android {
       }
    }
 
-   testBuildType = "proguardedDebug"
+   if (hasProperty("testAppWithProguard")) {
+      testBuildType = "proguardedDebug"
+   }
 
    signingConfigs {
       getByName("debug") {

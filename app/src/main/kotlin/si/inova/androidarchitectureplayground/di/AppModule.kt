@@ -8,6 +8,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.Multibinds
+import si.inova.androidarchitectureplayground.BuildConfig
 import si.inova.androidarchitectureplayground.common.logging.logcat
 import si.inova.androidarchitectureplayground.common.outcome.CauseException
 import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
@@ -51,6 +52,8 @@ abstract class AppModule {
          return ErrorReporter {
             if (it !is CauseException || it.shouldReport) {
                logcat { "Reporting $it to Firebase" }
+               it.printStackTrace()
+            } else if (BuildConfig.DEBUG) {
                it.printStackTrace()
             }
          }
