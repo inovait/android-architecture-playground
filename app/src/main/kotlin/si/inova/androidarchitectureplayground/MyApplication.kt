@@ -4,8 +4,6 @@ import android.app.Application
 import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
-import android.os.strictmode.DiskReadViolation
-import android.os.strictmode.DiskWriteViolation
 import androidx.core.content.ContextCompat
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.app.ApplicationComponent
@@ -83,13 +81,6 @@ open class MyApplication : Application(), ApplicationComponentOwner {
             .detectResourceMismatches()
             .detectUnbufferedIo()
             .penaltyListener(ContextCompat.getMainExecutor(this)) { e ->
-               if ((e is DiskReadViolation || e is DiskWriteViolation) &&
-                  e.stackTrace.any { it.className.contains("GlobalOkHttpDiskCacheManager") }
-               ) {
-                  // Excluded for now
-                  return@penaltyListener
-               }
-
                if (BuildConfig.DEBUG) {
                   throw e
                } else {
