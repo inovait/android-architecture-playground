@@ -31,7 +31,7 @@ inline fun ComposeTestRule.mockWebServer(block: MockWebServerScope.() -> Unit) {
    val baseUrl = server.url("").toString()
    val serviceFactory = BaseServiceFactory(
       DefaultCoroutineScope(dispatcherProvider = TestCoroutinesModule.dispatcherProvider),
-      { NetworkModule.provideMoshi() },
+      { NetworkModule.provideMoshi(emptySet()) },
       { NetworkModule.provideOkHttpClient() },
       { throw it },
       baseUrl
