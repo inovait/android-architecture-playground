@@ -11,6 +11,7 @@ androidx-lifecycle = "2.6.0-rc01"
 androidx-test-runner = "1.5.2"
 anvil = "2.4.4"
 autoService = "1.0"
+coil = "2.2.2"
 dagger = "2.44.2"
 desugarJdkLibs = "2.0.2"
 detekt = "1.22.0"
@@ -57,6 +58,7 @@ anvil-api = { module = "com.squareup.anvil:compiler-api", version.ref = "anvil" 
 anvil-utils = { module = "com.squareup.anvil:compiler-utils", version.ref = "anvil" }
 autoService-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
 autoService-compiler = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
+coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 dagger-runtime = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }

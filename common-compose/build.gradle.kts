@@ -11,4 +11,5 @@ android {
 dependencies {
    implementation(projects.commonAndroid)
    implementation(projects.commonNavigation)
+   implementation(libs.coil)
 }
