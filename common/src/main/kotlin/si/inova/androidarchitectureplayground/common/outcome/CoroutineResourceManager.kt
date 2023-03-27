@@ -83,9 +83,7 @@ open class CoroutineResourceManager(
 
       suspend fun emitAll(flow: Flow<Outcome<T>>) {
          val interceptedFlow = flow.onEach {
-            if (it is Outcome.Error) {
-               interceptException(it.exception)
-            }
+            reportError(it)
          }
 
          interceptedFlow.collectInto(this)
@@ -129,6 +127,15 @@ open class CoroutineResourceManager(
       activeJobs[resource] = newJob
 
       newJob.start()
+   }
+
+   /**
+    * If passed [outcome] is a [Outcome.Error], it will report it to the internal error reporter.
+    */
+   fun <T> reportError(outcome: Outcome<T>) {
+      if (outcome is Outcome.Error) {
+         interceptException(outcome.exception)
+      }
    }
 
    /**

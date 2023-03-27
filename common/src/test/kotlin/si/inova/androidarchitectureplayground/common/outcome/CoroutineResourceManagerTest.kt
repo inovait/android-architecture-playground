@@ -1,6 +1,8 @@
 package si.inova.androidarchitectureplayground.common.outcome
 
 import app.cash.turbine.test
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -317,5 +319,39 @@ internal class CoroutineResourceManagerTest {
          awaitItem() shouldBe Outcome.Progress(4)
          awaitItem() shouldBe Outcome.Success(5)
       }
+   }
+
+   @Test
+   internal fun `launchResourceControlTask should emit data to the target flow when launching`() = scope.runTest {
+      val resource = MutableStateFlow<Outcome<Int>>(Outcome.Success(12))
+
+      resource.test {
+         manager.launchResourceControlTask(resource) {
+            launchAndEmitAll(flowOf(Outcome.Success(3), Outcome.Progress(4), Outcome.Success(5)))
+         }
+
+         awaitItem() shouldBe Outcome.Success(12)
+         awaitItem() shouldBe Outcome.Progress(12)
+         awaitItem() shouldBe Outcome.Success(3)
+         awaitItem() shouldBe Outcome.Progress(4)
+         awaitItem() shouldBe Outcome.Success(5)
+      }
+   }
+
+   @Test
+   internal fun `Report failures in the reportError call`() = scope.runTest {
+      val exception = NoNetworkException()
+
+      manager.reportError(Outcome.Error<Unit>(exception))
+
+      reportedErrors.shouldContainExactly(exception)
+   }
+
+   @Test
+   internal fun `Ignore non-error Outcomes in the reportError call`() = scope.runTest {
+      manager.reportError(Outcome.Progress<Unit>())
+      manager.reportError(Outcome.Success(Unit))
+
+      reportedErrors.shouldBeEmpty()
    }
 }
