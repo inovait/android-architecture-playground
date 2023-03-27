@@ -7,6 +7,7 @@ plugins {
    id("com.android.application")
    id("android-module-commons")
    id("kotlin-kapt")
+   id("toml-update")
 }
 
 anvil {

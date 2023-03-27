@@ -30,8 +30,13 @@ tasks.withType<DependencyUpdatesTask> {
          candidate.version.contains("beta", ignoreCase = true) ||
          candidate.version.contains("RC", ignoreCase = true) ||
          candidate.version.contains("M", ignoreCase = true) ||
-         candidate.version.contains("eap", ignoreCase = true)
+         candidate.version.contains("eap", ignoreCase = true) ||
+         candidate.version.contains("dev", ignoreCase = true) ||
+         candidate.version.contains("pre", ignoreCase = true)
    }
+
+   reportfileName = "versions"
+   outputFormatter = "json"
 }
 
 detekt {
