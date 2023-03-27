@@ -136,11 +136,15 @@ abstract class BaseAndroidDateTimeFormatter : AndroidDateTimeFormatter {
     * This method will only use patterns that are in CLDR, and is useful whenever you know what elements you want
     * in your format string but don't want to make your code specific to any one locale.
     *
+    * "TTT" inside skeleton will get formatted as either 12 hour time (hh:MM) or 24 hour time (HH:mm a),
+    * depending on the user's locale settings
+    *
     * @param skeleton a skeleton as described above
     * @return a formatter with the localized pattern based on the skeleton
     */
    override fun ofSkeleton(skeleton: String): DateTimeFormatter {
-      return ofSkeleton(skeleton, extractPrimaryLocale())
+      val skeletonWithFixedShortTime = skeleton.replace("TTT", getSystemTimeSettingAwareShortTimePattern())
+      return ofSkeleton(skeletonWithFixedShortTime, extractPrimaryLocale())
    }
 
    /**
@@ -165,6 +169,7 @@ abstract class BaseAndroidDateTimeFormatter : AndroidDateTimeFormatter {
     * Lengths are preserved where meaningful, so "Md" would give a different result to "MMMd", say, except in a
     * locale such as `ja_JP` where there is only one length of month.
     *
+    * TTT format will get converted into user-set 12 hour or 24 hour time.
     *
     * This method will only use patterns that are in CLDR, and is useful whenever you know what elements you want
     * in your format string but don't want to make your code specific to any one locale.
