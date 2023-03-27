@@ -163,6 +163,7 @@ coroutines:
     active: false
   InjectDispatcher:
     active: true
+    excludes: *testFolders
   RedundantSuspendModifier:
     active: false
   SleepInsteadOfDelay:
