@@ -20,4 +20,3 @@ fun Throwable.transformRetrofitException(url: HttpUrl): CauseException {
       else -> UnknownCauseException("Failed to load $url", cause = this)
    }
 }
-

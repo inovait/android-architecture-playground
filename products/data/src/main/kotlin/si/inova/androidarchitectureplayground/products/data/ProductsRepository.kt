@@ -11,10 +11,8 @@ class ProductsRepository @Inject constructor(
    private val productsService: ProductsService
 ) {
    fun getProducts(force: Boolean): PaginatedDataStream<List<ProductDto>> {
-
       return OffsetBasedPaginatedDataStream { offset ->
          productsService.getProducts(force, offset).map { outcome -> outcome.mapData { it.products } }
       }
    }
 }
-

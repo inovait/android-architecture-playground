@@ -16,7 +16,7 @@ object NetworkModule {
    @Singleton
    fun provideMoshi(): Moshi {
       if (Thread.currentThread().name == "main") {
-         throw IllegalStateException("Moshi should not be initialized on the main thread")
+         error("Moshi should not be initialized on the main thread")
       }
 
       return Moshi.Builder().build()
@@ -26,7 +26,7 @@ object NetworkModule {
    @Singleton
    fun provideOkHttpClient(): OkHttpClient {
       if (Thread.currentThread().name == "main") {
-         throw IllegalStateException("OkHttp should not be initialized on the main thread")
+         error("OkHttp should not be initialized on the main thread")
       }
 
       return prepareDefaultOkHttpClient().build()

@@ -52,7 +52,8 @@ internal class OffsetBasedPaginatedDataStreamTest {
             Outcome.Progress(
                listOf(1, 2),
                style = LoadingStyle.ADDITIONAL_DATA
-            ), true
+            ),
+            true
          )
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Success(listOf(1, 2, 3, 4)), true)
 
@@ -82,13 +83,15 @@ internal class OffsetBasedPaginatedDataStreamTest {
             Outcome.Progress(
                listOf(1, 2),
                style = LoadingStyle.ADDITIONAL_DATA
-            ), true
+            ),
+            true
          )
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(
             Outcome.Progress(
                listOf(1, 2, 3, 4),
                style = LoadingStyle.ADDITIONAL_DATA
-            ), true
+            ),
+            true
          )
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Success(listOf(1, 2, 3, 4, 5)), true)
 
@@ -121,7 +124,8 @@ internal class OffsetBasedPaginatedDataStreamTest {
             Outcome.Progress(
                listOf(1, 2),
                style = LoadingStyle.ADDITIONAL_DATA
-            ), true
+            ),
+            true
          )
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Success(listOf(1, 2, 3, 4)), true)
 
@@ -130,7 +134,8 @@ internal class OffsetBasedPaginatedDataStreamTest {
             Outcome.Progress(
                listOf(1, 2, 3, 4),
                style = LoadingStyle.ADDITIONAL_DATA
-            ), true
+            ),
+            true
          )
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Success(listOf(1, 2, 3, 4)), false)
 

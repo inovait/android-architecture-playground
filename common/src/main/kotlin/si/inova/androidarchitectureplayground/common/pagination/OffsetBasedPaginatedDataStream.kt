@@ -35,7 +35,6 @@ class OffsetBasedPaginatedDataStream<T>(load: (nextOffset: Int) -> Flow<Outcome<
             .map { outcome -> PaginatedDataStream.PaginationResult(outcome, true) }
       )
 
-
       while (anyDataLeft && currentCoroutineContext().isActive) {
          nextPageChannel.receive()
          emit(
@@ -47,32 +46,33 @@ class OffsetBasedPaginatedDataStream<T>(load: (nextOffset: Int) -> Flow<Outcome<
 
          val prevData = currentList
          val nextPage = load(currentList.size)
-         emitAll(nextPage.map { outcome ->
-            val resultOutcome = when (outcome) {
-               is Outcome.Error -> {
-                  anyDataLeft = false
-                  Outcome.Error(outcome.exception, currentList + (outcome.data ?: emptyList()))
-               }
-
-               is Outcome.Progress -> {
-                  Outcome.Progress(
-                     currentList + (outcome.data ?: emptyList()),
-                     outcome.progress,
-                     LoadingStyle.ADDITIONAL_DATA
-                  )
-               }
-
-               is Outcome.Success -> {
-                  currentList = prevData + outcome.data
-                  if (outcome.data.isEmpty()) {
+         emitAll(
+            nextPage.map { outcome ->
+               val resultOutcome = when (outcome) {
+                  is Outcome.Error -> {
                      anyDataLeft = false
+                     Outcome.Error(outcome.exception, currentList + (outcome.data ?: emptyList()))
                   }
-                  Outcome.Success(currentList)
-               }
-            }
 
-            PaginatedDataStream.PaginationResult(resultOutcome, anyDataLeft)
-         }
+                  is Outcome.Progress -> {
+                     Outcome.Progress(
+                        currentList + (outcome.data ?: emptyList()),
+                        outcome.progress,
+                        LoadingStyle.ADDITIONAL_DATA
+                     )
+                  }
+
+                  is Outcome.Success -> {
+                     currentList = prevData + outcome.data
+                     if (outcome.data.isEmpty()) {
+                        anyDataLeft = false
+                     }
+                     Outcome.Success(currentList)
+                  }
+               }
+
+               PaginatedDataStream.PaginationResult(resultOutcome, anyDataLeft)
+            }
          )
       }
    }

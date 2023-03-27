@@ -8,7 +8,6 @@ import io.kotest.matchers.string.shouldContain
 import kotlinx.coroutines.test.runTest
 import okhttp3.Cache
 import okhttp3.mockwebserver.SocketPolicy
-import org.junit.Assert.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -183,7 +182,6 @@ class SuspendCallAdapterFactoryTest {
          }
 
          service.getEnumResult()
-
 
          mockResponse("/data") {
             setJsonBody("\"SECOND\"")

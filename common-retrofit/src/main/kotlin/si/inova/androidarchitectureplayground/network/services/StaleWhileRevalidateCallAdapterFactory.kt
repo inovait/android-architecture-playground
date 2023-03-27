@@ -10,6 +10,7 @@ import okhttp3.Request
 import okhttp3.internal.cache.CacheStrategy
 import retrofit2.Call
 import retrofit2.CallAdapter
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.parseResponse
 import si.inova.androidarchitectureplayground.common.exceptions.UnknownCauseException
@@ -124,41 +125,10 @@ class StaleWhileRevalidateCallAdapterFactory(
 
             val parsedResponse = originalCall.parseResponse(cacheResponse)
 
-            val result = catchIntoOutcome {
-               val data = parsedResponse.bodyOrThrow(errorHandler)
-
-               if (networkRequest != null) {
-                  Outcome.Progress(data)
-               } else {
-                  Outcome.Success(data)
-               }
-            }
-
-            if (result is Outcome.Error) {
-               handleCacheError(networkRequest, result.exception, originalCall)
-            } else {
-               send(result)
-            }
-
-            networkRequest to result.data
+            parseResultFromCacheResponse(parsedResponse, networkRequest, originalCall)
          } catch (e: Exception) {
             handleCacheError(networkRequest, e.transformRetrofitException(originalCall.request().url), originalCall)
             networkRequest to null
-         }
-      }
-
-      private suspend fun ProducerScope<Outcome<T>>.handleCacheError(
-         networkRequest: Request?,
-         e: CauseException,
-         originalCall: Call<T>
-      ) {
-         if (networkRequest == null) {
-            // Cache is our main request - forward all errors
-            send(Outcome.Error(e))
-         } else {
-            // Do not surface cache errors to the user, user will receive a new result anyway. Just report it
-            // so we can fix it
-            errorReporter.report(Exception("Cache call to ${originalCall.request().url} failed", e))
          }
       }
 
@@ -178,6 +148,45 @@ class StaleWhileRevalidateCallAdapterFactory(
             send(result)
          } catch (e: Exception) {
             send(Outcome.Error(e.transformRetrofitException(networkRequest.url), dataFromCache))
+         }
+      }
+
+      private suspend fun ProducerScope<Outcome<T>>.parseResultFromCacheResponse(
+         parsedResponse: Response<T>,
+         networkRequest: Request?,
+         originalCall: Call<T>
+      ): Pair<Request?, T?> {
+         val result = catchIntoOutcome {
+            val data = parsedResponse.bodyOrThrow(errorHandler)
+
+            if (networkRequest != null) {
+               Outcome.Progress(data)
+            } else {
+               Outcome.Success(data)
+            }
+         }
+
+         if (result is Outcome.Error) {
+            handleCacheError(networkRequest, result.exception, originalCall)
+         } else {
+            send(result)
+         }
+
+         return networkRequest to result.data
+      }
+
+      private suspend fun ProducerScope<Outcome<T>>.handleCacheError(
+         networkRequest: Request?,
+         e: CauseException,
+         originalCall: Call<T>
+      ) {
+         if (networkRequest == null) {
+            // Cache is our main request - forward all errors
+            send(Outcome.Error(e))
+         } else {
+            // Do not surface cache errors to the user, user will receive a new result anyway. Just report it
+            // so we can fix it
+            errorReporter.report(Exception("Cache call to ${originalCall.request().url} failed", e))
          }
       }
 

@@ -62,7 +62,7 @@ private class BlinkingPrevention<T>(
                            lastProgress = it
 
                            if (waitingForProlongedLoadingToFinish || (gotAtLeastOneSuccess && doNotWaitForInterimLoadings)) {
-                              emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
+                              emitCurrentProgress()
                            } else if (waitingToSeeIfLoadingJustFlashes) {
                               // Do nothing, only update current data
                            } else {
@@ -75,7 +75,7 @@ private class BlinkingPrevention<T>(
 
                            if (waitingForProlongedLoadingToFinish) {
                               lastData = it.data
-                              emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
+                              emitCurrentProgress()
                               gotSuccessDuringLoading = true
                            } else {
                               waitingToSeeIfLoadingJustFlashes = false
@@ -87,7 +87,7 @@ private class BlinkingPrevention<T>(
                            if (waitingForProlongedLoadingToFinish) {
                               lastData = it.data
                               lastError = it.exception
-                              emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
+                              emitCurrentProgress()
                            } else {
                               waitingToSeeIfLoadingJustFlashes = false
                               lastError = null
@@ -132,9 +132,13 @@ private class BlinkingPrevention<T>(
       flowCollector: FlowCollector<Outcome<T>>
    ) {
       selectBuilder.onTimeout(waitThisLongToShowLoadingMs) {
-         flowCollector.emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
+         flowCollector.emitCurrentProgress()
          waitingToSeeIfLoadingJustFlashes = false
          waitingForProlongedLoadingToFinish = true
       }
+   }
+
+   private suspend fun FlowCollector<Outcome<T>>.emitCurrentProgress() {
+      emit(lastProgress?.copy(data = lastData) ?: Outcome.Progress(lastData))
    }
 }
