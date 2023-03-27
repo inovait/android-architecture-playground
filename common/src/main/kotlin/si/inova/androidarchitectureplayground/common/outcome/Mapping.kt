@@ -17,6 +17,17 @@ fun <A, B> Outcome<A>.mapData(mapper: (A) -> B): Outcome<B> {
 }
 
 /**
+ * Map data of this outcome, while keeping the type, using suspend [mapper].
+ */
+suspend fun <A, B> Outcome<A>.mapDataSuspend(mapper: suspend (A) -> B): Outcome<B> {
+   return when (this) {
+      is Outcome.Error -> Outcome.Error(exception, data?.let { mapper(it) })
+      is Outcome.Progress -> Outcome.Progress(data?.let { mapper(it) }, progress, style)
+      is Outcome.Success -> Outcome.Success(mapper(data))
+   }
+}
+
+/**
  * Returns a flow that switches to a new flow produced by transform function every time the original flow emits a value.
  * When the original flow emits a new value, the previous flow produced by transform block is cancelled.
  *
