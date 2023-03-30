@@ -9,10 +9,10 @@ import javax.inject.Provider
 
 class MyScopedServices : ScopedServices {
    lateinit var scopedServicesFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<ScopedService>>
-   lateinit var scopedServicesKeys: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<List<Class<*>>>>
+   lateinit var screenRegistry: ScreenRegistry
 
    override fun bindServices(serviceBinder: ServiceBinder) {
-      val serviceKeys = scopedServicesKeys.getValue(serviceBinder.getKey<@JvmSuppressWildcards Class<*>>().javaClass).get()
+      val serviceKeys = screenRegistry.getRegistration(serviceBinder.getKey()).serviceClasses
 
       for (key in serviceKeys) {
          val service = scopedServicesFactories.getValue(key).get()

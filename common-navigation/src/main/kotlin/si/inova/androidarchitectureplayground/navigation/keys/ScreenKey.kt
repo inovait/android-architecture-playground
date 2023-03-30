@@ -17,8 +17,6 @@ import si.inova.androidarchitectureplayground.navigation.base.NavigationConditio
 import si.inova.androidarchitectureplayground.simplestack.StateChangeResult
 
 abstract class ScreenKey : Parcelable, ScopeKey {
-   abstract val screenClass: String
-
    open val navigationConditions: List<NavigationCondition>
       get() = emptyList()
 

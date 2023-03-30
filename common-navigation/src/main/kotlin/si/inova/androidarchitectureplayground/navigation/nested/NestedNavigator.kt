@@ -7,14 +7,13 @@ import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.History
 import si.inova.androidarchitectureplayground.di.MainNavigation
 import si.inova.androidarchitectureplayground.di.NavigationInjection
-import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
 import si.inova.androidarchitectureplayground.simplestack.MyScopedServices
+import si.inova.androidarchitectureplayground.simplestack.ScreenRegistry
 import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
 import javax.inject.Inject
-import javax.inject.Provider
 
 class NestedNavigator @Inject constructor(
    private val navigationStackComponentFactory: NavigationInjection.Factory,
@@ -23,10 +22,10 @@ class NestedNavigator @Inject constructor(
 ) {
    @Composable
    fun NestedNavigation(id: String = "SINGLE", initialKeys: () -> History<ScreenKey>) {
-      var screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>? = null
+      var screenRegistry: ScreenRegistry? = null
 
       val stateChanger = remember {
-         ComposeStateChanger(screenFactories = lazy { requireNotNull(screenFactories) })
+         ComposeStateChanger(screenRegistry = lazy { requireNotNull(screenRegistry) })
       }
       val asyncStateChanger = remember(stateChanger) { AsyncStateChanger(stateChanger) }
       val backstack = rememberBackstack(asyncStateChanger, id) {
@@ -38,16 +37,16 @@ class NestedNavigator @Inject constructor(
 
          val component = navigationStackComponentFactory.create(backstack, mainBackstack)
 
-         screenFactories = component.screenFactories()
+         screenRegistry = component.screenRegistry()
          scopedServices.scopedServicesFactories = component.scopedServicesFactories()
-         scopedServices.scopedServicesKeys = component.scopedServicesKeys()
+         scopedServices.screenRegistry = requireNotNull(screenRegistry)
 
          backstack
       }
 
-      if (screenFactories == null) {
+      if (screenRegistry == null) {
          val component = navigationStackComponentFactory.create(backstack, mainBackstack)
-         screenFactories = component.screenFactories()
+         screenRegistry = component.screenRegistry()
       }
 
       BackstackProvider(backstack) {

@@ -12,6 +12,7 @@ import com.squareup.anvil.compiler.internal.reference.ClassReference
 import com.squareup.anvil.compiler.internal.reference.ParameterReference
 import com.squareup.anvil.compiler.internal.reference.TypeReference
 import com.squareup.anvil.compiler.internal.reference.asClassName
+import com.squareup.anvil.compiler.internal.reference.asTypeName
 import com.squareup.anvil.compiler.internal.reference.classAndInnerClassReferences
 import com.squareup.anvil.compiler.internal.safePackageString
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -22,7 +23,6 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.asTypeName
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -72,10 +72,10 @@ class ScreenInjectionGenerator : CodeGenerator {
          .addMember("%T::class", className)
          .build()
 
-      val screenKey = screenType.unwrappedTypes.first().asTypeName()
+      val screenKey = screenType.unwrappedTypes.first().asClassReference()
 
       val screenKeyClassKeyAnnotation = AnnotationSpec.builder(ClassKey::class)
-         .addMember("%T::class", screenKey)
+         .addMember("%T::class", screenKey.asTypeName())
          .build()
 
       val screenClassName = SCREEN_BASE_CLASS.parameterizedBy(STAR)
@@ -118,15 +118,16 @@ class ScreenInjectionGenerator : CodeGenerator {
 
       val scopedServiceParameters = getRequiredScopedServices(constructorParameters)
 
-      val providesServiceListFunction = if (screenKey != SCREEN_KEY_BASE_CLASS) {
-         FunSpec.builder("providesScopedServiceList")
-            .returns(List::class.asTypeName().parameterizedBy(Class::class.asTypeName().parameterizedBy(STAR)))
+      val providesServiceListFunction = if (!screenKey.isAbstract()) {
+         FunSpec.builder("providesScreenRegistration")
+            .returns(SCREEN_REGISTRATION.parameterizedBy(STAR))
             .addAnnotation(Provides::class)
             .addAnnotation(IntoMap::class)
             .addAnnotation(screenKeyClassKeyAnnotation)
             .addStatement(
-               "return %L(${scopedServiceParameters.joinToString { "%T::class.java" }})",
-               "listOf",
+               "return %T(%T::class.java, ${scopedServiceParameters.joinToString { "%T::class.java" }})",
+               SCREEN_REGISTRATION,
+               className,
                *scopedServiceParameters.map { it.type().asTypeName() }.toTypedArray()
             )
             .build()
@@ -188,5 +189,3 @@ class ScreenInjectionGenerator : CodeGenerator {
 
    override fun isApplicable(context: AnvilContext): Boolean = true
 }
-
-

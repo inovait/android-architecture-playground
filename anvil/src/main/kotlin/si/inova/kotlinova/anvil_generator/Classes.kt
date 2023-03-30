@@ -17,11 +17,6 @@ internal val SCREEN_BASE_CLASS = ClassName(
    "Screen"
 )
 
-internal val SCREEN_KEY_BASE_CLASS = ClassName(
-   "si.inova.androidarchitectureplayground.navigation.keys",
-   "ScreenKey"
-)
-
 internal val SCOPED_SERVICE_BASE_CLASS = ClassName(
    "si.inova.androidarchitectureplayground.navigation.base",
    "ScopedService"
@@ -35,4 +30,9 @@ internal val SIMPLE_STACK_BACKSTACK_CLASS = ClassName(
 internal val APPLICATION_SCOPE_ANNOTATION = ClassName(
    "com.deliveryhero.whetstone.app",
    "ApplicationScope"
+)
+
+internal val SCREEN_REGISTRATION = ClassName(
+   "si.inova.androidarchitectureplayground.simplestack",
+   "ScreenRegistration"
 )

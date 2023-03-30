@@ -36,16 +36,14 @@ import com.zhuinden.simplestack.StateChange
 import com.zhuinden.simplestack.StateChanger.Callback
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.takeWhile
-import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.SingleTopKey
-import javax.inject.Provider
 
 /**
  * A state changer that allows switching between composables, animating the transition.
  */
 class ComposeStateChanger(
-   private val screenFactories: Lazy<Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>>
+   private val screenRegistry: Lazy<ScreenRegistry>,
 ) : AsyncStateChanger.NavigationHandler {
    private var currentStateChange by mutableStateOf<StateChangeData?>(null)
    private var lastCompletedCallback by mutableStateOf<Callback?>(null)
@@ -93,19 +91,10 @@ class ComposeStateChanger(
    @Composable
    private fun ShowScreen(key: ScreenKey) {
       val screen = remember(key.contentKey()) {
-         val screenClass = Class.forName(key.screenClass)
-         val screenFactory = screenFactories.value[screenClass] ?: error(
-            "Screen $screenClass is missing from factory map. " +
-               "Did you specify screen's FQN properly?"
-         )
-
-         val screen = screenFactory.get()
-
-         screen
+         screenRegistry.value.createScreen(key)
       }
 
-      @Suppress("UNCHECKED_CAST")
-      (screen as Screen<ScreenKey>).Content(key)
+      screen.Content(key)
    }
 
    private fun cleanupStaleSaveStates(

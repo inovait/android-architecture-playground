@@ -26,13 +26,13 @@ import kotlinx.coroutines.launch
 import si.inova.androidarchitectureplayground.di.NavigationStackComponent
 import si.inova.androidarchitectureplayground.migration.NavigatorActivity
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
-import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
 import si.inova.androidarchitectureplayground.simplestack.MyScopedServices
 import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
+import si.inova.androidarchitectureplayground.simplestack.ScreenRegistry
 import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
 import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.ui.result.LocalResultPassingStore
@@ -41,7 +41,6 @@ import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygr
 import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.ui.time.LocalDateFormatter
 import javax.inject.Inject
-import javax.inject.Provider
 
 @ContributesActivityInjector
 class MainActivity : FragmentActivity(), NavigatorActivity {
@@ -81,10 +80,10 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
          }
 
          setContent {
-            var screenFactories: Map<@JvmSuppressWildcards Class<*>, @JvmSuppressWildcards Provider<Screen<*>>>? = null
+            var screenRegistry: ScreenRegistry? = null
 
             val composeStateChanger = remember {
-               ComposeStateChanger(screenFactories = lazy { requireNotNull(screenFactories) })
+               ComposeStateChanger(screenRegistry = lazy { requireNotNull(screenRegistry) })
             }
 
             val asyncStateChanger = remember() { AsyncStateChanger(composeStateChanger) }
@@ -97,17 +96,17 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
                )
 
                val activityComponent = navigationStackComponentFactory.create(backstack, backstack)
-               screenFactories = activityComponent.screenFactories()
+               screenRegistry = activityComponent.screenRegistry()
                scopedServices.scopedServicesFactories = activityComponent.scopedServicesFactories()
-               scopedServices.scopedServicesKeys = activityComponent.scopedServicesKeys()
+               scopedServices.screenRegistry = requireNotNull(screenRegistry)
                navigator = activityComponent.navigator()
 
                backstack
             }
 
-            if (screenFactories == null) {
+            if (screenRegistry == null) {
                val component = navigationStackComponentFactory.create(backstack, backstack)
-               screenFactories = component.screenFactories()
+               screenRegistry = component.screenRegistry()
                navigator = component.navigator()
             }
 

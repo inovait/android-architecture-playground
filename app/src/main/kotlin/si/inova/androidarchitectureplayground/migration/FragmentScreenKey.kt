@@ -10,7 +10,4 @@ data class FragmentScreenKey(
    val fragmentClass: String,
    val arguments: Bundle? = null,
    val tag: String = UUID.randomUUID().toString()
-) : ScreenKey() {
-   override val screenClass: String
-      get() = "si.inova.androidarchitectureplayground.migration.FragmentScreen"
-}
+) : ScreenKey()

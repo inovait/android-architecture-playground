@@ -26,7 +26,4 @@ class NestedScreenB(
 }
 
 @Parcelize
-object NestedScreenBKey : NoArgsScreenKey() {
-   override val screenClass: String
-      get() = "si.inova.androidarchitectureplayground.screens.nested.NestedScreenB"
-}
+object NestedScreenBKey : NoArgsScreenKey()
