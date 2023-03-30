@@ -11,7 +11,7 @@ To create new Android project from that:
 5. Rename `namespace` and `applicatonId` in `app/build.gradle.kts`
 6. Rename `rootProject.name` in `settings.gradle.kts
 7. Rename `app_name` in `app/res/values/strings.xml`
-8. Rename theme in `app/src/main/java/si/inova/impactwrap/tv/Theme.kt`
+8. Rename theme in `app/src/main/java/si/inova/androidarchitectureplayground/ui/theme/Theme.kt`
 
 ## Keystore
 
