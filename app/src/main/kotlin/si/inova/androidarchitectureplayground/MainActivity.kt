@@ -8,13 +8,13 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
@@ -23,6 +23,7 @@ import com.zhuinden.simplestack.History
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import si.inova.androidarchitectureplayground.di.NavigationInjection
 import si.inova.androidarchitectureplayground.di.NavigationStackComponent
 import si.inova.androidarchitectureplayground.migration.NavigatorActivity
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
@@ -30,9 +31,7 @@ import si.inova.androidarchitectureplayground.navigation.instructions.Navigation
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
-import si.inova.androidarchitectureplayground.simplestack.MyScopedServices
 import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
-import si.inova.androidarchitectureplayground.simplestack.ScreenRegistry
 import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
 import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.ui.result.LocalResultPassingStore
@@ -80,60 +79,46 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
          }
 
          setContent {
-            var screenRegistry: ScreenRegistry? = null
+            NavigationRoot(initialHistory)
+         }
 
-            val composeStateChanger = remember {
-               ComposeStateChanger(screenRegistry = lazy { requireNotNull(screenRegistry) })
-            }
+         initComplete = true
+      }
+   }
 
-            val asyncStateChanger = remember() { AsyncStateChanger(composeStateChanger) }
-            val backstack = rememberBackstack(asyncStateChanger) {
-               val scopedServices = MyScopedServices()
+   @Composable
+   private fun NavigationRoot(initialHistory: List<ScreenKey>) {
+      val backstack = navigationStackComponentFactory.rememberBackstack { initialHistory }
 
-               val backstack = createBackstack(
-                  initialHistory,
-                  scopedServices = scopedServices
-               )
+      val composeStateChanger = ComposeStateChanger()
+      remember(composeStateChanger) {
+         backstack.setStateChanger(AsyncStateChanger(composeStateChanger))
+         true
+      }
 
-               val activityComponent = navigationStackComponentFactory.create(backstack, backstack)
-               screenRegistry = activityComponent.screenRegistry()
-               scopedServices.scopedServicesFactories = activityComponent.scopedServicesFactories()
-               scopedServices.screenRegistry = requireNotNull(screenRegistry)
-               navigator = activityComponent.navigator()
+      remember(backstack) {
+         navigator = NavigationInjection.fromBackstack(backstack).navigator()
+         true
+      }
 
-               backstack
-            }
+      val resultPassingStore = rememberSaveable { ResultPassingStore() }
 
-            if (screenRegistry == null) {
-               val component = navigationStackComponentFactory.create(backstack, backstack)
-               screenRegistry = component.screenRegistry()
-               navigator = component.navigator()
-            }
-
-            FragmentTransaction.TRANSIT_FRAGMENT_OPEN
-
-            val resultPassingStore = rememberSaveable { ResultPassingStore() }
-
-            CompositionLocalProvider(
-               LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter),
-               LocalResultPassingStore provides resultPassingStore
+      CompositionLocalProvider(
+         LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter),
+         LocalResultPassingStore provides resultPassingStore
+      ) {
+         AndroidArchitecturePlaygroundTheme {
+            // A surface container using the 'background' color from the theme
+            Surface(
+               modifier = Modifier.fillMaxSize(),
+               color = MaterialTheme.colorScheme.background
             ) {
-               AndroidArchitecturePlaygroundTheme {
-                  // A surface container using the 'background' color from the theme
-                  Surface(
-                     modifier = Modifier.fillMaxSize(),
-                     color = MaterialTheme.colorScheme.background
-                  ) {
-                     BackstackProvider(backstack) {
-                        composeStateChanger.Content()
-                     }
-                  }
+               BackstackProvider(backstack) {
+                  composeStateChanger.Content()
                }
             }
          }
       }
-
-      initComplete = true
    }
 
    override fun onNewIntent(intent: Intent?) {

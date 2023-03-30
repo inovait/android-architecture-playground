@@ -51,6 +51,25 @@ fun rememberBackstack(
    interceptBackButton: Boolean = true,
    init: ComposeNavigatorInitializer.() -> Backstack,
 ): Backstack {
+   val backstack = rememberBackstack(id, interceptBackButton, init)
+
+   remember(stateChanger) {
+      // Attach state changer after init call to defer first navigation. That way,
+      // caller can use backstack to init their own things with Backstack instance
+      // before navigation is performed.
+      backstack.setStateChanger(stateChanger)
+      true
+   }
+
+   return backstack
+}
+
+@Composable
+fun rememberBackstack(
+   id: String = "SINGLE",
+   interceptBackButton: Boolean = true,
+   init: ComposeNavigatorInitializer.() -> Backstack,
+): Backstack {
    val viewModel = viewModel<BackstackHolderViewModel>()
    val backstack = viewModel.getBackstack(id) ?: init(viewModel.createInitializer(id))
 
@@ -59,14 +78,6 @@ fun rememberBackstack(
 
    if (interceptBackButton) {
       BackHandler(backstack)
-   }
-
-   remember(stateChanger) {
-      // Attach state changer after init call to defer first navigation. That way,
-      // caller can use backstack to init their own things with Backstack instance
-      // before navigation is performed.
-      backstack.setStateChanger(stateChanger)
-      true
    }
 
    return backstack

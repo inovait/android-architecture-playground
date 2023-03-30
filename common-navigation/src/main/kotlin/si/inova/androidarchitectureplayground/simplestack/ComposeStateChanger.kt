@@ -36,19 +36,23 @@ import com.zhuinden.simplestack.StateChange
 import com.zhuinden.simplestack.StateChanger.Callback
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.takeWhile
+import si.inova.androidarchitectureplayground.di.NavigationInjection
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.SingleTopKey
 
 /**
  * A state changer that allows switching between composables, animating the transition.
  */
-class ComposeStateChanger(
-   private val screenRegistry: Lazy<ScreenRegistry>,
-) : AsyncStateChanger.NavigationHandler {
+class ComposeStateChanger : AsyncStateChanger.NavigationHandler {
    private var currentStateChange by mutableStateOf<StateChangeData?>(null)
    private var lastCompletedCallback by mutableStateOf<Callback?>(null)
 
+   private lateinit var screenRegistry: ScreenRegistry
+
    override fun onNavigationEvent(stateChange: StateChange, completionCallback: Callback) {
+      if (!::screenRegistry.isInitialized) {
+         screenRegistry = NavigationInjection.fromBackstack(stateChange.backstack).screenRegistry()
+      }
       currentStateChange = StateChangeData(stateChange, completionCallback)
    }
 
@@ -91,7 +95,7 @@ class ComposeStateChanger(
    @Composable
    private fun ShowScreen(key: ScreenKey) {
       val screen = remember(key.contentKey()) {
-         screenRegistry.value.createScreen(key)
+         screenRegistry.createScreen(key)
       }
 
       screen.Content(key)

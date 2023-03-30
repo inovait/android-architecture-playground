@@ -12,8 +12,8 @@ import javax.inject.Inject
 interface NavigationStackComponent : NavigationInjection {
 
    @Subcomponent.Factory
-   interface Factory {
-      fun create(
+   interface Factory : NavigationInjection.Factory {
+      override fun create(
          @BindsInstance
          backstack: Backstack,
          @BindsInstance

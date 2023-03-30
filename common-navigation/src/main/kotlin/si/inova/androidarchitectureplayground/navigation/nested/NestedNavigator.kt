@@ -10,8 +10,6 @@ import si.inova.androidarchitectureplayground.di.NavigationInjection
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
-import si.inova.androidarchitectureplayground.simplestack.MyScopedServices
-import si.inova.androidarchitectureplayground.simplestack.ScreenRegistry
 import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
 import javax.inject.Inject
 
@@ -21,32 +19,17 @@ class NestedNavigator @Inject constructor(
    private val mainBackstack: Backstack
 ) {
    @Composable
-   fun NestedNavigation(id: String = "SINGLE", initialKeys: () -> History<ScreenKey>) {
-      var screenRegistry: ScreenRegistry? = null
+   fun NestedNavigation(id: String = "SINGLE", initialHistory: () -> History<ScreenKey>) {
+      val backstack = navigationStackComponentFactory.rememberBackstack(
+         id = id,
+         initialHistory = initialHistory,
+         overrideMainBackstack = mainBackstack
+      )
 
-      val stateChanger = remember {
-         ComposeStateChanger(screenRegistry = lazy { requireNotNull(screenRegistry) })
-      }
-      val asyncStateChanger = remember(stateChanger) { AsyncStateChanger(stateChanger) }
-      val backstack = rememberBackstack(asyncStateChanger, id) {
-         val scopedServices = MyScopedServices()
-         val backstack = createBackstack(
-            initialKeys = initialKeys(),
-            scopedServices = scopedServices
-         )
-
-         val component = navigationStackComponentFactory.create(backstack, mainBackstack)
-
-         screenRegistry = component.screenRegistry()
-         scopedServices.scopedServicesFactories = component.scopedServicesFactories()
-         scopedServices.screenRegistry = requireNotNull(screenRegistry)
-
-         backstack
-      }
-
-      if (screenRegistry == null) {
-         val component = navigationStackComponentFactory.create(backstack, mainBackstack)
-         screenRegistry = component.screenRegistry()
+      val stateChanger = ComposeStateChanger()
+      remember(stateChanger) {
+         backstack.setStateChanger(AsyncStateChanger(stateChanger))
+         true
       }
 
       BackstackProvider(backstack) {
