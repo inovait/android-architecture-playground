@@ -9,10 +9,10 @@ import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.app.ApplicationComponent
 import com.deliveryhero.whetstone.app.ApplicationComponentOwner
 import com.deliveryhero.whetstone.app.ContributesAppInjector
-import si.inova.androidarchitectureplayground.common.logging.LogPriority
-import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.di.DaggerMyApplicationComponent
-import si.inova.androidarchitectureplayground.logging.AndroidLogcatLogger
+import si.inova.kotlinova.core.logging.AndroidLogcatLogger
+import si.inova.kotlinova.core.logging.LogPriority
+import si.inova.kotlinova.core.reporting.ErrorReporter
 import javax.inject.Inject
 import javax.inject.Provider
 

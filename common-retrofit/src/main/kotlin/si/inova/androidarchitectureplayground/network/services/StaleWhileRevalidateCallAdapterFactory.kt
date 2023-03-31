@@ -13,12 +13,12 @@ import retrofit2.CallAdapter
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.parseResponse
-import si.inova.androidarchitectureplayground.common.exceptions.UnknownCauseException
-import si.inova.androidarchitectureplayground.common.outcome.CauseException
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
-import si.inova.androidarchitectureplayground.common.outcome.catchIntoOutcome
-import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.network.util.enqueueAndAwait
+import si.inova.kotlinova.core.exceptions.UnknownCauseException
+import si.inova.kotlinova.core.outcome.CauseException
+import si.inova.kotlinova.core.outcome.Outcome
+import si.inova.kotlinova.core.outcome.catchIntoOutcome
+import si.inova.kotlinova.core.reporting.ErrorReporter
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.net.HttpURLConnection

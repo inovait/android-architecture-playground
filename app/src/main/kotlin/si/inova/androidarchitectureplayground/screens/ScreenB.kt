@@ -23,12 +23,12 @@ import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
 import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigator
 import si.inova.androidarchitectureplayground.screens.nested.NestedScreenAKey
-import si.inova.androidarchitectureplayground.time.AndroidTimeProvider
-import si.inova.androidarchitectureplayground.time.FakeAndroidTimeProvider
-import si.inova.androidarchitectureplayground.time.FakeDateTimeFormatter
 import si.inova.androidarchitectureplayground.ui.result.LocalResultPassingStore
 import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
 import si.inova.androidarchitectureplayground.ui.time.LocalDateFormatter
+import si.inova.kotlinova.core.time.AndroidTimeProvider
+import si.inova.kotlinova.core.time.FakeAndroidDateTimeFormatter
+import si.inova.kotlinova.core.time.FakeAndroidTimeProvider
 import java.time.LocalDateTime
 import java.time.format.FormatStyle
 
@@ -92,7 +92,7 @@ private fun CurrentTimePreview() {
       currentLocalDateTime = { LocalDateTime.of(2020, 1, 12, 12, 30) }
    )
 
-   val formatter = FakeDateTimeFormatter(
+   val formatter = FakeAndroidDateTimeFormatter(
       use24hTime = false
    )
 

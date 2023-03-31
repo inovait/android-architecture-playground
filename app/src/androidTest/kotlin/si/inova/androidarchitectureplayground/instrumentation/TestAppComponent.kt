@@ -8,7 +8,7 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import okhttp3.OkHttpClient
-import si.inova.androidarchitectureplayground.common.PureApplicationScope
+import si.inova.kotlinova.core.di.PureApplicationScope
 import javax.inject.Singleton
 
 @MergeComponent(ApplicationScope::class)

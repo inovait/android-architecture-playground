@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import si.inova.androidarchitectureplayground.common.outcome.LoadingStyle
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
-import si.inova.androidarchitectureplayground.test.util.testWithExceptions
+import si.inova.kotlinova.core.outcome.LoadingStyle
+import si.inova.kotlinova.core.outcome.Outcome
+import si.inova.kotlinova.core.test.util.testWithExceptions
 
 internal class OffsetBasedPaginatedDataStreamTest {
    private var fakeResponses = ArrayDeque<List<Outcome<List<Int>>>>()

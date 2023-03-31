@@ -3,7 +3,7 @@ package si.inova.androidarchitectureplayground.ui.time
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.platform.LocalConfiguration
-import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
+import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale

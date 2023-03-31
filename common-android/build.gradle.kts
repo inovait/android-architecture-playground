@@ -3,10 +3,10 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.androidarchitectureplayground.common"
+   namespace = "si.inova.kotlinova.core"
 }
 
 dependencies {
    api(projects.common)
-   compileOnly(libs.androidx.compose.runtime)
+   api(libs.kotlinova.core)
 }

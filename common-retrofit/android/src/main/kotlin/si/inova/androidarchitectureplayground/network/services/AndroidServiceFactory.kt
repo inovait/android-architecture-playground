@@ -4,8 +4,8 @@ import com.squareup.moshi.Moshi
 import dispatch.core.DefaultCoroutineScope
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.network.android.util.GlobalOkHttpDiskCacheManager
+import si.inova.kotlinova.core.reporting.ErrorReporter
 import javax.inject.Inject
 import javax.inject.Provider
 

@@ -5,13 +5,13 @@ import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
-import si.inova.androidarchitectureplayground.common.outcome.mapData
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.navigation.base.SingleScreenViewModel
 import si.inova.androidarchitectureplayground.products.data.ProductsRepository
 import si.inova.androidarchitectureplayground.screens.ProductListScreenKey
+import si.inova.kotlinova.core.outcome.CoroutineResourceManager
+import si.inova.kotlinova.core.outcome.Outcome
+import si.inova.kotlinova.core.outcome.mapData
 import javax.inject.Inject
 
 @Stable

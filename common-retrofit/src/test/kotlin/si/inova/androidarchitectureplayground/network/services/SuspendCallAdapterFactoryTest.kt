@@ -14,11 +14,11 @@ import org.junit.jupiter.api.io.TempDir
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
-import si.inova.androidarchitectureplayground.common.exceptions.JsonParsingException
-import si.inova.androidarchitectureplayground.common.exceptions.NoNetworkException
-import si.inova.androidarchitectureplayground.common.outcome.CauseException
 import si.inova.androidarchitectureplayground.network.test.mockWebServer
 import si.inova.androidarchitectureplayground.network.test.setJsonBody
+import si.inova.kotlinova.core.exceptions.DataParsingException
+import si.inova.kotlinova.core.exceptions.NoNetworkException
+import si.inova.kotlinova.core.outcome.CauseException
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -68,7 +68,7 @@ class SuspendCallAdapterFactoryTest {
    }
 
    @Test
-   internal fun `Throw JsonParsingException if json parsing fails`() = runTest {
+   internal fun `Throw DataParsingException if json parsing fails`() = runTest {
       mockWebServer {
          val service: TestRetrofitService = serviceFactory.create()
 
@@ -76,14 +76,14 @@ class SuspendCallAdapterFactoryTest {
             setJsonBody("{")
          }
 
-         shouldThrow<JsonParsingException> {
+         shouldThrow<DataParsingException> {
             service.getEnumResult()
          }
       }
    }
 
    @Test
-   internal fun `Throw JsonParsingException if json parsing has wrong fields`() = runTest {
+   internal fun `Throw DataParsingException if json parsing has wrong fields`() = runTest {
       mockWebServer {
          val service: TestRetrofitService = serviceFactory.create()
 
@@ -91,7 +91,7 @@ class SuspendCallAdapterFactoryTest {
             setJsonBody("\"THIRD\"")
          }
 
-         shouldThrow<JsonParsingException> {
+         shouldThrow<DataParsingException> {
             service.getEnumResult()
          }
       }
@@ -106,7 +106,7 @@ class SuspendCallAdapterFactoryTest {
             setJsonBody("\"THIRD\"")
          }
 
-         val exception = shouldThrow<JsonParsingException> {
+         val exception = shouldThrow<DataParsingException> {
             service.getEnumResult()
          }
 

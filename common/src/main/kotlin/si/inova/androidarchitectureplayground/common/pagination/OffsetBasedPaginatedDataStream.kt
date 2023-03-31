@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
-import si.inova.androidarchitectureplayground.common.outcome.LoadingStyle
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
+import si.inova.kotlinova.core.outcome.LoadingStyle
+import si.inova.kotlinova.core.outcome.Outcome
 
 /**
  * A [PaginatedDataStream] that loads individual pages based on the item offset.

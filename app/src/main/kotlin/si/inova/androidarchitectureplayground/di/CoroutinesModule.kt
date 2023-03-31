@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dispatch.core.DefaultCoroutineScope
 import dispatch.core.MainImmediateCoroutineScope
-import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
-import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
+import si.inova.kotlinova.core.outcome.CoroutineResourceManager
+import si.inova.kotlinova.core.reporting.ErrorReporter
 
 @Suppress("unused")
 @ContributesTo(ApplicationScope::class)

@@ -7,10 +7,10 @@
 -keepclassmembers class si.inova.androidarchitectureplayground.MyApplication {
     public getApplicationComponent();
 }
--keep class si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager {
+-keep class si.inova.kotlinova.core.outcome.CoroutineResourceManager {
     *;
 }
--keep class si.inova.androidarchitectureplayground.test.** {
+-keep class si.inova.kotlinova.core.test.** {
     *;
 }
 

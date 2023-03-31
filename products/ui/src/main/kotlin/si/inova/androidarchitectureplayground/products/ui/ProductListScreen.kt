@@ -16,12 +16,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import si.inova.androidarchitectureplayground.common.outcome.LoadingStyle
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.screens.ProductListScreenKey
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
 import si.inova.androidarchitectureplayground.ui.time.collectAsStateWithLifecycleAndBlinkingPrevention
+import si.inova.kotlinova.core.outcome.LoadingStyle
+import si.inova.kotlinova.core.outcome.Outcome
 
 class ProductListScreen(private val viewModel: ProductListViewModel) : Screen<ProductListScreenKey>() {
    @Composable

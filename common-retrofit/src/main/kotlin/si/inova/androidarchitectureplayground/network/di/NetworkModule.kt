@@ -7,8 +7,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.Multibinds
 import okhttp3.OkHttpClient
-import si.inova.androidarchitectureplayground.common.PureApplicationScope
 import si.inova.androidarchitectureplayground.network.interceptors.BypassCacheInterceptor
+import si.inova.kotlinova.core.di.PureApplicationScope
 import javax.inject.Singleton
 
 @Module

@@ -20,6 +20,7 @@ kotlin = "1.8.10"
 kotlin-coroutines = "1.6.4"
 junit4 = "4.13.2"
 junit5 = "5.9.2"
+kotlinova = "3.0.0-alpha5"
 okhttp = "4.10.0"
 orgJson = "20230227"
 # Do not update kotest until https://github.com/kotest/kotest/issues/3407 fix is released
@@ -75,6 +76,8 @@ kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref =
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinova-core = { module = "si.inova.kotlinova:core", version.ref = "kotlinova" }
+kotlinova-core-test = { module = "si.inova.kotlinova:core-test", version.ref = "kotlinova" }
 ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }

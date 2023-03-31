@@ -6,7 +6,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
+import si.inova.kotlinova.core.reporting.ErrorReporter
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Qualifier

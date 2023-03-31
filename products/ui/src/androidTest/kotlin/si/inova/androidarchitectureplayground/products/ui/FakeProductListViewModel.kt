@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.products.ui
 
 import kotlinx.coroutines.flow.MutableStateFlow
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
+import si.inova.kotlinova.core.outcome.Outcome
 
 class FakeProductListViewModel : ProductListViewModel {
    override val products: MutableStateFlow<Outcome<ProductListScreenData>> = MutableStateFlow(Outcome.Progress())

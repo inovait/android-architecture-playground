@@ -5,9 +5,9 @@ import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import si.inova.androidarchitectureplayground.test.outcomes.shouldBeSuccessWithData
-import si.inova.androidarchitectureplayground.test.outcomes.testCoroutineResourceManager
-import si.inova.androidarchitectureplayground.test.time.virtualTimeProvider
+import si.inova.kotlinova.core.test.outcomes.shouldBeSuccessWithData
+import si.inova.kotlinova.core.test.outcomes.testCoroutineResourceManager
+import si.inova.kotlinova.core.test.time.virtualTimeProvider
 
 internal class ScreenAViewModelTest {
    @Test

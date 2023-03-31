@@ -5,11 +5,11 @@ import androidx.compose.runtime.Stable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import si.inova.androidarchitectureplayground.common.outcome.CoroutineResourceManager
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
-import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.navigation.base.SingleScreenViewModel
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
+import si.inova.kotlinova.core.outcome.CoroutineResourceManager
+import si.inova.kotlinova.core.outcome.Outcome
+import si.inova.kotlinova.core.time.TimeProvider
 import javax.inject.Inject
 
 @Stable

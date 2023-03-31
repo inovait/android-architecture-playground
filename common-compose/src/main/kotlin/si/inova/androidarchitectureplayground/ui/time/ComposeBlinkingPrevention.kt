@@ -5,8 +5,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
-import si.inova.androidarchitectureplayground.common.flow.withBlinkingPrevention
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
+import si.inova.kotlinova.core.flow.withBlinkingPrevention
+import si.inova.kotlinova.core.outcome.Outcome
 
 /**
  * Collect a flow in a way that it will ensure that [Outcome.Progress] is never

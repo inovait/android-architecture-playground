@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.network.services
 
 import retrofit2.Response
-import si.inova.androidarchitectureplayground.common.outcome.CauseException
+import si.inova.kotlinova.core.outcome.CauseException
 
 /**
  * Returns either a response, if this response was successful or throws a [CauseException] that matches error body

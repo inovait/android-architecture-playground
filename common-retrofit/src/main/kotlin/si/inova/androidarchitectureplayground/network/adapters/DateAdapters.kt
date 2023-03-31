@@ -3,8 +3,8 @@ package si.inova.androidarchitectureplayground.network.adapters
 import com.squareup.anvil.annotations.ContributesMultibinding
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
-import si.inova.androidarchitectureplayground.common.PureApplicationScope
 import si.inova.androidarchitectureplayground.network.di.MoshiAdapter
+import si.inova.kotlinova.core.di.PureApplicationScope
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime

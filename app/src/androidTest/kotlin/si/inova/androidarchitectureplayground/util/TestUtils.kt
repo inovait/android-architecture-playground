@@ -5,13 +5,13 @@ import androidx.compose.ui.test.MainTestClock
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import dispatch.core.DefaultCoroutineScope
 import okhttp3.mockwebserver.MockWebServer
-import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.instrumentation.TestCoroutinesModule
 import si.inova.androidarchitectureplayground.instrumentation.TestNetworkUrlModule
 import si.inova.androidarchitectureplayground.network.di.NetworkModule
 import si.inova.androidarchitectureplayground.network.services.BaseServiceFactory
 import si.inova.androidarchitectureplayground.network.test.MockWebServerScope
-import si.inova.androidarchitectureplayground.test.time.FakeTimeProvider
+import si.inova.kotlinova.core.test.time.FakeTimeProvider
+import si.inova.kotlinova.core.time.TimeProvider
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime

@@ -8,9 +8,9 @@ import androidx.compose.ui.test.performClick
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.products.data.model.ProductDto
 import si.inova.androidarchitectureplayground.screens.ProductListScreenKey
+import si.inova.kotlinova.core.outcome.Outcome
 
 class ProductListScreenTest {
    @get:Rule

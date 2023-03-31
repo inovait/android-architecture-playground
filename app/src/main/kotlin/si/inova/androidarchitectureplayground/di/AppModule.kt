@@ -9,16 +9,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.Multibinds
 import si.inova.androidarchitectureplayground.BuildConfig
-import si.inova.androidarchitectureplayground.common.logging.logcat
-import si.inova.androidarchitectureplayground.common.outcome.CauseException
-import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
-import si.inova.androidarchitectureplayground.common.time.TimeProvider
 import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
 import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
-import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatter
-import si.inova.androidarchitectureplayground.time.AndroidDateTimeFormatterImpl
-import si.inova.androidarchitectureplayground.time.AndroidTimeProvider
-import si.inova.androidarchitectureplayground.time.DefaultAndroidTimeProvider
+import si.inova.kotlinova.core.logging.logcat
+import si.inova.kotlinova.core.outcome.CauseException
+import si.inova.kotlinova.core.reporting.ErrorReporter
+import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
+import si.inova.kotlinova.core.time.AndroidDateTimeFormatterImpl
+import si.inova.kotlinova.core.time.AndroidTimeProvider
+import si.inova.kotlinova.core.time.DefaultAndroidTimeProvider
+import si.inova.kotlinova.core.time.TimeProvider
 
 @Suppress("unused")
 @ContributesTo(ApplicationScope::class)

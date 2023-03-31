@@ -8,7 +8,7 @@ apply(plugin = "shot")
 
 commonAndroid {
    defaultConfig {
-      testApplicationId = "si.inova.androidarchitectureplayground.test"
+      testApplicationId = "si.inova.kotlinova.core.test"
       testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
    }
 }

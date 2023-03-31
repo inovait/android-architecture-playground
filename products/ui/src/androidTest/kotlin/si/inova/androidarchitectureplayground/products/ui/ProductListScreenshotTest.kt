@@ -7,9 +7,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import com.karumi.shot.ScreenshotTest
 import org.junit.Rule
 import org.junit.Test
-import si.inova.androidarchitectureplayground.common.exceptions.NoNetworkException
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.screens.ProductListScreenKey
+import si.inova.kotlinova.core.exceptions.NoNetworkException
+import si.inova.kotlinova.core.outcome.Outcome
 
 class ProductListScreenshotTest : ScreenshotTest {
    @get:Rule

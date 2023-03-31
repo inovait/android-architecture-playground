@@ -2,9 +2,9 @@ package si.inova.androidarchitectureplayground.ui.errors
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import si.inova.androidarchitectureplayground.common.exceptions.NoNetworkException
-import si.inova.androidarchitectureplayground.common.outcome.CauseException
 import si.inova.androidarchitectureplayground.ui.R
+import si.inova.kotlinova.core.exceptions.NoNetworkException
+import si.inova.kotlinova.core.outcome.CauseException
 
 @Composable
 fun CauseException.commonUserFriendlyMessage(): String {

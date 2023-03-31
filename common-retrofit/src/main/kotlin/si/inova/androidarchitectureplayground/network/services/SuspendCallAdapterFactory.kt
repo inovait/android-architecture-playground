@@ -9,7 +9,7 @@ import retrofit2.CallAdapter
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import si.inova.androidarchitectureplayground.common.outcome.CauseException
+import si.inova.kotlinova.core.outcome.CauseException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 

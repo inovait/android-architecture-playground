@@ -8,7 +8,7 @@ import okhttp3.mockwebserver.RecordedRequest
 import org.intellij.lang.annotations.Language
 import si.inova.androidarchitectureplayground.network.di.NetworkModule
 import si.inova.androidarchitectureplayground.network.services.BaseServiceFactory
-import si.inova.androidarchitectureplayground.test.outcomes.throwingErrorReporter
+import si.inova.kotlinova.core.test.outcomes.throwingErrorReporter
 
 /**
  * Create and prepare [MockWebServer] for creating tests for web services.

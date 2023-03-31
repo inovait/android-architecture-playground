@@ -5,11 +5,11 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import si.inova.androidarchitectureplayground.common.outcome.Outcome
 import si.inova.androidarchitectureplayground.network.test.mockWebServer
 import si.inova.androidarchitectureplayground.network.test.setJsonBodyFromResource
 import si.inova.androidarchitectureplayground.products.data.model.ProductDto
 import si.inova.androidarchitectureplayground.products.data.model.ProductListDto
+import si.inova.kotlinova.core.outcome.Outcome
 
 class ProductsServiceTest {
    @Test

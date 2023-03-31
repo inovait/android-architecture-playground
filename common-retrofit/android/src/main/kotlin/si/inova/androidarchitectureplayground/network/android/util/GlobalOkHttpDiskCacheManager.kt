@@ -6,8 +6,8 @@ import android.os.storage.StorageManager
 import androidx.annotation.WorkerThread
 import dispatch.core.withDefault
 import okhttp3.Cache
-import si.inova.androidarchitectureplayground.common.reporting.ErrorReporter
 import si.inova.androidarchitectureplayground.network.cache.DiskCache
+import si.inova.kotlinova.core.reporting.ErrorReporter
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
