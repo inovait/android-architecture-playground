@@ -7,6 +7,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setContainerAvailable
@@ -23,7 +24,7 @@ class FragmentScreen(
 ) : Screen<FragmentScreenKey>() {
    @Composable
    override fun Content(key: FragmentScreenKey) {
-      val activity = LocalContext.current.requireActivity()
+      val activity = LocalContext.current.requireActivity() as FragmentActivity
 
       View.generateViewId()
       val fragmentViewId = rememberSaveable { Random.nextInt(MAX_VIEW_ID) }
