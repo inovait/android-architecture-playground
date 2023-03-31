@@ -16,7 +16,10 @@ anvil {
 
 dependencies {
    implementation(libs.dagger.runtime)
-   implementation(libs.whetstone.runtime)
+   add("implementation", libs.whetstone.runtime.get().toString()) {
+      // Workaround for the https://github.com/deliveryhero/whetstone/pull/81
+      exclude(module = "appcompat")
+   }
    anvil(libs.whetstone.compiler)
    kapt(libs.dagger.compiler)
    kaptAndroidTest(libs.dagger.compiler)

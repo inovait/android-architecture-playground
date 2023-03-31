@@ -48,7 +48,10 @@ commonAndroid {
 }
 
 dependencies {
-   add("implementation", libs.whetstone.runtime)
+   add("implementation", libs.whetstone.runtime.get().toString()) {
+      // Workaround for the https://github.com/deliveryhero/whetstone/pull/81
+      exclude(module = "appcompat")
+   }
    add("anvil", libs.whetstone.compiler)
    add("coreLibraryDesugaring", libs.desugarJdkLibs)
 

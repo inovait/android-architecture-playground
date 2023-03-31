@@ -13,6 +13,9 @@ anvil {
 }
 
 dependencies {
-   implementation(libs.whetstone.runtime)
+   implementation(libs.whetstone.runtime.get().toString()) {
+      // Workaround for the https://github.com/deliveryhero/whetstone/pull/81
+      exclude(module = "appcompat")
+   }
    anvil(libs.whetstone.compiler)
 }
