@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.kotlinova.core"
+   namespace = "si.inova.androidarchitectureplayground.test"
 }
 
 dependencies {
