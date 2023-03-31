@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+   api(libs.kotlinova.compose)
    implementation(projects.commonAndroid)
    implementation(projects.commonNavigation)
    implementation(libs.coil)

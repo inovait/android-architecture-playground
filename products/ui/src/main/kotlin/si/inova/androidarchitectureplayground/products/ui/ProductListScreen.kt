@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.screens.ProductListScreenKey
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
-import si.inova.androidarchitectureplayground.ui.time.collectAsStateWithLifecycleAndBlinkingPrevention
+import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
 import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
 

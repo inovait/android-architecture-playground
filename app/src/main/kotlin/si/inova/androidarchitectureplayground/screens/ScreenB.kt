@@ -24,9 +24,9 @@ import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
 import si.inova.androidarchitectureplayground.navigation.nested.NestedBackstackScreen
 import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigationScreenKey
 import si.inova.androidarchitectureplayground.screens.nested.NestedScreenAKey
-import si.inova.androidarchitectureplayground.ui.result.LocalResultPassingStore
-import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
-import si.inova.androidarchitectureplayground.ui.time.LocalDateFormatter
+import si.inova.kotlinova.compose.result.LocalResultPassingStore
+import si.inova.kotlinova.compose.time.ComposeAndroidDateTimeFormatter
+import si.inova.kotlinova.compose.time.LocalDateFormatter
 import si.inova.kotlinova.core.time.AndroidTimeProvider
 import si.inova.kotlinova.core.time.FakeAndroidDateTimeFormatter
 import si.inova.kotlinova.core.time.FakeAndroidTimeProvider

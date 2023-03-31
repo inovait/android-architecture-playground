@@ -33,11 +33,11 @@ import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
 import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
 import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
-import si.inova.androidarchitectureplayground.ui.result.LocalResultPassingStore
-import si.inova.androidarchitectureplayground.ui.result.ResultPassingStore
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
-import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
-import si.inova.androidarchitectureplayground.ui.time.LocalDateFormatter
+import si.inova.kotlinova.compose.result.LocalResultPassingStore
+import si.inova.kotlinova.compose.result.ResultPassingStore
+import si.inova.kotlinova.compose.time.ComposeAndroidDateTimeFormatter
+import si.inova.kotlinova.compose.time.LocalDateFormatter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
 import javax.inject.Inject
 

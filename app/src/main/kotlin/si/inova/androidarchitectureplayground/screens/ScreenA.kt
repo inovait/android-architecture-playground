@@ -15,7 +15,7 @@ import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
-import si.inova.androidarchitectureplayground.ui.result.registerResultReceiver
+import si.inova.kotlinova.compose.result.registerResultReceiver
 import si.inova.kotlinova.core.logging.logcat
 import kotlin.random.Random
 
