@@ -21,7 +21,8 @@ import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.instructions.goBack
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
-import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigator
+import si.inova.androidarchitectureplayground.navigation.nested.NestedBackstackScreen
+import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigationScreenKey
 import si.inova.androidarchitectureplayground.screens.nested.NestedScreenAKey
 import si.inova.androidarchitectureplayground.ui.result.LocalResultPassingStore
 import si.inova.androidarchitectureplayground.ui.time.ComposeAndroidDateTimeFormatter
@@ -35,7 +36,7 @@ import java.time.format.FormatStyle
 class ScreenB(
    private val navigator: Navigator,
    private val viewModel: SharedViewModel,
-   private val nestedNavigator: NestedNavigator,
+   private val nestedBackstackScreen: NestedBackstackScreen,
    private val timeProvider: AndroidTimeProvider
 ) : Screen<ScreenBKey>() {
    @Composable
@@ -54,7 +55,7 @@ class ScreenB(
                .padding(64.dp)
                .background(Color.Red)
          ) {
-            nestedNavigator.NestedNavigation { History.of(NestedScreenAKey) }
+            nestedBackstackScreen.Content(NestedNavigationScreenKey(History.of(NestedScreenAKey)))
          }
 
          Button(onClick = { navigator.navigateTo(ScreenCKey(1, "")) }) {

@@ -4,25 +4,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.Backstack
-import com.zhuinden.simplestack.History
+import kotlinx.parcelize.Parcelize
 import si.inova.androidarchitectureplayground.di.MainNavigation
 import si.inova.androidarchitectureplayground.di.NavigationInjection
+import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
 import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
 import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
 import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
-import javax.inject.Inject
 
-class NestedNavigator @Inject constructor(
+class NestedBackstackScreen(
    private val navigationStackComponentFactory: NavigationInjection.Factory,
    @MainNavigation
    private val mainBackstack: Backstack
-) {
+) : Screen<NestedNavigationScreenKey>() {
    @Composable
-   fun NestedNavigation(id: String = "SINGLE", initialHistory: () -> History<ScreenKey>) {
+   override fun Content(key: NestedNavigationScreenKey) {
       val backstack = navigationStackComponentFactory.rememberBackstack(
-         id = id,
-         initialHistory = initialHistory,
+         id = key.id,
+         initialHistory = { key.initialHistory },
+         interceptBackButton = key.interceptBackButton,
          overrideMainBackstack = mainBackstack
       )
 
@@ -37,3 +38,10 @@ class NestedNavigator @Inject constructor(
       }
    }
 }
+
+@Parcelize
+data class NestedNavigationScreenKey(
+   val initialHistory: List<ScreenKey>,
+   val id: String = "SINGLE",
+   val interceptBackButton: Boolean = false
+) : ScreenKey()
