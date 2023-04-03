@@ -5,6 +5,7 @@ import com.squareup.anvil.annotations.ContributesTo
 import dagger.Module
 import dagger.Provides
 import dispatch.core.DefaultCoroutineScope
+import dispatch.core.DispatcherProvider
 import dispatch.core.MainImmediateCoroutineScope
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.reporting.ErrorReporter
@@ -15,12 +16,12 @@ import si.inova.kotlinova.core.reporting.ErrorReporter
 class CoroutinesModule {
    @Provides
    fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
-      return MainImmediateCoroutineScope()
+      return MainImmediateCoroutineScope(object : DispatcherProvider {})
    }
 
    @Provides
    fun provideDefaultCoroutineScope(): DefaultCoroutineScope {
-      return DefaultCoroutineScope()
+      return DefaultCoroutineScope(object : DispatcherProvider {})
    }
 
    @Provides

@@ -9,7 +9,9 @@ import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.app.ApplicationComponent
 import com.deliveryhero.whetstone.app.ApplicationComponentOwner
 import com.deliveryhero.whetstone.app.ContributesAppInjector
+import dispatch.core.DefaultDispatcherProvider
 import si.inova.androidarchitectureplayground.di.DaggerMyApplicationComponent
+import si.inova.kotlinova.core.dispatchers.AccessCallbackDispatcherProvider
 import si.inova.kotlinova.core.logging.AndroidLogcatLogger
 import si.inova.kotlinova.core.logging.LogPriority
 import si.inova.kotlinova.core.reporting.ErrorReporter
@@ -29,6 +31,14 @@ open class MyApplication : Application(), ApplicationComponentOwner {
       AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.VERBOSE)
 
       enableStrictMode()
+
+      DefaultDispatcherProvider.set(
+         AccessCallbackDispatcherProvider(DefaultDispatcherProvider.get()) {
+            if (BuildConfig.DEBUG) {
+               error("Dispatchers not provided via coroutine scope.")
+            }
+         }
+      )
    }
 
    private fun enableStrictMode() {
