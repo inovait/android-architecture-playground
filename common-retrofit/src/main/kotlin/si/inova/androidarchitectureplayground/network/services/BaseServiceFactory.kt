@@ -7,6 +7,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import si.inova.kotlinova.core.reporting.ErrorReporter
+import si.inova.kotlinova.retrofit.callfactory.ErrorHandlingAdapterFactory
+import si.inova.kotlinova.retrofit.callfactory.StaleWhileRevalidateCallAdapterFactory
+import si.inova.kotlinova.retrofit.converter.LazyRetrofitConverterFactory
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Qualifier
@@ -45,7 +48,7 @@ open class BaseServiceFactory @Inject constructor(
          .baseUrl(baseUrl)
          .addConverterFactory(LazyRetrofitConverterFactory(moshiConverter))
          .addCallAdapterFactory(StaleWhileRevalidateCallAdapterFactory(scope.errorHandler, errorReporter))
-         .addCallAdapterFactory(SuspendCallAdapterFactory(coroutineScope, scope.errorHandler))
+         .addCallAdapterFactory(ErrorHandlingAdapterFactory(coroutineScope, scope.errorHandler))
          .build()
          .create(klass)
    }

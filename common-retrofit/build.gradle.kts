@@ -3,9 +3,7 @@ plugins {
 }
 
 dependencies {
-   api(libs.okhttp)
-   api(libs.moshi)
-   api(libs.retrofit)
+   api(libs.kotlinova.retrofit)
 
    implementation(libs.dispatch)
    implementation(libs.retrofit.moshi)

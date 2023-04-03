@@ -7,9 +7,9 @@ import androidx.compose.ui.test.performClick
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import si.inova.androidarchitectureplayground.network.test.setJsonBodyFromResource
 import si.inova.androidarchitectureplayground.util.mockWebServer
 import si.inova.androidarchitectureplayground.util.registerStandardIdlingResources
+import si.inova.kotlinova.retrofit.setJsonBodyFromResource
 
 class EndToEndTest {
    @get:Rule

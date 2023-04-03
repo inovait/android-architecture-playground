@@ -3,15 +3,12 @@ package si.inova.androidarchitectureplayground.util
 import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.MainTestClock
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import dispatch.core.DefaultCoroutineScope
 import okhttp3.mockwebserver.MockWebServer
 import si.inova.androidarchitectureplayground.instrumentation.TestCoroutinesModule
 import si.inova.androidarchitectureplayground.instrumentation.TestNetworkUrlModule
-import si.inova.androidarchitectureplayground.network.di.NetworkModule
-import si.inova.androidarchitectureplayground.network.services.BaseServiceFactory
-import si.inova.androidarchitectureplayground.network.test.MockWebServerScope
 import si.inova.kotlinova.core.test.time.FakeTimeProvider
 import si.inova.kotlinova.core.time.TimeProvider
+import si.inova.kotlinova.retrofit.MockWebServerScope
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -22,24 +19,17 @@ import java.time.ZonedDateTime
 /**
  * Create and prepare [MockWebServer] for creating tests for web services.
  *
- * You can use [MockWebServerScope.serviceFactory] inside the provided block to initialize your Retrofit service
+ * You can use [MockWebServerScope.baseUrl] inside the provided block to initialize your Retrofit service
  * and [MockWebServerScope.mockResponse] to create mock HTTP responses.
  */
 inline fun ComposeTestRule.mockWebServer(block: MockWebServerScope.() -> Unit) {
    val server = MockWebServer()
 
    val baseUrl = server.url("").toString()
-   val serviceFactory = BaseServiceFactory(
-      DefaultCoroutineScope(dispatcherProvider = TestCoroutinesModule.dispatcherProvider),
-      { NetworkModule.provideMoshi(emptySet()) },
-      { NetworkModule.provideOkHttpClient() },
-      { throw it },
-      baseUrl
-   )
 
    TestNetworkUrlModule.url = baseUrl
 
-   val scope = MockWebServerScope(server, serviceFactory)
+   val scope = MockWebServerScope(server, baseUrl)
    server.dispatcher = scope
 
    try {

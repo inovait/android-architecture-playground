@@ -5,14 +5,15 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Test
 import retrofit2.http.GET
-import si.inova.androidarchitectureplayground.network.test.mockWebServer
-import si.inova.androidarchitectureplayground.network.test.setJsonBody
+import si.inova.androidarchitectureplayground.network.test.serviceFactory
+import si.inova.kotlinova.retrofit.mockWebServer
+import si.inova.kotlinova.retrofit.setJsonBody
 
 class BaseServiceFactoryTest {
    @Test
    internal fun `Create basic service that returns data`() = runTest {
       mockWebServer {
-         val service: TestRetrofitService = serviceFactory.create()
+         val service: TestRetrofitService = serviceFactory(this@runTest).create()
 
          mockResponse("/data") {
             setJsonBody("\"Hello\"")
@@ -25,7 +26,7 @@ class BaseServiceFactoryTest {
    @Test
    internal fun `Use modified okHttp client when okHttp clause is used`() = runTest {
       mockWebServer {
-         val service: TestRetrofitService = serviceFactory.create {
+         val service: TestRetrofitService = serviceFactory(this@runTest).create {
             okHttp {
                addNetworkInterceptor {
                   it.proceed(it.request()).newBuilder().body("\"World\"".toResponseBody()).build()

@@ -5,17 +5,18 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import si.inova.androidarchitectureplayground.network.test.mockWebServer
-import si.inova.androidarchitectureplayground.network.test.setJsonBodyFromResource
+import si.inova.androidarchitectureplayground.network.test.serviceFactory
 import si.inova.androidarchitectureplayground.products.data.model.ProductDto
 import si.inova.androidarchitectureplayground.products.data.model.ProductListDto
 import si.inova.kotlinova.core.outcome.Outcome
+import si.inova.kotlinova.retrofit.mockWebServer
+import si.inova.kotlinova.retrofit.setJsonBodyFromResource
 
 class ProductsServiceTest {
    @Test
    internal fun `List products`() = runTest {
       mockWebServer {
-         val service = ProductsDataModule().provideProductService(serviceFactory)
+         val service = ProductsDataModule().provideProductService(serviceFactory(this@runTest))
 
          mockResponse("/products?skip=0") {
             setJsonBodyFromResource("product_list.json")

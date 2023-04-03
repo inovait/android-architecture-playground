@@ -1,6 +1,7 @@
 package si.inova.androidarchitectureplayground.network.services
 
 import okhttp3.OkHttpClient
+import si.inova.kotlinova.retrofit.callfactory.ErrorHandler
 
 interface ServiceFactory {
    fun <S> create(klass: Class<S>, configuration: ServiceCreationScope.() -> Unit = {}): S
