@@ -4,12 +4,15 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.LocalSaveableStateRegistry
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.zhuinden.simplestack.AheadOfTimeWillHandleBackChangedListener
 import com.zhuinden.simplestack.Backstack
 import com.zhuinden.simplestack.Backstack.StateClearStrategy
 import com.zhuinden.simplestack.DefaultKeyFilter
@@ -85,9 +88,21 @@ fun rememberBackstack(
 
 @Composable
 private fun BackHandler(backstack: Backstack) {
-   val history by backstack.historyAsState()
+   var backButtonEnabled by remember { mutableStateOf(false) }
 
-   BackHandler(enabled = history.size > 1) {
+   DisposableEffect(backstack) {
+      val listener = AheadOfTimeWillHandleBackChangedListener {
+         backButtonEnabled = it
+      }
+
+      backstack.addAheadOfTimeWillHandleBackChangedListener(listener)
+
+      onDispose {
+         backstack.removeAheadOfTimeWillHandleBackChangedListener(listener)
+      }
+   }
+
+   BackHandler(enabled = backButtonEnabled) {
       backstack.goBack()
    }
 }
