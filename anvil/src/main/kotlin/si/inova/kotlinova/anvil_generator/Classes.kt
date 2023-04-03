@@ -17,6 +17,11 @@ internal val SCREEN_BASE_CLASS = ClassName(
    "Screen"
 )
 
+internal val SCREEN_KEY_BASE_CLASS = ClassName(
+   "si.inova.androidarchitectureplayground.navigation.keys",
+   "ScreenKey"
+)
+
 internal val SCOPED_SERVICE_BASE_CLASS = ClassName(
    "si.inova.androidarchitectureplayground.navigation.base",
    "ScopedService"

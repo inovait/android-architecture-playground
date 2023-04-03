@@ -10,7 +10,6 @@ import com.squareup.anvil.compiler.api.createGeneratedFile
 import com.squareup.anvil.compiler.internal.buildFile
 import com.squareup.anvil.compiler.internal.reference.ClassReference
 import com.squareup.anvil.compiler.internal.reference.ParameterReference
-import com.squareup.anvil.compiler.internal.reference.TypeReference
 import com.squareup.anvil.compiler.internal.reference.asClassName
 import com.squareup.anvil.compiler.internal.reference.asTypeName
 import com.squareup.anvil.compiler.internal.reference.classAndInnerClassReferences
@@ -46,7 +45,7 @@ class ScreenInjectionGenerator : CodeGenerator {
             return@mapNotNull null
          }
 
-         val screenType = it.getScreenTypeIfItExists() ?: return@mapNotNull null
+         val screenType = it.getScreenKeyIfItExists() ?: return@mapNotNull null
 
          generateScreenFactory(codeGenDir, it, screenType)
       }.flatten().toList()
@@ -55,7 +54,7 @@ class ScreenInjectionGenerator : CodeGenerator {
    private fun generateScreenFactory(
       codeGenDir: File,
       clas: ClassReference.Psi,
-      screenType: TypeReference
+      screenKeyType: ClassReference
    ): Collection<GeneratedFile> {
       val className = clas.asClassName()
       val packageName = clas.packageFqName.safePackageString(
@@ -72,10 +71,8 @@ class ScreenInjectionGenerator : CodeGenerator {
          .addMember("%T::class", className)
          .build()
 
-      val screenKey = screenType.unwrappedTypes.first().asClassReference()
-
       val screenKeyClassKeyAnnotation = AnnotationSpec.builder(ClassKey::class)
-         .addMember("%T::class", screenKey.asTypeName())
+         .addMember("%T::class", screenKeyType.asTypeName())
          .build()
 
       val screenClassName = SCREEN_BASE_CLASS.parameterizedBy(STAR)
@@ -118,7 +115,7 @@ class ScreenInjectionGenerator : CodeGenerator {
 
       val scopedServiceParameters = getRequiredScopedServices(constructorParameters)
 
-      val providesServiceListFunction = if (!screenKey.isAbstract()) {
+      val providesServiceListFunction = if (!screenKeyType.isAbstract()) {
          FunSpec.builder("providesScreenRegistration")
             .returns(SCREEN_REGISTRATION.parameterizedBy(STAR))
             .addAnnotation(Provides::class)
@@ -164,7 +161,7 @@ class ScreenInjectionGenerator : CodeGenerator {
    private fun getRequiredScopedServices(constructorParameters: List<ParameterReference.Psi>): List<ParameterReference> {
       val constructorsOfAllNestedScreens = constructorParameters
          .map { it.type().asClassReference() }
-         .filter { it.getScreenTypeIfItExists() != null }
+         .filter { it.getScreenKeyIfItExists() != null }
          .map { it.constructors.firstOrNull()?.parameters ?: emptyList() }
 
       val mergedConstructors = constructorsOfAllNestedScreens + listOf(constructorParameters)
@@ -173,18 +170,37 @@ class ScreenInjectionGenerator : CodeGenerator {
       }
    }
 
-   private fun ClassReference.getScreenTypeIfItExists(): TypeReference? {
+   private fun ClassReference.getScreenKeyIfItExists(initialPassedKeyType: ClassReference? = null): ClassReference? {
       for (superReference in directSuperTypeReferences()) {
+
+         val passedKeyType = initialPassedKeyType ?: superReference.unwrappedTypes
+            .mapNotNull { it.asClassReferenceOrNull() }
+            .firstOrNull { it.isKey() }
+
          val superClassReference = superReference.asClassReference()
 
-         if (superClassReference.asClassName() == SCREEN_BASE_CLASS) {
-            return superReference
+         if (passedKeyType != null && superClassReference.asClassName() == SCREEN_BASE_CLASS) {
+            return passedKeyType
          } else {
-            superClassReference.getScreenTypeIfItExists()?.let { return it }
+            superClassReference.getScreenKeyIfItExists(passedKeyType)?.let { return it }
          }
       }
 
       return null
+   }
+
+   private fun ClassReference.isKey(): Boolean {
+      for (superReference in directSuperTypeReferences()) {
+         val superClassReference = superReference.asClassReference()
+
+         if (superClassReference.asClassName() == SCREEN_KEY_BASE_CLASS) {
+            return true
+         } else {
+            superClassReference.isKey().let { if (it) return true }
+         }
+      }
+
+      return false
    }
 
    override fun isApplicable(context: AnvilContext): Boolean = true
