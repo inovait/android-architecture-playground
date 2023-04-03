@@ -4,10 +4,9 @@ import org.gradle.kotlin.dsl.the
 val libs = the<LibrariesForLibs>()
 
 plugins {
-   id("com.google.devtools.ksp")
+   id("dev.zacsweers.moshix")
 }
 
 dependencies {
    add("implementation", libs.moshi)
-   add("ksp", libs.moshi.codegen)
 }

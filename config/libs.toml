@@ -27,6 +27,7 @@ orgJson = "20230227"
 kotest = "5.5.4"
 ksp = "1.8.10-1.0.9"
 moshi = "1.14.0"
+moshi-ir = "0.21.0"
 retrofit = "2.9.0"
 simpleStack = "2.6.5"
 shot = "5.14.1"
@@ -83,6 +84,7 @@ kotlinova-retrofit = { module = "si.inova.kotlinova:retrofit", version.ref = "ko
 kotlinova-retrofit-test = { module = "si.inova.kotlinova:retrofit-test", version.ref = "kotlinova" }
 ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-ir = { module = "dev.zacsweers.moshix:dev.zacsweers.moshix.gradle.plugin", version.ref = "moshi-ir" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-mockWebServer = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
