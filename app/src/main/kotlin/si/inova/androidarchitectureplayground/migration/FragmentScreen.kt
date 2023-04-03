@@ -19,11 +19,11 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.random.Random
 
-class FragmentScreen(
+abstract class FragmentScreen<K : FragmentScreenKey>(
    private val scopeExitListener: ScopeExitListener
-) : Screen<FragmentScreenKey>() {
+) : Screen<K>() {
    @Composable
-   override fun Content(key: FragmentScreenKey) {
+   override fun Content(key: K) {
       val activity = LocalContext.current.requireActivity() as FragmentActivity
 
       View.generateViewId()
@@ -38,10 +38,7 @@ class FragmentScreen(
          var currentFragment = fragmentManager.findFragmentByTag(key.tag)
 
          if (currentFragment == null) {
-            currentFragment = fragmentManager.fragmentFactory.instantiate(
-               requireNotNull(javaClass.classLoader),
-               key.fragmentClass
-            ).also { it.arguments = key.arguments }
+            currentFragment = createFragment(key, fragmentManager)
 
             fragmentManager
                .beginTransaction()
@@ -70,6 +67,8 @@ class FragmentScreen(
          }
       }
    }
+
+   abstract fun createFragment(key: K, fragmentManager: FragmentManager): Fragment
 }
 
 class ScopeExitListener @Inject constructor() : ScopedServices.Registered, ScopedService {

@@ -11,9 +11,12 @@ import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import kotlinx.parcelize.Parcelize
 import si.inova.androidarchitectureplayground.navigation.instructions.goBack
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.screens.ScreenCKey
+import java.util.UUID
 
 @Keep
 class TestFragment : Fragment() {
@@ -46,7 +49,13 @@ class TestFragment : Fragment() {
    }
 }
 
-fun TestFragmentKey(arg: String) = FragmentScreenKey(
-   "si.inova.androidarchitectureplayground.migration.TestFragment",
-   bundleOf("TEST" to arg)
-)
+@Parcelize
+data class TestFragmentKey(val arg: String, override val tag: String = UUID.randomUUID().toString()) : FragmentScreenKey()
+
+class TestFragmentScreen(scopeExitListener: ScopeExitListener) : FragmentScreen<TestFragmentKey>(scopeExitListener) {
+   override fun createFragment(key: TestFragmentKey, fragmentManager: FragmentManager): Fragment {
+      return TestFragment().apply {
+         arguments = bundleOf("TEST" to key.arg)
+      }
+   }
+}
