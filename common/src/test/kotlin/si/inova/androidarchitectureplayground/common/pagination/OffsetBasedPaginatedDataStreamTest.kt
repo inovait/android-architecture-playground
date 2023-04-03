@@ -1,5 +1,6 @@
 package si.inova.androidarchitectureplayground.common.pagination
 
+import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -8,7 +9,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
-import si.inova.kotlinova.core.test.util.testWithExceptions
 
 internal class OffsetBasedPaginatedDataStreamTest {
    private var fakeResponses = ArrayDeque<List<Outcome<List<Int>>>>()
@@ -23,7 +23,7 @@ internal class OffsetBasedPaginatedDataStreamTest {
 
       val paginatedStream = OffsetBasedPaginatedDataStream(::createFakeDataSource)
 
-      paginatedStream.data.testWithExceptions {
+      paginatedStream.data.test {
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Progress(listOf(1, 2)), true)
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Success(listOf(2, 3)), true)
 
@@ -44,7 +44,7 @@ internal class OffsetBasedPaginatedDataStreamTest {
 
       val paginatedStream = OffsetBasedPaginatedDataStream(::createFakeDataSource)
 
-      paginatedStream.data.testWithExceptions {
+      paginatedStream.data.test {
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Success(listOf(1, 2)), true)
 
          paginatedStream.nextPage()
@@ -75,7 +75,7 @@ internal class OffsetBasedPaginatedDataStreamTest {
 
       val paginatedStream = OffsetBasedPaginatedDataStream(::createFakeDataSource)
 
-      paginatedStream.data.testWithExceptions {
+      paginatedStream.data.test {
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Success(listOf(1, 2)), true)
 
          paginatedStream.nextPage()
@@ -116,7 +116,7 @@ internal class OffsetBasedPaginatedDataStreamTest {
 
       val paginatedStream = OffsetBasedPaginatedDataStream(::createFakeDataSource)
 
-      paginatedStream.data.testWithExceptions {
+      paginatedStream.data.test {
          awaitItem() shouldBe PaginatedDataStream.PaginationResult(Outcome.Success(listOf(1, 2)), true)
 
          paginatedStream.nextPage()
@@ -145,7 +145,7 @@ internal class OffsetBasedPaginatedDataStreamTest {
          paginatedStream.nextPage()
 
          runCurrent()
-         expectNoEvents()
+         awaitComplete()
       }
    }
 
