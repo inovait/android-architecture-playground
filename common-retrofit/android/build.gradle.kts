@@ -12,4 +12,5 @@ dependencies {
 
    implementation(projects.commonAndroid)
    implementation(libs.dispatch)
+   implementation(libs.certificateTransparency.android)
 }

@@ -5,6 +5,7 @@ plugins {
 dependencies {
    api(libs.kotlinova.retrofit)
 
+   implementation(libs.certificateTransparency)
    implementation(libs.dispatch)
    implementation(libs.retrofit.moshi)
    implementation(libs.kotlin.coroutines)

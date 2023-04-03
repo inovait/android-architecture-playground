@@ -10,7 +10,7 @@ fun MockWebServerScope.serviceFactory(testScope: TestScope): BaseServiceFactory 
    return BaseServiceFactory(
       testScope,
       { NetworkModule.provideMoshi(emptySet()) },
-      { NetworkModule.provideOkHttpClient() },
+      { NetworkModule.prepareDefaultOkHttpClient().build() },
       testScope.throwingErrorReporter(),
       baseUrl
    )

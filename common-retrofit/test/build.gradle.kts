@@ -9,4 +9,5 @@ dependencies {
 
    implementation(projects.common.test)
    implementation(libs.kotlin.coroutines.test)
+   implementation(libs.certificateTransparency)
 }
