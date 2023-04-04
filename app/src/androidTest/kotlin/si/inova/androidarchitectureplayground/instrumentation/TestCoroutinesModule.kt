@@ -9,8 +9,8 @@ import dispatch.core.DefaultDispatcherProvider
 import dispatch.core.DispatcherProvider
 import dispatch.core.MainImmediateCoroutineScope
 import si.inova.androidarchitectureplayground.di.CoroutinesModule
-import si.inova.androidarchitectureplayground.util.IdlingDispatcher
-import si.inova.androidarchitectureplayground.util.RegisteringCoroutineResourceManager
+import si.inova.kotlinova.compose.androidtest.idlingresource.FixedIdlingDispatcher
+import si.inova.kotlinova.compose.androidtest.idlingresource.RegisteringCoroutineResourceManager
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.reporting.ErrorReporter
 
@@ -19,11 +19,11 @@ import si.inova.kotlinova.core.reporting.ErrorReporter
 @Module
 object TestCoroutinesModule {
    val dispatcherProvider = object : DispatcherProvider {
-      override val default = IdlingDispatcher(DefaultDispatcherProvider.get().default)
-      override val io = IdlingDispatcher(DefaultDispatcherProvider.get().io)
-      override val main = IdlingDispatcher(DefaultDispatcherProvider.get().main)
-      override val mainImmediate = IdlingDispatcher(DefaultDispatcherProvider.get().mainImmediate)
-      override val unconfined = IdlingDispatcher(DefaultDispatcherProvider.get().unconfined)
+      override val default = FixedIdlingDispatcher(DefaultDispatcherProvider.get().default)
+      override val io = FixedIdlingDispatcher(DefaultDispatcherProvider.get().io)
+      override val main = FixedIdlingDispatcher(DefaultDispatcherProvider.get().main)
+      override val mainImmediate = FixedIdlingDispatcher(DefaultDispatcherProvider.get().mainImmediate)
+      override val unconfined = FixedIdlingDispatcher(DefaultDispatcherProvider.get().unconfined)
    }
 
    @Provides

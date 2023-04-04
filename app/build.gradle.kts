@@ -117,6 +117,8 @@ dependencies {
    androidTestImplementation(projects.commonAndroid.test)
    androidTestImplementation(projects.commonRetrofit.test)
    androidTestImplementation(libs.dispatch.espresso)
+   androidTestImplementation(libs.kotlinova.retrofit.test)
+   androidTestImplementation(libs.kotlinova.compose.androidTest)
    testImplementation(libs.junit4)
 }
 
