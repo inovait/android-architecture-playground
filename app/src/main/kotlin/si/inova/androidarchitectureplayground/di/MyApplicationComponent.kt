@@ -8,15 +8,15 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import si.inova.kotlinova.core.di.PureApplicationScope
+import si.inova.kotlinova.navigation.di.OuterNavigationScope
 import javax.inject.Singleton
 
 @MergeComponent(ApplicationScope::class)
 @MergeComponent(PureApplicationScope::class)
+@MergeComponent(OuterNavigationScope::class)
 @SingleIn(ApplicationScope::class)
 @Singleton
 interface MyApplicationComponent : ApplicationComponent {
-   fun provideNavigationStackComponentFactory(): NavigationStackComponent.Factory
-
    @Component.Factory
    interface Factory {
       fun create(

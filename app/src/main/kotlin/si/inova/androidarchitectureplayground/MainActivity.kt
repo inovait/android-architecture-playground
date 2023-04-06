@@ -18,38 +18,34 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
-import com.zhuinden.simplestack.AsyncStateChanger
 import com.zhuinden.simplestack.History
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import si.inova.androidarchitectureplayground.di.NavigationInjection
-import si.inova.androidarchitectureplayground.di.NavigationStackComponent
 import si.inova.androidarchitectureplayground.migration.NavigatorActivity
-import si.inova.androidarchitectureplayground.navigation.base.DeepLinkHandler
-import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
-import si.inova.androidarchitectureplayground.simplestack.BackstackProvider
-import si.inova.androidarchitectureplayground.simplestack.ComposeStateChanger
-import si.inova.androidarchitectureplayground.simplestack.NavigationContextImpl
-import si.inova.androidarchitectureplayground.simplestack.rememberBackstack
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.result.LocalResultPassingStore
 import si.inova.kotlinova.compose.result.ResultPassingStore
 import si.inova.kotlinova.compose.time.ComposeAndroidDateTimeFormatter
 import si.inova.kotlinova.compose.time.LocalDateFormatter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
+import si.inova.kotlinova.navigation.deeplink.DeepLinkHandler
+import si.inova.kotlinova.navigation.di.NavigationContextImpl
+import si.inova.kotlinova.navigation.di.NavigationInjection
+import si.inova.kotlinova.navigation.instructions.NavigationInstruction
+import si.inova.kotlinova.navigation.screenkeys.ScreenKey
+import si.inova.kotlinova.navigation.simplestack.RootNavigationContainer
 import javax.inject.Inject
 
 @ContributesActivityInjector
 class MainActivity : FragmentActivity(), NavigatorActivity {
    @Inject
-   lateinit var navigationStackComponentFactory: NavigationStackComponent.Factory
+   lateinit var navigationStackComponentFactory: NavigationInjection.Factory
 
    @Inject
    lateinit var deepLinkHandlers: Set<@JvmSuppressWildcards DeepLinkHandler>
 
-   override lateinit var navigator: si.inova.androidarchitectureplayground.navigation.Navigator
+   override lateinit var navigator: si.inova.kotlinova.navigation.navigator.Navigator
 
    @Inject
    lateinit var navigationContext: NavigationContextImpl
@@ -88,33 +84,22 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
 
    @Composable
    private fun NavigationRoot(initialHistory: List<ScreenKey>) {
-      val backstack = navigationStackComponentFactory.rememberBackstack { initialHistory }
-
-      val composeStateChanger = ComposeStateChanger()
-      remember(composeStateChanger) {
-         backstack.setStateChanger(AsyncStateChanger(composeStateChanger))
-         true
-      }
-
-      remember(backstack) {
-         navigator = NavigationInjection.fromBackstack(backstack).navigator()
-         true
-      }
-
-      val resultPassingStore = rememberSaveable { ResultPassingStore() }
-
-      CompositionLocalProvider(
-         LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter),
-         LocalResultPassingStore provides resultPassingStore
-      ) {
-         AndroidArchitecturePlaygroundTheme {
-            // A surface container using the 'background' color from the theme
-            Surface(
-               modifier = Modifier.fillMaxSize(),
-               color = MaterialTheme.colorScheme.background
+      AndroidArchitecturePlaygroundTheme {
+         // A surface container using the 'background' color from the theme
+         Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+         ) {
+            val resultPassingStore = rememberSaveable { ResultPassingStore() }
+            CompositionLocalProvider(
+               LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter),
+               LocalResultPassingStore provides resultPassingStore
             ) {
-               BackstackProvider(backstack) {
-                  composeStateChanger.Content()
+               val backstack = navigationStackComponentFactory.RootNavigationContainer { initialHistory }
+
+               remember(backstack) {
+                  navigator = NavigationInjection.fromBackstack(backstack).navigator()
+                  true
                }
             }
          }

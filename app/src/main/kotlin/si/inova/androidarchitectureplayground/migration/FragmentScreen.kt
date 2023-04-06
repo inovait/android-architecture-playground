@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setContainerAvailable
 import com.zhuinden.simplestack.ScopedServices
-import si.inova.androidarchitectureplayground.navigation.base.ScopedService
-import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.kotlinova.core.activity.requireActivity
+import si.inova.kotlinova.navigation.screens.Screen
+import si.inova.kotlinova.navigation.services.ScopedService
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.random.Random

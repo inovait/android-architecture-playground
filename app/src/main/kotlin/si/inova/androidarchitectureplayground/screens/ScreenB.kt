@@ -16,13 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zhuinden.simplestack.History
 import si.inova.androidarchitectureplayground.migration.TestFragmentKey
-import si.inova.androidarchitectureplayground.navigation.Navigator
-import si.inova.androidarchitectureplayground.navigation.base.Screen
-import si.inova.androidarchitectureplayground.navigation.instructions.goBack
-import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenBKey
-import si.inova.androidarchitectureplayground.navigation.nested.NestedBackstackScreen
-import si.inova.androidarchitectureplayground.navigation.nested.NestedNavigationScreenKey
 import si.inova.androidarchitectureplayground.screens.nested.NestedScreenAKey
 import si.inova.kotlinova.compose.result.LocalResultPassingStore
 import si.inova.kotlinova.compose.time.ComposeAndroidDateTimeFormatter
@@ -30,6 +24,12 @@ import si.inova.kotlinova.compose.time.LocalDateFormatter
 import si.inova.kotlinova.core.time.AndroidTimeProvider
 import si.inova.kotlinova.core.time.FakeAndroidDateTimeFormatter
 import si.inova.kotlinova.core.time.FakeAndroidTimeProvider
+import si.inova.kotlinova.navigation.instructions.goBack
+import si.inova.kotlinova.navigation.instructions.navigateTo
+import si.inova.kotlinova.navigation.navigator.Navigator
+import si.inova.kotlinova.navigation.screens.NestedBackstackScreen
+import si.inova.kotlinova.navigation.screens.NestedNavigationScreenKey
+import si.inova.kotlinova.navigation.screens.Screen
 import java.time.LocalDateTime
 import java.time.format.FormatStyle
 

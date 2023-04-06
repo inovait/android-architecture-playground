@@ -10,7 +10,6 @@ androidx-compose-material3 = "1.0.1"
 androidx-lifecycle = "2.6.1"
 androidx-test-runner = "1.5.2"
 anvil = "2.4.4"
-autoService = "1.0"
 certificateTransparency = "2.1.1"
 coil = "2.3.0"
 dagger = "2.45"
@@ -61,8 +60,6 @@ androidx-test-runner = { module = "androidx.test:runner", version.ref = "android
 anvil = { module = "com.squareup.anvil:gradle-plugin", version.ref = "anvil" }
 anvil-api = { module = "com.squareup.anvil:compiler-api", version.ref = "anvil" }
 anvil-utils = { module = "com.squareup.anvil:compiler-utils", version.ref = "anvil" }
-autoService-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
-autoService-compiler = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 certificateTransparency = { module = "com.appmattus.certificatetransparency:certificatetransparency", version.ref = "certificateTransparency" }
 certificateTransparency-android = { module = "com.appmattus.certificatetransparency:certificatetransparency-android", version.ref = "certificateTransparency" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
@@ -81,6 +78,8 @@ kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinova-compose = { module = "si.inova.kotlinova:compose", version.ref = "kotlinova" }
+kotlinova-navigation = { module = "si.inova.kotlinova:navigation", version.ref = "kotlinova" }
+kotlinova-navigation-compiler = { module = "si.inova.kotlinova:navigation-compiler", version.ref = "kotlinova" }
 kotlinova-compose-androidTest = { module = "si.inova.kotlinova:compose-android-test", version.ref = "kotlinova" }
 kotlinova-core = { module = "si.inova.kotlinova:core", version.ref = "kotlinova" }
 kotlinova-core-test = { module = "si.inova.kotlinova:core-test", version.ref = "kotlinova" }

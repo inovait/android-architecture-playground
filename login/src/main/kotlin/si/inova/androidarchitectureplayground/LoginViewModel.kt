@@ -5,11 +5,11 @@ import dispatch.core.MainImmediateCoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import si.inova.androidarchitectureplayground.navigation.Navigator
-import si.inova.androidarchitectureplayground.navigation.base.SingleScreenViewModel
-import si.inova.androidarchitectureplayground.navigation.instructions.GoBack
-import si.inova.androidarchitectureplayground.navigation.instructions.MultiNavigationInstructions
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.kotlinova.navigation.instructions.GoBack
+import si.inova.kotlinova.navigation.instructions.MultiNavigationInstructions
+import si.inova.kotlinova.navigation.navigator.Navigator
+import si.inova.kotlinova.navigation.services.SingleScreenViewModel
 import javax.inject.Inject
 
 @Stable

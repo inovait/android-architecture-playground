@@ -6,11 +6,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.zhuinden.simplestack.Backstack
 import kotlinx.parcelize.Parcelize
-import si.inova.androidarchitectureplayground.di.MainNavigation
-import si.inova.androidarchitectureplayground.navigation.Navigator
-import si.inova.androidarchitectureplayground.navigation.base.Screen
-import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
-import si.inova.androidarchitectureplayground.navigation.keys.NoArgsScreenKey
+import si.inova.kotlinova.navigation.di.MainNavigation
+import si.inova.kotlinova.navigation.instructions.navigateTo
+import si.inova.kotlinova.navigation.navigator.Navigator
+import si.inova.kotlinova.navigation.screenkeys.NoArgsScreenKey
+import si.inova.kotlinova.navigation.screens.Screen
 
 class NestedScreenA(
    private val navigator: Navigator,

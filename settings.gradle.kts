@@ -2,9 +2,6 @@
 // AGP 7.4.0 has a bug where it marks most things as incubating
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
-include(":anvil")
-
-
 pluginManagement {
    repositories {
       google()

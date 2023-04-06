@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.kotlinova.navigation.screens.Screen
 
 class LoginScreen(private val viewModel: LoginViewModel) : Screen<LoginScreenKey>() {
    @Composable

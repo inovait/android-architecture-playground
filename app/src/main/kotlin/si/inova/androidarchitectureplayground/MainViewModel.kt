@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
+import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
 class MainViewModel : ViewModel() {
    private val _startingScreen = MutableStateFlow<ScreenKey?>(null)

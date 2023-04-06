@@ -1,6 +1,6 @@
 package si.inova.androidarchitectureplayground.migration
 
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenKey
+import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
 /**
  * Key for the [FragmentScreen].

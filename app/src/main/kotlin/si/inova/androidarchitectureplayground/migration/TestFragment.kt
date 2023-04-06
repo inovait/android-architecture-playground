@@ -13,9 +13,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import kotlinx.parcelize.Parcelize
-import si.inova.androidarchitectureplayground.navigation.instructions.goBack
-import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
 import si.inova.androidarchitectureplayground.screens.ScreenCKey
+import si.inova.kotlinova.navigation.instructions.goBack
+import si.inova.kotlinova.navigation.instructions.navigateTo
 import java.util.UUID
 
 @Keep

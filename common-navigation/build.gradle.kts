@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.androidarchitectureplayground.navigation.common"
+   namespace = "si.inova.kotlinova.navigation.common"
 }
 
 dependencies {
-   api(libs.simpleStack)
+   api(libs.kotlinova.navigation)
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.lifecycle.viewModel)
    implementation(libs.androidx.lifecycle.viewModel.compose)

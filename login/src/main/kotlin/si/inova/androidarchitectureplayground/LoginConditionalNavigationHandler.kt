@@ -3,12 +3,12 @@ package si.inova.androidarchitectureplayground
 import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesMultibinding
 import dagger.multibindings.ClassKey
-import si.inova.androidarchitectureplayground.navigation.base.ConditionalNavigationHandler
-import si.inova.androidarchitectureplayground.navigation.base.NavigationCondition
 import si.inova.androidarchitectureplayground.navigation.conditions.UserLoggedIn
-import si.inova.androidarchitectureplayground.navigation.instructions.NavigationInstruction
-import si.inova.androidarchitectureplayground.navigation.instructions.OpenScreen
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.kotlinova.navigation.conditions.ConditionalNavigationHandler
+import si.inova.kotlinova.navigation.conditions.NavigationCondition
+import si.inova.kotlinova.navigation.instructions.NavigationInstruction
+import si.inova.kotlinova.navigation.instructions.OpenScreen
 import javax.inject.Inject
 
 @ContributesMultibinding(ApplicationScope::class)

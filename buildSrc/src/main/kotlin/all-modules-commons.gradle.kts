@@ -9,7 +9,7 @@ plugins {
 
 dependencies {
    add("implementation", libs.dagger.runtime)
-   add("anvil", project(":anvil"))
+   add("anvil", libs.kotlinova.navigation.compiler)
 
    add("testImplementation", libs.junit5.api)
    add("testImplementation", libs.kotest.assertions)

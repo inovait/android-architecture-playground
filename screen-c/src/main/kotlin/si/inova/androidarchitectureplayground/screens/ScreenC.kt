@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import si.inova.androidarchitectureplayground.navigation.Navigator
-import si.inova.androidarchitectureplayground.navigation.base.Screen
-import si.inova.androidarchitectureplayground.navigation.instructions.goBack
-import si.inova.androidarchitectureplayground.navigation.instructions.navigateTo
+import si.inova.kotlinova.navigation.instructions.goBack
+import si.inova.kotlinova.navigation.instructions.navigateTo
+import si.inova.kotlinova.navigation.navigator.Navigator
+import si.inova.kotlinova.navigation.screens.Screen
 import kotlin.math.roundToInt
 
 class ScreenC(

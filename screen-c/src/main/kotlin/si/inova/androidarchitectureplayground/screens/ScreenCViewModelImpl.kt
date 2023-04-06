@@ -1,17 +1,17 @@
 package si.inova.androidarchitectureplayground.screens
 
 import android.util.Log
+import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesBinding
 import dispatch.core.MainImmediateCoroutineScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.launch
-import si.inova.androidarchitectureplayground.di.NavigationStackScope
-import si.inova.androidarchitectureplayground.navigation.base.SingleScreenViewModel
+import si.inova.kotlinova.navigation.services.SingleScreenViewModel
 import javax.inject.Inject
 import kotlin.random.Random
 
-@ContributesBinding(NavigationStackScope::class, boundType = ScreenCViewModel::class)
+@ContributesBinding(ApplicationScope::class, boundType = ScreenCViewModel::class)
 class ScreenCViewModelImpl @Inject constructor(
    scope: MainImmediateCoroutineScope,
 ) : SingleScreenViewModel<ScreenCKey>(scope), ScreenCViewModel {

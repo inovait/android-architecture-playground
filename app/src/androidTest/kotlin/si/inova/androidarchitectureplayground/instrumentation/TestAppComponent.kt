@@ -9,10 +9,12 @@ import dagger.BindsInstance
 import dagger.Component
 import okhttp3.OkHttpClient
 import si.inova.kotlinova.core.di.PureApplicationScope
+import si.inova.kotlinova.navigation.di.OuterNavigationScope
 import javax.inject.Singleton
 
 @MergeComponent(ApplicationScope::class)
 @MergeComponent(PureApplicationScope::class)
+@MergeComponent(OuterNavigationScope::class)
 @SingleIn(ApplicationScope::class)
 @Singleton
 interface TestAppComponent : ApplicationComponent {

@@ -29,9 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import si.inova.androidarchitectureplayground.navigation.base.Screen
 import si.inova.androidarchitectureplayground.screens.MasterDetailDemoScreenKey
 import si.inova.kotlinova.core.activity.requireActivity
+import si.inova.kotlinova.navigation.screens.Screen
 
 class MasterDetailDemoScreen : Screen<MasterDetailDemoScreenKey>() {
    @Composable

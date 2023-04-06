@@ -1,6 +1,6 @@
 package si.inova.androidarchitectureplayground.migration
 
-import si.inova.androidarchitectureplayground.navigation.Navigator
+import si.inova.kotlinova.navigation.navigator.Navigator
 
 /**
  * Temporary interface for allowing legacy screens not created by Dagger (such as Fragments) to access Navigator
