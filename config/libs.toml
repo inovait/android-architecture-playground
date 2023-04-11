@@ -26,6 +26,7 @@ orgJson = "20230227"
 # Do not update kotest until https://github.com/kotest/kotest/issues/3407 fix is released
 kotest = "5.5.4"
 ksp = "1.8.10-1.0.9"
+moduleGraphAssert = "2.3.1"
 moshi = "1.14.0"
 moshi-ir = "0.21.0"
 retrofit = "2.9.0"
@@ -86,6 +87,7 @@ kotlinova-core-test = { module = "si.inova.kotlinova:core-test", version.ref = "
 kotlinova-retrofit = { module = "si.inova.kotlinova:retrofit", version.ref = "kotlinova" }
 kotlinova-retrofit-test = { module = "si.inova.kotlinova:retrofit-test", version.ref = "kotlinova" }
 ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+moduleGraphAssert = { module = "com.jraska.module.graph.assertion:plugin", version.ref = "moduleGraphAssert" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-ir = { module = "dev.zacsweers.moshix:dev.zacsweers.moshix.gradle.plugin", version.ref = "moshi-ir" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }

@@ -1,5 +1,4 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.dependencies
 
 val libs = the<LibrariesForLibs>()
 
@@ -8,10 +7,16 @@ plugins {
    id("android-module-commons")
    id("kotlin-kapt")
    id("toml-update")
+   id("com.jraska.module.graph.assertion")
 }
 
 anvil {
    syncGeneratedSources.set(true)
+}
+
+moduleGraphAssert {
+   maxHeight = 6
+   restricted = arrayOf(":common-navigation -X> .*")
 }
 
 dependencies {
