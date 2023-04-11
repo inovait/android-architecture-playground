@@ -20,7 +20,7 @@ class NestedScreenA(
    @Composable
    override fun Content(key: NestedScreenAKey) {
       Column() {
-         Text("Nested screen A")
+         Text("Nested screen A $navigator")
 
          Button(onClick = { navigator.navigateTo(NestedScreenBKey) }) {
             Text("Navigate to nested screen B")

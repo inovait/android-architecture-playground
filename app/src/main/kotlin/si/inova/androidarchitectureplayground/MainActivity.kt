@@ -30,7 +30,7 @@ import si.inova.kotlinova.compose.time.ComposeAndroidDateTimeFormatter
 import si.inova.kotlinova.compose.time.LocalDateFormatter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
 import si.inova.kotlinova.navigation.deeplink.DeepLinkHandler
-import si.inova.kotlinova.navigation.di.NavigationContextImpl
+import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.di.NavigationInjection
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
@@ -48,7 +48,7 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
    override lateinit var navigator: si.inova.kotlinova.navigation.navigator.Navigator
 
    @Inject
-   lateinit var navigationContext: NavigationContextImpl
+   lateinit var navigationContext: NavigationContext
 
    @Inject
    lateinit var dateFormatter: AndroidDateTimeFormatter

@@ -38,6 +38,7 @@ class ScreenA constructor(
             .background(Color.Red)
       ) {
          Text("Number: $rememberedNumber")
+         Text("Navigator: $navigator")
          Text("VM: ${viewModel<TestAndroidXViewModel>().hashCode()}")
 
          logcat { "Log inside ScreenA" }
