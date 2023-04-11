@@ -24,6 +24,7 @@ dependencies {
    implementation(libs.anvil)
    implementation(libs.detekt.plugin)
    implementation(libs.kotlin.plugin)
+   implementation(libs.kotlinova.gradle)
    implementation(libs.moduleGraphAssert)
    implementation(libs.moshi.ir)
    implementation(libs.orgJson)
