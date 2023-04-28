@@ -574,7 +574,7 @@ potential-bugs:
     # Disabled until https://github.com/detekt/detekt/issues/5186 is resolved
     active: false
   UnsafeCallOnNullableType:
-    active: true
+    active: false # Using !! is cleaner than replacing it with requireNotNull()
     excludes: *testFolders
   UnsafeCast:
     active: true
