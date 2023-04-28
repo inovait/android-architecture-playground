@@ -78,6 +78,8 @@ kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref =
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+# Dummy entry, we don't need to actually use the stdlib explicitly, but it is used for the version checker to auto update kotlin
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlinova-compose = { module = "si.inova.kotlinova:compose", version.ref = "kotlinova" }
 kotlinova-navigation = { module = "si.inova.kotlinova:navigation", version.ref = "kotlinova" }
 kotlinova-navigation-compiler = { module = "si.inova.kotlinova:navigation-compiler", version.ref = "kotlinova" }
@@ -108,3 +110,4 @@ whetstone-runtime = { module = "com.deliveryhero.whetstone:whetstone", version.r
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 anvil = { id = "com.squareup.anvil", version.ref = "anvil" }
+versionsChecker = { id = "com.github.ben-manes.versions", version.ref = "versionsChecker" }
