@@ -15,15 +15,13 @@ commonAndroid {
    compileSdk = 33
 
    compileOptions {
-      sourceCompatibility = JavaVersion.VERSION_11
-      targetCompatibility = JavaVersion.VERSION_11
+      sourceCompatibility = JavaVersion.VERSION_17
+      targetCompatibility = JavaVersion.VERSION_17
 
       isCoreLibraryDesugaringEnabled = true
    }
 
    commonKotlinOptions {
-      jvmTarget = "11"
-
       freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
       freeCompilerArgs += "-opt-in=kotlinx.coroutines.FlowPreview"
    }
@@ -40,11 +38,15 @@ commonAndroid {
       }
    }
 
-   packagingOptions {
+   packaging {
       resources {
          excludes += "/META-INF/{AL2.0,LGPL2.1}"
       }
    }
+}
+
+kotlin {
+   jvmToolchain(17)
 }
 
 dependencies {

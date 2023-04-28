@@ -13,6 +13,10 @@ plugins {
 android {
    namespace = "si.inova.androidarchitectureplayground"
 
+   buildFeatures {
+      buildConfig = true
+   }
+
    defaultConfig {
       applicationId = "si.inova.androidarchitectureplayground"
       targetSdk = 33
