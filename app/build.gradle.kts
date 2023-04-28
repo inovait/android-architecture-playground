@@ -96,14 +96,8 @@ android {
 
 dependencies {
    implementation(projects.commonAndroid)
-   implementation(projects.libmodule)
-   implementation(projects.login)
-   implementation(projects.masterdetail)
    implementation(projects.commonNavigation)
    implementation(projects.commonRetrofit.android)
-   implementation(projects.products.ui)
-   implementation(projects.screenC)
-   implementation(projects.pureKotlinModule)
    implementation(projects.commonCompose)
 
    implementation(libs.androidx.activity.compose)

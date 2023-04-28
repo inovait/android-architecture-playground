@@ -1,7 +1,5 @@
 package si.inova.androidarchitectureplayground
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -10,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -22,30 +19,27 @@ import com.zhuinden.simplestack.History
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import si.inova.androidarchitectureplayground.migration.NavigatorActivity
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.result.LocalResultPassingStore
 import si.inova.kotlinova.compose.result.ResultPassingStore
 import si.inova.kotlinova.compose.time.ComposeAndroidDateTimeFormatter
 import si.inova.kotlinova.compose.time.LocalDateFormatter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
-import si.inova.kotlinova.navigation.deeplink.DeepLinkHandler
+import si.inova.kotlinova.navigation.deeplink.HandleNewIntentDeepLinks
+import si.inova.kotlinova.navigation.deeplink.MainDeepLinkHandler
 import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.di.NavigationInjection
-import si.inova.kotlinova.navigation.instructions.NavigationInstruction
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.simplestack.RootNavigationContainer
 import javax.inject.Inject
 
 @ContributesActivityInjector
-class MainActivity : FragmentActivity(), NavigatorActivity {
+class MainActivity : FragmentActivity() {
    @Inject
-   lateinit var navigationStackComponentFactory: NavigationInjection.Factory
+   lateinit var navigationInjectionFactory: NavigationInjection.Factory
 
    @Inject
-   lateinit var deepLinkHandlers: Set<@JvmSuppressWildcards DeepLinkHandler>
-
-   override lateinit var navigator: si.inova.kotlinova.navigation.navigator.Navigator
+   lateinit var mainDeepLinkHandler: MainDeepLinkHandler
 
    @Inject
    lateinit var navigationContext: NavigationContext
@@ -54,6 +48,7 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
    lateinit var dateFormatter: AndroidDateTimeFormatter
 
    private val viewModel by viewModels<MainViewModel>()
+
    private var initComplete = false
 
    override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,19 +58,27 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
       val splashScreen = installSplashScreen()
       splashScreen.setKeepOnScreenCondition { !initComplete }
 
-      beginInitialisation()
+      beginInitialisation(savedInstanceState == null)
    }
 
-   private fun beginInitialisation() {
+   private fun beginInitialisation(startup: Boolean) {
       lifecycleScope.launch {
-         var initialHistory: List<ScreenKey> = History.of(viewModel.startingScreen.filterNotNull().first())
-         val deepLinkTarget = intent?.data?.let { getDeepLinkTarget(it, startup = true) }
-         if (deepLinkTarget != null) {
-            initialHistory = deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack
+         val initialHistory: List<ScreenKey> = History.of(viewModel.startingScreen.filterNotNull().first())
+
+         val deepLinkTarget = if (startup) {
+            intent?.data?.let { mainDeepLinkHandler.handleDeepLink(it, startup = true) }
+         } else {
+            null
+         }
+
+         val overridenInitialHistoryFromDeepLink = if (deepLinkTarget != null) {
+            deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack
+         } else {
+            initialHistory
          }
 
          setContent {
-            NavigationRoot(initialHistory)
+            NavigationRoot(overridenInitialHistoryFromDeepLink)
          }
 
          initComplete = true
@@ -95,36 +98,13 @@ class MainActivity : FragmentActivity(), NavigatorActivity {
                LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter),
                LocalResultPassingStore provides resultPassingStore
             ) {
-               val backstack = navigationStackComponentFactory.RootNavigationContainer { initialHistory }
-
-               remember(backstack) {
-                  navigator = NavigationInjection.fromBackstack(backstack).navigator()
-                  true
+               val backstack = navigationInjectionFactory.RootNavigationContainer {
+                  initialHistory
                }
+
+               mainDeepLinkHandler.HandleNewIntentDeepLinks(this@MainActivity, backstack)
             }
          }
       }
-   }
-
-   override fun onNewIntent(intent: Intent?) {
-      super.onNewIntent(intent)
-
-      if (!initComplete) {
-         this.intent = intent
-         return
-      }
-
-      intent?.data?.let { url ->
-         val navigationKey = getDeepLinkTarget(url, startup = false)
-         navigationKey?.let {
-            navigator.navigate(it)
-         }
-      }
-   }
-
-   private fun getDeepLinkTarget(uri: Uri, startup: Boolean): NavigationInstruction? {
-      return deepLinkHandlers.asSequence<@JvmSuppressWildcards DeepLinkHandler>()
-         .mapNotNull<@JvmSuppressWildcards DeepLinkHandler, NavigationInstruction> { it.handleDeepLink(uri, startup) }
-         .firstOrNull()
    }
 }

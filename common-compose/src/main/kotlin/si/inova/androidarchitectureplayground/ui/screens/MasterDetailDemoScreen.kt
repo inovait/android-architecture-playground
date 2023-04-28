@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.masterdetail
+package si.inova.androidarchitectureplayground.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent

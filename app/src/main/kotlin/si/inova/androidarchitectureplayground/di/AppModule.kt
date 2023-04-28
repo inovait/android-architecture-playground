@@ -42,6 +42,7 @@ abstract class AppModule {
          return ErrorReporter {
             if (it !is CauseException || it.shouldReport) {
                logcat { "Reporting $it to Firebase" }
+               // Substitute with actual Firebase reporting
                it.printStackTrace()
             } else if (BuildConfig.DEBUG) {
                it.printStackTrace()

@@ -6,7 +6,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import si.inova.androidarchitectureplayground.navigation.keys.ScreenAKey
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
 class MainViewModel : ViewModel() {
@@ -17,7 +16,7 @@ class MainViewModel : ViewModel() {
       viewModelScope.launch {
          @Suppress("MagicNumber") // Just a demo
          delay(500)
-         _startingScreen.value = ScreenAKey
+         _startingScreen.value = TODO()
       }
    }
 }
