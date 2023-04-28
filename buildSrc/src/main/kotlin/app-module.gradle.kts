@@ -26,7 +26,10 @@ tomlVersionBump {
 
 moduleGraphAssert {
    maxHeight = 6
-   restricted = arrayOf(":common-navigation -X> .*")
+   restricted = arrayOf(
+      ":common-navigation -X> .*",
+      ":(?!$name).* -X> .*:login"
+   )
 }
 
 dependencies {
