@@ -4,6 +4,10 @@
     <style name="Theme.AndroidArchitecturePlayground" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="Theme.AndroidArchitecturePlayground.Splash" parent="Theme.SplashScreen">
+        <!-- Some emulators have trouble switching themes. Hardcode no action bar in the splash theme -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
         <item name="postSplashScreenTheme">@style/Theme.AndroidArchitecturePlayground</item>
         <item name="android:windowSplashScreenBehavior" tools:ignore="NewApi">icon_preferred</item>
