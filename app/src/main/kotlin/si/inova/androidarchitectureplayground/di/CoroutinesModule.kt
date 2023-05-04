@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dispatch.core.DefaultCoroutineScope
 import dispatch.core.DispatcherProvider
+import dispatch.core.IOCoroutineScope
 import dispatch.core.MainImmediateCoroutineScope
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.reporting.ErrorReporter
@@ -22,6 +23,11 @@ class CoroutinesModule {
    @Provides
    fun provideDefaultCoroutineScope(): DefaultCoroutineScope {
       return DefaultCoroutineScope(object : DispatcherProvider {})
+   }
+
+   @Provides
+   fun provideIOCoroutineScope(): IOCoroutineScope {
+      return IOCoroutineScope(object : DispatcherProvider {})
    }
 
    @Provides

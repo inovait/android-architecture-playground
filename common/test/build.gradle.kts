@@ -10,4 +10,6 @@ dependencies {
    implementation(libs.dispatch)
    implementation(libs.kotest.assertions)
    implementation(libs.turbine)
+   implementation(libs.androidx.datastore.preferences.core)
+
 }

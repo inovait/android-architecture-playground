@@ -13,7 +13,7 @@ class FakeLoginRepository : LoginRepository {
       return loggedinFlow
    }
 
-   override fun setLoggedIn(loggedIn: Boolean) {
+   override suspend fun setLoggedIn(loggedIn: Boolean) {
       loggedinFlow.value = loggedIn
    }
 }

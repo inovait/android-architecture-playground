@@ -6,5 +6,5 @@ interface LoginRepository {
    val isLoggedIn: Boolean
 
    fun isLoggedInFlow(): Flow<Boolean>
-   fun setLoggedIn(loggedIn: Boolean)
+   suspend fun setLoggedIn(loggedIn: Boolean)
 }

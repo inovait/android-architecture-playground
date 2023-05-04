@@ -12,4 +12,6 @@ dependencies {
    implementation(projects.commonNavigation)
 
    implementation(libs.dispatch)
+   implementation(libs.androidx.datastore)
+   implementation(libs.androidx.datastore.preferences)
 }

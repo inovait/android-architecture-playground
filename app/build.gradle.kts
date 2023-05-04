@@ -115,6 +115,9 @@ dependencies {
    implementation(libs.retrofit.moshi)
    implementation(libs.simpleStack)
 
+   implementation(libs.androidx.datastore)
+   implementation(libs.androidx.datastore.preferences)
+
    testImplementation(projects.commonAndroid.test)
    androidTestImplementation(projects.commonAndroid.test)
    androidTestImplementation(projects.commonRetrofit.test)
