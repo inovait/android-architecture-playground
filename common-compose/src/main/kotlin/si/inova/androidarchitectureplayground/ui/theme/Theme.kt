@@ -4,12 +4,15 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -58,7 +61,11 @@ fun AndroidArchitecturePlaygroundTheme(
       SideEffect {
          val window = (view.context as Activity).window
          window.statusBarColor = colorScheme.primary.toArgb()
-         WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+         val navigationBarColor = colorScheme.surfaceColorAtElevation(NavigationBarDefaults.Elevation)
+         window.navigationBarColor = navigationBarColor.toArgb()
+         val insetsController = WindowCompat.getInsetsController(window, view)
+         insetsController.isAppearanceLightStatusBars = darkTheme
+         insetsController.isAppearanceLightNavigationBars = navigationBarColor.luminance() > BRIGHT_THRESHOLD_LUMINANCE
       }
    }
 
@@ -68,3 +75,5 @@ fun AndroidArchitecturePlaygroundTheme(
       content = content
    )
 }
+
+private const val BRIGHT_THRESHOLD_LUMINANCE = 0.5f
