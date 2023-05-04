@@ -2,6 +2,7 @@ plugins {
    androidLibraryModule
    id("kotlin-parcelize")
    compose
+   navigation
 }
 
 android {

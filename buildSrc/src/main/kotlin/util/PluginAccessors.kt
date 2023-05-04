@@ -24,3 +24,6 @@ inline val PluginDependenciesSpec.moshi: PluginDependencySpec
 
 inline val PluginDependenciesSpec.screenshotTests: PluginDependencySpec
    get() = id("screenshot-testing")
+
+inline val PluginDependenciesSpec.navigation: PluginDependencySpec
+   get() = id("navigation")

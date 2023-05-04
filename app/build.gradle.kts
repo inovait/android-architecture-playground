@@ -8,6 +8,7 @@ plugins {
    androidAppModule
    compose
    id("kotlin-parcelize")
+   navigation
 }
 
 android {
