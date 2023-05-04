@@ -12,4 +12,6 @@ dependencies {
    }
 
    anvil(libs.kotlinova.navigation.compiler)
+
+   add("testImplementation", libs.kotlinova.navigation.test)
 }

@@ -27,3 +27,6 @@ inline val PluginDependenciesSpec.screenshotTests: PluginDependencySpec
 
 inline val PluginDependenciesSpec.navigation: PluginDependencySpec
    get() = id("navigation")
+
+inline val PluginDependenciesSpec.testHelpers: PluginDependencySpec
+   get() = id("test-module")

@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+   api(projects.login.api)
    implementation(projects.commonNavigation)
 
    implementation(libs.dispatch)
