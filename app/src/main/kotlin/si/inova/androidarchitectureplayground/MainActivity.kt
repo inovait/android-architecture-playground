@@ -2,7 +2,6 @@ package si.inova.androidarchitectureplayground
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -15,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.deliveryhero.whetstone.Whetstone
 import com.deliveryhero.whetstone.activity.ContributesActivityInjector
+import com.deliveryhero.whetstone.viewmodel.injectedViewModel
 import com.zhuinden.simplestack.History
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -47,7 +47,7 @@ class MainActivity : FragmentActivity() {
    @Inject
    lateinit var dateFormatter: AndroidDateTimeFormatter
 
-   private val viewModel by viewModels<MainViewModel>()
+   private val viewModel by injectedViewModel<MainViewModel>()
 
    private var initComplete = false
 

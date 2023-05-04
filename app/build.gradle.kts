@@ -100,6 +100,8 @@ dependencies {
    implementation(projects.commonNavigation)
    implementation(projects.commonRetrofit.android)
    implementation(projects.commonCompose)
+   implementation(projects.login.data)
+   implementation(projects.login.ui)
    implementation(projects.home.ui)
 
    implementation(libs.androidx.activity.compose)
