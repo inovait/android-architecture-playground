@@ -100,6 +100,7 @@ dependencies {
    implementation(projects.commonNavigation)
    implementation(projects.commonRetrofit.android)
    implementation(projects.commonCompose)
+   implementation(projects.home.ui)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
