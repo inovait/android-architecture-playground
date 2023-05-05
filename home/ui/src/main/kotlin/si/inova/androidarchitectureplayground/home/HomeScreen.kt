@@ -24,13 +24,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
+import si.inova.androidarchitectureplayground.screens.ManageProfileScreen
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.instructions.navigateTo
 import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.Screen
 
 class HomeScreen(
-   private val navigator: Navigator
+   private val navigator: Navigator,
+   private val manageProfileScreen: ManageProfileScreen
 ) : Screen<HomeScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
    @Composable
@@ -46,7 +48,7 @@ class HomeScreen(
 
       val mainContent = remember {
          movableContentOf {
-            MainContent(keyState.value.selectedTab)
+            MainContent(keyState.value)
          }
       }
 
@@ -58,10 +60,15 @@ class HomeScreen(
    }
 
    @Composable
-   private fun MainContent(tab: HomeScreenKey.Tab) {
+   private fun MainContent(key: HomeScreenKey) {
+      val tab = key.selectedTab
       val stateHolder = rememberSaveableStateHolder()
       stateHolder.SaveableStateProvider(tab) {
-         Text(tab.toString())
+         when (tab) {
+            HomeScreenKey.Tab.POSTS -> Text("Posts")
+            HomeScreenKey.Tab.USERS -> Text("Users")
+            HomeScreenKey.Tab.SETTINGS -> manageProfileScreen.Content(key)
+         }
       }
    }
 
@@ -93,6 +100,13 @@ class HomeScreen(
                icon = { Icon(painter = painterResource(id = R.drawable.ic_users), contentDescription = null) },
                label = { Text(stringResource(R.string.users)) }
             )
+
+            NavigationBarItem(
+               selected = key.selectedTab == HomeScreenKey.Tab.SETTINGS,
+               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.SETTINGS)) },
+               icon = { Icon(painter = painterResource(id = R.drawable.ic_settings), contentDescription = null) },
+               label = { Text(stringResource(R.string.settings)) }
+            )
          }
       }
    }
@@ -116,6 +130,13 @@ class HomeScreen(
                onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.USERS)) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_users), contentDescription = null) },
                label = { Text(stringResource(R.string.users)) }
+            )
+
+            NavigationRailItem(
+               selected = key.selectedTab == HomeScreenKey.Tab.SETTINGS,
+               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.SETTINGS)) },
+               icon = { Icon(painter = painterResource(id = R.drawable.ic_settings), contentDescription = null) },
+               label = { Text(stringResource(R.string.settings)) }
             )
          }
 

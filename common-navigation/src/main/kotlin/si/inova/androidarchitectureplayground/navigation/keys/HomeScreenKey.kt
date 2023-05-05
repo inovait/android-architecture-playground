@@ -7,6 +7,7 @@ import si.inova.kotlinova.navigation.screenkeys.SingleTopKey
 data class HomeScreenKey(val selectedTab: Tab = Tab.POSTS) : SingleTopKey() {
    enum class Tab {
       POSTS,
-      USERS;
+      USERS,
+      SETTINGS;
    }
 }

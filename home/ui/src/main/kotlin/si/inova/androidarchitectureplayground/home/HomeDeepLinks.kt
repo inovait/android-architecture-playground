@@ -20,6 +20,9 @@ class HomeDeepLinks @Inject constructor() : DeepLinkHandler {
          matchDeepLink("demoapp://users") { _, _ ->
             ReplaceBackstackOrOpenScreenWithLogin(startup, HomeScreenKey(HomeScreenKey.Tab.USERS))
          }
+         matchDeepLink("demoapp://settings") { _, _ ->
+            ReplaceBackstackOrOpenScreenWithLogin(startup, HomeScreenKey(HomeScreenKey.Tab.SETTINGS))
+         }
       }
    }
 }
