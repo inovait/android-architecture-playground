@@ -24,7 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
-import si.inova.androidarchitectureplayground.screens.ManageProfileScreen
+import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.instructions.navigateTo
 import si.inova.kotlinova.navigation.navigator.Navigator
@@ -32,7 +32,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 
 class HomeScreen(
    private val navigator: Navigator,
-   private val manageProfileScreen: ManageProfileScreen
+   private val manageProfileScreen: Screen<ManageProfileScreenKey>
 ) : Screen<HomeScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
    @Composable
@@ -67,7 +67,7 @@ class HomeScreen(
          when (tab) {
             HomeScreenKey.Tab.POSTS -> Text("Posts")
             HomeScreenKey.Tab.USERS -> Text("Users")
-            HomeScreenKey.Tab.SETTINGS -> manageProfileScreen.Content(key)
+            HomeScreenKey.Tab.SETTINGS -> manageProfileScreen.Content(ManageProfileScreenKey)
          }
       }
    }

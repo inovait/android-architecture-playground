@@ -9,18 +9,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import si.inova.androidarchitectureplayground.screens.ManageProfileScreen
+import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
-import si.inova.kotlinova.navigation.screenkeys.ScreenKey
+import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding
 class ManageProfileScreenImpl(
    private val viewModel: ManageProfileScreenViewModel
-) : ManageProfileScreen() {
+) : Screen<ManageProfileScreenKey>() {
    @Composable
-   override fun Content(key: ScreenKey) {
+   override fun Content(key: ManageProfileScreenKey) {
       Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
          val status = viewModel.logoutStatus.collectAsStateWithLifecycleAndBlinkingPrevention().value
          if (status != null) {
