@@ -31,6 +31,8 @@ android {
          onVariants {
             it.buildConfigFields.put("GIT_HASH", gitVersionProvider.flatMap { task ->
                task.gitVersionOutputFile.map { file ->
+                  // Note: If you get an error here about missing file, disable gradle configuration cache and build again
+                  // See https://github.com/gradle/gradle/issues/19252
                   val gitHash = file.asFile.readText(Charsets.UTF_8)
 
                   BuildConfigField(
