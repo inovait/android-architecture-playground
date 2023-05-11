@@ -5,10 +5,6 @@ plugins {
    navigation
 }
 
-android {
-   namespace = "si.inova.kotlinova.navigation.common"
-}
-
 dependencies {
    api(libs.kotlinova.navigation)
    implementation(libs.androidx.activity.compose)

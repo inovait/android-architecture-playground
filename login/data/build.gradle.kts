@@ -3,10 +3,6 @@ plugins {
    compose
 }
 
-android {
-   namespace = "si.inova.androidarchitectureplayground.login"
-}
-
 dependencies {
    api(projects.login.api)
    implementation(projects.commonNavigation)

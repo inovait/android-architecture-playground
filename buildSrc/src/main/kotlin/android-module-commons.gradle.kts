@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.LibraryBuildFeatures
 import org.gradle.accessors.dm.LibrariesForLibs
 import util.commonAndroid
 import util.commonKotlinOptions
@@ -12,6 +13,9 @@ plugins {
 }
 
 commonAndroid {
+   // Use default namespace for no resources, modules that use resources must override this
+   namespace = "si.inova.androidarchitectureplayground.noresources"
+
    compileSdk = 33
 
    compileOptions {
@@ -41,6 +45,16 @@ commonAndroid {
    packaging {
       resources {
          excludes += "/META-INF/{AL2.0,LGPL2.1}"
+      }
+   }
+
+   buildFeatures {
+      buildConfig = false
+      resValues = false
+      shaders = false
+
+      if (this is LibraryBuildFeatures) {
+         androidResources = false
       }
    }
 }
