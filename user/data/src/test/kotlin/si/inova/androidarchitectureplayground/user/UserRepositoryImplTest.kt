@@ -29,12 +29,12 @@ import si.inova.kotlinova.core.test.time.virtualTimeProvider
 import si.inova.kotlinova.retrofit.InterceptionStyle
 import java.util.concurrent.TimeUnit
 
-class UserRepositoryTest {
+class UserRepositoryImplTest {
    private val userService = FakeUsersService()
    private val userQueries = createTestUserQueries()
    private val scope = TestScope()
 
-   private val repository = UserRepository(userService, userQueries, scope.virtualTimeProvider())
+   private val repository = UserRepositoryImpl(userService, userQueries, scope.virtualTimeProvider())
 
    @BeforeEach
    fun setUp() {

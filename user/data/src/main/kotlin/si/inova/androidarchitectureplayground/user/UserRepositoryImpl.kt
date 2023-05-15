@@ -29,12 +29,12 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
-class UserRepository @Inject constructor(
+class UserRepositoryImpl @Inject constructor(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,
    private val timeProvider: TimeProvider
-) {
-   fun getAllUsers(force: Boolean = false): PaginatedDataStream<List<User>> {
+) : UserRepository {
+   override fun getAllUsers(force: Boolean): PaginatedDataStream<List<User>> {
       return OffsetDatabaseBackedPaginatedDataStream<User>(
          loadFromNetwork = ::loadUsersFromNetwork,
          loadFromDatabase = { offset, limit -> loadUsersFromDatabase(offset, limit, force) },
@@ -42,7 +42,7 @@ class UserRepository @Inject constructor(
       )
    }
 
-   fun getUserDetails(id: Int, force: Boolean = false): Flow<Outcome<User>> {
+   override fun getUserDetails(id: Int, force: Boolean): Flow<Outcome<User>> {
       val dbQuery = userDb.selectSingle(id.toLong())
 
       return suspend { withIO { dbQuery.awaitAsOneOrNull() } }
