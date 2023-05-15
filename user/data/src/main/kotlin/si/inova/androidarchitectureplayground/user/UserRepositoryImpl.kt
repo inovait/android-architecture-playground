@@ -4,6 +4,7 @@ import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
+import com.squareup.anvil.annotations.ContributesBinding
 import dispatch.core.dispatcherProvider
 import dispatch.core.withIO
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import si.inova.androidarchitectureplayground.common.di.PureApplicationScope
 import si.inova.androidarchitectureplayground.common.pagination.OffsetDatabaseBackedPaginatedDataStream
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
@@ -22,6 +24,8 @@ import si.inova.androidarchitectureplayground.user.model.toUser
 import si.inova.androidarchitectureplayground.user.network.UsersService
 import si.inova.androidarchitectureplayground.user.sqldelight.generated.DbUser
 import si.inova.androidarchitectureplayground.user.sqldelight.generated.DbUserQueries
+import si.inova.kotlinova.core.exceptions.UnknownCauseException
+import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.outcome.catchIntoOutcome
 import si.inova.kotlinova.core.time.TimeProvider
@@ -29,6 +33,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
+@ContributesBinding(PureApplicationScope::class)
 class UserRepositoryImpl @Inject constructor(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,
@@ -50,22 +55,31 @@ class UserRepositoryImpl @Inject constructor(
          .flatMapLatest { initialDbUser ->
             flow {
                val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
+               val initialUser = initialDbUser?.toUser()
 
                if (force || initialDbUser == null || !initialDbUser.isValidForUserDetails(deadline)) {
                   if (initialDbUser != null) {
-                     emit(Outcome.Progress(initialDbUser.toUser()))
+                     emit(Outcome.Progress(initialUser))
                   }
 
                   try {
                      val dbUser = usersService.getUser(id).toDb(timeProvider.currentTimeMillis())
                      userDb.insert(dbUser)
                   } catch (e: BackendException) {
-                     if (e.backendMessage.contains("not found")) {
-                        emit(Outcome.Error(UnknownUserException(e)))
-                        return@flow
+                     val error = if (e.backendMessage.contains("not found")) {
+                        UnknownUserException(e)
                      } else {
-                        throw e
+                        UnknownCauseException(cause = e)
                      }
+
+                     emit(Outcome.Error(error, initialUser))
+                     return@flow
+                  } catch (e: CauseException) {
+                     emit(Outcome.Error(e, initialUser))
+                     return@flow
+                  } catch (e: Exception) {
+                     emit(Outcome.Error(UnknownCauseException(cause = e), initialUser))
+                     return@flow
                   }
                }
 

@@ -224,6 +224,27 @@ class UserRepositoryImplTest {
       }
 
    @Test
+   fun `Include stale database data in error, when network fetch of user list fails`() =
+      scope.runTestWithDispatchers {
+         val cachingDataStream = repository.getAllUsers()
+         cachingDataStream.data.first() // Load data into database
+         runCurrent()
+
+         userService.interceptAllFutureCallsWith(InterceptionStyle.Error(NoNetworkException()))
+
+         val dataStream = repository.getAllUsers(force = true)
+
+         dataStream.data.test {
+            awaitItem() // Loading item
+
+            awaitItem().items.shouldBeErrorWith(
+               expectedData = createFakeUsers(0, 10),
+               exceptionType = NoNetworkException::class.java
+            )
+         }
+      }
+
+   @Test
    fun `Provide single user from network`() = scope.runTestWithDispatchers {
       userService.provideUserDetails(
          UserDto(
@@ -531,6 +552,61 @@ class UserRepositoryImplTest {
          }
       }
    }
+
+   @Test
+   fun `Include stale database data in error, when network fetch of user details fails`() =
+      scope.runTestWithDispatchers {
+         userService.provideUserDetails(
+            UserDto(
+               id = 1,
+               firstName = "John",
+               lastName = "Doe",
+               maidenName = "Smith",
+               age = 25,
+               gender = "Apache Helicopter",
+               email = "a@b.com",
+               phone = "1234567890",
+               hair = UserDto.Hair(
+                  "brown",
+                  "curly"
+               ),
+            )
+         )
+
+         val expectedUserError = User(
+            id = 1,
+            firstName = "John",
+            lastName = "Doe",
+            maidenName = "Smith",
+            age = 25,
+            gender = "Apache Helicopter",
+            email = "a@b.com",
+            phone = "1234567890",
+            hair = User.Hair(
+               "brown",
+               "curly"
+            ),
+         )
+
+         repository.getUserDetails(1).test {
+            // Load data into database cache
+            runCurrent()
+            cancelAndConsumeRemainingEvents()
+         }
+
+         userService.interceptAllFutureCallsWith(InterceptionStyle.Error(NoNetworkException()))
+
+         repository.getUserDetails(1, force = true).test {
+            awaitItem() // Progress item
+
+            awaitItem().shouldBeErrorWith(
+               expectedData = expectedUserError,
+               exceptionType = NoNetworkException::class.java
+            )
+
+            awaitComplete()
+         }
+      }
 
    private fun createFakeUsersDto(from: Int, to: Int): List<LightUserDto> {
       return List(to - from) {
