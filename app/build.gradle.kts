@@ -9,6 +9,7 @@ plugins {
    compose
    id("kotlin-parcelize")
    navigation
+   sqldelight
 }
 
 android {
@@ -97,6 +98,15 @@ android {
    }
 }
 
+sqldelight {
+   databases {
+      create("Database") {
+         packageName.set("si.inova.androidarchitectureplayground")
+         dependency(projects.user.data)
+      }
+   }
+}
+
 dependencies {
    implementation(projects.commonAndroid)
    implementation(projects.commonNavigation)
@@ -105,6 +115,7 @@ dependencies {
    implementation(projects.login.data)
    implementation(projects.login.ui)
    implementation(projects.home.ui)
+   implementation(projects.user.data)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
@@ -116,6 +127,7 @@ dependencies {
    implementation(libs.dispatch)
    implementation(libs.retrofit.moshi)
    implementation(libs.simpleStack)
+   implementation(libs.sqldelight.android)
 
    implementation(libs.androidx.datastore)
    implementation(libs.androidx.datastore.preferences)

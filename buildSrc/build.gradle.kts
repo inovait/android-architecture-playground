@@ -51,6 +51,7 @@ dependencies {
    implementation(libs.versionsCheckerPlugin)
    implementation(libs.ksp)
    implementation(libs.shot)
+   implementation(libs.sqldelight.gradle)
    implementation(libs.tomlj)
 
    // Workaround to have libs accessible (from https://github.com/gradle/gradle/issues/15383)

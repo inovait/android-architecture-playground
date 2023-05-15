@@ -1,0 +1,14 @@
+{
+  "id": 7,
+  "firstName": "John",
+  "lastName": "Doe",
+  "maidenName": "Smith",
+  "age": 25,
+  "gender": "Apache Helicopter",
+  "email": "a@b.com",
+  "phone": "1234567890",
+  "hair": {
+    "color": "brown",
+    "type": "curly"
+  }
+}

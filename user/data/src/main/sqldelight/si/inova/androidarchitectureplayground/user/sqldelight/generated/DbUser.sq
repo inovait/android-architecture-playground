@@ -1,0 +1,26 @@
+CREATE TABLE dbUser (
+    id INTEGER PRIMARY KEY NOT NULL,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    maiden_name TEXT DEFAULT NULL,
+    age INTEGER DEFAULT NULL,
+    gender TEXT DEFAULT NULL,
+    email TEXT DEFAULT NULL,
+    phone TEXT DEFAULT NULL,
+    hair_color TEXT DEFAULT NULL,
+    hair_type TEXT DEFAULT NULL,
+    full_data INTEGER AS kotlin.Boolean DEFAULT 0,
+    last_update INTEGER NOT NULL
+);
+
+selectAll:
+SELECT * FROM dbUser LIMIT :limit OFFSET :offset;
+
+selectSingle:
+SELECT * FROM dbUser WHERE id = :id;
+
+insert:
+REPLACE INTO dbUser VALUES ?;
+
+clear:
+DELETE FROM dbUser;

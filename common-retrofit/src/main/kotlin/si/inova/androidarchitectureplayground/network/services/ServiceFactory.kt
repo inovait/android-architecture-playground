@@ -5,8 +5,8 @@ import si.inova.kotlinova.retrofit.callfactory.ErrorHandler
 
 interface ServiceFactory {
    fun <S> create(klass: Class<S>, configuration: ServiceCreationScope.() -> Unit = {}): S
-   class ServiceCreationScope {
-      var errorHandler: ErrorHandler? = null
+   class ServiceCreationScope(private val defaultErrorHandler: ErrorHandler?) {
+      var errorHandler: ErrorHandler? = defaultErrorHandler
       var okHttpCustomizer: (OkHttpClient.Builder.() -> Unit)? = null
 
       var cache: Boolean = true
