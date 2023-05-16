@@ -1,8 +1,10 @@
 package si.inova.androidarchitectureplayground.user
 
 import app.cash.sqldelight.db.SqlDriver
+import com.squareup.anvil.annotations.ContributesTo
 import dagger.Module
 import dagger.Provides
+import si.inova.androidarchitectureplayground.common.di.PureApplicationScope
 import si.inova.androidarchitectureplayground.network.services.ServiceFactory
 import si.inova.androidarchitectureplayground.network.services.create
 import si.inova.androidarchitectureplayground.user.network.UsersService
@@ -11,6 +13,7 @@ import si.inova.androidarchitectureplayground.user.sqldelight.generated.DbUserQu
 import javax.inject.Singleton
 
 @Module
+@ContributesTo(PureApplicationScope::class)
 object UsersDataModule {
    @Provides
    @Singleton

@@ -120,7 +120,7 @@ class UserRepositoryImpl @Inject constructor(
          .selectAll(offset = offset.toLong(), limit = limit.toLong())
          .asFlow()
          .map { query ->
-            val dbUsers = query.awaitAsList()
+            val dbUsers = withIO { query.awaitAsList() }
             val expired = dbUsers.any { it.last_update < deadline }
 
             Outcome.Success(
