@@ -64,7 +64,9 @@ class UserRepositoryImpl @Inject constructor(
 
                   try {
                      val dbUser = usersService.getUser(id).toDb(timeProvider.currentTimeMillis())
-                     userDb.insert(dbUser)
+                     withIO {
+                        userDb.insert(dbUser)
+                     }
                   } catch (e: BackendException) {
                      val error = if (e.backendMessage.contains("not found")) {
                         UnknownUserException(e)
