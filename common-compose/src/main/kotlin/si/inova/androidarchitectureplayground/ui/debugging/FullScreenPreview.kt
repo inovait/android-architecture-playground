@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
    showSystemUi = true,
    uiMode = Configuration.UI_MODE_NIGHT_YES,
    device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
-   name = "Day mode portrait"
+   name = "Night mode portrait"
 )
 @Preview(
    showSystemUi = true,
@@ -32,6 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
    showSystemUi = true,
    uiMode = Configuration.UI_MODE_NIGHT_NO,
    device = "spec:id=reference_phone,shape=Normal,width=891,height=411,unit=dp,dpi=420",
-   name = "Night mode landscape"
+   name = "Day mode landscape"
 )
 annotation class FullScreenPreview

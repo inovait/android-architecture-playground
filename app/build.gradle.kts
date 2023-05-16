@@ -116,6 +116,7 @@ dependencies {
    implementation(projects.login.ui)
    implementation(projects.home.ui)
    implementation(projects.user.data)
+   implementation(projects.user.ui)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)

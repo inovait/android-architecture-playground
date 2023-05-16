@@ -1,0 +1,26 @@
+plugins {
+   androidLibraryModule
+   compose
+   navigation
+}
+
+android {
+   namespace = "si.inova.architectureplayground.user"
+
+   buildFeatures {
+      androidResources = true
+   }
+}
+
+dependencies {
+   implementation(projects.common)
+   implementation(projects.commonCompose)
+   implementation(projects.user.api)
+
+   implementation(libs.kotlinova.core)
+   implementation(libs.androidx.compose.material)
+
+   testImplementation(projects.user.test)
+
+   androidTestImplementation(projects.user.test)
+}

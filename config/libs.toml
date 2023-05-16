@@ -6,6 +6,7 @@ androidx-core = "1.10.0"
 androidx-core-splashscreen = "1.0.1"
 androidx-compose-compiler = "1.4.6"
 androidx-compose-runtime = "1.4.2"
+androidx-compose-material = "1.4.3"
 androidx-compose-material3 = "1.0.1"
 androidx-datastore = "1.0.0"
 androidx-lifecycle = "2.6.1"
@@ -21,7 +22,7 @@ kotlin = "1.8.20"
 kotlin-coroutines = "1.6.4"
 junit4 = "4.13.2"
 junit5 = "5.9.3"
-kotlinova = "3.0.0-alpha10"
+kotlinova = "3.0.0-alpha11"
 okhttp = "4.11.0"
 orgJson = "20230227"
 # Do not update kotest until https://github.com/kotest/kotest/issues/3407 fix is released
@@ -57,6 +58,7 @@ androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-runtime" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-runtime" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-compose-runtime" }
+androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidx-compose-material" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
 androidx-compose-material3-sizeClasses = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "androidx-compose-material3" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidx-datastore" }
