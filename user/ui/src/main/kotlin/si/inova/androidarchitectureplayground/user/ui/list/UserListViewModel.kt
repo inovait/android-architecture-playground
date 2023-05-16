@@ -5,20 +5,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
-import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
 import si.inova.androidarchitectureplayground.user.UserRepository
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.outcome.mapData
-import si.inova.kotlinova.navigation.services.SingleScreenViewModel
+import si.inova.kotlinova.navigation.services.CoroutineScopedService
 import javax.inject.Inject
 
 @Stable
 class UserListViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val userRepository: UserRepository
-) : SingleScreenViewModel<UserListScreenKey>(resources.scope) {
+) : CoroutineScopedService(resources.scope) {
    private val _userList = MutableStateFlow<Outcome<UserListState>>(Outcome.Progress(UserListState()))
    val userList: StateFlow<Outcome<UserListState>>
       get() = _userList

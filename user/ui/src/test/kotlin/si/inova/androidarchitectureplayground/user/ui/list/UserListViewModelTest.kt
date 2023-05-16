@@ -5,10 +5,8 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
-import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
 import si.inova.androidarchitectureplayground.user.FakeUserRepository
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.Outcome
@@ -21,11 +19,6 @@ class UserListViewModelTest {
    private val resources = scope.testCoroutineResourceManager()
 
    private val viewModel = UserListViewModel(resources, repository)
-
-   @BeforeEach
-   fun setUp() {
-      viewModel.key = UserListScreenKey
-   }
 
    @Test
    fun `Load users`() = scope.runTest {

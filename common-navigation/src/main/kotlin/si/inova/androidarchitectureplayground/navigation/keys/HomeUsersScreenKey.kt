@@ -1,7 +1,7 @@
-package si.inova.androidarchitectureplayground.screens
+package si.inova.androidarchitectureplayground.navigation.keys
 
 import kotlinx.parcelize.Parcelize
 import si.inova.kotlinova.navigation.screenkeys.NoArgsScreenKey
 
 @Parcelize
-object MasterDetailDemoScreenKey : NoArgsScreenKey()
+object HomeUsersScreenKey : NoArgsScreenKey()

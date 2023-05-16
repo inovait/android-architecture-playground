@@ -24,7 +24,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.HomeUsersScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
+import si.inova.androidarchitectureplayground.ui.screens.MasterDetailScreen
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.instructions.navigateTo
 import si.inova.kotlinova.navigation.navigator.Navigator
@@ -32,6 +35,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 
 class HomeScreen(
    private val navigator: Navigator,
+   private val usersScreen: MasterDetailScreen<HomeUsersScreenKey, UserDetailsScreenKey>,
    private val manageProfileScreen: Screen<ManageProfileScreenKey>
 ) : Screen<HomeScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -66,7 +70,7 @@ class HomeScreen(
       stateHolder.SaveableStateProvider(tab) {
          when (tab) {
             HomeScreenKey.Tab.POSTS -> Text("Posts")
-            HomeScreenKey.Tab.USERS -> Text("Users")
+            HomeScreenKey.Tab.USERS -> usersScreen.Content(HomeUsersScreenKey)
             HomeScreenKey.Tab.SETTINGS -> manageProfileScreen.Content(ManageProfileScreenKey)
          }
       }

@@ -47,6 +47,13 @@ class UserListScreen(
 ) : Screen<UserListScreenKey>() {
    @Composable
    override fun Content(key: UserListScreenKey) {
+      Content {
+         navigator.navigateTo(UserDetailsScreenKey(it))
+      }
+   }
+
+   @Composable
+   fun Content(navigate: (id: Int) -> Unit) {
       val data = viewModel.userList.collectAsStateWithLifecycleAndBlinkingPrevention(
          doNotWaitForInterimLoadings = true
       ).value
@@ -56,9 +63,7 @@ class UserListScreen(
             data,
             viewModel::nextPage,
             viewModel::refresh,
-            {
-               navigator.navigateTo(UserDetailsScreenKey(it))
-            }
+            navigate
          )
       }
    }
