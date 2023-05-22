@@ -103,6 +103,7 @@ sqldelight {
       create("Database") {
          packageName.set("si.inova.androidarchitectureplayground")
          dependency(projects.user.data)
+         dependency(projects.post.data)
       }
    }
 }
@@ -117,6 +118,7 @@ dependencies {
    implementation(projects.home.ui)
    implementation(projects.user.data)
    implementation(projects.user.ui)
+   implementation(projects.post.data)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
