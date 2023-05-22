@@ -70,7 +70,7 @@ class HomeScreen(
       stateHolder.SaveableStateProvider(tab) {
          when (tab) {
             HomeScreenKey.Tab.POSTS -> Text("Posts")
-            HomeScreenKey.Tab.USERS -> usersScreen.Content(HomeUsersScreenKey)
+            HomeScreenKey.Tab.USERS -> usersScreen.Content(HomeUsersScreenKey(key.userDetailsId))
             HomeScreenKey.Tab.SETTINGS -> manageProfileScreen.Content(ManageProfileScreenKey)
          }
       }

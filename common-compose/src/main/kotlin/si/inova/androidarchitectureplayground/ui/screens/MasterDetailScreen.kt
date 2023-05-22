@@ -14,6 +14,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,10 @@ import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.screens.Screen
 
 abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
+   protected open fun getDefaultOpenDetails(key: K): D? {
+      return null
+   }
+
    @Composable
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
    override fun Content(key: K) {
@@ -34,8 +39,17 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
 
    @Composable
    private fun MasterDetail(key: K, widthSize: WindowWidthSizeClass) {
-      val currentDetailScreen = rememberSaveable { mutableStateOf<D?>(null) }
-      val openState = rememberSaveable { mutableStateOf(false) }
+      val defaultOpenDetails = getDefaultOpenDetails(key)
+
+      val currentDetailScreen = rememberSaveable { mutableStateOf<D?>(defaultOpenDetails) }
+      val openState = rememberSaveable { mutableStateOf(currentDetailScreen.value != null) }
+
+      LaunchedEffect(defaultOpenDetails) {
+         if (defaultOpenDetails != currentDetailScreen.value) {
+            currentDetailScreen.value = defaultOpenDetails
+            openState.value = defaultOpenDetails != null
+         }
+      }
 
       fun openDetail(key: D) {
          currentDetailScreen.value = key

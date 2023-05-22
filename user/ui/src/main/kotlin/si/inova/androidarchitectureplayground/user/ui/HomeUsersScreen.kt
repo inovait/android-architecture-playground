@@ -24,4 +24,8 @@ class HomeUsersScreen(
    override fun Detail(key: UserDetailsScreenKey) {
       userDetailsScreen.Content(key)
    }
+
+   override fun getDefaultOpenDetails(key: HomeUsersScreenKey): UserDetailsScreenKey? {
+      return key.userDetailsId?.toInt()?.let { UserDetailsScreenKey(it) }
+   }
 }

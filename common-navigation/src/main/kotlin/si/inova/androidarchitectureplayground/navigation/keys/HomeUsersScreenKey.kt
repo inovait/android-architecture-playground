@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.navigation.keys
 
 import kotlinx.parcelize.Parcelize
-import si.inova.kotlinova.navigation.screenkeys.NoArgsScreenKey
+import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
 @Parcelize
-object HomeUsersScreenKey : NoArgsScreenKey()
+data class HomeUsersScreenKey(val userDetailsId: String? = null) : ScreenKey()
