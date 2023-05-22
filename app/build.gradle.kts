@@ -119,6 +119,7 @@ dependencies {
    implementation(projects.user.data)
    implementation(projects.user.ui)
    implementation(projects.post.data)
+   implementation(projects.post.ui)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)

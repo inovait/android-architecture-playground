@@ -23,9 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import si.inova.androidarchitectureplayground.navigation.keys.HomePostsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.HomeUsersScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.ui.screens.MasterDetailScreen
 import si.inova.kotlinova.core.activity.requireActivity
@@ -36,6 +38,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 class HomeScreen(
    private val navigator: Navigator,
    private val usersScreen: MasterDetailScreen<HomeUsersScreenKey, UserDetailsScreenKey>,
+   private val postsScreen: MasterDetailScreen<HomePostsScreenKey, PostDetailsScreenKey>,
    private val manageProfileScreen: Screen<ManageProfileScreenKey>
 ) : Screen<HomeScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -69,7 +72,7 @@ class HomeScreen(
       val stateHolder = rememberSaveableStateHolder()
       stateHolder.SaveableStateProvider(tab) {
          when (tab) {
-            HomeScreenKey.Tab.POSTS -> Text("Posts")
+            HomeScreenKey.Tab.POSTS -> postsScreen.Content(HomePostsScreenKey())
             HomeScreenKey.Tab.USERS -> usersScreen.Content(HomeUsersScreenKey(key.userDetailsId))
             HomeScreenKey.Tab.SETTINGS -> manageProfileScreen.Content(ManageProfileScreenKey)
          }
