@@ -3,9 +3,11 @@ package si.inova.androidarchitectureplayground.post.ui.details
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import coil.Coil
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.MainScope
 import org.junit.After
@@ -14,20 +16,23 @@ import org.junit.Rule
 import org.junit.Test
 import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.post.FakePostsRepository
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.preview.FakeCoilLoader
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
+import si.inova.kotlinova.navigation.test.FakeNavigator
 
 class PostDetailsScreenTest {
    @get:Rule
    val rule = createComposeRule()
 
    private val postRepository = FakePostsRepository()
+   private val navigator = FakeNavigator(PostDetailsScreenKey(77))
 
    private val viewModel = PostDetailsViewModel(CoroutineResourceManager(MainScope(), { throw it }), postRepository)
-   private val screen = PostDetailsScreen(viewModel)
+   private val screen = PostDetailsScreen(viewModel, navigator)
 
    @Before
    fun setUp() {
@@ -83,5 +88,21 @@ class PostDetailsScreenTest {
       rule.waitForIdle()
 
       postRepository.numTimesForceLoadCalled shouldBe 1
+   }
+
+   @Test
+   fun openPostAuthor() {
+      rule.setContent {
+         AndroidArchitecturePlaygroundTheme {
+            screen.Content(PostDetailsScreenKey(77))
+         }
+      }
+
+      rule.onNodeWithText("Open author").performClick()
+
+      navigator.backstack.shouldContainExactly(
+         PostDetailsScreenKey(77),
+         UserDetailsScreenKey(26)
+      )
    }
 }

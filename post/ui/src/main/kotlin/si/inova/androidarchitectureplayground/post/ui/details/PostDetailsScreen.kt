@@ -13,28 +13,35 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreview
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
+import si.inova.architectureplayground.post.R
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
 import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
+import si.inova.kotlinova.navigation.instructions.navigateTo
+import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding
 class PostDetailsScreen(
-   private val viewModel: PostDetailsViewModel
+   private val viewModel: PostDetailsViewModel,
+   private val navigator: Navigator
 ) : Screen<PostDetailsScreenKey>() {
    @Composable
    override fun Content(key: PostDetailsScreenKey) {
@@ -44,14 +51,20 @@ class PostDetailsScreen(
       }
       val postOutcome = viewModel.postDetails.collectAsStateWithLifecycleAndBlinkingPrevention().value
       if (postOutcome != null) {
-         PostDetailsContent(postOutcome, viewModel::refresh)
+         PostDetailsContent(postOutcome, viewModel::refresh) {
+            navigator.navigateTo(UserDetailsScreenKey(it))
+         }
       }
    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun PostDetailsContent(postOutcome: Outcome<Post>, refresh: () -> Unit) {
+private fun PostDetailsContent(
+   postOutcome: Outcome<Post>,
+   refresh: () -> Unit,
+   navigateToUserDetails: (Int) -> Unit
+) {
    val refreshing = postOutcome is Outcome.Progress
    val refreshState = rememberPullRefreshState(
       refreshing = refreshing,
@@ -72,7 +85,7 @@ private fun PostDetailsContent(postOutcome: Outcome<Post>, refresh: () -> Unit) 
 
          val post = postOutcome.data
          if (post != null) {
-            ShowPost(post)
+            ShowPost(post, navigateToUserDetails)
          }
       }
 
@@ -86,7 +99,7 @@ private fun PostDetailsContent(postOutcome: Outcome<Post>, refresh: () -> Unit) 
 
 @Composable
 @Suppress("NullableToStringCall") // This string is just a demo
-private fun ShowPost(post: Post) {
+private fun ShowPost(post: Post, navigateToUserDetails: (Int) -> Unit) {
    val postText = with(post) {
       "$title\n" +
          "$body\n" +
@@ -114,6 +127,12 @@ private fun ShowPost(post: Post) {
             .padding(8.dp)
             .fillMaxSize()
       )
+
+      post.userId?.let { userId ->
+         Button(onClick = { navigateToUserDetails(userId) }) {
+            Text(stringResource(R.string.open_author))
+         }
+      }
    }
 }
 
@@ -131,7 +150,7 @@ private fun SuccesPreview() {
    )
 
    PreviewTheme {
-      PostDetailsContent(Outcome.Success(testPost), {})
+      PostDetailsContent(Outcome.Success(testPost), {}, {})
    }
 }
 
@@ -149,7 +168,7 @@ private fun ProgressPreview() {
    )
 
    PreviewTheme {
-      PostDetailsContent(Outcome.Progress(testPost), {})
+      PostDetailsContent(Outcome.Progress(testPost), {}, {})
    }
 }
 
@@ -167,6 +186,6 @@ private fun ErrorPreview() {
    )
 
    PreviewTheme {
-      PostDetailsContent(Outcome.Error(NoNetworkException(), testPost), {})
+      PostDetailsContent(Outcome.Error(NoNetworkException(), testPost), {}, {})
    }
 }
