@@ -28,7 +28,8 @@ moduleGraphAssert {
    maxHeight = 6
    restricted = arrayOf(
       ":common-navigation -X> .*",
-      ":(?!$name).* -X> .*:login"
+      ":(?!$name).* -X> .*:data",
+      ":(?!$name).* -X> .*:ui",
    )
 }
 
