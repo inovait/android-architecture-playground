@@ -43,12 +43,15 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
 
       val currentDetailScreen = rememberSaveable { mutableStateOf<D?>(defaultOpenDetails) }
       val openState = rememberSaveable { mutableStateOf(currentDetailScreen.value != null) }
+      val lastKey = rememberSaveable { mutableStateOf(key) }
 
       LaunchedEffect(defaultOpenDetails) {
-         if (defaultOpenDetails != currentDetailScreen.value) {
+         if (lastKey.value != key && defaultOpenDetails != currentDetailScreen.value) {
             currentDetailScreen.value = defaultOpenDetails
             openState.value = defaultOpenDetails != null
          }
+
+         lastKey.value = key
       }
 
       fun openDetail(key: D) {
