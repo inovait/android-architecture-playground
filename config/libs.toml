@@ -39,7 +39,6 @@ sqldelight = "2.0.0-alpha05"
 tomlj = "1.1.0"
 turbine = "0.12.3"
 versionsChecker = "0.46.0"
-whetstone = "0.5.0"
 
 [libraries]
 androidGradleCacheFix = { module = "org.gradle.android.cache-fix:org.gradle.android.cache-fix.gradle.plugin", version.ref = "androidGradleCacheFix" }
@@ -121,8 +120,6 @@ sqldelight-async = { module = "app.cash.sqldelight:async-extensions", version.re
 shot = { module = "com.karumi:shot", version.ref = "shot" }
 tomlj = { module = "org.tomlj:tomlj", version.ref = "tomlj" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-whetstone-compiler = { module = "com.deliveryhero.whetstone:whetstone-compiler", version.ref = "whetstone" }
-whetstone-runtime = { module = "com.deliveryhero.whetstone:whetstone", version.ref = "whetstone" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

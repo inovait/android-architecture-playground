@@ -5,12 +5,9 @@ import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import androidx.core.content.ContextCompat
-import com.deliveryhero.whetstone.Whetstone
-import com.deliveryhero.whetstone.app.ApplicationComponent
-import com.deliveryhero.whetstone.app.ApplicationComponentOwner
-import com.deliveryhero.whetstone.app.ContributesAppInjector
 import dispatch.core.DefaultDispatcherProvider
-import si.inova.androidarchitectureplayground.di.DaggerMyApplicationComponent
+import si.inova.androidarchitectureplayground.di.ApplicationComponent
+import si.inova.androidarchitectureplayground.di.DaggerMainApplicationComponent
 import si.inova.kotlinova.core.dispatchers.AccessCallbackDispatcherProvider
 import si.inova.kotlinova.core.logging.AndroidLogcatLogger
 import si.inova.kotlinova.core.logging.LogPriority
@@ -18,14 +15,11 @@ import si.inova.kotlinova.core.reporting.ErrorReporter
 import javax.inject.Inject
 import javax.inject.Provider
 
-@ContributesAppInjector(generateAppComponent = false)
-open class MyApplication : Application(), ApplicationComponentOwner {
+open class MyApplication : Application() {
    @Inject
    lateinit var errorReporter: Provider<ErrorReporter>
 
    override fun onCreate() {
-      Whetstone.inject(this)
-
       super.onCreate()
 
       AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.VERBOSE)
@@ -101,7 +95,7 @@ open class MyApplication : Application(), ApplicationComponentOwner {
       )
    }
 
-   override val applicationComponent: ApplicationComponent by lazy {
-      DaggerMyApplicationComponent.factory().create(this)
+   open val applicationComponent: ApplicationComponent by lazy {
+      DaggerMainApplicationComponent.factory().create(this)
    }
 }

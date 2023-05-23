@@ -18,7 +18,7 @@ import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplaygroud.post.model.toDb
 import si.inova.androidarchitectureplaygroud.post.model.toPost
 import si.inova.androidarchitectureplaygroud.post.network.PostsService
-import si.inova.androidarchitectureplayground.common.di.PureApplicationScope
+import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.common.pagination.OffsetDatabaseBackedPaginatedDataStream
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
-@ContributesBinding(PureApplicationScope::class)
+@ContributesBinding(ApplicationScope::class)
 class PostsRepositoryImpl @Inject constructor(
    private val postsService: PostsService,
    private val postDb: DbPostQueries,

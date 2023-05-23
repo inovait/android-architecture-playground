@@ -1,10 +1,10 @@
 package si.inova.androidarchitectureplayground.instrumentation
 
 import android.util.Log
-import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Module
 import dagger.Provides
+import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.di.ErrorReportingModule
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.reporting.ErrorReporter

@@ -2,7 +2,6 @@ package si.inova.androidarchitectureplayground
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.deliveryhero.whetstone.viewmodel.ContributesViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +14,6 @@ import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import javax.inject.Inject
 
-@ContributesViewModel
 class MainViewModel @Inject constructor(
    private val loginRepository: LoginRepository
 ) : ViewModel() {

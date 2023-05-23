@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.instrumentation
 
-import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Module
 import dagger.Provides
@@ -8,6 +7,7 @@ import dispatch.core.DefaultCoroutineScope
 import dispatch.core.DispatcherProvider
 import dispatch.core.IOCoroutineScope
 import dispatch.core.MainImmediateCoroutineScope
+import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.di.CoroutinesModule
 import si.inova.kotlinova.compose.androidtest.idlingresource.FixedIdlingDispatcher
 import si.inova.kotlinova.compose.androidtest.idlingresource.RegisteringCoroutineResourceManager

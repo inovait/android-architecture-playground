@@ -1,7 +1,9 @@
 package si.inova.androidarchitectureplayground
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,11 +12,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.deliveryhero.whetstone.Whetstone
-import com.deliveryhero.whetstone.activity.ContributesActivityInjector
-import com.deliveryhero.whetstone.viewmodel.injectedViewModel
 import com.zhuinden.simplestack.History
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -32,9 +32,9 @@ import si.inova.kotlinova.navigation.di.NavigationInjection
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.simplestack.RootNavigationContainer
 import javax.inject.Inject
+import javax.inject.Provider
 
-@ContributesActivityInjector
-class MainActivity : FragmentActivity() {
+class MainActivity : ComponentActivity() {
    @Inject
    lateinit var navigationInjectionFactory: NavigationInjection.Factory
 
@@ -47,13 +47,15 @@ class MainActivity : FragmentActivity() {
    @Inject
    lateinit var dateFormatter: AndroidDateTimeFormatter
 
-   private val viewModel by injectedViewModel<MainViewModel>()
+   @Inject
+   lateinit var viewModelProvider: Provider<MainViewModel>
 
+   private val viewModel by viewModels<MainViewModel>() { ViewModelFactory() }
    private var initComplete = false
 
    override fun onCreate(savedInstanceState: Bundle?) {
+      (application as MyApplication).applicationComponent.inject(this)
       super.onCreate(savedInstanceState)
-      Whetstone.inject(this)
 
       val splashScreen = installSplashScreen()
       splashScreen.setKeepOnScreenCondition { !initComplete }
@@ -105,6 +107,13 @@ class MainActivity : FragmentActivity() {
                mainDeepLinkHandler.HandleNewIntentDeepLinks(this@MainActivity, backstack)
             }
          }
+      }
+   }
+
+   private inner class ViewModelFactory : ViewModelProvider.Factory {
+      override fun <T : ViewModel> create(modelClass: Class<T>): T {
+         @Suppress("UNCHECKED_CAST")
+         return viewModelProvider.get() as T
       }
    }
 }

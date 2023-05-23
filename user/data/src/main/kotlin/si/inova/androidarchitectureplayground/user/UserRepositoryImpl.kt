@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import si.inova.androidarchitectureplayground.common.di.PureApplicationScope
+import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.common.pagination.OffsetDatabaseBackedPaginatedDataStream
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
-@ContributesBinding(PureApplicationScope::class)
+@ContributesBinding(ApplicationScope::class)
 class UserRepositoryImpl @Inject constructor(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,

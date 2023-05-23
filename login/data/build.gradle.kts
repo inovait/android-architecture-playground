@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
    api(projects.login.api)
+   implementation(projects.common)
    implementation(projects.commonNavigation)
 
    implementation(libs.dispatch)

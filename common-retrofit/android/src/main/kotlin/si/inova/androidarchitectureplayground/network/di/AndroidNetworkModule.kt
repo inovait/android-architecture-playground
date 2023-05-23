@@ -7,7 +7,7 @@ import com.squareup.anvil.annotations.ContributesTo
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import si.inova.androidarchitectureplayground.common.di.PureApplicationScope
+import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.network.services.AndroidServiceFactory
 import si.inova.androidarchitectureplayground.network.services.ServiceFactory
 import si.inova.kotlinova.core.reporting.ErrorReporter
@@ -15,7 +15,7 @@ import si.inova.kotlinova.retrofit.caching.GlobalOkHttpDiskCacheManager
 import javax.inject.Singleton
 
 @Module
-@ContributesTo(PureApplicationScope::class)
+@ContributesTo(ApplicationScope::class)
 abstract class AndroidNetworkModule {
    @Binds
    abstract fun AndroidServiceFactory.bindToServiceFactory(): ServiceFactory

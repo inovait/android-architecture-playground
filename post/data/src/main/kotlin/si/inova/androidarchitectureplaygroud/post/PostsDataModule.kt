@@ -5,7 +5,7 @@ import com.squareup.anvil.annotations.ContributesTo
 import dagger.Module
 import dagger.Provides
 import si.inova.androidarchitectureplaygroud.post.network.PostsService
-import si.inova.androidarchitectureplayground.common.di.PureApplicationScope
+import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.network.services.ServiceFactory
 import si.inova.androidarchitectureplayground.network.services.create
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.Database
@@ -13,7 +13,7 @@ import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPostQu
 import javax.inject.Singleton
 
 @Module
-@ContributesTo(PureApplicationScope::class)
+@ContributesTo(ApplicationScope::class)
 object PostsDataModule {
    @Provides
    @Singleton

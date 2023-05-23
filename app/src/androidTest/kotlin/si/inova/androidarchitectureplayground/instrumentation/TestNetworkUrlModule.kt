@@ -1,9 +1,9 @@
 package si.inova.androidarchitectureplayground.instrumentation
 
-import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesTo
 import dagger.Module
 import dagger.Provides
+import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.di.NetworkUrlModule
 import si.inova.androidarchitectureplayground.network.services.BaseServiceFactory
 

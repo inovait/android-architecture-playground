@@ -1,12 +1,11 @@
 package si.inova.androidarchitectureplayground.instrumentation
 
-import com.deliveryhero.whetstone.app.ContributesAppInjector
 import si.inova.androidarchitectureplayground.MyApplication
+import si.inova.androidarchitectureplayground.di.ApplicationComponent
 import java.time.Duration
 
-@ContributesAppInjector(generateAppComponent = false)
 class TestApplication : MyApplication() {
-   override val applicationComponent: TestAppComponent by lazy {
+   override val applicationComponent: ApplicationComponent by lazy {
       DaggerTestAppComponent.factory().create(this)
    }
 

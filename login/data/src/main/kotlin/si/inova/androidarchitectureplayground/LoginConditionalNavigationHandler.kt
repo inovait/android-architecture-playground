@@ -1,8 +1,8 @@
 package si.inova.androidarchitectureplayground
 
-import com.deliveryhero.whetstone.app.ApplicationScope
 import com.squareup.anvil.annotations.ContributesMultibinding
 import dagger.multibindings.ClassKey
+import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.conditions.UserLoggedIn
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
