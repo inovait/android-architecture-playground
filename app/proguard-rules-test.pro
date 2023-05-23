@@ -4,6 +4,8 @@
 # Proguard rules needed for instrumented tests to pass
 # (since instrumented tests use some code that would otherwise be optimized out)
 
+-dontwarn com.google.errorprone.annotations.MustBeClosed
+
 -keepclassmembers class si.inova.androidarchitectureplayground.MyApplication {
     public getApplicationComponent();
 }

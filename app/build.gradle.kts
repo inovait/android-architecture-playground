@@ -47,6 +47,10 @@ android {
       }
    }
 
+   testOptions {
+      execution = "ANDROIDX_TEST_ORCHESTRATOR"
+   }
+
    if (hasProperty("testAppWithProguard")) {
       testBuildType = "proguardedDebug"
    }
@@ -73,6 +77,12 @@ android {
          isShrinkResources = true
 
          proguardFiles(
+            getDefaultProguardFile("proguard-android-optimize.txt"),
+            "proguard-rules.pro",
+            "proguard-rules-test.pro"
+         )
+
+         testProguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"),
             "proguard-rules.pro",
             "proguard-rules-test.pro"
@@ -142,6 +152,8 @@ dependencies {
    androidTestImplementation(libs.dispatch.espresso)
    androidTestImplementation(libs.kotlinova.retrofit.test)
    androidTestImplementation(libs.kotlinova.compose.androidTest)
+   androidTestImplementation(libs.androidx.test.runner)
+   androidTestUtil(libs.androidx.test.orchestrator)
    testImplementation(libs.junit4)
 }
 

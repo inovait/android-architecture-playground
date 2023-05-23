@@ -28,9 +28,13 @@ Process for updating all library versions::
 Every feature should contain following modules:
 
 * `feature-name`
-   * `data` - data module with all non-UI logic (such as repositories).
-     No other module (except for top level `app`) should depend on this.
-      * `api` - interfaces and data models exposed to other modules.
-        This module should generally contain no logic to speed up builds.
-   * `ui` - Module containing feature's ui (Screens / Fragments / ViewModels)
-   * `test` (optional) - Module containing test helpers for all other modules in this group
+    * `data` - data module with all non-UI logic (such as repositories).
+      No other module (except for top level `app`) should depend on this.
+        * `api` - interfaces and data models exposed to other modules.
+          This module should generally contain no logic to speed up builds.
+    * `ui` - Module containing feature's ui (Screens / Fragments / ViewModels)
+    * `test` (optional) - Module containing test helpers for all other modules in this group
+
+## Running integration tests
+
+`./gradlew :app:connectedAndroidTest -PtestAppWithProguard`
