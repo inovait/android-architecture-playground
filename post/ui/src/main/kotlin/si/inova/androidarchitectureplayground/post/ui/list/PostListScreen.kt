@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplaygroud.post.model.Post
-import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreview
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
@@ -34,24 +33,23 @@ import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
-import si.inova.kotlinova.navigation.instructions.navigateTo
-import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding
 class PostListScreen(
-   private val viewModel: PostListViewModel,
-   private val navigator: Navigator
+   private val viewModel: PostListViewModel
 ) : Screen<PostListScreenKey>() {
    @Composable
    override fun Content(key: PostListScreenKey) {
-      Content {
-         navigator.navigateTo(PostDetailsScreenKey(it))
-      }
+      Content(
+         navigateToDetails = {
+            // TODO
+         }
+      )
    }
 
    @Composable
-   fun Content(navigate: (id: Int) -> Unit) {
+   fun Content(navigateToDetails: (id: Int) -> Unit) {
       val data = viewModel.postList.collectAsStateWithLifecycleAndBlinkingPrevention(
          doNotWaitForInterimLoadings = true
       ).value
@@ -61,7 +59,7 @@ class PostListScreen(
             data,
             viewModel::nextPage,
             viewModel::refresh,
-            navigate
+            navigateToDetails
          )
       }
    }
