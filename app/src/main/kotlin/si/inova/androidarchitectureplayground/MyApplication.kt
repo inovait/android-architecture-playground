@@ -61,7 +61,10 @@ open class MyApplication : Application() {
             .penaltyListener(ContextCompat.getMainExecutor(this@MyApplication)) { e ->
                if (
                   e.cause == null &&
-                  e.stackTrace.any { it.className.contains("UnixSecureDirectoryStream") }
+                  e.stackTrace.any {
+                     it.className.contains("UnixSecureDirectoryStream") ||
+                        it.className.contains("UnixDirectoryStream")
+                  }
                ) {
                   // workaround for the https://issuetracker.google.com/issues/270704908
                   return@penaltyListener
