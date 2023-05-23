@@ -30,7 +30,7 @@ class OffsetDatabaseBackedPaginatedDataStreamTest {
    private
    val networkInterceptor = ServiceTestingHelper()
 
-   private val providedNumbers = createNumbers(0, 30)
+   private var providedNumbers = createNumbers(0, 30)
 
    private val networkCallsMade = ArrayList<IntRange>()
 
@@ -309,6 +309,27 @@ class OffsetDatabaseBackedPaginatedDataStreamTest {
          val numbers = expectMostRecentItem()
 
          numbers.items shouldBeSuccessWithData createNumbers(10, 20)
+      }
+   }
+
+   @Test
+   fun `Do not load next page when current page already has less than maximum number of items`() = runTestWithDispatchers {
+      val expectedNumbers = createNumbers(0, 5)
+      providedNumbers = createNumbers(0, 5)
+
+      val dataStream = createDataStream()
+      dataStream.data.test {
+         runCurrent()
+
+         val numbers = expectMostRecentItem()
+         numbers.items shouldBeSuccessWithData expectedNumbers
+         numbers.hasAnyDataLeft.shouldBeFalse()
+
+         dataStream.nextPage()
+         runCurrent()
+         expectNoEvents()
+
+         networkCallsMade.shouldContainExactly(listOf(0..9))
       }
    }
 

@@ -32,7 +32,9 @@ class OffsetDatabaseBackedPaginatedDataStream<T>(
    private val saveToDatabase: suspend (data: List<T>, replaceExisting: Boolean) -> Unit,
 ) : FlowSwitchingPaginatedDataStream<List<T>>() {
    override suspend fun load() = withIO {
-      loadPage(0)
+      if (!loadPage(0)) {
+         return@withIO
+      }
 
       var page = 1
       var anyDataLeft = true
@@ -85,7 +87,9 @@ class OffsetDatabaseBackedPaginatedDataStream<T>(
 
                saveToDatabase(networkItems, page == 0)
 
-               feedFlowFromDatabase(offset = 0, limit = totalItems, hasAnyDataLeft = true)
+               val hasAnyDataLeft = networkItems.size >= pageSize
+               feedFlowFromDatabase(offset = 0, limit = totalItems, hasAnyDataLeft = hasAnyDataLeft)
+               return hasAnyDataLeft
             }
          }
       }
