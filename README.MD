@@ -1,13 +1,33 @@
-# Navigation playground
+# Kotlinova architecture demo
 
-Playground for the creation of the StabbyStack navigation system (Stabby = dagger, Stack = Simple stack).
+Playground / demo app for using Kotlinova architecture. It is simple app that loads data from https://dummyjson.com.
+Features include:
+
+* 100% Compose (single activity)
+* Deep links to every screen
+* Configuration change and process deaths handling
+* Dark mode support
+* Material You support
+* Improved support for large screens (two-pane layout for user and post list)
+* Offline support (data is saved to database and can be browsed offline)
+* Pagination
+* Unit tests for UI and all logic code
+* Integration tests that test the whole app, optimized with R8
+
+See also other branches:
+
+* `empty_project` = Barebones empty project with some essentials pre-created
+
+# Readme for the application
 
 ## Updating versions
 
 Process for updating all library versions::
 
-1. Run `./gradlew dependencyUpdates :buildSrc:dependencyUpdates --no-configuration-cache > /dev/null &&  ./gradlew :app:updateLibsToml`. This will check for new versions of all libraries 
-   and automatically bump versions inside `libs.toml`.
+1.
+Run `./gradlew dependencyUpdates :buildSrc:dependencyUpdates --no-configuration-cache > /dev/null && ./gradlew :app:updateLibsToml`.
+This will check for new versions of all libraries
+and automatically bump versions inside `libs.toml`.
 2. Check the output of the above task and manually update any libraries that task said it couldn't update automatically.
 2. Sync the project, build the app and run all tests to make sure everything still works.
 3. Open Code -> Analyze code dialog, and scan the whole project with the "Deprecated code" profile:
