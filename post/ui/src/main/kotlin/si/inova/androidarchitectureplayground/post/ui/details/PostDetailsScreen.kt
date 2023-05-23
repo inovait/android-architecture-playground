@@ -33,12 +33,10 @@ import si.inova.architectureplayground.post.R
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
 import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.Outcome
-import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.instructions.navigateTo
 import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.Screen
 
-@ContributesScreenBinding
 class PostDetailsScreen(
    private val viewModel: PostDetailsViewModel,
    private val navigator: Navigator
