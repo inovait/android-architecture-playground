@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.PostScreenKey
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreview
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
@@ -34,18 +35,21 @@ import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
+import si.inova.kotlinova.navigation.instructions.navigateTo
+import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding
 class PostListScreen(
-   private val viewModel: PostListViewModel
+   private val viewModel: PostListViewModel,
+   private val navigator: Navigator
 ) : Screen<PostListScreenKey>() {
    @Composable
    override fun Content(key: PostListScreenKey) {
       Surface {
          Content(
             navigateToDetails = {
-               // TODO
+               navigator.navigateTo(PostScreenKey(it))
             }
          )
       }
