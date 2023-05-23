@@ -5,7 +5,7 @@ import si.inova.kotlinova.navigation.screenkeys.SingleTopKey
 
 @Parcelize
 data class HomeScreenKey(
-   val selectedTab: Tab = Tab.POSTS,
+   val selectedTab: Tab = Tab.USERS,
    val userDetailsId: String? = null
 ) : SingleTopKey() {
    enum class Tab {

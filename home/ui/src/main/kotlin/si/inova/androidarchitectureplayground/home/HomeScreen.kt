@@ -94,17 +94,17 @@ class HomeScreen(
 
          NavigationBar {
             NavigationBarItem(
-               selected = key.selectedTab == HomeScreenKey.Tab.POSTS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.POSTS)) },
-               icon = { Icon(painter = painterResource(id = R.drawable.ic_posts), contentDescription = null) },
-               label = { Text(stringResource(R.string.posts)) }
-            )
-
-            NavigationBarItem(
                selected = key.selectedTab == HomeScreenKey.Tab.USERS,
                onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.USERS)) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_users), contentDescription = null) },
                label = { Text(stringResource(R.string.users)) }
+            )
+
+            NavigationBarItem(
+               selected = key.selectedTab == HomeScreenKey.Tab.POSTS,
+               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.POSTS)) },
+               icon = { Icon(painter = painterResource(id = R.drawable.ic_posts), contentDescription = null) },
+               label = { Text(stringResource(R.string.posts)) }
             )
 
             NavigationBarItem(
