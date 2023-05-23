@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="open_author">Open author</string>
+    <string name="error_unknown_post">This post does not exist</string>
 </resources>
