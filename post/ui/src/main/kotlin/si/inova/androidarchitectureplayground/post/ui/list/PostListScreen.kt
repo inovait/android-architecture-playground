@@ -15,6 +15,7 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,11 +42,13 @@ class PostListScreen(
 ) : Screen<PostListScreenKey>() {
    @Composable
    override fun Content(key: PostListScreenKey) {
-      Content(
-         navigateToDetails = {
-            // TODO
-         }
-      )
+      Surface {
+         Content(
+            navigateToDetails = {
+               // TODO
+            }
+         )
+      }
    }
 
    @Composable
