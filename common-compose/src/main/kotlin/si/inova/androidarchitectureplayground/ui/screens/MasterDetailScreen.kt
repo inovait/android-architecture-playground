@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
@@ -60,15 +61,19 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          openState.value = true
       }
 
-      val master = movableContentOf<Modifier> { modifier ->
-         Box(modifier) {
-            Master(key, ::openDetail)
+      val master = remember {
+         movableContentOf<Modifier> { modifier ->
+            Box(modifier) {
+               Master(key, ::openDetail)
+            }
          }
       }
 
-      val detail = movableContentOf<Modifier, D> { modifier, detail ->
-         if (detail != null) {
-            Detail(detail)
+      val detail = remember {
+         movableContentOf<Modifier, D> { _, detail ->
+            if (detail != null) {
+               Detail(detail)
+            }
          }
       }
 
