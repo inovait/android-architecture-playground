@@ -8,7 +8,10 @@ androidx-compose-runtime = "1.4.3"
 androidx-compose-material3 = "1.1.1"
 androidx-lifecycle = "2.6.1"
 detekt = "1.23.0"
+detekt-compilerWarnings = "0.0.4"
+detekt-twitterCompose = "0.0.26"
 kotlin = "1.8.22"
+kotlin-immutableCollections = "0.3.5"
 junit4 = "4.13.2"
 versionsChecker = "0.47.0"
 
@@ -27,7 +30,10 @@ androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+detekt-compilerWarnings = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "detekt-compilerWarnings" }
+detekt-twitterCompose = { module = "com.twitter.compose.rules:detekt", version.ref = "detekt-twitterCompose" }
 junit4 = { module = "junit:junit", version.ref = "junit4" }
+kotlin-immutableCollections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutableCollections" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 versionsCheckerPlugin = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "versionsChecker" }
 
