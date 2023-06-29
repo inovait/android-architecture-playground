@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
@@ -138,8 +139,9 @@ private fun PostListContent(
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun PostListContentSuccess() {
+fun PostListContentSuccess() {
    PreviewTheme {
       PostListContent(
          state = Outcome.Success(
@@ -157,8 +159,9 @@ private fun PostListContentSuccess() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun PostListContentLoading() {
+fun PostListContentLoading() {
    PreviewTheme {
       PostListContent(
          state = Outcome.Progress(
@@ -176,8 +179,9 @@ private fun PostListContentLoading() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun PostListContentError() {
+fun PostListContentError() {
    PreviewTheme {
       PostListContent(
          state = Outcome.Error(
@@ -196,8 +200,9 @@ private fun PostListContentError() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun PostListContentLoadingMore() {
+fun PostListContentLoadingMore() {
    PreviewTheme {
       PostListContent(
          state = Outcome.Progress(

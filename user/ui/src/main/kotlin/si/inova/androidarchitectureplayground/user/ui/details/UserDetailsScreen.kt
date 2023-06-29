@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
@@ -103,8 +104,9 @@ private fun ShowUser(user: User) {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun SuccesPreview() {
+fun SuccesPreview() {
    val testUser = User(
       id = 1,
       firstName = "John",
@@ -126,8 +128,9 @@ private fun SuccesPreview() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun ProgressPreview() {
+fun ProgressPreview() {
    val testUser = User(
       id = 1,
       firstName = "John",
@@ -149,8 +152,9 @@ private fun ProgressPreview() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun ErrorPreview() {
+fun ErrorPreview() {
    val testUser = User(
       id = 1,
       firstName = "John",

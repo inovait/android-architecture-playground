@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
@@ -140,8 +141,9 @@ private fun UserListContent(
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun UserListContentSuccess() {
+fun UserListContentSuccess() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Success(
@@ -159,8 +161,9 @@ private fun UserListContentSuccess() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun UserListContentLoading() {
+fun UserListContentLoading() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Progress(
@@ -178,8 +181,9 @@ private fun UserListContentLoading() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun UserListContentError() {
+fun UserListContentError() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Error(
@@ -198,8 +202,9 @@ private fun UserListContentError() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun UserListContentLoadingMore() {
+fun UserListContentLoadingMore() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Progress(

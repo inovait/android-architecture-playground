@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
@@ -137,8 +138,9 @@ private fun ShowPost(post: Post, navigateToUserDetails: (Int) -> Unit) {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun SuccesPreview() {
+fun SuccesPreview() {
    val testPost = Post(
       id = 11,
       title = "She was aware that things could go wrong.",
@@ -155,8 +157,9 @@ private fun SuccesPreview() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun ProgressPreview() {
+fun ProgressPreview() {
    val testPost = Post(
       id = 11,
       title = "She was aware that things could go wrong.",
@@ -173,8 +176,9 @@ private fun ProgressPreview() {
 }
 
 @FullScreenPreviews
+@ShowkaseComposable(group = "Test")
 @Composable
-private fun ErrorPreview() {
+fun ErrorPreview() {
    val testPost = Post(
       id = 11,
       title = "She was aware that things could go wrong.",
