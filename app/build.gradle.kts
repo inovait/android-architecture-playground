@@ -118,6 +118,10 @@ sqldelight {
    }
 }
 
+custom {
+   enableEmulatorTests.set(true)
+}
+
 dependencies {
    implementation(projects.commonAndroid)
    implementation(projects.commonNavigation)

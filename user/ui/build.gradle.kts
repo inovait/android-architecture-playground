@@ -12,6 +12,10 @@ android {
    }
 }
 
+custom {
+   enableEmulatorTests.set(true)
+}
+
 dependencies {
    implementation(projects.common)
    implementation(projects.commonCompose)

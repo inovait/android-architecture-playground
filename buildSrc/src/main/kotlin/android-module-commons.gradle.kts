@@ -12,6 +12,8 @@ plugins {
    id("org.gradle.android.cache-fix")
 }
 
+val customConfig = extensions.create<CustomBuildConfiguration>("custom")
+
 commonAndroid {
    // Use default namespace for no resources, modules that use resources must override this
    namespace = "si.inova.androidarchitectureplayground.noresources"
@@ -67,4 +69,11 @@ dependencies {
    add("coreLibraryDesugaring", libs.desugarJdkLibs)
 
    add("androidTestImplementation", libs.kotest.assertions)
+}
+
+// Even empty android test tasks take a while to execute. Disable all of them by default.
+tasks.configureEach {
+   if (!customConfig.enableEmulatorTests.getOrElse(false) && name.contains("AndroidTest", ignoreCase = true)) {
+      enabled = false
+   }
 }
