@@ -27,9 +27,6 @@ import si.inova.androidarchitectureplayground.navigation.keys.HomePostsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.HomeUsersScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
-import si.inova.androidarchitectureplayground.ui.screens.MasterDetailScreen
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.instructions.navigateTo
 import si.inova.kotlinova.navigation.navigator.Navigator
@@ -37,8 +34,8 @@ import si.inova.kotlinova.navigation.screens.Screen
 
 class HomeScreen(
    private val navigator: Navigator,
-   private val usersScreen: MasterDetailScreen<HomeUsersScreenKey, UserDetailsScreenKey>,
-   private val postsScreen: MasterDetailScreen<HomePostsScreenKey, PostDetailsScreenKey>,
+   private val usersScreen: Screen<HomeUsersScreenKey>,
+   private val postsScreen: Screen<HomePostsScreenKey>,
    private val manageProfileScreen: Screen<ManageProfileScreenKey>
 ) : Screen<HomeScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)

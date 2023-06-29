@@ -23,7 +23,7 @@ kotlin = "1.8.20"
 kotlin-coroutines = "1.6.4"
 junit4 = "4.13.2"
 junit5 = "5.9.3"
-kotlinova = "3.0.0-alpha11"
+kotlinova = "3.0.0-alpha15"
 okhttp = "4.11.0"
 orgJson = "20230227"
 # Do not update kotest until https://github.com/kotest/kotest/issues/3407 fix is released

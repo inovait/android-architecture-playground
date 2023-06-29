@@ -9,7 +9,7 @@ import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.Screen
 
-@ContributesScreenBinding
+@ContributesScreenBinding(boundType = Screen::class)
 class HomeUsersScreen(
    private val navigator: Navigator,
    private val userListScreen: UserListScreen,
