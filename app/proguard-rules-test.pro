@@ -6,9 +6,6 @@
 
 -dontwarn com.google.errorprone.annotations.MustBeClosed
 
--keepclassmembers class si.inova.androidarchitectureplayground.MyApplication {
-    public getApplicationComponent();
-}
 -keep class si.inova.kotlinova.core.outcome.CoroutineResourceManager {
     *;
 }
@@ -36,9 +33,6 @@
 }
 
 -keep class dagger.** {
-    *;
-}
--keep class com.deliveryhero.** {
     *;
 }
 -keep @dagger.** class * {

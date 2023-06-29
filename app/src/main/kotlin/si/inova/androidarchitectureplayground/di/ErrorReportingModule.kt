@@ -18,7 +18,7 @@ class ErrorReportingModule {
       return ErrorReporter {
          if (it !is CauseException || it.shouldReport) {
             logcat { "Reporting $it to Firebase" }
-            // Substitute with actual Firebase reporting
+            // TODO Substitute with error reporter here (Firebase?)
             it.printStackTrace()
          } else if (BuildConfig.DEBUG) {
             it.printStackTrace()

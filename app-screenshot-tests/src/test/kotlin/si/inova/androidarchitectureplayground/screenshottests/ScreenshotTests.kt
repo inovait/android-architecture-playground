@@ -2,7 +2,6 @@ package si.inova.androidarchitectureplayground.screenshottests
 
 import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
-import com.airbnb.android.showkase.models.Showkase
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import com.android.ide.common.rendering.api.SessionParams
 import com.google.testing.junit.testparameterinjector.TestParameter
@@ -11,7 +10,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import si.inova.androidarchitectureplayground.showkase.getMetadata
 
 @Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
@@ -26,10 +24,14 @@ class ScreenshotTests {
    )
 
    object PreviewProvider : TestParameter.TestParameterValuesProvider {
-      override fun provideValues(): List<TestKey> =
-         Showkase.getMetadata().componentList
-            .filter { it.group != "Default Group" }
-            .map { TestKey(it) }
+      override fun provideValues(): List<TestKey> {
+         // TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
+//         return Showkase.getMetadata().componentList
+//            .filter { it.group != "Default Group" }
+//            .map { TestKey(it) }
+
+         return emptyList()
+      }
    }
 
    class TestKey(val showkaseBrowserComponent: ShowkaseBrowserComponent) {

@@ -9,7 +9,6 @@ plugins {
    compose
    id("kotlin-parcelize")
    navigation
-   sqldelight
    showkase
 }
 
@@ -58,8 +57,8 @@ android {
 
    signingConfigs {
       getByName("debug") {
-         // SHA1: CA:85:CF:46:B9:D8:39:1B:DE:23:6C:4C:93:68:26:8D:BD:C6:6E:1D
-         // SHA256: 50:56:00:D6:EF:49:A1:59:C3:DD:10:17:EF:50:A5:6C:E0:5E:CF:CF:D7:4F:3D:E2:3E:80:8E:47:A8:3D:5A:67
+         // SHA1: TODO
+         // SHA256: TODO
 
          storeFile = File(rootDir, "keys/debug.jks")
          storePassword = "android"
@@ -70,7 +69,8 @@ android {
 
    buildTypes {
       getByName("debug") {
-         signingConfig = signingConfigs.getByName("debug")
+         // TODO uncomment when above signing config becomes valid
+         // signingConfig = signingConfigs.getByName("debug")
       }
 
       create("proguardedDebug") {
@@ -109,32 +109,11 @@ android {
    }
 }
 
-sqldelight {
-   databases {
-      create("Database") {
-         packageName.set("si.inova.androidarchitectureplayground")
-         dependency(projects.user.data)
-         dependency(projects.post.data)
-      }
-   }
-}
-
-custom {
-   enableEmulatorTests.set(true)
-}
-
 dependencies {
    implementation(projects.commonAndroid)
    implementation(projects.commonNavigation)
    implementation(projects.commonRetrofit.android)
    implementation(projects.commonCompose)
-   implementation(projects.login.data)
-   implementation(projects.login.ui)
-   implementation(projects.home.ui)
-   implementation(projects.user.data)
-   implementation(projects.user.ui)
-   implementation(projects.post.data)
-   implementation(projects.post.ui)
 
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.core)
@@ -147,7 +126,6 @@ dependencies {
    implementation(libs.kotlin.immutableCollections)
    implementation(libs.retrofit.moshi)
    implementation(libs.simpleStack)
-   implementation(libs.sqldelight.android)
 
    implementation(libs.androidx.datastore)
    implementation(libs.androidx.datastore.preferences)

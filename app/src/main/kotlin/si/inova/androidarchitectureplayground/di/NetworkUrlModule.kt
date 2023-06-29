@@ -13,6 +13,7 @@ class NetworkUrlModule {
    @Provides
    @BaseServiceFactory.BaseUrl
    fun provideBaseUrl(): String {
-      return "https://dummyjson.com/"
+      // TODO
+      error("Retrofit base url not provided")
    }
 }
