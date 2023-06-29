@@ -8,6 +8,8 @@ plugins {
    id("org.gradle.android.cache-fix")
 }
 
+val customConfig = extensions.create<CustomBuildConfiguration>("custom")
+
 commonAndroid {
    compileSdk = 33
 
@@ -28,5 +30,12 @@ commonAndroid {
       resources {
          excludes += "/META-INF/{AL2.0,LGPL2.1}"
       }
+   }
+}
+
+// Even empty android test tasks take a while to execute. Disable all of them by default.
+tasks.configureEach {
+   if (!customConfig.enableEmulatorTests.getOrElse(false) && name.contains("AndroidTest", ignoreCase = true)) {
+      enabled = false
    }
 }
