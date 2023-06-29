@@ -10,6 +10,7 @@ plugins {
    id("kotlin-parcelize")
    navigation
    sqldelight
+   showkase
 }
 
 android {

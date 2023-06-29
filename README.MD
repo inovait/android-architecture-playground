@@ -11,6 +11,7 @@ Features include:
 * Improved support for large screens (two-pane layout for user and post list)
 * Offline support (data is saved to database and can be browsed offline)
 * Pagination
+* List of all reusable Compose components in-app (via Showkase)
 * Unit tests for UI and all logic code
 * Integration tests that test the whole app, optimized with R8
 

@@ -37,6 +37,7 @@ moshi = "1.15.0"
 moshi-ir = "0.22.1"
 retrofit = "2.9.0"
 simpleStack = "2.7.0"
+showkase = "1.0.0-beta18"
 shot = "5.14.1"
 sqldelight = "2.0.0-rc02"
 tomlj = "1.1.0"
@@ -117,6 +118,8 @@ orgJson = { module = "org.json:json", version.ref = "orgJson" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 versionsCheckerPlugin = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "versionsChecker" }
+showkase = { module = "com.airbnb.android:showkase", version.ref = "showkase" }
+showkase-processor = { module = "com.airbnb.android:showkase-processor", version.ref = "showkase" }
 simpleStack = { module = "com.github.Zhuinden:simple-stack", version.ref = "simpleStack" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-gradle = { module = "app.cash.sqldelight:gradle-plugin", version.ref = "sqldelight" }

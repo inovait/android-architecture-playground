@@ -2,6 +2,7 @@ plugins {
    androidLibraryModule
    compose
    parcelize
+   showkase
 }
 
 android {
