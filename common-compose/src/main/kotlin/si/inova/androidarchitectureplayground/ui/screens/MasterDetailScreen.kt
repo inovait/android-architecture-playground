@@ -15,7 +15,6 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -78,24 +77,31 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
       }
 
       if (widthSize == WindowWidthSizeClass.Compact) {
-         MasterDetailOnPhone(openState, currentDetailScreen, master, detail)
+         MasterDetailOnPhone(
+            openState = openState::value,
+            updateOpenState = { openState.value = it },
+            currentDetailScreen = currentDetailScreen::value,
+            master = master,
+            detail = detail
+         )
       } else {
-         MasterDetailOnLargerScreen(currentDetailScreen, master, detail)
+         MasterDetailOnLargerScreen(currentDetailScreen::value, master, detail)
       }
    }
 
    @Composable
    @OptIn(ExperimentalAnimationApi::class)
    private fun MasterDetailOnPhone(
-      openState: MutableState<Boolean>,
-      currentDetailScreen: MutableState<D?>,
+      openState: () -> Boolean,
+      updateOpenState: (Boolean) -> Unit,
+      currentDetailScreen: () -> D?,
       master: @Composable (Modifier) -> Unit,
       detail: @Composable (Modifier, D) -> Unit
    ) {
       val saveableStateHolder = rememberSaveableStateHolder()
 
       AnimatedContent(
-         openState.value,
+         openState(),
          transitionSpec = {
             if (this.targetState) {
                slideIntoContainer(AnimatedContentScope.SlideDirection.Left) with
@@ -109,7 +115,7 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
       ) { open ->
          saveableStateHolder.SaveableStateProvider(open) {
             if (open) {
-               currentDetailScreen.value?.let {
+               currentDetailScreen()?.let {
                   detail(Modifier.fillMaxSize(), it)
                }
             } else {
@@ -118,14 +124,14 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          }
       }
 
-      BackHandler(enabled = openState.value) {
-         openState.value = false
+      BackHandler(enabled = openState()) {
+         updateOpenState(false)
       }
    }
 
    @Composable
    private fun MasterDetailOnLargerScreen(
-      currentDetailScreen: MutableState<D?>,
+      currentDetailScreen: () -> D?,
       master: @Composable (Modifier) -> Unit,
       detail: @Composable (Modifier, D) -> Unit
    ) {
@@ -137,7 +143,7 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          )
 
          Crossfade(
-            currentDetailScreen.value,
+            currentDetailScreen(),
             Modifier
                .weight(2f)
                .fillMaxHeight(),

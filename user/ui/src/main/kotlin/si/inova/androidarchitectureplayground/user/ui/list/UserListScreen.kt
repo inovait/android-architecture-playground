@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
-import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreview
+import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
 import si.inova.androidarchitectureplayground.ui.lists.DetectScrolledToBottom
@@ -139,7 +139,7 @@ private fun UserListContent(
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun UserListContentSuccess() {
    PreviewTheme {
@@ -158,7 +158,7 @@ private fun UserListContentSuccess() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun UserListContentLoading() {
    PreviewTheme {
@@ -177,7 +177,7 @@ private fun UserListContentLoading() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun UserListContentError() {
    PreviewTheme {
@@ -197,7 +197,7 @@ private fun UserListContentError() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun UserListContentLoadingMore() {
    PreviewTheme {

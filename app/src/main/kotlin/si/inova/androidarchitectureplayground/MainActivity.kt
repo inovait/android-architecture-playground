@@ -17,7 +17,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.zhuinden.simplestack.AsyncStateChanger
-import com.zhuinden.simplestack.History
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -69,7 +71,7 @@ class MainActivity : ComponentActivity() {
 
    private fun beginInitialisation(startup: Boolean) {
       lifecycleScope.launch {
-         val initialHistory: List<ScreenKey> = History.of(viewModel.startingScreen.filterNotNull().first())
+         val initialHistory: ImmutableList<ScreenKey> = persistentListOf(viewModel.startingScreen.filterNotNull().first())
 
          val deepLinkTarget = if (startup) {
             intent?.data?.let { mainDeepLinkHandler.handleDeepLink(it, startup = true) }
@@ -78,7 +80,7 @@ class MainActivity : ComponentActivity() {
          }
 
          val overridenInitialHistoryFromDeepLink = if (deepLinkTarget != null) {
-            deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack
+            deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack.toPersistentList()
          } else {
             initialHistory
          }
@@ -92,7 +94,7 @@ class MainActivity : ComponentActivity() {
    }
 
    @Composable
-   private fun NavigationRoot(initialHistory: List<ScreenKey>) {
+   private fun NavigationRoot(initialHistory: ImmutableList<ScreenKey>) {
       AndroidArchitecturePlaygroundTheme {
          // A surface container using the 'background' color from the theme
          Surface(

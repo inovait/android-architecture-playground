@@ -34,4 +34,4 @@ import androidx.compose.ui.tooling.preview.Preview
    device = "spec:id=reference_phone,shape=Normal,width=891,height=411,unit=dp,dpi=420",
    name = "Day mode landscape"
 )
-annotation class FullScreenPreview
+annotation class FullScreenPreviews

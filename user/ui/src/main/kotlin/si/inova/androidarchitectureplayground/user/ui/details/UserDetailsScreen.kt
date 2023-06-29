@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
-import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreview
+import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
 import si.inova.androidarchitectureplayground.user.model.User
@@ -102,7 +102,7 @@ private fun ShowUser(user: User) {
    )
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun SuccesPreview() {
    val testUser = User(
@@ -125,7 +125,7 @@ private fun SuccesPreview() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun ProgressPreview() {
    val testUser = User(
@@ -148,7 +148,7 @@ private fun ProgressPreview() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun ErrorPreview() {
    val testUser = User(

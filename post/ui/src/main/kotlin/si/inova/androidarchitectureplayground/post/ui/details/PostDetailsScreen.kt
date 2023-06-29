@@ -26,7 +26,7 @@ import coil.compose.AsyncImage
 import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
-import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreview
+import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
 import si.inova.architectureplayground.post.R
@@ -136,7 +136,7 @@ private fun ShowPost(post: Post, navigateToUserDetails: (Int) -> Unit) {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun SuccesPreview() {
    val testPost = Post(
@@ -154,7 +154,7 @@ private fun SuccesPreview() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun ProgressPreview() {
    val testPost = Post(
@@ -172,7 +172,7 @@ private fun ProgressPreview() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun ErrorPreview() {
    val testPost = Post(

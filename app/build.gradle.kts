@@ -139,6 +139,7 @@ dependencies {
    implementation(libs.androidx.lifecycle.viewModel.compose)
    implementation(libs.certificateTransparency)
    implementation(libs.dispatch)
+   implementation(libs.kotlin.immutableCollections)
    implementation(libs.retrofit.moshi)
    implementation(libs.simpleStack)
    implementation(libs.sqldelight.android)

@@ -40,9 +40,11 @@ tasks.withType<DependencyUpdatesTask> {
 }
 
 detekt {
-   config = files("$rootDir/config/detekt.yml")
+   config.setFrom("$rootDir/config/detekt.yml")
 }
 
 dependencies {
    detektPlugins(libs.detekt.formatting)
+   detektPlugins(libs.detekt.compilerWarnings)
+   detektPlugins(libs.detekt.twitterCompose)
 }

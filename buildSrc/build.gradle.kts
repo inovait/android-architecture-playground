@@ -18,7 +18,7 @@ repositories {
 }
 
 detekt {
-   config = files("$projectDir/../config/detekt.yml", "$projectDir/../config/detekt-buildSrc.yml")
+   config.setFrom("$projectDir/../config/detekt.yml", "$projectDir/../config/detekt-buildSrc.yml")
 }
 
 tasks.withType<DependencyUpdatesTask> {
@@ -58,6 +58,8 @@ dependencies {
    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
    detektPlugins(libs.detekt.formatting)
+   detektPlugins(libs.detekt.compilerWarnings)
+   detektPlugins(libs.detekt.twitterCompose)
 }
 
 tasks.register("pre-commit-hook", Copy::class) {

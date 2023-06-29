@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
-import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreview
+import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
 import si.inova.androidarchitectureplayground.ui.lists.DetectScrolledToBottom
@@ -137,7 +137,7 @@ private fun PostListContent(
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun PostListContentSuccess() {
    PreviewTheme {
@@ -156,7 +156,7 @@ private fun PostListContentSuccess() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun PostListContentLoading() {
    PreviewTheme {
@@ -175,7 +175,7 @@ private fun PostListContentLoading() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun PostListContentError() {
    PreviewTheme {
@@ -195,7 +195,7 @@ private fun PostListContentError() {
    }
 }
 
-@FullScreenPreview
+@FullScreenPreviews
 @Composable
 private fun PostListContentLoadingMore() {
    PreviewTheme {
