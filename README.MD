@@ -1,24 +1,50 @@
-# Kotlinova architecture demo
+# Template project for Kotlinova-architecture-based projects
 
-Playground / demo app for using Kotlinova architecture. It is simple app that loads data from https://dummyjson.com.
-Features include:
+Empty template Android project with basic Kotlinova architecture set up.
 
-* 100% Compose (single activity)
-* Deep links to every screen
-* Configuration change and process deaths handling
-* Dark mode support
-* Material You support
-* Improved support for large screens (two-pane layout for user and post list)
-* Offline support (data is saved to database and can be browsed offline)
-* Pagination
-* List of all reusable Compose components in-app (via Showkase)
-* Unit tests for UI and all logic code
-* Integration tests that test the whole app, optimized with R8
-* Easy to use screenshot tests
+To create a new Android project from that:
 
-See also other branches:
+1. Clone this repo (`empty_kotlinova_project` branch)
+2. Copy all files (except for the .git folder) into your new project's folder
+3. Rename si.inova.androidarchitectureplayground folder (package)    
+   ![Image](docs/rename-package.png)    
+   When asked, select "All Directories". This should rename all of those packages in the project
+4. Rename default no resources namespace in `buildSrc/src/main/kotlin/android-module-commons.gradle.kts`
+5. Rename theme in `app/res/values/themes.xml`
+6. Rename `namespace`, `applicatonId` and `testInstrumentationRunner` in `app/build.gradle.kts`
+7. Rename `namespace` in `app-screenshot-tests/build.gradle.kts`
+8. Rename `namespace` in `common-compose/build.gradle.kts`
+9. Rename `rootProject.name` in `settings.gradle.kts
+10. Rename `app_name` in `app/res/values/strings.xml`
+11. Rename theme in `common-compose/src/.../ui/theme/Theme.kt`
+12. Rename `My` prefix of `MyApplication` to the name of your application
+13. Generate debug and release keystore (see below)
+14. Go through all TODOs inside the project
+12. Remove everything until `Readme for the application` from this README
 
-* `empty_project` = Barebones empty project with some essentials pre-created
+## Keystore
+
+To generate keys, you can execute these command inside `keys` folder:
+
+```bash
+KEYSTORE_PASSWORD=$(dd if=/dev/random bs=3 count=12 2>/dev/null | base64 | sed 's/ .*$//')
+echo y | keytool -genkey -keystore ./release.jks -dname "ou=Inova IT" -alias app -storepass $KEYSTORE_PASSWORD -keyalg RSA -keysize 2048 -validity 9125
+echo y | keytool -genkey -keystore ./debug.jks -dname "ou=Inova IT" -alias androiddebugkey -storepass android -keyalg RSA -keysize 2048 -validity 9125
+echo "RELEASE_KEYSTORE_PASSWORD = '$KEYSTORE_PASSWORD'"
+
+echo
+
+echo "DEBUG CERTIFICATE FINGERPRINTS:"
+keytool -list -v -keystore "debug.jks" -alias androiddebugkey -storepass android -keypass android
+
+echo "RELEASE CERTIFICATE FINGERPRINTS:"
+keytool -list -v -keystore "release.jks" -alias app -storepass $KEYSTORE_PASSWORD -keypass $KEYSTORE_PASSWORD
+```
+
+Afterwards:
+
+1. Enter generated keystore password into Github project's secrets (and ideally also store it somewhere else as a backup).
+2. Enter generated SHA1 and SHA256 fingerprints into `app/build.gradle.kts`, so they can be used later.
 
 # Readme for the application
 
