@@ -18,6 +18,7 @@ Features include:
 
 See also other branches:
 
+* `empty_kotlinova_project` = Empty template project with most of the kotlinova architecture set up
 * `empty_project` = Barebones empty project with some essentials pre-created
 
 # Readme for the application
