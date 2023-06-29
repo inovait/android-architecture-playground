@@ -19,6 +19,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import si.inova.kotlinova.core.activity.requireActivity
@@ -86,6 +87,8 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
       master: @Composable (Modifier) -> Unit,
       detail: @Composable (Modifier, D) -> Unit
    ) {
+      val saveableStateHolder = rememberSaveableStateHolder()
+
       AnimatedContent(
          openState.value,
          transitionSpec = {
@@ -99,10 +102,14 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          },
          label = "Master Detail"
       ) { open ->
-         if (open) {
-            currentDetailScreen.value?.let { detail(Modifier.fillMaxSize(), it) }
-         } else {
-            master(Modifier.fillMaxSize())
+         saveableStateHolder.SaveableStateProvider(open) {
+            if (open) {
+               currentDetailScreen.value?.let {
+                  detail(Modifier.fillMaxSize(), it)
+               }
+            } else {
+               master(Modifier.fillMaxSize())
+            }
          }
       }
 
