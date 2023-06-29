@@ -11,6 +11,6 @@ data class HomeScreenKey(
    enum class Tab {
       POSTS,
       USERS,
-      SETTINGS;
+      SETTINGS
    }
 }
