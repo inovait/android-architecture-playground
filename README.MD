@@ -14,6 +14,7 @@ Features include:
 * List of all reusable Compose components in-app (via Showkase)
 * Unit tests for UI and all logic code
 * Integration tests that test the whole app, optimized with R8
+* Easy to use screenshot tests
 
 See also other branches:
 
@@ -58,3 +59,13 @@ Every feature should contain following modules:
 ## Running integration tests
 
 `./gradlew :app:connectedAndroidTest -PtestAppWithProguard`
+
+# Creating screenshot tests
+
+To create screenshot tests for your compose screen:
+
+1. Make preview functions public
+2. Add `showkase` plugin to the module of the screen you want to test
+2. Add `@ShowkaseComposable(group = "Test")` annotation to the preview of the screen you want to test
+3. run `recordPaparazziDebug` gradle task to record golden screenshot
+   (double check that only previews for your screen were generated)

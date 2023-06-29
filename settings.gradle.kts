@@ -32,6 +32,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "AndroidArchitecturePlayground"
 
 include(":app")
+include(":app-screenshot-tests")
 include(":common")
 include(":common:test")
 include(":common-android")

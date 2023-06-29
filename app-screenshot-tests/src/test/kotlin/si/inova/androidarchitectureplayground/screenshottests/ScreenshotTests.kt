@@ -1,0 +1,57 @@
+package si.inova.androidarchitectureplayground.screenshottests
+
+import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
+import app.cash.paparazzi.Paparazzi
+import com.airbnb.android.showkase.models.Showkase
+import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
+import com.android.ide.common.rendering.api.SessionParams
+import com.google.testing.junit.testparameterinjector.TestParameter
+import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import si.inova.androidarchitectureplayground.showkase.getMetadata
+
+@Suppress("JUnitMalformedDeclaration")
+@RunWith(TestParameterInjector::class)
+class ScreenshotTests {
+   @get:Rule
+   val paparazzi = Paparazzi(
+      deviceConfig = PIXEL_5,
+      theme = "android:Theme.Material.Light.NoActionBar",
+      maxPercentDifference = 0.0,
+      showSystemUi = false,
+      renderingMode = SessionParams.RenderingMode.SHRINK
+   )
+
+   object PreviewProvider : TestParameter.TestParameterValuesProvider {
+      override fun provideValues(): List<TestKey> =
+         Showkase.getMetadata().componentList
+            .filter { it.group != "Default Group" }
+            .map { TestKey(it) }
+   }
+
+   class TestKey(val showkaseBrowserComponent: ShowkaseBrowserComponent) {
+      override fun toString(): String {
+         return showkaseBrowserComponent.componentKey
+      }
+   }
+
+   @Before
+   fun setUp() {
+      // Note: if you have lottie in your project, uncomment this
+      // Workaround for the https://github.com/cashapp/paparazzi/issues/630
+      // LottieTask.EXECUTOR = Executor(Runnable::run)
+   }
+
+   @Test
+   fun launchTests(
+      @TestParameter(valuesProvider = PreviewProvider::class)
+      testKey: TestKey
+   ) {
+      paparazzi.snapshot {
+         testKey.showkaseBrowserComponent.component()
+      }
+   }
+}
