@@ -14,7 +14,7 @@ To create a new Android project from that:
 6. Rename `namespace`, `applicatonId` and `testInstrumentationRunner` in `app/build.gradle.kts`
 7. Rename `namespace` in `app-screenshot-tests/build.gradle.kts`
 8. Rename `namespace` in `common-compose/build.gradle.kts`
-9. Rename `rootProject.name` in `settings.gradle.kts
+9. Rename `rootProject.name` in `settings.gradle.kts`
 10. Rename `app_name` in `app/res/values/strings.xml`
 11. Rename theme in `common-compose/src/.../ui/theme/Theme.kt`
 12. Rename `My` prefix of `MyApplication` to the name of your application
