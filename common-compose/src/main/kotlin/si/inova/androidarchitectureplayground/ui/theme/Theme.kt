@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +16,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import si.inova.kotlinova.core.activity.findActivity
 
 private val DarkColorScheme = darkColorScheme(
    primary = Purple80,
@@ -59,7 +59,7 @@ fun AndroidArchitecturePlaygroundTheme(
    val view = LocalView.current
    if (!view.isInEditMode) {
       SideEffect {
-         val window = (view.context as Activity).window
+         val window = (view.context.findActivity())?.window ?: return@SideEffect
          window.statusBarColor = colorScheme.primary.toArgb()
          val navigationBarColor = colorScheme.surfaceColorAtElevation(NavigationBarDefaults.Elevation)
          window.navigationBarColor = navigationBarColor.toArgb()
