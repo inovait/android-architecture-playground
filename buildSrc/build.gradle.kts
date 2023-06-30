@@ -50,7 +50,6 @@ dependencies {
    implementation(libs.orgJson)
    implementation(libs.versionsCheckerPlugin)
    implementation(libs.ksp)
-   implementation(libs.shot)
    implementation(libs.sqldelight.gradle)
    implementation(libs.tomlj)
 
