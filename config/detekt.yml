@@ -585,6 +585,7 @@ style:
   active: true
   BracesOnIfStatements:
     active: true
+    singleLine: consistent
   ClassOrdering:
     active: false
   CollapsibleIfStatements:
