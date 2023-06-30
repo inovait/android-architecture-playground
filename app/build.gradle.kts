@@ -3,6 +3,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
 import com.android.build.api.variant.BuildConfigField
+import java.io.FileNotFoundException
 
 plugins {
    androidAppModule
@@ -33,9 +34,15 @@ android {
          onVariants {
             it.buildConfigFields.put("GIT_HASH", gitVersionProvider.flatMap { task ->
                task.gitVersionOutputFile.map { file ->
-                  // Note: If you get an error here about missing file, disable gradle configuration cache and build again
-                  // See https://github.com/gradle/gradle/issues/19252
-                  val gitHash = file.asFile.readText(Charsets.UTF_8)
+                  val gitHash = try {
+                     file.asFile.readText(Charsets.UTF_8)
+                  } catch (e: FileNotFoundException) {
+                     // See https://github.com/gradle/gradle/issues/19252
+                     throw IllegalStateException(
+                        "Failed to load git configuration. Please disable configuration cache for this one build and try again",
+                        e
+                     )
+                  }
 
                   BuildConfigField(
                      "String",
