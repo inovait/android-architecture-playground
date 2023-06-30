@@ -1,8 +1,8 @@
 plugins {
    androidLibraryModule
-   id("kotlin-parcelize")
    compose
    navigation
+   parcelize
 }
 
 dependencies {
