@@ -7,8 +7,8 @@ import com.android.build.api.variant.BuildConfigField
 plugins {
    androidAppModule
    compose
-   id("kotlin-parcelize")
    navigation
+   parcelize
    sqldelight
    showkase
 }
