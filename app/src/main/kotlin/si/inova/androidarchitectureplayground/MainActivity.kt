@@ -9,14 +9,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.zhuinden.simplestack.AsyncStateChanger
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
@@ -34,9 +32,7 @@ import si.inova.kotlinova.navigation.deeplink.MainDeepLinkHandler
 import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.di.NavigationInjection
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
-import si.inova.kotlinova.navigation.simplestack.BackstackProvider
-import si.inova.kotlinova.navigation.simplestack.ComposeStateChanger
-import si.inova.kotlinova.navigation.simplestack.rememberBackstack
+import si.inova.kotlinova.navigation.simplestack.RootNavigationContainer
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -106,16 +102,14 @@ class MainActivity : ComponentActivity() {
                LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter),
                LocalResultPassingStore provides resultPassingStore
             ) {
-               val composeStateChanger = remember { ComposeStateChanger() }
-               val asyncStateChanger = remember(composeStateChanger) { AsyncStateChanger(composeStateChanger) }
-               val backstack = navigationInjectionFactory.rememberBackstack(asyncStateChanger) { initialHistory }
-               BackstackProvider(backstack) {
-                  composeStateChanger.Content { _, screen ->
+               val backstack = navigationInjectionFactory.RootNavigationContainer(
+                  initialHistory = { initialHistory },
+                  screenWrapper = { _, screen ->
                      Surface {
                         screen()
                      }
                   }
-               }
+               )
 
                mainDeepLinkHandler.HandleNewIntentDeepLinks(this@MainActivity, backstack)
             }
