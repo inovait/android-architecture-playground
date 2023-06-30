@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
+import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 
 @Composable
 fun DemoComponent(modifier: Modifier = Modifier) {
@@ -26,5 +27,7 @@ fun DemoComponent(modifier: Modifier = Modifier) {
 @Composable
 @ShowkaseComposable(group = "Components", name = "Demo Component", styleName = "Normal")
 fun DemoComponentPreview() {
-   DemoComponent()
+   PreviewTheme(fill = false) {
+      DemoComponent()
+   }
 }
