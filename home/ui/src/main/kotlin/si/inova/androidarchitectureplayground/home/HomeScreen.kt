@@ -67,7 +67,8 @@ class HomeScreen(
    private fun MainContent(key: HomeScreenKey) {
       val tab = key.selectedTab
       val stateHolder = rememberSaveableStateHolder()
-      stateHolder.SaveableStateProvider(tab) {
+      // We must provide name here, not the enum, because name stays the same after process kill, while enum object is different
+      stateHolder.SaveableStateProvider(tab.name) {
          when (tab) {
             HomeScreenKey.Tab.POSTS -> postsScreen.Content(HomePostsScreenKey())
             HomeScreenKey.Tab.USERS -> usersScreen.Content(HomeUsersScreenKey(key.userDetailsId))
