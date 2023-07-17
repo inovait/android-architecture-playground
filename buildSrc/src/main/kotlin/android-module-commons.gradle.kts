@@ -41,6 +41,9 @@ commonAndroid {
    testOptions {
       unitTests.all {
          it.useJUnitPlatform()
+
+         // Better test output
+         it.systemProperty("kotest.assertions.collection.print.size", "300")
       }
    }
 

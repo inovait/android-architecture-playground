@@ -20,6 +20,9 @@ tasks.withType(KotlinCompilationTask::class.java) {
 
 tasks.test {
    useJUnitPlatform()
+
+   // Better test output
+   systemProperty("kotest.assertions.collection.print.size", "300")
 }
 
 dependencies {
