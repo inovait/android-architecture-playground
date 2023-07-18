@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.user
 
-import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
@@ -14,8 +13,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import si.inova.androidarchitectureplayground.common.di.ApplicationScope
-import si.inova.androidarchitectureplayground.common.pagination.OffsetDatabaseBackedPaginatedDataStream
-import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
+import si.inova.androidarchitectureplayground.location.LocationRetriever
+import si.inova.androidarchitectureplayground.location.model.Location
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
 import si.inova.androidarchitectureplayground.user.exceptions.UnknownUserException
 import si.inova.androidarchitectureplayground.user.model.User
@@ -25,9 +24,11 @@ import si.inova.androidarchitectureplayground.user.network.UsersService
 import si.inova.androidarchitectureplayground.user.sqldelight.generated.DbUser
 import si.inova.androidarchitectureplayground.user.sqldelight.generated.DbUserQueries
 import si.inova.kotlinova.core.exceptions.UnknownCauseException
+import si.inova.kotlinova.core.logging.logcat
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.outcome.catchIntoOutcome
+import si.inova.kotlinova.core.outcome.mapData
 import si.inova.kotlinova.core.time.TimeProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -37,14 +38,15 @@ import kotlin.coroutines.coroutineContext
 class UserRepositoryImpl @Inject constructor(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,
-   private val timeProvider: TimeProvider
+   private val timeProvider: TimeProvider,
+   private val locationRetriever: LocationRetriever
 ) : UserRepository {
-   override fun getAllUsers(force: Boolean): PaginatedDataStream<List<User>> {
-      return OffsetDatabaseBackedPaginatedDataStream<User>(
-         loadFromNetwork = ::loadUsersFromNetwork,
-         loadFromDatabase = { offset, limit -> loadUsersFromDatabase(offset, limit, force) },
-         saveToDatabase = ::saveUsersToDatabase
-      )
+   override fun getAllUsers(force: Boolean): Flow<Outcome<List<User>>> {
+      return locationRetriever.getLocation()
+         .map { location ->
+            logcat { "Got location $location" }
+            loadUsersAndSortByDistance(location)
+         }
    }
 
    override fun getUserDetails(id: Int, force: Boolean): Flow<Outcome<User>> {
@@ -99,58 +101,12 @@ class UserRepositoryImpl @Inject constructor(
       Outcome.Success(usersService.getUsers(limit, offset).users.map { it.toUser() })
    }
 
-   private fun saveUsersToDatabase(
-      data: List<User>,
-      replaceExisting: Boolean
-   ) {
-      val dbUsers = data.map { it.toDb(fullData = false, lastUpdate = timeProvider.currentTimeMillis()) }
-      if (replaceExisting) {
-         userDb.replaceAll(dbUsers)
-      } else {
-         userDb.insert(dbUsers)
+   @Suppress("ALL")
+   private suspend fun UserRepositoryImpl.loadUsersAndSortByDistance(location: Location) =
+      loadUsersFromNetwork(0, 30).mapData { users ->
+         // TODO sort by location
+         users
       }
-   }
-
-   private fun loadUsersFromDatabase(
-      offset: Int,
-      limit: Int,
-      force: Boolean
-   ): Flow<Outcome.Success<OffsetDatabaseBackedPaginatedDataStream.DatabaseResult<User>>> {
-      val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
-
-      return userDb
-         .selectAll(offset = offset.toLong(), limit = limit.toLong())
-         .asFlow()
-         .map { query ->
-            val dbUsers = withIO { query.awaitAsList() }
-            val expired = dbUsers.any { it.last_update < deadline }
-
-            Outcome.Success(
-               OffsetDatabaseBackedPaginatedDataStream.DatabaseResult(
-                  dbUsers.map { it.toUser() },
-                  !expired && !force
-               )
-            )
-         }
-   }
-}
-
-private fun DbUserQueries.replaceAll(newUsers: List<DbUser>) {
-   transaction {
-      clear()
-
-      for (user in newUsers) {
-         insert(user)
-      }
-   }
-}
-
-private fun DbUserQueries.insert(newUsers: List<DbUser>) {
-   transaction {
-      for (user in newUsers) {
-         insert(user)
-      }
-   }
 }
 
 private fun DbUser.isValidForUserDetails(cacheDeadline: Long): Boolean {

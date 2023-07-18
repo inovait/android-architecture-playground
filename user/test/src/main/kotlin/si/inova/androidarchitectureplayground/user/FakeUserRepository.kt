@@ -2,7 +2,7 @@ package si.inova.androidarchitectureplayground.user
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.emptyFlow
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.Outcome
@@ -21,21 +21,12 @@ class FakeUserRepository : UserRepository {
       userList.value = users
    }
 
-   override fun getAllUsers(force: Boolean): PaginatedDataStream<List<User>> {
+   override fun getAllUsers(force: Boolean): Flow<Outcome<List<User>>> {
       if (force) {
          numTimesForceLoadCalled++
       }
 
-      return object : PaginatedDataStream<List<User>> {
-         override val data: Flow<PaginatedDataStream.PaginationResult<List<User>>>
-            get() = userList.map {
-               it ?: error("Fake user list not provided")
-            }
-
-         override fun nextPage() {
-            numTimesNextPageCalled++
-         }
-      }
+      return emptyFlow()
    }
 
    override fun getUserDetails(

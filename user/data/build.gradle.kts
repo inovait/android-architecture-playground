@@ -18,6 +18,7 @@ dependencies {
 
    implementation(projects.common)
    implementation(projects.commonRetrofit)
+   implementation(projects.location.api)
    implementation(libs.dispatch)
 
    testImplementation(projects.commonRetrofit.test)
