@@ -2,6 +2,9 @@ package si.inova.androidarchitectureplayground.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.darkColorScheme
@@ -10,6 +13,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
@@ -72,8 +76,33 @@ fun AndroidArchitecturePlaygroundTheme(
    MaterialTheme(
       colorScheme = colorScheme,
       typography = MyTypography,
-      content = content
-   )
+   ) {
+      val defaultRippleTheme = LocalRippleTheme.current
+      if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
+         // Workaround for https://issuetracker.google.com/issues/274471576 - Ripple effects do not work on Android 13
+         CompositionLocalProvider(LocalRippleTheme provides TransparencyFixRippleTheme(defaultRippleTheme)) {
+            content()
+         }
+      } else {
+         content()
+      }
+   }
+}
+
+private class TransparencyFixRippleTheme(private val defaultTheme: RippleTheme) : RippleTheme {
+   @Composable
+   override fun defaultColor() = defaultTheme.defaultColor()
+
+   @Composable
+   override fun rippleAlpha() = defaultTheme.rippleAlpha().run {
+      RippleAlpha(
+         draggedAlpha,
+         focusedAlpha,
+         hoveredAlpha,
+         pressedAlpha.coerceAtLeast(MIN_RIPPLE_ALPHA_ON_TIRAMISU)
+      )
+   }
 }
 
 private const val BRIGHT_THRESHOLD_LUMINANCE = 0.5f
+private const val MIN_RIPPLE_ALPHA_ON_TIRAMISU = 0.5f
