@@ -1,5 +1,6 @@
 package util
 
+import com.android.build.api.dsl.AndroidResources
 import com.android.build.api.dsl.BuildFeatures
 import com.android.build.api.dsl.BuildType
 import com.android.build.api.dsl.DefaultConfig
@@ -18,7 +19,9 @@ fun Project.commonAndroid(
       BuildFeatures,
       BuildType,
       DefaultConfig,
-      ProductFlavor>>
+      ProductFlavor,
+      AndroidResources
+      >>
 ) {
    (this as org.gradle.api.plugins.ExtensionAware).extensions.configure("android", block)
 }
@@ -26,7 +29,7 @@ fun Project.commonAndroid(
 /**
  * kotlinOptions {} block that can be used without applying specific android plugin
  */
-fun InternalTestedExtension<*, *, *, *>.commonKotlinOptions(
+fun InternalTestedExtension<*, *, *, *, *>.commonKotlinOptions(
    block: Action<KotlinJvmOptions>
 ) {
    (this as org.gradle.api.plugins.ExtensionAware).extensions.configure("kotlinOptions", block)
