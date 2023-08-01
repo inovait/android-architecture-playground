@@ -31,6 +31,7 @@ Process for updating all library versions::
    && ./gradlew :app:updateLibsToml`.
    This will check for new versions of all libraries and automatically bump versions inside `libs.toml`.
 2. Check the output of the above task and manually update any libraries that task said it couldn't update automatically.
+3. Update Gradle version (see instructions in the [gradle wrapper's properties](gradle/wrapper/gradle-wrapper.properties))
 2. Sync the project, build the app and run all tests to make sure everything still works.
 3. Run detekt scan to find any new deprecated code
 4. For any new deprecated code found by the search:
