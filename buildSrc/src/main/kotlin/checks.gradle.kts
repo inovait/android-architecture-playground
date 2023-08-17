@@ -47,4 +47,5 @@ dependencies {
    detektPlugins(libs.detekt.formatting)
    detektPlugins(libs.detekt.compilerWarnings)
    detektPlugins(libs.detekt.twitterCompose)
+   detektPlugins(libs.kotlinova.navigation.detekt)
 }
