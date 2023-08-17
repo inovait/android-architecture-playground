@@ -94,21 +94,21 @@ class HomeScreen(
          NavigationBar {
             NavigationBarItem(
                selected = key.selectedTab == HomeScreenKey.Tab.POSTS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.POSTS)) },
+               onClick = { navigator.navigateTo(key.copy(selectedTabName = HomeScreenKey.Tab.POSTS.name)) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_posts), contentDescription = null) },
                label = { Text(stringResource(R.string.posts)) }
             )
 
             NavigationBarItem(
                selected = key.selectedTab == HomeScreenKey.Tab.USERS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.USERS)) },
+               onClick = { navigator.navigateTo(key.copy(selectedTabName = HomeScreenKey.Tab.USERS.name)) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_users), contentDescription = null) },
                label = { Text(stringResource(R.string.users)) }
             )
 
             NavigationBarItem(
                selected = key.selectedTab == HomeScreenKey.Tab.SETTINGS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.SETTINGS)) },
+               onClick = { navigator.navigateTo(key.copy(selectedTabName = HomeScreenKey.Tab.SETTINGS.name)) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_settings), contentDescription = null) },
                label = { Text(stringResource(R.string.settings)) }
             )
@@ -125,21 +125,21 @@ class HomeScreen(
          NavigationRail {
             NavigationRailItem(
                selected = key.selectedTab == HomeScreenKey.Tab.POSTS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.POSTS)) },
+               onClick = { navigator.navigateTo(key.copy(selectedTabName = HomeScreenKey.Tab.POSTS.name)) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_posts), contentDescription = null) },
                label = { Text(stringResource(R.string.posts)) }
             )
 
             NavigationRailItem(
                selected = key.selectedTab == HomeScreenKey.Tab.USERS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.USERS)) },
+               onClick = { navigator.navigateTo(key.copy(selectedTabName = HomeScreenKey.Tab.USERS.name)) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_users), contentDescription = null) },
                label = { Text(stringResource(R.string.users)) }
             )
 
             NavigationRailItem(
                selected = key.selectedTab == HomeScreenKey.Tab.SETTINGS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.SETTINGS)) },
+               onClick = { navigator.navigateTo(key.copy(selectedTabName = HomeScreenKey.Tab.SETTINGS.name)) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_settings), contentDescription = null) },
                label = { Text(stringResource(R.string.settings)) }
             )
