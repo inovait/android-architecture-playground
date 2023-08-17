@@ -357,7 +357,7 @@ formatting:
     active: true
     autoCorrect: false
   NoUnusedImports:
-    active: true
+    active: false
     autoCorrect: false
   NoWildcardImports:
     active: true
@@ -734,7 +734,7 @@ style:
   UntilInsteadOfRangeTo:
     active: false
   UnusedImports:
-    active: false
+    active: true
   UnusedPrivateClass:
     active: true
   UnusedPrivateMember:
