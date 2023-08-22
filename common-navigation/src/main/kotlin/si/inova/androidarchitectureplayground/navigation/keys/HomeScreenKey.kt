@@ -1,21 +1,23 @@
 package si.inova.androidarchitectureplayground.navigation.keys
 
+import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import si.inova.kotlinova.navigation.screenkeys.SingleTopKey
 
 @Parcelize
-data class HomeScreenKey internal constructor(
-   val selectedTabName: String,
-   val userDetailsId: String?
+data class HomeScreenKey(
+   val selectedTab: Tab = Tab.POSTS,
+   val userDetailsId: String? = null
 ) : SingleTopKey() {
-   constructor(selectedTab: Tab = Tab.POSTS, userDetailsId: String? = null) : this(selectedTab.name, userDetailsId)
+   @Parcelize
+   sealed class Tab : Parcelable {
+      @Parcelize
+      data object POSTS : Tab()
 
-   val selectedTab: Tab
-      get() = Tab.valueOf(selectedTabName)
+      @Parcelize
+      data object USERS : Tab()
 
-   enum class Tab {
-      POSTS,
-      USERS,
-      SETTINGS
+      @Parcelize
+      data object SETTINGS : Tab()
    }
 }
