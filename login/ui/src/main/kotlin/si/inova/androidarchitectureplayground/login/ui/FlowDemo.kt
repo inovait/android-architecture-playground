@@ -1,23 +1,29 @@
 package si.inova.androidarchitectureplayground.login.ui
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import si.inova.kotlinova.core.logging.logcat
 
 object FlowDemo {
    suspend fun CoroutineScope.start() {
-      getFlow().collect {
+      val channel = Channel<Int>()
+
+      launch { getNumbers(channel) }
+
+      channel.consumeEach {
          logcat { "Received $it" }
          delay(1_000)
+         logcat { "Done receiving $it" }
       }
    }
 
-   private fun getFlow(): Flow<Int> = flow {
+   private suspend fun getNumbers(channel: Channel<Int>) {
       for (number in 0..5) {
-         logcat { "Emitting $number..." }
-         emit(number)
+         logcat { "Emit $number" }
+         channel.send(number)
          logcat { "Done emitting $number" }
       }
    }
