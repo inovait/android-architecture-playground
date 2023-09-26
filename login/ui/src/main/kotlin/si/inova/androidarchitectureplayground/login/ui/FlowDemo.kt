@@ -9,7 +9,7 @@ import si.inova.kotlinova.core.logging.logcat
 
 object FlowDemo {
    suspend fun CoroutineScope.start() {
-      val channel = Channel<Int>()
+      val channel = Channel<Int>(Channel.BUFFERED)
 
       launch { getNumbers(channel) }
 
