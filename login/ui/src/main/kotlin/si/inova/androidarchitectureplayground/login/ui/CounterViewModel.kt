@@ -1,5 +1,6 @@
 package si.inova.androidarchitectureplayground.login.ui
 
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
@@ -16,6 +17,10 @@ class CounterViewModel @Inject constructor(
    val paused = MutableStateFlow<Boolean>(false)
 
    fun startCounting() = resources.launchResourceControlTask(_counter) {
+      for (i in 10 downTo 0) {
+         emit(Outcome.Success(i))
+         delay(500)
+      }
    }
 
    fun setPaused(paused: Boolean) {
