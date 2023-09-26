@@ -162,7 +162,7 @@ coroutines:
   GlobalCoroutineUsage:
     active: false
   InjectDispatcher:
-    active: true
+    active: false
     excludes: *testFolders
   RedundantSuspendModifier:
     active: false
