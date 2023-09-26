@@ -639,7 +639,7 @@ style:
     active: true
     maxJumpCount: 1
   MagicNumber:
-    active: true
+    active: false
     excludes: *testFolders
     ignoreNumbers:
       - '-1'

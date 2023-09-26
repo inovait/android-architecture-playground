@@ -7,10 +7,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.launch
 import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
 import si.inova.androidarchitectureplayground.ui.showkase.ShowkaseLauncher
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
@@ -45,6 +47,12 @@ class ManageProfileScreenImpl(
             val context = LocalContext.current
             Button(onClick = { showkaseLauncher.launch(context) }) {
                Text("Components")
+            }
+
+            val coroutineScope = rememberCoroutineScope()
+
+            Button(onClick = { coroutineScope.launch { with(FlowDemo) { start() } } }) {
+               Text("Flow Demo")
             }
          }
       }
