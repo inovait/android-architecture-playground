@@ -16,9 +16,9 @@ object FlowDemo {
 
    private fun getFlow(): Flow<Int> = flow {
       for (number in 0..5) {
-         logcat { "Emit $number" }
-         delay(1_000)
+         logcat { "Emitting $number..." }
          emit(number)
+         logcat { "Done emitting $number" }
       }
    }
 }
