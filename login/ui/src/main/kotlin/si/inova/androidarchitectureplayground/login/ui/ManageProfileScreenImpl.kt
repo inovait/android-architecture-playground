@@ -73,8 +73,8 @@ class ManageProfileScreenImpl(
                Text("Paused")
             }
 
-            val number by counterViewModel.counter.collectAsStateWithLifecycle()
-            Text((number.data ?: 0).toString(), fontSize = 32.sp)
+            val number by counterViewModel.counterText.collectAsStateWithLifecycle()
+            Text(number.data ?: "", fontSize = 32.sp)
          }
       }
    }
