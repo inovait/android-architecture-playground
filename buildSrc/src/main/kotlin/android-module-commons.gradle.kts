@@ -44,6 +44,7 @@ commonAndroid {
 
          // Better test output
          it.systemProperty("kotest.assertions.collection.print.size", "300")
+         it.systemProperty("kotest.assertions.collection.enumerate.size", "300")
       }
    }
 
