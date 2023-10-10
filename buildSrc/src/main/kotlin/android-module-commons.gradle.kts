@@ -11,7 +11,7 @@ plugins {
 val customConfig = extensions.create<CustomBuildConfiguration>("custom")
 
 commonAndroid {
-   compileSdk = 33
+   compileSdk = 34
 
    compileOptions {
       sourceCompatibility = JavaVersion.VERSION_11
@@ -26,7 +26,7 @@ commonAndroid {
       testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
    }
 
-   packagingOptions {
+   packaging {
       resources {
          excludes += "/META-INF/{AL2.0,LGPL2.1}"
       }
