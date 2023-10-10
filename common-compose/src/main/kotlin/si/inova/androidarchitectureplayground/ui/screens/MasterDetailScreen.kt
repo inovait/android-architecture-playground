@@ -2,10 +2,10 @@ package si.inova.androidarchitectureplayground.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -104,11 +104,11 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          openState(),
          transitionSpec = {
             if (this.targetState) {
-               slideIntoContainer(AnimatedContentScope.SlideDirection.Left) with
-                  slideOutOfContainer(AnimatedContentScope.SlideDirection.Left)
+               slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) togetherWith
+                  slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left)
             } else {
-               slideIntoContainer(AnimatedContentScope.SlideDirection.Right) with
-                  slideOutOfContainer(AnimatedContentScope.SlideDirection.Right)
+               slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) togetherWith
+                  slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
             }
          },
          label = "Master Detail"

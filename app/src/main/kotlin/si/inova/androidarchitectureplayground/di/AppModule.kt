@@ -22,13 +22,15 @@ import javax.inject.Singleton
 @Module
 abstract class AppModule {
    @Binds
-   abstract fun Application.bindToContext(): Context
+   abstract fun bindToContext(application: Application): Context
 
    @Binds
-   abstract fun AndroidTimeProvider.bindToTimeProvider(): TimeProvider
+   abstract fun bindToTimeProvider(androidTimeProvider: AndroidTimeProvider): TimeProvider
 
    @Binds
-   abstract fun AndroidDateTimeFormatterImpl.bindToAndroidDateTimeFormatter(): AndroidDateTimeFormatter
+   abstract fun bindToAndroidDateTimeFormatter(
+      androidDateTimeFormatterImpl: AndroidDateTimeFormatterImpl
+   ): AndroidDateTimeFormatter
 
    @Module
    companion object {
