@@ -19,6 +19,15 @@ open class MyApplication : Application() {
    @Inject
    lateinit var errorReporter: Provider<ErrorReporter>
 
+   init {
+      if (BuildConfig.DEBUG) {
+         // Enable better coroutine stack traces on debug builds
+         // this slows down coroutines, so it should not be enabled on release
+         // using init instead of onCreate ensures that this is started before any content providers
+         System.setProperty("kotlinx.coroutines.debug", "on")
+      }
+   }
+
    override fun onCreate() {
       super.onCreate()
 
