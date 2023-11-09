@@ -34,4 +34,28 @@ import androidx.compose.ui.tooling.preview.Preview
    device = "spec:id=reference_phone,shape=Normal,width=891,height=411,unit=dp,dpi=420",
    name = "Day mode landscape"
 )
+@Preview(
+   showSystemUi = true,
+   uiMode = Configuration.UI_MODE_NIGHT_YES,
+   device = "spec:id=reference_phone,shape=Normal,width=300,height=600,unit=dp,dpi=420",
+   name = "Small night mode portrait"
+)
+@Preview(
+   showSystemUi = true,
+   uiMode = Configuration.UI_MODE_NIGHT_NO,
+   device = "spec:id=reference_phone,shape=Normal,width=300,height=600,unit=dp,dpi=420",
+   name = "Small day mode portrait"
+)
+@Preview(
+   showSystemUi = true,
+   uiMode = Configuration.UI_MODE_NIGHT_YES,
+   device = "spec:id=reference_phone,shape=Normal,width=600,height=300,unit=dp,dpi=420",
+   name = "Small night mode landscape"
+)
+@Preview(
+   showSystemUi = true,
+   uiMode = Configuration.UI_MODE_NIGHT_NO,
+   device = "spec:id=reference_phone,shape=Normal,width=600,height=300,unit=dp,dpi=420",
+   name = "Small day mode landscape"
+)
 annotation class FullScreenPreviews
