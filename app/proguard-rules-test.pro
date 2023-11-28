@@ -22,6 +22,9 @@
 -keep class kotlinx.coroutines.** {
     *;
 }
+-keepnames class kotlinx.serialization.internal.** {
+    *;
+}
 -keep class androidx.** {
     *;
 }
