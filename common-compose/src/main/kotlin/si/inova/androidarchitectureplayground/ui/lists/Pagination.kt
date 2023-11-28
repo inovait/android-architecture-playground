@@ -9,8 +9,9 @@ import androidx.compose.runtime.snapshotFlow
 fun LazyListState.DetectScrolledToBottom(callback: () -> Unit) {
    LaunchedEffect(this, callback) {
       snapshotFlow {
-         layoutInfo.visibleItemsInfo.lastOrNull()?.index == (layoutInfo.totalItemsCount - 1)
-      }.collect { atBottom ->
+         val atBottom = layoutInfo.visibleItemsInfo.lastOrNull()?.index == (layoutInfo.totalItemsCount - 1)
+         layoutInfo.totalItemsCount to atBottom
+      }.collect { (_, atBottom) ->
          if (atBottom) {
             callback()
          }
