@@ -1,7 +1,11 @@
 package si.inova.androidarchitectureplayground
 
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,18 +16,23 @@ import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
-import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
-   private val loginRepository: LoginRepository
+class MainViewModel @AssistedInject constructor(
+   private val loginRepository: LoginRepository,
+   @Assisted
+   private val startIntent: Intent
 ) : ViewModel() {
    private val _startingScreen = MutableStateFlow<ScreenKey?>(null)
    val startingScreen: StateFlow<ScreenKey?> = _startingScreen
 
    init {
       viewModelScope.launch {
-         @Suppress("MagicNumber") // Just a demo
-         delay(500)
+         if (startIntent.getBooleanExtra(BENCHMARK_AUTO_LOGIN_EXTRA, false)) {
+            loginRepository.setLoggedIn(true)
+         } else {
+            @Suppress("MagicNumber") // Just a demo to show that splash screen is working
+            delay(500)
+         }
 
          // Load login via flow first to ensure non-suspending LoginRepository.isLoggedIn is initialized
          val isLogegdIn = loginRepository.isLoggedInFlow().first()
@@ -35,4 +44,11 @@ class MainViewModel @Inject constructor(
          }
       }
    }
+
+   @AssistedFactory
+   interface Factory {
+      fun create(intent: Intent): MainViewModel
+   }
 }
+
+private const val BENCHMARK_AUTO_LOGIN_EXTRA = "BENCHMARK_AUTO_LOGIN"

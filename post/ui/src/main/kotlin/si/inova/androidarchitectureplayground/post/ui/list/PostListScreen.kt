@@ -1,5 +1,6 @@
 package si.inova.androidarchitectureplayground.post.ui.list
 
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -56,6 +57,8 @@ class PostListScreen(
       val data = viewModel.postList.collectAsStateWithLifecycleAndBlinkingPrevention(
          doNotWaitForInterimLoadings = true
       ).value
+
+      ReportDrawnWhen { data != null && data !is Outcome.Progress }
 
       if (data != null) {
          PostListContent(

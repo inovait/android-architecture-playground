@@ -72,7 +72,9 @@ kotlin {
 dependencies {
    add("coreLibraryDesugaring", libs.desugarJdkLibs)
 
-   add("androidTestImplementation", libs.kotest.assertions)
+   if (configurations.findByName("androidTestImplementation") != null) {
+      add("androidTestImplementation", libs.kotest.assertions)
+   }
 }
 
 // Even empty android test tasks take a while to execute. Disable all of them by default.

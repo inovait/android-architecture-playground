@@ -23,6 +23,7 @@ dependencies {
    implementation(projects.post.api)
 
    implementation(libs.kotlinova.core)
+   implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.compose.material)
    implementation(libs.coil)
 

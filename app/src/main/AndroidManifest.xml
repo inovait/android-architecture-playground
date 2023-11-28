@@ -15,8 +15,8 @@
         android:networkSecurityConfig="@xml/network_security"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AndroidArchitecturePlayground"
-        tools:targetApi="33">
+        android:theme="@style/Theme.AndroidArchitecturePlayground">
+        <profileable android:shell="true" />
 
         <!--
             Compose handles all of those config changes for us, so for 100% compose app, we do not need to recreate the activity.

@@ -1,5 +1,6 @@
 package si.inova.androidarchitectureplayground
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,7 +35,6 @@ import si.inova.kotlinova.navigation.di.NavigationInjection
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.simplestack.RootNavigationContainer
 import javax.inject.Inject
-import javax.inject.Provider
 
 class MainActivity : ComponentActivity() {
    @Inject
@@ -50,9 +50,9 @@ class MainActivity : ComponentActivity() {
    lateinit var dateFormatter: AndroidDateTimeFormatter
 
    @Inject
-   lateinit var viewModelProvider: Provider<MainViewModel>
+   lateinit var mainViewModelFactory: MainViewModel.Factory
 
-   private val viewModel by viewModels<MainViewModel>() { ViewModelFactory() }
+   private val viewModel by viewModels<MainViewModel>() { ViewModelFactory(intent) }
    private var initComplete = false
 
    override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,10 +117,10 @@ class MainActivity : ComponentActivity() {
       }
    }
 
-   private inner class ViewModelFactory : ViewModelProvider.Factory {
+   private inner class ViewModelFactory(private val startIntent: Intent) : ViewModelProvider.Factory {
       override fun <T : ViewModel> create(modelClass: Class<T>): T {
          @Suppress("UNCHECKED_CAST")
-         return viewModelProvider.get() as T
+         return mainViewModelFactory.create(startIntent) as T
       }
    }
 }
