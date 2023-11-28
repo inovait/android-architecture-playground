@@ -111,6 +111,13 @@ android {
          signingConfig = signingConfigs.getByName("debug")
       }
 
+      create("benchmark") {
+         isDebuggable = true
+         initWith(buildTypes.getByName("release"))
+         signingConfig = signingConfigs.getByName("debug")
+         matchingFallbacks += listOf("release")
+      }
+
       getByName("release") {
          isMinifyEnabled = true
          isShrinkResources = true
@@ -155,6 +162,8 @@ dependencies {
    androidTestImplementation(libs.androidx.test.runner)
    androidTestUtil(libs.androidx.test.orchestrator)
    testImplementation(libs.junit4)
+
+   add("benchmarkImplementation", libs.androidx.profileInstaller)
 }
 
 abstract class GitVersionTask : DefaultTask() {
