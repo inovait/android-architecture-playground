@@ -164,6 +164,7 @@ dependencies {
    testImplementation(libs.junit4)
 
    add("benchmarkImplementation", libs.androidx.profileInstaller)
+   add("benchmarkImplementation", libs.androidx.compose.tracing)
 }
 
 abstract class GitVersionTask : DefaultTask() {
