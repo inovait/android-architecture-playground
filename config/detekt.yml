@@ -659,6 +659,7 @@ style:
     ignoreAnnotated:
       - 'Preview'
       - 'FullScreenPreviews'
+      - 'Test'
   MandatoryBracesLoops:
     active: true
   MaxLineLength:
