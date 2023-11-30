@@ -176,7 +176,7 @@ abstract class GitVersionTask : DefaultTask() {
 }
 
 val gitVersionProvider = tasks.register<GitVersionTask>("gitVersionProvider") {
-   val targetFile = File(project.buildDir, "intermediates/gitVersionProvider/output")
+   val targetFile = File(project.layout.buildDirectory.asFile.get(), "intermediates/gitVersionProvider/output")
 
    targetFile.also {
       it.parentFile.mkdirs()
