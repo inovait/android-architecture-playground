@@ -14,6 +14,10 @@ android {
       }
    }
 
+   defaultConfig {
+      testInstrumentationRunnerArguments["androidx.benchmark.perfettoSdkTracing.enable"] = "true"
+   }
+
    targetProjectPath = ":app"
    experimentalProperties["android.experimental.self-instrumenting"] = true
 }
@@ -28,6 +32,8 @@ dependencies {
    implementation(libs.androidx.test.uiautomator)
    implementation(libs.androidx.benchmark.macro.junit4)
    implementation(libs.androidx.profileInstaller)
+   implementation(libs.androidx.perfetto)
+   implementation(libs.androidx.perfetto.binary)
    implementation(libs.kotest.assertions)
 }
 
