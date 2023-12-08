@@ -17,6 +17,7 @@ if (isAndroidProject()) {
          abortOnError = true
 
          warningsAsErrors = true
+         sarifReport = true
       }
    }
 }
@@ -42,6 +43,10 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
       sarif.required.set(true)
    }
 
+   finalizedBy(":reportMerge")
+}
+
+tasks.withType<com.android.build.gradle.internal.lint.AndroidLintTask>().configureEach {
    finalizedBy(":reportMerge")
 }
 
