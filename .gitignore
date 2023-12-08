@@ -21,3 +21,5 @@
 .cxx
 local.properties
 /.idea/deploymentTargetDropDown.xml
+/.idea/migrations.xml
+/merge.sarif
