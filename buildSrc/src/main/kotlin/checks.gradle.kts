@@ -1,6 +1,5 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.the
 import util.commonAndroid
 import util.isAndroidProject
 
@@ -41,6 +40,14 @@ tasks.withType<DependencyUpdatesTask> {
 
 detekt {
    config.setFrom("$rootDir/config/detekt.yml")
+}
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+   reports {
+      sarif.required.set(true)
+   }
+
+   finalizedBy(":reportMerge")
 }
 
 dependencies {
