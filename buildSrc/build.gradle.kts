@@ -64,7 +64,7 @@ dependencies {
 
    detektPlugins(libs.detekt.formatting)
    detektPlugins(libs.detekt.compilerWarnings)
-   detektPlugins(libs.detekt.twitterCompose)
+   detektPlugins(libs.detekt.compose)
 }
 
 tasks.register("pre-commit-hook", Copy::class) {

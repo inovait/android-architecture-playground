@@ -25,7 +25,7 @@ dagger = "2.48.1"
 desugarJdkLibs = "2.0.4"
 detekt = "1.23.3"
 detekt-compilerWarnings = "0.0.4"
-detekt-twitterCompose = "0.0.26"
+detekt-compose = "0.3.3"
 dispatch = "1.0.0-beta10"
 kotlin = "1.9.20"
 kotlin-coroutines = "1.7.3"
@@ -95,7 +95,7 @@ dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = 
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-compilerWarnings = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "detekt-compilerWarnings" }
-detekt-twitterCompose = { module = "com.twitter.compose.rules:detekt", version.ref = "detekt-twitterCompose" }
+detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt-compose" }
 desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 dispatch = { module = "com.rickbusarow.dispatch:dispatch-core", version.ref = "dispatch" }
 dispatch-espresso = { module = "com.rickbusarow.dispatch:dispatch-android-espresso", version.ref = "dispatch" }
