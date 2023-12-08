@@ -48,5 +48,5 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 dependencies {
    detektPlugins(libs.detekt.formatting)
    detektPlugins(libs.detekt.compilerWarnings)
-   detektPlugins(libs.detekt.twitterCompose)
+   detektPlugins(libs.detekt.compose)
 }
