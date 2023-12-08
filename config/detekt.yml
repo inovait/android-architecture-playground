@@ -773,7 +773,7 @@ style:
   WildcardImport:
     active: true
 
-TwitterCompose:
+Compose:
   CompositionLocalAllowlist:
     active: false
     # You can optionally define a list of CompositionLocals that are allowed here
@@ -810,6 +810,7 @@ TwitterCompose:
     active: true
     # You can optionally disable that only previews with @PreviewParameter are flagged
     # previewPublicOnlyIfParams: false
+    ignoreAnnotated: [ 'ShowkaseComposable' ]
   RememberMissing:
     active: true
   UnstableCollections:
