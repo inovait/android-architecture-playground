@@ -41,7 +41,7 @@ subprojects {
          provider { configuredLintTasks }.flatMap { list ->
             provider {
                list.map { lintTask ->
-                  val variant = lintTask.variantInputs.name.get()
+                  val variant = lintTask.variantName
                   lintTask.project.layout.buildDirectory.file(
                      "reports/lint-results-$variant.sarif"
                   ).get()
