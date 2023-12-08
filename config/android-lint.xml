@@ -11,4 +11,7 @@
 
     <issue id="AllowBackup" severity="ignore" />
     <issue id="GoogleAppIndexingWarning" severity="ignore" />
+
+    <!-- We decide when we update target SDK, not lint -->
+    <issue id="OldTargetApi" severity="ignore" />
 </lint>
