@@ -21,6 +21,12 @@ detekt {
    config.setFrom("$projectDir/../config/detekt.yml", "$projectDir/../config/detekt-buildSrc.yml")
 }
 
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+   reports {
+      sarif.required.set(true)
+   }
+}
+
 tasks.withType<DependencyUpdatesTask> {
    gradleReleaseChannel = "current"
 

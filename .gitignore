@@ -20,3 +20,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/migrations.xml
+/merge.sarif
