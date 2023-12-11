@@ -1,7 +1,3 @@
-// https://youtrack.jetbrains.com/issue/KTIJ-19369
-// AGP 7.4.0 has a bug where it marks most things as incubating
-@file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
-
 import com.android.build.api.variant.BuildConfigField
 import java.io.FileNotFoundException
 
