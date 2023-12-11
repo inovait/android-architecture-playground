@@ -305,7 +305,7 @@ formatting:
   Filename:
     active: true
   FinalNewline:
-    active: true
+    active: false
     autoCorrect: false
     insertFinalNewLine: true
   ImportOrdering:
@@ -333,7 +333,7 @@ formatting:
     active: true
     autoCorrect: false
   NoEmptyClassBody:
-    active: true
+    active: false
     autoCorrect: false
   NoEmptyFirstLineInMethodBlock:
     active: true
