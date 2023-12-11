@@ -2,8 +2,10 @@ package si.inova.androidarchitectureplayground.benchmark
 
 import android.content.ComponentName
 import android.content.Intent
+import androidx.benchmark.macro.ExperimentalMetricApi
 import androidx.benchmark.macro.StartupMode
 import androidx.benchmark.macro.StartupTimingMetric
+import androidx.benchmark.macro.TraceSectionMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import org.junit.Rule
 import org.junit.Test
@@ -23,11 +25,13 @@ class StartupBenchmark {
    @get:Rule
    val benchmarkRule = MacrobenchmarkRule()
 
+   @OptIn(ExperimentalMetricApi::class)
    @Test
    fun startup() {
       benchmarkRule.measureRepeated(
          packageName = "si.inova.androidarchitectureplayground",
-         metrics = listOf(StartupTimingMetric()),
+         // JIT compilation is the amount of JIT that our app needed. If this number gets high, we need to update baseline profile
+         metrics = listOf(StartupTimingMetric(), TraceSectionMetric("JIT compiling %", TraceSectionMetric.Mode.Sum)),
          iterations = 5,
          startupMode = StartupMode.COLD,
       ) {

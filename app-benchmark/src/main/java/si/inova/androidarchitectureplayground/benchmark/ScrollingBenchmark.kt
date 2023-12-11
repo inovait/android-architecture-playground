@@ -3,8 +3,10 @@ package si.inova.androidarchitectureplayground.benchmark
 import android.content.ComponentName
 import android.content.Intent
 import android.util.TypedValue
+import androidx.benchmark.macro.ExperimentalMetricApi
 import androidx.benchmark.macro.FrameTimingMetric
 import androidx.benchmark.macro.StartupMode
+import androidx.benchmark.macro.TraceSectionMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
@@ -26,11 +28,13 @@ class ScrollingBenchmark {
    @get:Rule
    val benchmarkRule = MacrobenchmarkRule()
 
+   @OptIn(ExperimentalMetricApi::class)
    @Test
    fun scrollUpAndDown() {
       benchmarkRule.measureRepeated(
          packageName = "si.inova.androidarchitectureplayground",
-         metrics = listOf(FrameTimingMetric()),
+         // JIT compilation is the amount of JIT that our app needed. If this number gets high, we need to update baseline profile
+         metrics = listOf(FrameTimingMetric(), TraceSectionMetric("JIT compiling %", TraceSectionMetric.Mode.Sum)),
          iterations = 5,
          startupMode = StartupMode.WARM,
          setupBlock = {
