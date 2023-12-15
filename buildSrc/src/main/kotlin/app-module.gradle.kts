@@ -40,6 +40,13 @@ afterEvaluate {
    }
 }
 
+tasks.register("printVersionName") {
+   val versionName = android.defaultConfig.versionName
+   doLast {
+      println(versionName)
+   }
+}
+
 dependencies {
    implementation(libs.dagger.runtime)
    kapt(libs.dagger.compiler)

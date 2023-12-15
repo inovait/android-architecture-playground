@@ -1,0 +1,154 @@
+name: develop-build
+run-name: Develop build of the app
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+env:
+  BUILD_NUMBER: ${{ github.run_number }}
+jobs:
+  build-app:
+    runs-on: "android"
+    steps:
+      # Preparation
+
+      - name: Install screenshot test dependencies
+        run: "sudo apt-get install -y libfreetype6 fontconfig fonts-dejavu"
+      - name: Globally enable build cache and parallel execution
+        run: "echo -e 'org.gradle.caching=true\norg.gradle.parallel=true' >> ~/.gradle/gradle.properties"
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: inovait/actions-common/android-setup@v5
+        with:
+          java-version: 17
+
+      # Get current version, so it can be used for spotlight later
+      - name: Retrieve Version
+        run: |
+          echo "::set-output name=VERSION_NAME::$(${{github.workspace}}/gradlew -q app:printVersionName)"
+        id: android_version
+
+      # Build app
+
+      - name: Compile app
+        run: "./gradlew compileDebugKotlin assembleRelease"
+        env:
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+      - name: "Upload proguard mappings"
+        uses: actions/upload-artifact@v3
+        with:
+          name: mapping-app-develop-release.txt
+          path: app/build/outputs/mapping/developRelease/mapping.txt
+
+      # Tests
+
+      - name: Lint
+        run: "./gradlew lintRelease detektRelease detektReleaseAndroidTest detektReleaseUnitTest assertModuleGraph"
+      - name: Compile Unit Tests
+        run: "./gradlew compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest"
+      - name: Run Unit Tests
+        run: "./gradlew test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest"
+      - name: Run Android Emulator tests
+        uses: inovait/actions-common/android-run-with-emulator@v2
+        with:
+          command: './gradlew connectedAndroidTest'
+      - name: "Run Screenshot Tests"
+        run: "./gradlew --continue verifyPaparazziDebug"
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          comment_mode: failures
+          junit_files: |
+            **/build/outputs/*-results/**/*.xml
+            **/build/*-results/**/*.xml
+      # Need separate detekt publish until version with https://github.com/detekt/detekt/issues/4165 fix is published
+      - name: Publish Detekt results
+        uses: cmelchior/checkstyle-github-action@v0.8.4
+        if: always()
+        with:
+          path: '**/build/reports/detekt/*.xml'
+      - name: Post SARIF findings in the pull request
+        if: failure()
+        uses: yeaung276/sarif-annotator@1.0.1
+        with:
+          sarif_path: 'merge.sarif'
+      - name: "Upload Screenshot test failures"
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: failed-screenshot-tests
+          path: app-screenshot-tests/out
+
+      # Spotlight
+
+      - name: Generate Changelog
+        uses: inovait/actions-common/changelog-since-last-build@v3
+        with:
+          git_commit_url_prefix: 'ENTER_YOUR_PROJECT_GITHUB_HERE'
+          jira_url: 'ENTER_YOUR_PROJECT_JIRA_HERE'
+          target_file: "CHANGELOG.MD"
+      - name: Publish to spotlight
+        uses: inovait/actions-common/spotlight-publish@v2
+        with:
+          api_key: 'ENTER_YOUR_PROJECT_SPOTLIGHT_KEY_HERE'
+          destination: 'release'
+          version: "${{steps.android_version.outputs.VERSION_NAME}}"
+          track: "Develop"
+          files: |
+            app/build/outputs/**/*-release.apk
+            CHANGELOG.MD
+
+      # Jira
+
+      - name: Login to Jira
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: 'ENTER_YOUR_PROJECT_JIRA_HERE'
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      - name: Get jira tickets since last build
+        uses: inovait/actions-common/jira-get-tickets-since-last-build@v3
+        id: jira-tickets
+      - name: Make a jira comment about a new release
+        uses: inovait/actions-common/jira-comment@v4
+        with:
+          tickets: "${{ steps.jira-tickets.outputs.tickets }}"
+          comment: |
+            {
+              "version": 1,
+              "type": "doc",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "This ticket is included in build "
+                    },
+                    {
+                      "type": "text",
+                      "text": "${{ github.run_number }}",
+                      "marks": [
+                        {
+                          "type": "link",
+                          "attrs": {
+                            "href": "https://inuit-a4304.firebaseapp.com/MY-PROJECT/builds/TRACK/1.2.${{ github.run_number }}"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+      - name: Transition tickets to Ready for Test
+        uses: inovait/actions-common/jira-transition@v4
+        with:
+          tickets: "${{ steps.jira-tickets.outputs.tickets }}"
+          from: 'In Progress'
+          to: 'Ready to Test'

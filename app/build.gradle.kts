@@ -21,7 +21,7 @@ android {
       applicationId = "si.inova.androidarchitectureplayground"
       targetSdk = 33
       versionCode = 1
-      versionName = "1.0"
+      versionName = "1.0-${System.getenv("BUILD_NUMBER") ?: "local"}"
 
       testInstrumentationRunner = "si.inova.androidarchitectureplayground.instrumentation.TestRunner"
       testInstrumentationRunnerArguments += "clearPackageData" to "true"

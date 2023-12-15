@@ -1,0 +1,74 @@
+name: pull-request-build
+run-name: "#${{ github.event.pull_request.number}} ${{ github.event.pull_request.title}}"
+on:
+  pull_request:
+    types: [ 'opened', 'reopened', 'synchronize' ]
+jobs:
+  build-app:
+    runs-on: "android"
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    steps:
+      # Preparation
+
+      - name: Install screenshot test dependencies
+        run: "sudo apt-get install -y libfreetype6 fontconfig fonts-dejavu"
+      - name: Globally enable build cache and parallel execution
+        run: "echo -e 'org.gradle.caching=true\norg.gradle.parallel=true' >> ~/.gradle/gradle.properties"
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: inovait/actions-common/android-setup@v5
+        with:
+          java-version: 17
+
+      # Build
+
+      - name: Compile app
+        run: "./gradlew compileReleaseotlin assembleDebug"
+        env:
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+
+      # Tests
+
+      - name: Lint
+        run: "./gradlew lintRelease detektRelease detektReleaseAndroidTest detektReleaseUnitTest assertModuleGraph"
+      - name: Compile Unit Tests
+        run: "./gradlew compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest"
+      - name: Run Unit Tests
+        run: "./gradlew test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest"
+      - name: Run Android Emulator tests
+        uses: inovait/actions-common/android-run-with-emulator@main
+        with:
+          command: './gradlew connectedAndroidTest'
+      - name: "Generate new Screenshot Tests"
+        run: "config/generate-screenshots.sh ${{ github.event.pull_request.head.ref }}"
+      - name: "Run Screenshot Tests"
+        run: "./gradlew --continue verifyPaparazziDebug"
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          comment_mode: failures
+          junit_files: |
+            **/build/outputs/*-results/**/*.xml
+            **/build/*-results/**/*.xml
+      # Need separate detekt publish until version with https://github.com/detekt/detekt/issues/4165 fix is published
+      - name: Publish Detekt results
+        uses: cmelchior/checkstyle-github-action@v0.8.4
+        if: always()
+        with:
+          path: '**/build/reports/detekt/*.xml'
+      - name: Post SARIF findings in the pull request
+        if: failure()
+        uses: yeaung276/sarif-annotator@1.0.1
+        with:
+          sarif_path: 'merge.sarif'
+      - name: "Upload Screenshot test failures"
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: failed-screenshot-tests
+          path: app-screenshot-tests/out
