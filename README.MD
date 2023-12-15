@@ -15,6 +15,7 @@ Features include:
 * Unit tests for UI and all logic code
 * Integration tests that test the whole app, optimized with R8
 * Easy to use screenshot tests
+* Macrobenchmark
 
 See also other branches:
 
