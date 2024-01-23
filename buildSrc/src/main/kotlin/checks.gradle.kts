@@ -1,5 +1,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.accessors.dm.LibrariesForLibs
+import si.inova.kotlinova.gradle.KotlinovaExtension
 import util.commonAndroid
 import util.isAndroidProject
 
@@ -8,6 +9,7 @@ val libs = the<LibrariesForLibs>()
 plugins {
    id("com.github.ben-manes.versions")
    id("io.gitlab.arturbosch.detekt")
+   id("kotlinova")
 }
 
 if (isAndroidProject()) {
@@ -43,12 +45,12 @@ detekt {
    config.setFrom("$rootDir/config/detekt.yml")
 }
 
-tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-   reports {
-      sarif.required.set(true)
-   }
+configure<KotlinovaExtension> {
+   mergeDetektSarif = true
 
-   finalizedBy(":reportMerge")
+   if (isAndroidProject()) {
+      mergeAndroidLintSarif = true
+   }
 }
 
 tasks.withType<com.android.build.gradle.internal.lint.AndroidLintTask>().configureEach {
