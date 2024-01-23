@@ -47,10 +47,11 @@ detekt {
 
 configure<KotlinovaExtension> {
    mergeDetektSarif = true
-
    if (isAndroidProject()) {
       mergeAndroidLintSarif = true
    }
+
+   enableDetektPreCommitHook = true
 }
 
 tasks.withType<com.android.build.gradle.internal.lint.AndroidLintTask>().configureEach {
