@@ -1,3 +1,5 @@
+import si.inova.kotlinova.gradle.benchmarkupload.GoogleCloudBenchmarkUpload
+
 plugins {
    id("com.android.test")
    commonAndroid
@@ -41,4 +43,24 @@ androidComponents {
    beforeVariants(selector().all()) {
       it.enable = it.buildType == "benchmark"
    }
+}
+
+val benchmarkResultsUpload by tasks.registering(GoogleCloudBenchmarkUpload::class) {
+   googleCloudProjectId = "android-architecture-playground"
+
+   benchmarkResultFiles.from(
+      fileTree("results") {
+         include("*-portrait/artifacts/sdcard/Download/*-benchmarkData.json")
+      }
+   )
+
+   metricMap.putAll(
+      mapOf(
+         "JIT compiling %Count" to "jit_count",
+         "JIT compiling %Ms" to "jit_duration",
+         "frameDurationCpuMs" to "frame_duration",
+         "timeToFullDisplayMs" to "time_to_full_display",
+         "timeToInitialDisplayMs" to "time_to_initial_display",
+      )
+   )
 }
