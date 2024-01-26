@@ -12,6 +12,16 @@
     <issue id="AllowBackup" severity="ignore" />
     <issue id="GoogleAppIndexingWarning" severity="ignore" />
 
+    <!--
+Ignore unknown issue id to allow us to configure issues in this file  that
+    do not appear in all modules (for example compose-specific)
+-->
+    <issue id="UnknownIssueId" severity="ignore" />
+
+    <!-- Do not allow builds to pass with autoboxing -->
+    <issue id="AutoboxingStateCreation" severity="error" />
+
+
     <!-- We decide when we update target SDK, not lint -->
     <issue id="OldTargetApi" severity="ignore" />
 </lint>
