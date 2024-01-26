@@ -35,6 +35,12 @@ moduleGraphAssert {
    )
 }
 
+android {
+   lint {
+      checkDependencies = true
+   }
+}
+
 // Workaround for the https://github.com/square/anvil/issues/693
 afterEvaluate {
    tasks.named("kaptGenerateStubsDebugKotlin") {
