@@ -55,17 +55,17 @@ jobs:
           junit_files: |
             **/build/outputs/*-results/**/*.xml
             **/build/*-results/**/*.xml
-      # Need separate detekt publish until version with https://github.com/detekt/detekt/issues/4165 fix is published
-      - name: Publish Detekt results
-        uses: cmelchior/checkstyle-github-action@v0.8.4
+      - name: Post SARIF findings as comments in the pull request
         if: always()
+        uses: inovait/sarif-to-comment-action/composite@v1
         with:
-          path: '**/build/reports/detekt/*.xml'
-      - name: Post SARIF findings in the pull request
-        if: failure()
-        uses: yeaung276/sarif-annotator@1.0.1
-        with:
-          sarif_path: 'merge.sarif'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          branch: ${{ github.head_ref }}
+          pr-number: ${{ github.event.number }}
+          title: Lint report
+          show-rule-details: false
+          sarif-file: 'merge.sarif'
       - name: "Upload Screenshot test failures"
         uses: actions/upload-artifact@v3
         if: failure()
