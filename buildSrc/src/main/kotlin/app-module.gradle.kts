@@ -41,13 +41,6 @@ android {
    }
 }
 
-// Workaround for the https://github.com/square/anvil/issues/693
-afterEvaluate {
-   tasks.named("kaptGenerateStubsDebugKotlin") {
-      outputs.upToDateWhen { false }
-   }
-}
-
 dependencies {
    implementation(libs.dagger.runtime)
    kapt(libs.dagger.compiler)
