@@ -41,13 +41,6 @@ android {
    }
 }
 
-// Workaround for the https://github.com/square/anvil/issues/693
-afterEvaluate {
-   tasks.named("kaptGenerateStubsDebugKotlin") {
-      outputs.upToDateWhen { false }
-   }
-}
-
 tasks.register("printVersionName") {
    val versionName = android.defaultConfig.versionName
    doLast {

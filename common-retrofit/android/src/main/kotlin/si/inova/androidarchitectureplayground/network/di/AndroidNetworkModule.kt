@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @ContributesTo(ApplicationScope::class)
 abstract class AndroidNetworkModule {
    @Binds
-   abstract fun AndroidServiceFactory.bindToServiceFactory(): ServiceFactory
+   abstract fun bindToServiceFactory(androidServiceFactory: AndroidServiceFactory): ServiceFactory
 
    companion object {
       @Provides

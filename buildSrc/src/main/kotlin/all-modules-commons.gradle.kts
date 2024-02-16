@@ -7,6 +7,10 @@ plugins {
    id("com.squareup.anvil")
 }
 
+anvil {
+   trackSourceFiles = true
+}
+
 dependencies {
    add("implementation", libs.dagger.runtime)
 
