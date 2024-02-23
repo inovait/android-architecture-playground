@@ -6,8 +6,8 @@ import si.inova.androidarchitectureplaygroud.post.network.model.PostsDto
 import si.inova.kotlinova.retrofit.FakeService
 import si.inova.kotlinova.retrofit.ServiceTestingHelper
 
-class FakePostsService(private val serviceTestingHelper: ServiceTestingHelper = ServiceTestingHelper()) : PostsService,
-   FakeService by serviceTestingHelper {
+class FakePostsService(private val serviceTestingHelper: ServiceTestingHelper = ServiceTestingHelper()) :
+   PostsService, FakeService by serviceTestingHelper {
    var providedPosts: List<LightPostDto>? = null
    private val providedPostDetails: MutableMap<Int, PostDto> = HashMap()
    var lastReceivedLimitSkip: Pair<Int?, Int?>? = null

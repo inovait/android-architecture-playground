@@ -27,8 +27,7 @@ class OffsetDatabaseBackedPaginatedDataStreamTest {
    private val database =
       MutableStateFlow(DatabaseResult<Int>(emptyList(), true))
 
-   private
-   val networkInterceptor = ServiceTestingHelper()
+   private val networkInterceptor = ServiceTestingHelper()
 
    private var providedNumbers = createNumbers(0, 30)
 

@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
    private var initComplete = false
 
    override fun onCreate(savedInstanceState: Bundle?) {
-      (application as MyApplication).applicationComponent.inject(this)
+      (requireNotNull(application) as MyApplication).applicationComponent.inject(this)
       super.onCreate(savedInstanceState)
 
       val splashScreen = installSplashScreen()

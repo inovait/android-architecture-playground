@@ -8,6 +8,7 @@ import com.squareup.anvil.annotations.ContributesBinding
 import dispatch.core.dispatcherProvider
 import dispatch.core.withIO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
@@ -57,39 +58,50 @@ class PostsRepositoryImpl @Inject constructor(
                val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
                val initialPost = initialDbPost?.toPost()
 
-               if (force || initialDbPost == null || !initialDbPost.isValidForPostDetails(deadline)) {
-                  if (initialDbPost != null) {
-                     emit(Outcome.Progress(initialPost))
-                  }
-
-                  try {
-                     val dbPost = postsService.getPost(id).toDb(timeProvider.currentTimeMillis())
-                     withIO {
-                        postDb.insert(dbPost)
-                     }
-                  } catch (e: BackendException) {
-                     val error = if (e.backendMessage.contains("not found")) {
-                        UnknownPostException("Unknown post $id", e)
-                     } else {
-                        UnknownCauseException(cause = e)
-                     }
-
-                     emit(Outcome.Error(error, initialPost))
-                     return@flow
-                  } catch (e: CauseException) {
-                     emit(Outcome.Error(e, initialPost))
-                     return@flow
-                  } catch (e: Exception) {
-                     emit(Outcome.Error(UnknownCauseException(cause = e), initialPost))
-                     return@flow
-                  }
-               }
+               if (!loadFromNetwork(force, initialDbPost, deadline, initialPost, id)) return@flow
 
                emitAll(
                   dbQuery.asFlow().mapToOne(coroutineContext.dispatcherProvider.io).map { Outcome.Success(it.toPost()) }
                )
             }
          }
+   }
+
+   private suspend fun FlowCollector<Outcome<Post>>.loadFromNetwork(
+      force: Boolean,
+      initialDbPost: DbPost?,
+      deadline: Long,
+      initialPost: Post?,
+      id: Int
+   ): Boolean {
+      if (force || initialDbPost == null || !initialDbPost.isValidForPostDetails(deadline)) {
+         if (initialDbPost != null) {
+            emit(Outcome.Progress(initialPost))
+         }
+
+         try {
+            val dbPost = postsService.getPost(id).toDb(timeProvider.currentTimeMillis())
+            withIO {
+               postDb.insert(dbPost)
+            }
+         } catch (e: BackendException) {
+            val error = if (e.backendMessage.contains("not found")) {
+               UnknownPostException("Unknown post $id", e)
+            } else {
+               UnknownCauseException(cause = e)
+            }
+
+            emit(Outcome.Error(error, initialPost))
+            return false
+         } catch (e: CauseException) {
+            emit(Outcome.Error(e, initialPost))
+            return false
+         } catch (e: Exception) {
+            emit(Outcome.Error(UnknownCauseException(cause = e), initialPost))
+            return false
+         }
+      }
+      return true
    }
 
    private suspend fun loadPostsFromNetwork(

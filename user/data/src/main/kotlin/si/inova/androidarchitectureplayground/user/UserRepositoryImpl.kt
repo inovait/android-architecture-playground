@@ -8,6 +8,7 @@ import com.squareup.anvil.annotations.ContributesBinding
 import dispatch.core.dispatcherProvider
 import dispatch.core.withIO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
@@ -57,39 +58,50 @@ class UserRepositoryImpl @Inject constructor(
                val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
                val initialUser = initialDbUser?.toUser()
 
-               if (force || initialDbUser == null || !initialDbUser.isValidForUserDetails(deadline)) {
-                  if (initialDbUser != null) {
-                     emit(Outcome.Progress(initialUser))
-                  }
-
-                  try {
-                     val dbUser = usersService.getUser(id).toDb(timeProvider.currentTimeMillis())
-                     withIO {
-                        userDb.insert(dbUser)
-                     }
-                  } catch (e: BackendException) {
-                     val error = if (e.backendMessage.contains("not found")) {
-                        UnknownUserException(e)
-                     } else {
-                        UnknownCauseException(cause = e)
-                     }
-
-                     emit(Outcome.Error(error, initialUser))
-                     return@flow
-                  } catch (e: CauseException) {
-                     emit(Outcome.Error(e, initialUser))
-                     return@flow
-                  } catch (e: Exception) {
-                     emit(Outcome.Error(UnknownCauseException(cause = e), initialUser))
-                     return@flow
-                  }
-               }
+               if (!loadFromNetwork(force, initialDbUser, deadline, initialUser, id)) return@flow
 
                emitAll(
                   dbQuery.asFlow().mapToOne(coroutineContext.dispatcherProvider.io).map { Outcome.Success(it.toUser()) }
                )
             }
          }
+   }
+
+   private suspend fun FlowCollector<Outcome<User>>.loadFromNetwork(
+      force: Boolean,
+      initialDbUser: DbUser?,
+      deadline: Long,
+      initialUser: User?,
+      id: Int
+   ): Boolean {
+      if (force || initialDbUser == null || !initialDbUser.isValidForUserDetails(deadline)) {
+         if (initialDbUser != null) {
+            emit(Outcome.Progress(initialUser))
+         }
+
+         try {
+            val dbUser = usersService.getUser(id).toDb(timeProvider.currentTimeMillis())
+            withIO {
+               userDb.insert(dbUser)
+            }
+         } catch (e: BackendException) {
+            val error = if (e.backendMessage.contains("not found")) {
+               UnknownUserException(e)
+            } else {
+               UnknownCauseException(cause = e)
+            }
+
+            emit(Outcome.Error(error, initialUser))
+            return false
+         } catch (e: CauseException) {
+            emit(Outcome.Error(e, initialUser))
+            return false
+         } catch (e: Exception) {
+            emit(Outcome.Error(UnknownCauseException(cause = e), initialUser))
+            return false
+         }
+      }
+      return true
    }
 
    private suspend fun loadUsersFromNetwork(

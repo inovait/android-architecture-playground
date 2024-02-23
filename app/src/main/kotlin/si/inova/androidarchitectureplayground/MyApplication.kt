@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
+import android.os.strictmode.Violation
 import androidx.core.content.ContextCompat
 import dispatch.core.DefaultDispatcherProvider
 import si.inova.androidarchitectureplayground.di.ApplicationComponent
@@ -68,22 +69,7 @@ open class MyApplication : Application() {
             .detectLeakedRegistrationObjects()
             .detectLeakedSqlLiteObjects()
             .penaltyListener(ContextCompat.getMainExecutor(this@MyApplication)) { e ->
-               if (
-                  e.cause == null &&
-                  e.stackTrace.any {
-                     it.className.contains("UnixSecureDirectoryStream") ||
-                        it.className.contains("UnixDirectoryStream")
-                  }
-               ) {
-                  // workaround for the https://issuetracker.google.com/issues/270704908
-                  return@penaltyListener
-               }
-
-               if (BuildConfig.DEBUG) {
-                  throw e
-               } else {
-                  errorReporter.get().report(e)
-               }
+               reportStrictModePenalty(e)
             }
             .build()
       )
@@ -105,6 +91,25 @@ open class MyApplication : Application() {
             }
             .build()
       )
+   }
+
+   private fun reportStrictModePenalty(e: Violation) {
+      if (
+         e.cause == null &&
+         e.stackTrace.any {
+            it.className.contains("UnixSecureDirectoryStream") ||
+               it.className.contains("UnixDirectoryStream")
+         }
+      ) {
+         // workaround for the https://issuetracker.google.com/issues/270704908
+         return
+      }
+
+      if (BuildConfig.DEBUG) {
+         throw e
+      } else {
+         errorReporter.get().report(e)
+      }
    }
 
    open val applicationComponent: ApplicationComponent by lazy {

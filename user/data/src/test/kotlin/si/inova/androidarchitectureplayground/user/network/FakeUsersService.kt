@@ -6,8 +6,8 @@ import si.inova.androidarchitectureplayground.user.network.model.UsersDto
 import si.inova.kotlinova.retrofit.FakeService
 import si.inova.kotlinova.retrofit.ServiceTestingHelper
 
-class FakeUsersService(private val serviceTestingHelper: ServiceTestingHelper = ServiceTestingHelper()) : UsersService,
-   FakeService by serviceTestingHelper {
+class FakeUsersService(private val serviceTestingHelper: ServiceTestingHelper = ServiceTestingHelper()) :
+   UsersService, FakeService by serviceTestingHelper {
    var providedUsers: List<LightUserDto>? = null
    private val providedUserDetails: MutableMap<Int, UserDto> = HashMap()
    var lastReceivedLimitSkip: Pair<Int?, Int?>? = null

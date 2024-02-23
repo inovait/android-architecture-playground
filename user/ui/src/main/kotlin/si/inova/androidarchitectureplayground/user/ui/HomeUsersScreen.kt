@@ -6,12 +6,10 @@ import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenK
 import si.inova.androidarchitectureplayground.ui.screens.MasterDetailScreen
 import si.inova.androidarchitectureplayground.user.ui.list.UserListScreen
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
-import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding(boundType = Screen::class)
 class HomeUsersScreen(
-   private val navigator: Navigator,
    private val userListScreen: UserListScreen,
    private val userDetailsScreen: Screen<UserDetailsScreenKey>,
 ) : MasterDetailScreen<HomeUsersScreenKey, UserDetailsScreenKey>() {

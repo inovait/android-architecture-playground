@@ -39,8 +39,8 @@ fun UserDto.toDb(lastUpdate: Long): DbUser {
       gender = gender,
       email = email,
       phone = phone,
-      hair_color = hair.let { it.color },
-      hair_type = hair.let { it.type },
+      hair_color = hair.color,
+      hair_type = hair.type,
       full_data = true,
       last_update = lastUpdate
    )

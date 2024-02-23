@@ -15,13 +15,15 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
  * android {} block that can be used without applying specific android plugin
  */
 fun Project.commonAndroid(
-   block: Action<CommonExtension<
-      BuildFeatures,
-      BuildType,
-      DefaultConfig,
-      ProductFlavor,
-      AndroidResources
-      >>
+   block: Action<
+      CommonExtension<
+         BuildFeatures,
+         BuildType,
+         DefaultConfig,
+         ProductFlavor,
+         AndroidResources
+         >
+      >,
 ) {
    (this as org.gradle.api.plugins.ExtensionAware).extensions.configure("android", block)
 }

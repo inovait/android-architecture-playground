@@ -28,7 +28,7 @@ class UserListViewModel @Inject constructor(
       loadUserList()
    }
 
-   private fun loadUserList(force: Boolean = false) = resources.launchResourceControlTask(_userList) {
+   private fun loadUserList(force: Boolean = false): Unit = resources.launchResourceControlTask(_userList) {
       val list = userRepository.getAllUsers(force)
       userPaginatedList = list
 

@@ -51,12 +51,12 @@ class OffsetBasedPaginatedDataStream<T>(load: (nextOffset: Int) -> Flow<Outcome<
                val resultOutcome = when (outcome) {
                   is Outcome.Error -> {
                      anyDataLeft = false
-                     Outcome.Error(outcome.exception, currentList + (outcome.data ?: emptyList()))
+                     Outcome.Error(outcome.exception, currentList + (outcome.data.orEmpty()))
                   }
 
                   is Outcome.Progress -> {
                      Outcome.Progress(
-                        currentList + (outcome.data ?: emptyList()),
+                        currentList + (outcome.data.orEmpty()),
                         outcome.progress,
                         LoadingStyle.ADDITIONAL_DATA
                      )

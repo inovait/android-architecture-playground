@@ -30,7 +30,7 @@ class LoginRepositoryImpl @Inject constructor(
 
    override fun isLoggedInFlow(): Flow<Boolean> {
       return preferences.data
-         .map { it.get(loggedInPreference) ?: false }
+         .map { it.get(loggedInPreference) == true }
          .onEach { memoryCachedValue = it }
    }
 
