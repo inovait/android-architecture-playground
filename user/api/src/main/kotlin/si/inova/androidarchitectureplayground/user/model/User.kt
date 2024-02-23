@@ -9,10 +9,10 @@ data class User(
    val gender: String? = null,
    val email: String? = null,
    val phone: String? = null,
-   val hair: Hair? = null
+   val hair: Hair? = null,
 ) {
    data class Hair(
       val color: String,
-      val type: String
+      val type: String,
    )
 }

@@ -38,7 +38,7 @@ import kotlin.coroutines.coroutineContext
 class PostsRepositoryImpl @Inject constructor(
    private val postsService: PostsService,
    private val postDb: DbPostQueries,
-   private val timeProvider: TimeProvider
+   private val timeProvider: TimeProvider,
 ) : PostsRepository {
    override fun getAllPosts(force: Boolean): PaginatedDataStream<List<Post>> {
       return OffsetDatabaseBackedPaginatedDataStream<Post>(
@@ -72,7 +72,7 @@ class PostsRepositoryImpl @Inject constructor(
       initialDbPost: DbPost?,
       deadline: Long,
       initialPost: Post?,
-      id: Int
+      id: Int,
    ): Boolean {
       if (force || initialDbPost == null || !initialDbPost.isValidForPostDetails(deadline)) {
          if (initialDbPost != null) {
@@ -106,14 +106,14 @@ class PostsRepositoryImpl @Inject constructor(
 
    private suspend fun loadPostsFromNetwork(
       offset: Int,
-      limit: Int
+      limit: Int,
    ) = catchIntoOutcome {
       Outcome.Success(postsService.getPosts(limit, offset).posts.map { it.toPost() })
    }
 
    private fun savePostsToDatabase(
       data: List<Post>,
-      replaceExisting: Boolean
+      replaceExisting: Boolean,
    ) {
       val dbPosts = data.map { it.toDb(fullData = false, lastUpdate = timeProvider.currentTimeMillis()) }
       if (replaceExisting) {
@@ -126,7 +126,7 @@ class PostsRepositoryImpl @Inject constructor(
    private fun loadPostsFromDatabase(
       offset: Int,
       limit: Int,
-      force: Boolean
+      force: Boolean,
    ): Flow<Outcome.Success<OffsetDatabaseBackedPaginatedDataStream.DatabaseResult<Post>>> {
       val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
 

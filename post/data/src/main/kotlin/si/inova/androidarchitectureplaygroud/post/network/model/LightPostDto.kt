@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class LightPostDto(
    val id: Int,
-   val title: String
+   val title: String,
 )

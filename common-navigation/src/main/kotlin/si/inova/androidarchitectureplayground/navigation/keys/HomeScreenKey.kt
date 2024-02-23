@@ -7,7 +7,7 @@ import si.inova.kotlinova.navigation.screenkeys.SingleTopKey
 @Parcelize
 data class HomeScreenKey(
    val selectedTab: Tab = Tab.POSTS,
-   val userDetailsId: String? = null
+   val userDetailsId: String? = null,
 ) : SingleTopKey() {
    @Parcelize
    sealed class Tab : Parcelable {

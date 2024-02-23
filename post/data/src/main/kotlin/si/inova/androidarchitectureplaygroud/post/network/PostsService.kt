@@ -12,12 +12,12 @@ interface PostsService {
       @Query("limit")
       limit: Int? = null,
       @Query("skip")
-      skip: Int? = null
+      skip: Int? = null,
    ): PostsDto
 
    @GET("posts/{id}")
    suspend fun getPost(
       @Path("id")
-      id: Int
+      id: Int,
    ): PostDto
 }

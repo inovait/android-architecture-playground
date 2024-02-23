@@ -7,5 +7,5 @@ data class Post(
    val userId: Int? = null,
    val tags: List<String>? = null,
    val numReactions: Int? = null,
-   val image: String? = null
+   val image: String? = null,
 )

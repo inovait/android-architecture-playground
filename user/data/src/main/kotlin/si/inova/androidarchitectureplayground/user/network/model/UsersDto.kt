@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class UsersDto(
    val users: List<LightUserDto>,
-   val total: Int
+   val total: Int,
 )

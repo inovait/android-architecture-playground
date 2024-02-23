@@ -20,7 +20,7 @@ import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 class MainViewModel @AssistedInject constructor(
    private val loginRepository: LoginRepository,
    @Assisted
-   private val startIntent: Intent
+   private val startIntent: Intent,
 ) : ViewModel() {
    private val _startingScreen = MutableStateFlow<ScreenKey?>(null)
    val startingScreen: StateFlow<ScreenKey?> = _startingScreen

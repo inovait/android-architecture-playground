@@ -13,7 +13,7 @@ import javax.inject.Inject
 @Stable
 class PostDetailsViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
-   private val postRepository: PostsRepository
+   private val postRepository: PostsRepository,
 ) : CoroutineScopedService(resources.scope) {
    private val _postDetails = MutableStateFlow<Outcome<Post>>(Outcome.Progress())
    val postDetails: StateFlow<Outcome<Post>>

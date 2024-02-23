@@ -15,7 +15,7 @@ import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.screens.Screen
 
 class LoginScreen(
-   private val viewModel: LoginScreenViewModel
+   private val viewModel: LoginScreenViewModel,
 ) : Screen<LoginScreenKey>() {
    @Composable
    override fun Content(key: LoginScreenKey) {

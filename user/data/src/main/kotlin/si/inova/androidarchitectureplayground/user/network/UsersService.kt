@@ -12,12 +12,12 @@ interface UsersService {
       @Query("limit")
       limit: Int? = null,
       @Query("skip")
-      skip: Int? = null
+      skip: Int? = null,
    ): UsersDto
 
    @GET("users/{id}")
    suspend fun getUser(
       @Path("id")
-      id: Int
+      id: Int,
    ): UserDto
 }

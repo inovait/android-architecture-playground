@@ -40,7 +40,7 @@ class FakeUserRepository : UserRepository {
 
    override fun getUserDetails(
       id: Int,
-      force: Boolean
+      force: Boolean,
    ): Flow<Outcome<User>> {
       if (force) {
          numTimesForceLoadCalled++

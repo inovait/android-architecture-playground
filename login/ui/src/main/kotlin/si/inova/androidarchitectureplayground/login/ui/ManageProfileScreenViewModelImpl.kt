@@ -19,7 +19,7 @@ import javax.inject.Inject
 class ManageProfileScreenViewModelImpl @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val navigator: Navigator,
-   private val loginRepository: LoginRepository
+   private val loginRepository: LoginRepository,
 ) : CoroutineScopedService(resources.scope), ManageProfileScreenViewModel {
    override val logoutStatus = MutableStateFlow<Outcome<Unit>>(Outcome.Success(Unit))
    override fun logout() {

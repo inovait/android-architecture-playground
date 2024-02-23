@@ -4,5 +4,5 @@ import si.inova.androidarchitectureplayground.user.model.User
 
 data class UserListState(
    val users: List<User> = emptyList(),
-   val hasAnyDataLeft: Boolean = false
+   val hasAnyDataLeft: Boolean = false,
 )

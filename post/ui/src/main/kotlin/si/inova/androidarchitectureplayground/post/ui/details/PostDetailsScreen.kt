@@ -42,7 +42,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 @ContributesScreenBinding
 class PostDetailsScreen(
    private val viewModel: PostDetailsViewModel,
-   private val navigator: Navigator
+   private val navigator: Navigator,
 ) : Screen<PostDetailsScreenKey>() {
    @Composable
    override fun Content(key: PostDetailsScreenKey) {
@@ -64,7 +64,7 @@ class PostDetailsScreen(
 private fun PostDetailsContent(
    postOutcome: Outcome<Post>,
    refresh: () -> Unit,
-   navigateToUserDetails: (Int) -> Unit
+   navigateToUserDetails: (Int) -> Unit,
 ) {
    val refreshing = postOutcome is Outcome.Progress
    val refreshState = rememberPullRefreshState(

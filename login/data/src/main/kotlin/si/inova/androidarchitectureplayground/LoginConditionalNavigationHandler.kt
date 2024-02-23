@@ -15,11 +15,11 @@ import javax.inject.Inject
 @ContributesMultibinding(ApplicationScope::class)
 @ClassKey(UserLoggedIn::class)
 class LoginConditionalNavigationHandler @Inject constructor(
-   private val loginRepository: LoginRepository
+   private val loginRepository: LoginRepository,
 ) : ConditionalNavigationHandler {
    override fun getNavigationRedirect(
       condition: NavigationCondition,
-      navigateToIfConditionMet: NavigationInstruction
+      navigateToIfConditionMet: NavigationInstruction,
    ): NavigationInstruction {
       return if (loginRepository.isLoggedIn) {
          navigateToIfConditionMet

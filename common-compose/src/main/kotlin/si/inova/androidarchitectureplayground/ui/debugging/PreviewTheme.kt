@@ -18,7 +18,7 @@ import si.inova.kotlinova.core.time.FakeAndroidDateTimeFormatter
 fun PreviewTheme(
    formatter: AndroidDateTimeFormatter = FakeAndroidDateTimeFormatter(),
    fill: Boolean = true,
-   content: @Composable () -> Unit
+   content: @Composable () -> Unit,
 ) {
    Coil.setImageLoader(FakeCoilLoader())
 

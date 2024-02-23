@@ -18,7 +18,7 @@ import javax.inject.Inject
 class LoginScreenViewModelImpl @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val navigator: Navigator,
-   private val loginRepository: LoginRepository
+   private val loginRepository: LoginRepository,
 ) : LoginScreenViewModel, SingleScreenViewModel<LoginScreenKey>(resources.scope) {
    override val loginStatus = MutableStateFlow<Outcome<Unit>>(Outcome.Success(Unit))
 

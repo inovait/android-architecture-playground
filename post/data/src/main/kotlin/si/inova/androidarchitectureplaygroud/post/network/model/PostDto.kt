@@ -10,5 +10,5 @@ data class PostDto(
    val userId: Int,
    val tags: List<String>,
    val reactions: Int,
-   val image: String = "https://i.dummyjson.com/data/products/$id/1.jpg"
+   val image: String = "https://i.dummyjson.com/data/products/$id/1.jpg",
 )

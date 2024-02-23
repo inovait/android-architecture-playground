@@ -38,7 +38,7 @@ import kotlin.coroutines.coroutineContext
 class UserRepositoryImpl @Inject constructor(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,
-   private val timeProvider: TimeProvider
+   private val timeProvider: TimeProvider,
 ) : UserRepository {
    override fun getAllUsers(force: Boolean): PaginatedDataStream<List<User>> {
       return OffsetDatabaseBackedPaginatedDataStream<User>(
@@ -72,7 +72,7 @@ class UserRepositoryImpl @Inject constructor(
       initialDbUser: DbUser?,
       deadline: Long,
       initialUser: User?,
-      id: Int
+      id: Int,
    ): Boolean {
       if (force || initialDbUser == null || !initialDbUser.isValidForUserDetails(deadline)) {
          if (initialDbUser != null) {
@@ -106,14 +106,14 @@ class UserRepositoryImpl @Inject constructor(
 
    private suspend fun loadUsersFromNetwork(
       offset: Int,
-      limit: Int
+      limit: Int,
    ) = catchIntoOutcome {
       Outcome.Success(usersService.getUsers(limit, offset).users.map { it.toUser() })
    }
 
    private fun saveUsersToDatabase(
       data: List<User>,
-      replaceExisting: Boolean
+      replaceExisting: Boolean,
    ) {
       val dbUsers = data.map { it.toDb(fullData = false, lastUpdate = timeProvider.currentTimeMillis()) }
       if (replaceExisting) {
@@ -126,7 +126,7 @@ class UserRepositoryImpl @Inject constructor(
    private fun loadUsersFromDatabase(
       offset: Int,
       limit: Int,
-      force: Boolean
+      force: Boolean,
    ): Flow<Outcome.Success<OffsetDatabaseBackedPaginatedDataStream.DatabaseResult<User>>> {
       val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
 

@@ -13,7 +13,7 @@ import javax.inject.Inject
 @Stable
 class UserDetailsViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
-   private val userRepository: UserRepository
+   private val userRepository: UserRepository,
 ) : CoroutineScopedService(resources.scope) {
    private val _userDetails = MutableStateFlow<Outcome<User>>(Outcome.Progress())
    val userDetails: StateFlow<Outcome<User>>

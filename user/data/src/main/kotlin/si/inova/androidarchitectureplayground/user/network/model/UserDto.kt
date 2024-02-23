@@ -12,11 +12,11 @@ data class UserDto(
    val gender: String,
    val email: String,
    val phone: String,
-   val hair: Hair
+   val hair: Hair,
 ) {
    @JsonClass(generateAdapter = true)
    data class Hair(
       val color: String,
-      val type: String
+      val type: String,
    )
 }

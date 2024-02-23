@@ -29,7 +29,7 @@ abstract class AppModule {
 
    @Binds
    abstract fun bindToAndroidDateTimeFormatter(
-      androidDateTimeFormatterImpl: AndroidDateTimeFormatterImpl
+      androidDateTimeFormatterImpl: AndroidDateTimeFormatterImpl,
    ): AndroidDateTimeFormatter
 
    @Module

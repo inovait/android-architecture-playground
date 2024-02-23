@@ -46,7 +46,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 @ContributesScreenBinding
 class UserListScreen(
    private val viewModel: UserListViewModel,
-   private val navigator: Navigator
+   private val navigator: Navigator,
 ) : Screen<UserListScreenKey>() {
    @Composable
    override fun Content(key: UserListScreenKey) {
@@ -78,7 +78,7 @@ private fun UserListContent(
    state: Outcome<UserListState>,
    loadMore: () -> Unit,
    refresh: () -> Unit,
-   openUserDetails: (id: Int) -> Unit
+   openUserDetails: (id: Int) -> Unit,
 ) {
    val refreshing = state is Outcome.Progress && state.style != LoadingStyle.ADDITIONAL_DATA
    val refreshState = rememberPullRefreshState(
@@ -116,7 +116,7 @@ private fun UserListContent(
 private fun ColumnScope.UserList(
    lazyListState: LazyListState,
    state: Outcome<UserListState>,
-   openUserDetails: (id: Int) -> Unit
+   openUserDetails: (id: Int) -> Unit,
 ) {
    LazyColumn(
       Modifier

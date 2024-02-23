@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class DefaultErrorHandler @Inject constructor(
-   private val moshi: Provider<Moshi>
+   private val moshi: Provider<Moshi>,
 ) : ErrorHandler {
    override fun generateExceptionFromErrorBody(response: Response<*>, parentException: Exception): CauseException? {
       val errorMessage = response.errorBody()?.source()?.let { moshi.get().fromJson<ErrorResponse>(it).message } ?: "Unknown"

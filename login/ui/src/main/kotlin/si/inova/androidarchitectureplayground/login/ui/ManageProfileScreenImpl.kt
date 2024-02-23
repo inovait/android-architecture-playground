@@ -21,7 +21,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 @ContributesScreenBinding
 class ManageProfileScreenImpl(
    private val viewModel: ManageProfileScreenViewModel,
-   private val showkaseLauncher: ShowkaseLauncher
+   private val showkaseLauncher: ShowkaseLauncher,
 ) : Screen<ManageProfileScreenKey>() {
    @Composable
    override fun Content(key: ManageProfileScreenKey) {

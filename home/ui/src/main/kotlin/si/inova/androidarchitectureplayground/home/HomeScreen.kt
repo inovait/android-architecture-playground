@@ -36,7 +36,7 @@ class HomeScreen(
    private val navigator: Navigator,
    private val usersScreen: Screen<HomeUsersScreenKey>,
    private val postsScreen: Screen<HomePostsScreenKey>,
-   private val manageProfileScreen: Screen<ManageProfileScreenKey>
+   private val manageProfileScreen: Screen<ManageProfileScreenKey>,
 ) : Screen<HomeScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
    @Composable
@@ -80,7 +80,7 @@ class HomeScreen(
    @Composable
    private fun NavigationBarContent(
       mainContent: @Composable () -> Unit,
-      key: HomeScreenKey
+      key: HomeScreenKey,
    ) {
       Column {
          Box(
@@ -119,7 +119,7 @@ class HomeScreen(
    @Composable
    private fun NavigationRailContent(
       mainContent: @Composable () -> Unit,
-      key: HomeScreenKey
+      key: HomeScreenKey,
    ) {
       Row {
          NavigationRail {

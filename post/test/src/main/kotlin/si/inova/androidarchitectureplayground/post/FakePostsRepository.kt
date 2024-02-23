@@ -41,7 +41,7 @@ class FakePostsRepository : PostsRepository {
 
    override fun getPostDetails(
       id: Int,
-      force: Boolean
+      force: Boolean,
    ): Flow<Outcome<Post>> {
       if (force) {
          numTimesForceLoadCalled++

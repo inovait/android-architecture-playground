@@ -96,7 +96,7 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
       updateOpenState: (Boolean) -> Unit,
       currentDetailScreen: () -> D?,
       master: @Composable (Modifier) -> Unit,
-      detail: @Composable (Modifier, D) -> Unit
+      detail: @Composable (Modifier, D) -> Unit,
    ) {
       val saveableStateHolder = rememberSaveableStateHolder()
 
@@ -133,7 +133,7 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
    private fun MasterDetailOnLargerScreen(
       currentDetailScreen: () -> D?,
       master: @Composable (Modifier) -> Unit,
-      detail: @Composable (Modifier, D) -> Unit
+      detail: @Composable (Modifier, D) -> Unit,
    ) {
       Row(Modifier.fillMaxSize()) {
          master(

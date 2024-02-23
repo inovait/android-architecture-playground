@@ -33,7 +33,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding
 class UserDetailsScreen(
-   private val viewModel: UserDetailsViewModel
+   private val viewModel: UserDetailsViewModel,
 ) : Screen<UserDetailsScreenKey>() {
    @Composable
    override fun Content(key: UserDetailsScreenKey) {

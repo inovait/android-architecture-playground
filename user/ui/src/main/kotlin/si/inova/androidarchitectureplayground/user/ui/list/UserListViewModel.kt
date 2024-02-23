@@ -16,7 +16,7 @@ import javax.inject.Inject
 @Stable
 class UserListViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
-   private val userRepository: UserRepository
+   private val userRepository: UserRepository,
 ) : CoroutineScopedService(resources.scope) {
    private val _userList = MutableStateFlow<Outcome<UserListState>>(Outcome.Progress(UserListState()))
    val userList: StateFlow<Outcome<UserListState>>

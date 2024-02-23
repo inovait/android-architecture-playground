@@ -9,6 +9,6 @@ interface PaginatedDataStream<T> {
 
    data class PaginationResult<T>(
       val items: Outcome<T>,
-      val hasAnyDataLeft: Boolean
+      val hasAnyDataLeft: Boolean,
    )
 }

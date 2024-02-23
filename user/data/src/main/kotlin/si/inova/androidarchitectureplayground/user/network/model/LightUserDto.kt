@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 data class LightUserDto(
    val id: Int,
    val firstName: String,
-   val lastName: String
+   val lastName: String,
 )

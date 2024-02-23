@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @ContributesBinding(ApplicationScope::class)
 class LoginRepositoryImpl @Inject constructor(
    @LoginDataStore
-   private val preferences: DataStore<Preferences>
+   private val preferences: DataStore<Preferences>,
 ) : LoginRepository {
    /**
     * We need synchronous access for the conditional navigation

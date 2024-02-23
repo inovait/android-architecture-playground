@@ -16,7 +16,7 @@ import javax.inject.Inject
 @Stable
 class PostListViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
-   private val postRepository: PostsRepository
+   private val postRepository: PostsRepository,
 ) : CoroutineScopedService(resources.scope) {
    private val _postList = MutableStateFlow<Outcome<PostListState>>(Outcome.Progress(PostListState()))
    val postList: StateFlow<Outcome<PostListState>>
