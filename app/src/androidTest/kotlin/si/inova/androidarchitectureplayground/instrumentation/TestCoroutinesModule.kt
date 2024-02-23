@@ -45,7 +45,7 @@ object TestCoroutinesModule {
    @Provides
    fun provideDefaultCoroutineResourceManager(
       mainCoroutineScope: MainImmediateCoroutineScope,
-      errorReporter: ErrorReporter
+      errorReporter: ErrorReporter,
    ): CoroutineResourceManager {
       return RegisteringCoroutineResourceManager(mainCoroutineScope, errorReporter)
    }

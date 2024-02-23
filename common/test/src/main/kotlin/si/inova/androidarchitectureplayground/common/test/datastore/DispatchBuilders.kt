@@ -18,7 +18,7 @@ import kotlin.time.Duration.Companion.milliseconds
 fun runTestWithDispatchers(
    context: CoroutineContext = EmptyCoroutineContext,
    dispatchTimeoutMs: Long = 60_000L,
-   testBody: suspend TestScope.() -> Unit
+   testBody: suspend TestScope.() -> Unit,
 ) {
    runTest(context, timeout = dispatchTimeoutMs.milliseconds) {
       val dispatcher = requireNotNull(coroutineContext[CoroutineDispatcher]) { "Dispatcher is not set" }
@@ -39,7 +39,7 @@ fun runTestWithDispatchers(
 @OptIn(ExperimentalStdlibApi::class)
 fun TestScope.runTestWithDispatchers(
    dispatchTimeoutMs: Long = 60_000L,
-   testBody: suspend TestScope.() -> Unit
+   testBody: suspend TestScope.() -> Unit,
 ) {
    this.runTest(timeout = dispatchTimeoutMs.milliseconds) {
       val dispatcher = requireNotNull(coroutineContext[CoroutineDispatcher]) { "Dispatcher is not set" }

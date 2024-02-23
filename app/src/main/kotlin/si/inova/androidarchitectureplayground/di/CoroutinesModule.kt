@@ -33,7 +33,7 @@ class CoroutinesModule {
    @Provides
    fun provideDefaultCoroutineResourceManager(
       mainCoroutineScope: MainImmediateCoroutineScope,
-      errorReporter: ErrorReporter
+      errorReporter: ErrorReporter,
    ): CoroutineResourceManager {
       return CoroutineResourceManager(mainCoroutineScope, errorReporter)
    }

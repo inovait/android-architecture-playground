@@ -10,6 +10,6 @@ class TestRunner : AndroidJUnitRunner() {
    override fun newApplication(
       cl: ClassLoader,
       className: String,
-      context: Context
+      context: Context,
    ): Application = Instrumentation.newApplication(TestApplication::class.java, context)
 }

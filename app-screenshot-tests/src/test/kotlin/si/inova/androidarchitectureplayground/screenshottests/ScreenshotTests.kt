@@ -50,7 +50,7 @@ class ScreenshotTests {
    @Test
    fun launchTests(
       @TestParameter(valuesProvider = PreviewProvider::class)
-      testKey: TestKey
+      testKey: TestKey,
    ) {
       paparazzi.snapshot {
          testKey.showkaseBrowserComponent.component()

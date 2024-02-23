@@ -22,7 +22,7 @@ open class BaseServiceFactory @Inject constructor(
    private val errorReporter: ErrorReporter,
    private val defaultErrorHandler: DefaultErrorHandler,
    @BaseUrl
-   private val baseUrl: String
+   private val baseUrl: String,
 ) : ServiceFactory {
    override fun <S> create(klass: Class<S>, configuration: ServiceFactory.ServiceCreationScope.() -> Unit): S {
       val scope = ServiceFactory.ServiceCreationScope(defaultErrorHandler)

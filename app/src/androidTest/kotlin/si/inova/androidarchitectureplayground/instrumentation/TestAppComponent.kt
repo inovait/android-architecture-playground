@@ -20,7 +20,7 @@ interface TestAppComponent : ApplicationComponent {
    interface Factory {
       fun create(
          @BindsInstance
-         application: Application
+         application: Application,
       ): TestAppComponent
    }
 }

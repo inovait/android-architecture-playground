@@ -32,7 +32,7 @@ fun Project.commonAndroid(
  * kotlinOptions {} block that can be used without applying specific android plugin
  */
 fun CommonExtension<*, *, *, *, *>.commonKotlinOptions(
-   block: Action<KotlinJvmOptions>
+   block: Action<KotlinJvmOptions>,
 ) {
    (this as org.gradle.api.plugins.ExtensionAware).extensions.configure("kotlinOptions", block)
 }

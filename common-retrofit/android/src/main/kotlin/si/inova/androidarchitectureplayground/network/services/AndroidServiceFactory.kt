@@ -18,7 +18,7 @@ class AndroidServiceFactory @Inject constructor(
    defaultErrorHandler: DefaultErrorHandler,
    @BaseUrl
    baseUrl: String,
-   private val cacheManager: GlobalOkHttpDiskCacheManager
+   private val cacheManager: GlobalOkHttpDiskCacheManager,
 ) : BaseServiceFactory(defaultCoroutineScope, moshi, okHttpClient, errorReporter, defaultErrorHandler, baseUrl) {
    override fun createCache(): Cache {
       return cacheManager.cache

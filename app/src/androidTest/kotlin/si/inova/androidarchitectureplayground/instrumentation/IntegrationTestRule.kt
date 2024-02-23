@@ -20,7 +20,7 @@ import si.inova.kotlinova.retrofit.setJsonBody
 import java.net.HttpURLConnection
 
 class IntegrationTestRule(
-   val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity> = createAndroidComposeRule()
+   val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity> = createAndroidComposeRule(),
 ) : TestRule, ComposeTestRule by composeTestRule {
    val server = MockWebServer()
 
@@ -35,7 +35,7 @@ class IntegrationTestRule(
    }
 
    inline fun runWithServer(
-      block: MockWebServerScope.() -> Unit
+      block: MockWebServerScope.() -> Unit,
    ) {
       val scope = MockWebServerScope(server, server.url("").toString())
       server.dispatcher = scope

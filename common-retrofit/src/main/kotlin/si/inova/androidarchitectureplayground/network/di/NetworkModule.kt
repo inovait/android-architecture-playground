@@ -23,7 +23,7 @@ abstract class NetworkModule {
       @Provides
       @Singleton
       fun provideMoshi(
-         adapters: Set<@JvmSuppressWildcards MoshiAdapter>
+         adapters: Set<@JvmSuppressWildcards MoshiAdapter>,
       ): Moshi {
          if (Thread.currentThread().name == "main") {
             error("Moshi should not be initialized on the main thread")
@@ -43,7 +43,7 @@ abstract class NetworkModule {
       @Provides
       @Singleton
       fun provideOkHttpClient(
-         certificateTransparencyDiskCache: DiskCache?
+         certificateTransparencyDiskCache: DiskCache?,
       ): OkHttpClient {
          if (Thread.currentThread().name == "main") {
             error("OkHttp should not be initialized on the main thread")
