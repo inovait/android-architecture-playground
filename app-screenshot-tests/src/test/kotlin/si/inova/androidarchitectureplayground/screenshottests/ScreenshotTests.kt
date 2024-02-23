@@ -34,7 +34,7 @@ class ScreenshotTests {
       }
    }
 
-   class TestKey(val showkaseBrowserComponent: ShowkaseBrowserComponent) {
+   data class TestKey(val showkaseBrowserComponent: ShowkaseBrowserComponent) {
       override fun toString(): String {
          return showkaseBrowserComponent.componentKey
       }

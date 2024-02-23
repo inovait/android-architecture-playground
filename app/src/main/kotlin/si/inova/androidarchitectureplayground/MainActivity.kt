@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
    private var initComplete = false
 
    override fun onCreate(savedInstanceState: Bundle?) {
-      (application as MyApplication).applicationComponent.inject(this)
+      (requireNotNull(application) as MyApplication).applicationComponent.inject(this)
       super.onCreate(savedInstanceState)
 
       val splashScreen = installSplashScreen()
@@ -120,7 +120,7 @@ class MainActivity : ComponentActivity() {
    private inner class ViewModelFactory : ViewModelProvider.Factory {
       override fun <T : ViewModel> create(modelClass: Class<T>): T {
          @Suppress("UNCHECKED_CAST")
-         return viewModelProvider.get() as T
+         return requireNotNull(viewModelProvider.get()) as T
       }
    }
 }
