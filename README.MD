@@ -52,9 +52,12 @@ Afterwards:
 
 Process for updating all library versions::
 
-1. Run `./gradlew dependencyUpdates :buildSrc:dependencyUpdates --no-configuration-cache > /dev/null
+1. ~~Run `./gradlew dependencyUpdates :buildSrc:dependencyUpdates --no-configuration-cache > /dev/null
    && ./gradlew :app:updateLibsToml`.
-   This will check for new versions of all libraries and automatically bump versions inside `libs.toml`.
+   This will check for new versions of all libraries and automatically bump versions inside `libs.toml`.~~
+   Until [AGP issue](https://issuetracker.google.com/issues/315689874) is resolved, auto update
+   is broken. You must open libs.toml, and manually update all versions
+   that are marked in yellow (Lint warning)
 2. Check the output of the above task and manually update any libraries that task said it couldn't update automatically.
 2. Sync the project, build the app and run all tests to make sure everything still works.
 3. Run `detektDebug` gradle task to find any new deprecated code
