@@ -26,7 +26,7 @@ fun DemoComponent(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 @ShowkaseComposable(group = "Components", name = "Demo Component", styleName = "Normal")
-fun DemoComponentPreview() {
+internal fun DemoComponentPreview() {
    PreviewTheme(fill = false) {
       DemoComponent()
    }
