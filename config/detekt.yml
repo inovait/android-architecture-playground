@@ -1125,7 +1125,6 @@ Compose:
     active: true
     # You can optionally disable that only previews with @PreviewParameter are flagged
     # previewPublicOnlyIfParams: false
-    ignoreAnnotated: [ 'ShowkaseComposable' ]
   RememberMissing:
     active: true
   RememberContentMissing:
