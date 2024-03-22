@@ -1,5 +1,4 @@
 import com.android.build.api.variant.BuildConfigField
-import java.io.FileNotFoundException
 
 plugins {
    androidAppModule
@@ -27,25 +26,18 @@ android {
 
       androidComponents {
          onVariants {
-            it.buildConfigFields.put("GIT_HASH", gitVersionProvider.flatMap { task ->
-               task.gitVersionOutputFile.map { file ->
-                  val gitHash = try {
-                     file.asFile.readText(Charsets.UTF_8)
-                  } catch (e: FileNotFoundException) {
-                     // See https://github.com/gradle/gradle/issues/19252
-                     throw IllegalStateException(
-                        "Failed to load git configuration. Please disable configuration cache for this one build and try again",
-                        e
-                     )
-                  }
-
+            it.buildConfigFields.put(
+               "GIT_HASH",
+               providers.exec {
+                  commandLine("git", "rev-parse", "--short", "HEAD")
+               }.standardOutput.asText.map { it.trim() }.map { gitHash ->
                   BuildConfigField(
                      "String",
                      "\"$gitHash\"",
                      "Git Version"
                   )
                }
-            })
+            )
          }
       }
    }
@@ -161,32 +153,4 @@ dependencies {
 
    add("benchmarkImplementation", libs.androidx.profileInstaller)
    add("benchmarkImplementation", libs.androidx.compose.tracing)
-}
-
-abstract class GitVersionTask : DefaultTask() {
-   @get:OutputFile
-   abstract val gitVersionOutputFile: RegularFileProperty
-
-   @TaskAction
-   fun taskAction() {
-      val gitProcess = ProcessBuilder("git", "rev-parse", "--short", "HEAD").start()
-      val error = gitProcess.errorStream.readBytes().decodeToString()
-      if (error.isNotBlank()) {
-         throw IllegalStateException("Git error : $error")
-      }
-
-      val gitVersion = gitProcess.inputStream.readBytes().decodeToString().trim()
-
-      gitVersionOutputFile.get().asFile.writeText(gitVersion)
-   }
-}
-
-val gitVersionProvider = tasks.register<GitVersionTask>("gitVersionProvider") {
-   val targetFile = File(project.layout.buildDirectory.asFile.get(), "intermediates/gitVersionProvider/output")
-
-   targetFile.also {
-      it.parentFile.mkdirs()
-      gitVersionOutputFile.set(it)
-   }
-   outputs.upToDateWhen { false }
 }
