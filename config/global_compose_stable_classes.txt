@@ -1,0 +1,4 @@
+// Consider java time objects stable
+java.time.*
+// Consider kotlin collections stable
+kotlin.collections.*
