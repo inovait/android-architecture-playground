@@ -27,6 +27,3 @@ inline val PluginDependenciesSpec.navigation: PluginDependencySpec
 
 inline val PluginDependenciesSpec.testHelpers: PluginDependencySpec
    get() = id("test-module")
-
-inline val PluginDependenciesSpec.sqldelight: PluginDependencySpec
-   get() = id("sqldelight")
