@@ -18,9 +18,10 @@ To create a new Android project from that:
 10. Rename `app_name` in `app/res/values/strings.xml`
 11. Rename theme in `common-compose/src/.../ui/theme/Theme.kt`
 12. Rename `My` prefix of `MyApplication` to the name of your application
-13. Generate debug and release keystore (see below)
-14. Go through all TODOs inside the project
-12. Remove everything until `Readme for the application` from this README
+13. Change package in the templates (`.idea/fileTemplates/*`)
+14. Generate debug and release keystore (see below)
+15. Go through all TODOs inside the project
+16. Remove everything until `Readme for the application` from this README
 
 ## Keystore
 
@@ -68,11 +69,10 @@ Process for updating all library versions::
 
 ## Creating a new module
 
-1. Copy module template from `config/templates` folder to root of the project and rename it to your module
-2. If new module is an android library and if it needs android resources, add `buildFeatures { androidResources = true }`
-   and namespace declaration to module's `build.gradle.kts`
-3. Add module to `settings.gradle.kts`
-4. Add module to app's `build.gradle.kts` as `implementation(projects.newModule)`)
+1. Right click on the root in the project window, select New and then the project type you want
+  ![Image](docs/module-factory.png)
+2. Add module to `settings.gradle.kts`
+3. Add module to app's `build.gradle.kts` as `implementation(projects.newModule)`)
 
 ## Hierarchy of the feature modules
 
