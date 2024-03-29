@@ -28,7 +28,7 @@ class PostListViewModel @Inject constructor(
       loadPostList()
    }
 
-   private fun loadPostList(force: Boolean = false): Unit = resources.launchResourceControlTask(_postList) {
+   private fun loadPostList(force: Boolean = false) = resources.launchResourceControlTask(_postList) {
       val list = postRepository.getAllPosts(force)
       postPaginatedList = list
 
