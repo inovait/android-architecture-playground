@@ -8,6 +8,7 @@ import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.kotlinova.core.logging.logcat
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.reporting.ErrorReporter
+import kotlin.coroutines.cancellation.CancellationException
 
 @Suppress("unused")
 @ContributesTo(ApplicationScope::class)
@@ -15,13 +16,20 @@ import si.inova.kotlinova.core.reporting.ErrorReporter
 class ErrorReportingModule {
    @Provides
    fun provideErrorReporter(): ErrorReporter {
-      return ErrorReporter {
-         if (it !is CauseException || it.shouldReport) {
-            logcat { "Reporting $it to Firebase" }
-            // TODO Substitute with error reporter here (Firebase?)
-            it.printStackTrace()
-         } else if (BuildConfig.DEBUG) {
-            it.printStackTrace()
+      return object : ErrorReporter {
+         override fun report(throwable: Throwable) {
+            if (throwable is CancellationException) {
+               report(Exception("Got cancellation exception", throwable))
+               return
+            }
+
+            if (throwable !is CauseException || throwable.shouldReport) {
+               logcat { "Reporting $throwable to Firebase" }
+               // TODO Substitute with error reporter here (Firebase?)
+               throwable.printStackTrace()
+            } else if (BuildConfig.DEBUG) {
+               throwable.printStackTrace()
+            }
          }
       }
    }
