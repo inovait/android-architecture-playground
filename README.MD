@@ -45,11 +45,10 @@ Process for updating all library versions::
 
 ## Creating a new module
 
-1. Copy module template from `config/templates` folder to root of the project and rename it to your module
-2. If new module is an android library and if it needs android resources, add `buildFeatures { androidResources = true }`
-   and namespace declaration to module's `build.gradle.kts`
-3. Add module to `settings.gradle.kts`
-4. Add module to app's `build.gradle.kts` as `implementation(projects.newModule)`)
+1. Right click on the root in the project window, select New and then the project type you want
+  ![Image](docs/module-factory.png)
+2. Add module to `settings.gradle.kts`
+3. Add module to app's `build.gradle.kts` as `implementation(projects.newModule)`)
 
 ## Hierarchy of the feature modules
 
