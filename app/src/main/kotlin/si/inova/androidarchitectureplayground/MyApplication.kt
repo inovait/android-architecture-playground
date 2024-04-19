@@ -93,7 +93,13 @@ open class MyApplication : Application() {
       )
    }
 
-   private fun reportStrictModePenalty(e: Violation) {
+   private fun reportStrictModePenalty(violation: Violation) {
+      val e = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+         violation
+      } else {
+         IllegalStateException("Strict mode violation: $violation")
+      }
+
       if (
          e.cause == null &&
          e.stackTrace.any {
