@@ -1,5 +1,5 @@
-name: develop-build
-run-name: Develop build of the app to check stuff on github public runners
+name: sample-develop-build
+run-name: Sample develop build that could be run on Inova runners
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ jobs:
     concurrency:
       group: "develop-build"
       cancel-in-progress: true
-    runs-on: "ubuntu-latest"
+    runs-on: "android"
     steps:
       # Preparation
 
@@ -24,12 +24,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-java@v3
+      - uses: inovait/actions-common/android-setup@v5
         with:
-          java-version: '17'
-          distribution: temurin
-          cache: gradle
-      - uses: android-actions/setup-android@7c5672355aaa8fde5f97a91aa9a99616d1ace6bc
+          java-version: 17
 
       # Build app
 
@@ -47,6 +44,10 @@ jobs:
         run: "./gradlew -PtestAppWithProguard compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest"
       - name: Run Unit Tests
         run: "./gradlew -PtestAppWithProguard test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest"
+      - name: Run Android Emulator tests
+        uses: inovait/actions-common/android-run-with-emulator@v2
+        with:
+          command: './gradlew -PtestAppWithProguard -PtestAppWithProguard connectedDebugAndroidTest'
       # This generally does not need to be done on develop, only on PRs. But since there is no PRs on this project,
       # it is done all the same
       - name: "Generate new Screenshot Tests"
