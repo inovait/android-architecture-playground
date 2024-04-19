@@ -18,7 +18,7 @@ jobs:
         run: "echo -e 'org.gradle.caching=true\norg.gradle.parallel=true' >> ~/.gradle/gradle.properties"
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          lfs: true
       - uses: inovait/actions-common/android-setup@v5
         with:
           java-version: 17

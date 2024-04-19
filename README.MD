@@ -24,6 +24,12 @@ See also other branches:
 
 # Readme for the application
 
+## Checking out project
+
+1. Install [Git LFS](https://git-lfs.com/)
+2. Checkout the repo
+3. Run `git lfs fetch` in the repo
+
 ## Updating versions
 
 Process for updating all library versions::
