@@ -79,6 +79,7 @@ class PostListScreenTest {
       rule.onNodeWithText("A post 4").performTouchInput {
          swipeUp()
       }
+      rule.waitForIdle()
 
       repository.numTimesNextPageCalled shouldBe 1
    }

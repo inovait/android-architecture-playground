@@ -80,6 +80,7 @@ class UserListScreenTest {
       rule.onNodeWithText("John Smith 4").performTouchInput {
          swipeUp()
       }
+      rule.waitForIdle()
 
       repository.numTimesNextPageCalled shouldBe 1
    }
