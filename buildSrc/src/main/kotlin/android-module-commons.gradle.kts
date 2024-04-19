@@ -46,6 +46,10 @@ commonAndroid {
          it.systemProperty("kotest.assertions.collection.print.size", "300")
          it.systemProperty("kotest.assertions.collection.enumerate.size", "300")
       }
+
+      if (pluginManager.hasPlugin("com.android.library")) {
+         targetSdk = 33
+      }
    }
 
    packaging {
