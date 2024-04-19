@@ -95,5 +95,5 @@ jobs:
       - name: "Upload proguard mappings"
         uses: actions/upload-artifact@v3
         with:
-          name: mapping-app-develop-release.txt
+          name: mapping-app-release.txt
           path: app/build/outputs/mapping/release/mapping.txt
