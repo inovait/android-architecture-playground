@@ -1,9 +1,14 @@
 package si.inova.androidarchitectureplayground.screenshottests
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalInspectionMode
 import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import com.android.ide.common.rendering.api.SessionParams
+import com.android.resources.Density
+import com.android.resources.NightMode
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import org.junit.Before
@@ -52,8 +57,34 @@ class ScreenshotTests {
       @TestParameter(valuesProvider = PreviewProvider::class)
       testKey: TestKey,
    ) {
+      val composable = @Composable {
+         CompositionLocalProvider(LocalInspectionMode provides true) {
+            testKey.showkaseBrowserComponent.component()
+         }
+      }
+
       paparazzi.snapshot {
-         testKey.showkaseBrowserComponent.component()
+         composable()
+      }
+      paparazzi.unsafeUpdateConfig(
+         PIXEL_5.copy(
+            nightMode = NightMode.NIGHT
+         )
+      )
+      paparazzi.snapshot("night") {
+         composable()
+      }
+      paparazzi.unsafeUpdateConfig(
+         PIXEL_5.copy(
+            ydpi = 600,
+            xdpi = 300,
+            screenWidth = 300 * Density.DPI_440.dpiValue / 160,
+            screenHeight = 600 * Density.DPI_440.dpiValue / 160,
+            nightMode = NightMode.NOTNIGHT
+         )
+      )
+      paparazzi.snapshot("small") {
+         composable()
       }
    }
 }
