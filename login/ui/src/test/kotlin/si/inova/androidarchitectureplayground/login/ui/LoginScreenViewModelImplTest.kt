@@ -23,7 +23,7 @@ class LoginScreenViewModelImplTest {
    val navigator = FakeNavigator(LoginScreenKey(OpenScreen(AnotherScreenKey())))
    val loginRepository = FakeLoginRepository()
 
-   val viewModel = LoginScreenViewModelImpl(scope.testCoroutineResourceManager(), navigator, loginRepository)
+   val viewModel = LoginScreenViewModelImpl(scope.testCoroutineResourceManager(), navigator, loginRepository, {})
 
    @Test
    fun `Return Unit login by default`() = scope.runTest {

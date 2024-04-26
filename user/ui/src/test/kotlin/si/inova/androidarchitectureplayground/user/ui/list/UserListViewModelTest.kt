@@ -18,7 +18,7 @@ class UserListViewModelTest {
    private val repository = FakeUserRepository()
    private val resources = scope.testCoroutineResourceManager()
 
-   private val viewModel = UserListViewModel(resources, repository)
+   private val viewModel = UserListViewModel(resources, repository, {})
 
    @Test
    fun `Load users`() = scope.runTest {

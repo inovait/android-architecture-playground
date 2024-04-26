@@ -17,7 +17,7 @@ class PostDetailsViewModelTest {
    private val scope = TestScope()
    private val postRepository = FakePostsRepository()
 
-   private val viewModel = PostDetailsViewModel(scope.testCoroutineResourceManager(), postRepository)
+   private val viewModel = PostDetailsViewModel(scope.testCoroutineResourceManager(), postRepository, {})
 
    @BeforeEach
    fun setUp() {

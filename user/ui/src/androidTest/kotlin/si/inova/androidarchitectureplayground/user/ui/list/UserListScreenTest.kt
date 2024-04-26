@@ -28,7 +28,7 @@ class UserListScreenTest {
    val rule = createComposeRule()
 
    private val repository = FakeUserRepository()
-   private val viewModel = UserListViewModel(CoroutineResourceManager(MainScope(), { throw it }), repository)
+   private val viewModel = UserListViewModel(CoroutineResourceManager(MainScope(), { throw it }), repository, {})
    private val navigator = FakeNavigator(UserListScreenKey)
    private val screen = UserListScreen(viewModel, navigator)
 

@@ -17,7 +17,7 @@ class UserDetailsViewModelTest {
    private val scope = TestScope()
    private val userRepository = FakeUserRepository()
 
-   private val viewModel = UserDetailsViewModel(scope.testCoroutineResourceManager(), userRepository)
+   private val viewModel = UserDetailsViewModel(scope.testCoroutineResourceManager(), userRepository, {})
 
    @BeforeEach
    fun setUp() {

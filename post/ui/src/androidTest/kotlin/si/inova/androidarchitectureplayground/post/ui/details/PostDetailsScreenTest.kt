@@ -31,7 +31,7 @@ class PostDetailsScreenTest {
    private val postRepository = FakePostsRepository()
    private val navigator = FakeNavigator(PostDetailsScreenKey(77))
 
-   private val viewModel = PostDetailsViewModel(CoroutineResourceManager(MainScope(), { throw it }), postRepository)
+   private val viewModel = PostDetailsViewModel(CoroutineResourceManager(MainScope(), { throw it }), postRepository, {})
    private val screen = PostDetailsScreen(viewModel, navigator)
 
    @Before

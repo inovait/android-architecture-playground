@@ -23,7 +23,7 @@ class UserDetailsScreenTest {
 
    private val userRepository = FakeUserRepository()
 
-   private val viewModel = UserDetailsViewModel(CoroutineResourceManager(MainScope(), { throw it }), userRepository)
+   private val viewModel = UserDetailsViewModel(CoroutineResourceManager(MainScope(), { throw it }), userRepository, {})
    private val screen = UserDetailsScreen(viewModel)
 
    @Before

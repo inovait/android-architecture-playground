@@ -22,7 +22,7 @@ class ManageProfileScreenViewModelImplTest {
    val navigator = FakeNavigator(LoginScreenKey(OpenScreen(AnotherScreenKey())))
    val loginRepository = FakeLoginRepository()
 
-   val viewModel = ManageProfileScreenViewModelImpl(scope.testCoroutineResourceManager(), navigator, loginRepository)
+   val viewModel = ManageProfileScreenViewModelImpl(scope.testCoroutineResourceManager(), navigator, loginRepository, {})
 
    @Test
    fun `Return Unit status by default`() = scope.runTest {
