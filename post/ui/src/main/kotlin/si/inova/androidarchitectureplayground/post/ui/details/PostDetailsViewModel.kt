@@ -23,7 +23,7 @@ class PostDetailsViewModel @Inject constructor(
 
    private var postId: Int? = null
 
-   fun startLoading(newPostId: Int) = resources.launchResourceControlTask(_postDetails) {
+   fun startLoading(newPostId: Int) {
       actionLogger.logAction { "loadPost" }
       if (postId != newPostId) {
          postId = newPostId
