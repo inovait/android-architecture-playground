@@ -3,6 +3,7 @@ package si.inova.androidarchitectureplayground.login.ui
 import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
@@ -20,9 +21,11 @@ class ManageProfileScreenViewModelImpl @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val navigator: Navigator,
    private val loginRepository: LoginRepository,
+   private val actionLogger: ActionLogger,
 ) : CoroutineScopedService(resources.scope), ManageProfileScreenViewModel {
    override val logoutStatus = MutableStateFlow<Outcome<Unit>>(Outcome.Success(Unit))
    override fun logout() {
+      actionLogger.logAction { "logout" }
       resources.launchResourceControlTask(logoutStatus) {
          @Suppress("MagicNumber") // Delay is here just for demo purposes
          delay(500)

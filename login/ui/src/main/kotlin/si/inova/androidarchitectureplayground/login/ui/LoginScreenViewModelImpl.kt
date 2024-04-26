@@ -4,6 +4,7 @@ import com.squareup.anvil.annotations.ContributesBinding
 import com.zhuinden.simplestack.StateChange
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
@@ -19,10 +20,12 @@ class LoginScreenViewModelImpl @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val navigator: Navigator,
    private val loginRepository: LoginRepository,
+   private val actionLogger: ActionLogger,
 ) : LoginScreenViewModel, SingleScreenViewModel<LoginScreenKey>(resources.scope) {
    override val loginStatus = MutableStateFlow<Outcome<Unit>>(Outcome.Success(Unit))
 
    override fun login() {
+      actionLogger.logAction { "login" }
       resources.launchResourceControlTask(loginStatus) {
          @Suppress("MagicNumber") // Delay is here just for demo purposes
          delay(500)

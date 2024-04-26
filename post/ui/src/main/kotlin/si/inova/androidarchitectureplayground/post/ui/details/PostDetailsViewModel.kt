@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import si.inova.androidarchitectureplaygroud.post.PostsRepository
 import si.inova.androidarchitectureplaygroud.post.model.Post
+import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class PostDetailsViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val postRepository: PostsRepository,
+   private val actionLogger: ActionLogger,
 ) : CoroutineScopedService(resources.scope) {
    private val _postDetails = MutableStateFlow<Outcome<Post>>(Outcome.Progress())
    val postDetails: StateFlow<Outcome<Post>>
@@ -21,7 +23,8 @@ class PostDetailsViewModel @Inject constructor(
 
    private var postId: Int? = null
 
-   fun startLoading(newPostId: Int) {
+   fun startLoading(newPostId: Int) = resources.launchResourceControlTask(_postDetails) {
+      actionLogger.logAction { "loadPost" }
       if (postId != newPostId) {
          postId = newPostId
          loadPost()
@@ -29,6 +32,7 @@ class PostDetailsViewModel @Inject constructor(
    }
 
    fun refresh() {
+      actionLogger.logAction { "refresh" }
       loadPost(force = true)
    }
 
