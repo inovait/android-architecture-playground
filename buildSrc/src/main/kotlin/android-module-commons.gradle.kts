@@ -75,10 +75,15 @@ kotlin {
 
 dependencies {
    add("coreLibraryDesugaring", libs.desugarJdkLibs)
+   add("detektPlugins", project(":detekt"))
 
    if (configurations.findByName("androidTestImplementation") != null) {
       add("androidTestImplementation", libs.kotest.assertions)
    }
+}
+
+detekt {
+   config.from("$rootDir/config/detekt-android.yml")
 }
 
 // Even empty android test tasks take a while to execute. Disable all of them by default.
