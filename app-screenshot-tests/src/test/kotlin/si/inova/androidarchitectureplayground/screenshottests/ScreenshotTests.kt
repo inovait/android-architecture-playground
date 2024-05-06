@@ -11,6 +11,7 @@ import com.android.resources.Density
 import com.android.resources.NightMode
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,14 +29,14 @@ class ScreenshotTests {
       renderingMode = SessionParams.RenderingMode.SHRINK
    )
 
-   object PreviewProvider : TestParameter.TestParameterValuesProvider {
-      override fun provideValues(): List<TestKey> {
+   object PreviewProvider : TestParameterValuesProvider() {
+      override fun provideValues(context: Context?): List<*> {
          // TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
 //         return Showkase.getMetadata().componentList
 //            .filter { it.group != "Default Group" }
 //            .map { TestKey(it) }
 
-         return emptyList()
+         return emptyList<Unit>()
       }
    }
 
