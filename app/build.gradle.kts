@@ -143,6 +143,7 @@ dependencies {
    implementation(libs.androidx.lifecycle.runtime)
    implementation(libs.androidx.lifecycle.viewModel)
    implementation(libs.androidx.lifecycle.viewModel.compose)
+   implementation(libs.coil)
    implementation(libs.certificateTransparency)
    implementation(libs.dispatch)
    implementation(libs.kotlin.immutableCollections)

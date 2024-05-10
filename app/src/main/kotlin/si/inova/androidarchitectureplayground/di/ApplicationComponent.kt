@@ -5,6 +5,7 @@ import com.squareup.anvil.annotations.MergeComponent
 import dagger.BindsInstance
 import dagger.Component
 import si.inova.androidarchitectureplayground.MainActivity
+import si.inova.androidarchitectureplayground.MyApplication
 import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.kotlinova.navigation.di.OuterNavigationScope
 import javax.inject.Singleton
@@ -24,4 +25,5 @@ interface MainApplicationComponent : ApplicationComponent {
 
 interface ApplicationComponent {
    fun inject(mainActivity: MainActivity)
+   fun inject(myApplication: MyApplication)
 }

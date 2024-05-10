@@ -6,7 +6,11 @@ import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.os.strictmode.Violation
 import androidx.core.content.ContextCompat
+import coil.Coil
+import coil.ImageLoader
+import dispatch.core.DefaultCoroutineScope
 import dispatch.core.DefaultDispatcherProvider
+import dispatch.core.defaultDispatcher
 import si.inova.androidarchitectureplayground.di.ApplicationComponent
 import si.inova.androidarchitectureplayground.di.DaggerMainApplicationComponent
 import si.inova.kotlinova.core.dispatchers.AccessCallbackDispatcherProvider
@@ -20,6 +24,9 @@ open class MyApplication : Application() {
    @Inject
    lateinit var errorReporter: Provider<ErrorReporter>
 
+   @Inject
+   lateinit var defaultScope: DefaultCoroutineScope
+
    init {
       if (BuildConfig.DEBUG) {
          // Enable better coroutine stack traces on debug builds
@@ -31,6 +38,7 @@ open class MyApplication : Application() {
 
    override fun onCreate() {
       super.onCreate()
+      applicationComponent.inject(this)
 
       AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.VERBOSE)
 
@@ -43,6 +51,14 @@ open class MyApplication : Application() {
             }
          }
       )
+
+      Coil.setImageLoader {
+         ImageLoader.Builder(this)
+            // Load Coil cache on the background thread
+            // See https://github.com/coil-kt/coil/issues/1878
+            .interceptorDispatcher(defaultScope.defaultDispatcher)
+            .build()
+      }
    }
 
    private fun enableStrictMode() {
@@ -102,12 +118,18 @@ open class MyApplication : Application() {
 
       if (
          e.cause == null &&
-         e.stackTrace.any {
-            it.className.contains("UnixSecureDirectoryStream") ||
-               it.className.contains("UnixDirectoryStream")
-         }
+         (
+            STRICT_MODE_EXCLUSIONS.any {
+               e.toString().contains(it)
+            } ||
+               e.stackTrace.any { stackTraceElement ->
+                  STRICT_MODE_EXCLUSIONS.any {
+                     stackTraceElement.toString().contains(it)
+                  }
+               }
+            )
       ) {
-         // workaround for the https://issuetracker.google.com/issues/270704908
+         // Exclude some classes from strict mode, see STRICT_MODE_EXCLUSIONS below.
          return
       }
 
@@ -122,3 +144,10 @@ open class MyApplication : Application() {
       DaggerMainApplicationComponent.factory().create(this)
    }
 }
+
+private val STRICT_MODE_EXCLUSIONS = listOf(
+   "UnixSecureDirectoryStream", // https://issuetracker.google.com/issues/270704908
+   "UnixDirectoryStream", // https://issuetracker.google.com/issues/270704908,
+   "SurfaceControl.finalize", // https://issuetracker.google.com/issues/167533582
+   "InsetsSourceControl", // https://issuetracker.google.com/issues/307473789
+)
