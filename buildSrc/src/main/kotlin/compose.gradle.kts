@@ -31,6 +31,7 @@ dependencies {
 
    add("debugImplementation", libs.androidx.compose.ui.test.manifest)
    add("debugImplementation", libs.androidx.compose.ui.tooling)
+   add("debugImplementation", libs.rebugger)
 
    add("androidTestImplementation", libs.androidx.compose.ui.test.junit4)
 }
