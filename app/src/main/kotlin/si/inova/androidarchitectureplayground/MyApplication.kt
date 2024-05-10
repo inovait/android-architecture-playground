@@ -1,11 +1,13 @@
 package si.inova.androidarchitectureplayground
 
+import android.app.ActivityManager
 import android.app.Application
 import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.os.strictmode.Violation
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import coil.Coil
 import coil.ImageLoader
 import dispatch.core.DefaultCoroutineScope
@@ -37,6 +39,11 @@ open class MyApplication : Application() {
    }
 
    override fun onCreate() {
+      if (!isMainProcess()) {
+         // Do not perform any initialisation in other processes, they are usually library-specific
+         return
+      }
+
       super.onCreate()
       applicationComponent.inject(this)
 
@@ -138,6 +145,15 @@ open class MyApplication : Application() {
       } else {
          errorReporter.get().report(e)
       }
+   }
+
+   private fun isMainProcess(): Boolean {
+      val activityManager = getSystemService<ActivityManager>()!!
+      val myPid = android.os.Process.myPid()
+
+      return activityManager.runningAppProcesses?.any {
+         it.pid == myPid && packageName == it.processName
+      } == true
    }
 
    open val applicationComponent: ApplicationComponent by lazy {
