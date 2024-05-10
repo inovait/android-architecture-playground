@@ -3,6 +3,5 @@
 /workspace.xml
 /androidTestResultsUserPreferences.xml
 /android-architecture-playground.iml
-/modules/user/ui/AndroidArchitecturePlayground.user.ui.iml
-/modules/detekt/AndroidArchitecturePlayground.detekt.main.iml
-/modules/app-screenshot-tests/AndroidArchitecturePlayground.app-screenshot-tests.iml
+/modules/**/*.iml
+/appInsightsSettings.xml
