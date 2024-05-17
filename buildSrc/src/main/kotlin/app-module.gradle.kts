@@ -1,3 +1,4 @@
+import com.squareup.anvil.plugin.AnvilExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 
 val libs = the<LibrariesForLibs>()
@@ -8,10 +9,15 @@ plugins {
    id("kotlin-kapt")
    id("kotlinova")
    id("com.jraska.module.graph.assertion")
+   id("com.squareup.anvil")
 }
 
-anvil {
-   syncGeneratedSources.set(true)
+afterEvaluate {
+   if (pluginManager.hasPlugin("com.squareup.anvil")) {
+      configure<AnvilExtension> {
+         syncGeneratedSources.set(true)
+      }
+   }
 }
 
 kotlinova {

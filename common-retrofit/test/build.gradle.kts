@@ -8,6 +8,7 @@ dependencies {
    api(libs.kotlinova.retrofit.test)
 
    implementation(projects.common.test)
+   implementation(libs.dagger.runtime)
    implementation(libs.kotlin.coroutines.test)
    implementation(libs.certificateTransparency)
 }
