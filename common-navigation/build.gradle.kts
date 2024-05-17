@@ -1,7 +1,6 @@
 plugins {
    androidLibraryModule
    compose
-   navigation
    parcelize
 }
 
@@ -12,5 +11,4 @@ dependencies {
    implementation(libs.androidx.lifecycle.viewModel.compose)
    implementation(libs.dispatch)
    implementation(libs.kotlinova.compose)
-
 }

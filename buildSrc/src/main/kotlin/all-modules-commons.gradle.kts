@@ -4,16 +4,9 @@ val libs = the<LibrariesForLibs>()
 
 plugins {
    id("checks")
-   id("com.squareup.anvil")
-}
-
-anvil {
-   trackSourceFiles = true
 }
 
 dependencies {
-   add("implementation", libs.dagger.runtime)
-
    if (configurations.findByName("testImplementation") != null) {
       add("testImplementation", libs.junit5.api)
       add("testImplementation", libs.kotest.assertions)
