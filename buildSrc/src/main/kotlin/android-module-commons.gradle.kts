@@ -88,7 +88,7 @@ detekt {
 
 // Even empty android test tasks take a while to execute. Disable all of them by default.
 tasks.configureEach {
-   if (!customConfig.enableEmulatorTests.getOrElse(false) && name.contains("AndroidTest", ignoreCase = true)) {
-      enabled = false
-   }
+//   if (!customConfig.enableEmulatorTests.getOrElse(false) && name.contains("AndroidTest", ignoreCase = true)) {
+//      enabled = false
+//   }
 }
