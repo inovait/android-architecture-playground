@@ -20,5 +20,6 @@ dependencies {
    implementation(projects.commonRetrofit)
    implementation(libs.dispatch)
 
+   testImplementation(projects.common.test)
    testImplementation(projects.commonRetrofit.test)
 }

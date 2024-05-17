@@ -25,6 +25,7 @@ dependencies {
    implementation(libs.kotlinova.core)
    implementation(libs.androidx.compose.material)
 
+   testImplementation(projects.common.test)
    testImplementation(projects.user.test)
 
    androidTestImplementation(projects.user.test)

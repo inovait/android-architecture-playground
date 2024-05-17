@@ -19,6 +19,7 @@ dependencies {
    implementation(projects.commonCompose)
    implementation(projects.login.api)
 
+   testImplementation(projects.common.test)
    testImplementation(projects.login.test)
    androidTestImplementation(projects.login.test)
 }

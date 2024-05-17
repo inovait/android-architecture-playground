@@ -11,4 +11,5 @@ android {
 }
 
 dependencies {
+    testImplementation(projects.common.test)
 }

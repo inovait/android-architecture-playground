@@ -27,6 +27,7 @@ dependencies {
    implementation(libs.androidx.compose.material)
    implementation(libs.coil)
 
+   testImplementation(projects.common.test)
    testImplementation(projects.post.test)
 
    androidTestImplementation(projects.post.test)

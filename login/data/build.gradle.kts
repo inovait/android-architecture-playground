@@ -11,4 +11,6 @@ dependencies {
    implementation(libs.dispatch)
    implementation(libs.androidx.datastore)
    implementation(libs.androidx.datastore.preferences)
+
+   testImplementation(projects.common.test)
 }
