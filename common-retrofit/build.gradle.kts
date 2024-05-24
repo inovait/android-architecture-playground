@@ -13,7 +13,6 @@ dependencies {
    api(libs.okhttp)
    api(libs.retrofit)
 
-   implementation(libs.okio)
    implementation(libs.retrofit.moshi)
    implementation(libs.kotlin.coroutines)
 
