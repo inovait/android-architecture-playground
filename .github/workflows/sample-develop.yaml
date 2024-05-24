@@ -40,7 +40,7 @@ jobs:
       # Tests
 
       - name: Lint
-        run: "./gradlew -PtestAppWithProguard lintRelease detektRelease detektDebugAndroidTest detektReleaseUnitTest assertModuleGraph"
+        run: "./gradlew -PtestAppWithProguard lintRelease detektRelease detektDebugAndroidTest detektReleaseUnitTest assertModuleGraph buildHealth"
       - name: Compile Unit Tests
         run: "./gradlew -PtestAppWithProguard compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest"
       - name: Run Unit Tests

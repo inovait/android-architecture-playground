@@ -34,7 +34,7 @@ jobs:
       # Tests
 
       - name: Lint
-        run: "./gradlew lintRelease detektRelease detektReleaseAndroidTest detektReleaseUnitTest assertModuleGraph"
+        run: "./gradlew lintRelease detektRelease detektReleaseAndroidTest detektReleaseUnitTest assertModuleGraph buildHealth"
       - name: Compile Unit Tests
         run: "./gradlew compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest"
       - name: Run Unit Tests
