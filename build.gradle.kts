@@ -36,6 +36,9 @@ dependencyAnalysis {
 
             // Standard compose dependencies, always included for convenience
             exclude("androidx.compose.ui:ui-graphics")
+            exclude("androidx.compose.ui:ui-test-junit4")
+            exclude("androidx.compose.material3:material3")
+            exclude("androidx.compose.material:material")
             exclude("androidx.lifecycle:lifecycle-runtime-compose")
             exclude("si.inova.kotlinova:compose")
          }
