@@ -5,13 +5,16 @@ plugins {
 }
 
 dependencies {
+   api(projects.common)
    api(projects.login.api)
-   implementation(projects.common)
+   api(libs.dispatch)
+   api(libs.kotlinova.navigation)
+
    implementation(projects.commonNavigation)
 
-   implementation(libs.dispatch)
    implementation(libs.androidx.datastore)
    implementation(libs.androidx.datastore.preferences)
+   implementation(libs.kotlin.coroutines)
 
    testImplementation(projects.common.test)
 }

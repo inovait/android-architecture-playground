@@ -19,15 +19,18 @@ custom {
 }
 
 dependencies {
-   implementation(projects.common)
-   implementation(projects.commonCompose)
-   implementation(projects.user.api)
+   api(projects.common)
+   api(projects.commonCompose)
+   api(projects.user.api)
 
+   api(libs.kotlinova.navigation)
    implementation(libs.kotlinova.core)
    implementation(libs.androidx.compose.material)
 
-   testImplementation(projects.common.test)
    testImplementation(projects.user.test)
+   testImplementation(libs.kotlinova.core.test)
 
    androidTestImplementation(projects.user.test)
+   androidTestImplementation(libs.junit4)
+   androidTestImplementation(libs.kotlin.coroutines)
 }

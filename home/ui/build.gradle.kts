@@ -14,8 +14,7 @@ android {
 }
 
 dependencies {
-   implementation(projects.commonCompose)
-
+   api(libs.kotlinova.navigation)
    implementation(libs.androidx.compose.material3.sizeClasses)
    implementation(libs.kotlinova.core)
 }

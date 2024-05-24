@@ -16,11 +16,18 @@ sqldelight {
 
 dependencies {
    api(projects.user.api)
+   api(projects.common)
+   api(projects.commonRetrofit)
 
-   implementation(projects.common)
-   implementation(projects.commonRetrofit)
+   api(libs.kotlin.coroutines)
+   api(libs.kotlinova.core)
+   api(libs.retrofit)
    implementation(libs.dispatch)
 
    testImplementation(projects.common.test)
    testImplementation(projects.commonRetrofit.test)
+   testImplementation(libs.kotlinova.core.test)
+   testImplementation(libs.kotlinova.retrofit.test)
+   testImplementation(libs.okhttp)
+   testImplementation(libs.okhttp.mockWebServer)
 }

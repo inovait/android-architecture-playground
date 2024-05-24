@@ -16,11 +16,13 @@ android {
 }
 
 dependencies {
-   implementation(projects.common)
-   implementation(projects.commonCompose)
-   implementation(projects.login.api)
+   api(projects.common)
+   api(projects.commonCompose)
+   api(projects.login.api)
+   api(libs.kotlin.coroutines)
+   api(libs.kotlinova.core)
+   api(libs.kotlinova.navigation)
 
-   testImplementation(projects.common.test)
    testImplementation(projects.login.test)
-   androidTestImplementation(projects.login.test)
+   testImplementation(libs.kotlinova.core.test)
 }
