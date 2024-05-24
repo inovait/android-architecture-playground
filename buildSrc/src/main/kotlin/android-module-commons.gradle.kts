@@ -88,7 +88,10 @@ detekt {
 
 // Even empty android test tasks take a while to execute. Disable all of them by default.
 tasks.configureEach {
-   if (!customConfig.enableEmulatorTests.getOrElse(false) && name.contains("AndroidTest", ignoreCase = true)) {
+   if (!customConfig.enableEmulatorTests.getOrElse(false) &&
+      name.contains("AndroidTest", ignoreCase = true) &&
+      !javaClass.name.startsWith("com.autonomousapps") // https://github.com/autonomousapps/dependency-analysis-gradle-plugin/issues/945
+   ) {
       enabled = false
    }
 }
