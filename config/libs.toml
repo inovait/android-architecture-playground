@@ -28,6 +28,7 @@ desugarJdkLibs = "2.0.4"
 detekt = "1.23.6"
 detekt-compilerWarnings = "0.0.4"
 detekt-compose = "0.3.20"
+dependencyAnalysis = "1.32.0"
 dispatch = "1.0.0-beta10"
 kotlin = "1.9.23"
 kotlin-coroutines = "1.8.0"
@@ -97,6 +98,8 @@ certificateTransparency-android = { module = "com.appmattus.certificatetranspare
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 dagger-runtime = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
+detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
 detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-compilerWarnings = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "detekt-compilerWarnings" }
