@@ -121,8 +121,10 @@ android {
 }
 
 dependencies {
+   implementation(projects.common)
    implementation(projects.commonAndroid)
    implementation(projects.commonNavigation)
+   implementation(projects.commonRetrofit)
    implementation(projects.commonRetrofit.android)
    implementation(projects.commonCompose)
 
@@ -136,7 +138,12 @@ dependencies {
    implementation(libs.certificateTransparency)
    implementation(libs.dispatch)
    implementation(libs.kotlin.immutableCollections)
-   implementation(libs.retrofit.moshi)
+   implementation(libs.moshi)
+   implementation(libs.okhttp)
+   implementation(libs.kotlin.coroutines)
+   implementation(libs.kotlinova.core)
+   implementation(libs.kotlinova.navigation)
+   implementation(libs.kotlinova.retrofit)
    implementation(libs.simpleStack)
 
    implementation(libs.androidx.datastore)
@@ -146,14 +153,14 @@ dependencies {
 
    testImplementation(projects.commonAndroid.test)
    androidTestImplementation(projects.commonAndroid.test)
-   androidTestImplementation(projects.commonRetrofit.test)
-   androidTestImplementation(libs.dispatch.espresso)
-   androidTestImplementation(libs.kotlinova.retrofit.test)
-   androidTestImplementation(libs.kotlinova.compose.androidTest)
+   androidTestImplementation(libs.androidx.test.junitRules)
    androidTestImplementation(libs.androidx.test.runner)
+   androidTestImplementation(libs.junit4)
+   androidTestImplementation(libs.kotlinova.compose.androidTest)
+   androidTestImplementation(libs.kotlinova.retrofit.test)
+   androidTestImplementation(libs.okhttp.mockWebServer)
    androidTestUtil(libs.androidx.test.orchestrator)
-   testImplementation(libs.junit4)
 
-   add("benchmarkImplementation", libs.androidx.profileInstaller)
-   add("benchmarkImplementation", libs.androidx.compose.tracing)
+   add("benchmarkRuntimeOnly", libs.androidx.profileInstaller)
+   add("benchmarkRuntimeOnly", libs.androidx.compose.tracing)
 }

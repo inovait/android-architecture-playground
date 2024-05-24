@@ -45,6 +45,7 @@ dependencies {
    implementation(libs.android.agp)
    implementation(libs.anvil)
    implementation(libs.detekt.plugin)
+   implementation(libs.dependencyAnalysis)
    implementation(libs.kotlin.plugin)
    implementation(libs.kotlinova.gradle)
    implementation(libs.moduleGraphAssert)

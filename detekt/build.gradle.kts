@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-   implementation(libs.detekt.api)
+   api(libs.detekt.api)
 }
