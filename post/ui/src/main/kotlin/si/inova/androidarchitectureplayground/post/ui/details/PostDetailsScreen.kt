@@ -76,7 +76,7 @@ private fun PostDetailsContent(
       Column {
          if (postOutcome is Outcome.Error) {
             Text(
-               postOutcome.exception.commonUserFriendlyMessage(),
+               postOutcome.exception.commonUserFriendlyMessage(postOutcome.data != null),
                Modifier
                   .background(Color.Red)
                   .fillMaxWidth()

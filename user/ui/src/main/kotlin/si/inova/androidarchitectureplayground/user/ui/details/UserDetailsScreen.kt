@@ -61,7 +61,7 @@ private fun UserDetailsContent(userOutcome: Outcome<User>, refresh: () -> Unit) 
       Column {
          if (userOutcome is Outcome.Error) {
             Text(
-               userOutcome.exception.commonUserFriendlyMessage(),
+               userOutcome.exception.commonUserFriendlyMessage(userOutcome.data != null),
                Modifier
                   .background(Color.Red)
                   .fillMaxWidth()

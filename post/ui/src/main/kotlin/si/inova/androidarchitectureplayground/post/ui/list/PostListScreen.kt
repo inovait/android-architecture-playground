@@ -94,7 +94,7 @@ private fun PostListContent(
       Column {
          if (state is Outcome.Error) {
             Text(
-               state.exception.commonUserFriendlyMessage(),
+               state.exception.commonUserFriendlyMessage(state.data != null),
                Modifier
                   .background(Color.Red)
                   .fillMaxWidth()
