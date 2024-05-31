@@ -39,12 +39,13 @@ open class MyApplication : Application() {
    }
 
    override fun onCreate() {
+      super.onCreate()
+
       if (!isMainProcess()) {
          // Do not perform any initialisation in other processes, they are usually library-specific
          return
       }
 
-      super.onCreate()
       applicationComponent.inject(this)
 
       AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.VERBOSE)
