@@ -1,5 +1,8 @@
+import com.android.build.api.variant.BuildConfigField
+import com.android.build.api.variant.VariantOutputConfiguration
 import com.squareup.anvil.plugin.AnvilExtension
 import org.gradle.accessors.dm.LibrariesForLibs
+import java.util.Optional
 
 val libs = the<LibrariesForLibs>()
 
@@ -49,6 +52,42 @@ moduleGraphAssert {
 android {
    lint {
       checkDependencies = true
+   }
+
+   androidComponents {
+      onVariants { variant ->
+         val mainOutput =
+            variant.outputs.single { it.outputType == VariantOutputConfiguration.OutputType.SINGLE }
+
+         val gitHashProvider = providers.exec {
+            commandLine("git", "rev-parse", "--short", "HEAD")
+         }.standardOutput.asText.map { it.trim() }
+
+         val baseVersionName = defaultConfig.versionName
+         val buildNumberProvider = provider { Optional.ofNullable(System.getenv("BUILD_NUMBER")?.toInt()) }
+
+         val appendedVersionName = buildNumberProvider.flatMap { buildNumber ->
+            if (buildNumber.isPresent) {
+               provider { "$baseVersionName-${buildNumber.get()}" }
+            } else {
+               gitHashProvider.map { gitHash -> "$baseVersionName-local-$gitHash" }
+            }
+         }
+
+         variant.buildConfigFields.put(
+            "VERSION_NAME",
+            appendedVersionName.map {
+               BuildConfigField(
+                  "String",
+                  "\"$it\"",
+                  "App version"
+               )
+            }
+         )
+
+         mainOutput.versionName.set(appendedVersionName)
+         mainOutput.versionCode.set(buildNumberProvider.map { it.orElse(1) })
+      }
    }
 }
 

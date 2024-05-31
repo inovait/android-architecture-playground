@@ -1,5 +1,3 @@
-import com.android.build.api.variant.BuildConfigField
-
 plugins {
    androidAppModule
    compose
@@ -19,27 +17,10 @@ android {
       applicationId = "si.inova.androidarchitectureplayground"
       targetSdk = 33
       versionCode = 1
-      versionName = "1.0"
+      versionName = "1.0.0"
 
       testInstrumentationRunner = "si.inova.androidarchitectureplayground.instrumentation.TestRunner"
       testInstrumentationRunnerArguments += "clearPackageData" to "true"
-
-      androidComponents {
-         onVariants {
-            it.buildConfigFields.put(
-               "GIT_HASH",
-               providers.exec {
-                  commandLine("git", "rev-parse", "--short", "HEAD")
-               }.standardOutput.asText.map { it.trim() }.map { gitHash ->
-                  BuildConfigField(
-                     "String",
-                     "\"$gitHash\"",
-                     "Git Version"
-                  )
-               }
-            )
-         }
-      }
    }
 
    testOptions {
