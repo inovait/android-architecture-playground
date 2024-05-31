@@ -53,7 +53,7 @@ dependencyAnalysis {
 }
 
 dependencies {
-   testImplementation(projects.app) {
+   implementation(projects.app) {
       // If your app has multiple flavors, this is how you define them:
       //      attributes {
       //         attribute(
