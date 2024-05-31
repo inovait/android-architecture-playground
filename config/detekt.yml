@@ -1063,7 +1063,7 @@ style:
   UseIsNullOrEmpty:
     active: true
   UseLet:
-    active: true
+    active: false # Annoying with else if, https://github.com/detekt/detekt/issues/7134
   UseOrEmpty:
     active: true
   UseRequire:
