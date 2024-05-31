@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import si.inova.androidarchitectureplayground.BuildConfig
 import si.inova.androidarchitectureplayground.common.di.ApplicationScope
+import si.inova.androidarchitectureplayground.common.exceptions.CrashOnDebugException
 import si.inova.kotlinova.core.logging.logcat
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.reporting.ErrorReporter
@@ -28,6 +29,9 @@ class ErrorReportingModule {
                // Substitute with actual Firebase reporting
                throwable.printStackTrace()
             } else if (BuildConfig.DEBUG) {
+               if (throwable is CrashOnDebugException) {
+                  throw throwable
+               }
                throwable.printStackTrace()
             }
          }
