@@ -62,11 +62,12 @@ Every feature should contain following modules:
 
 * `feature-name`
     * `data` - data module with all non-UI logic (such as repositories).
-      No other module (except for top level `app`) should depend on this.
+      No other `data` or `ui` module should depend on this (except for tests).
     * `api` - interfaces and data models exposed to other modules.
       This module should generally contain no logic to speed up builds.
-    * `ui` - Module containing feature's ui (Screens / Fragments / ViewModels)
-    * `test` (optional) - Module containing test helpers for all other modules in this group
+    * `ui` - Module containing feature's ui (Screens / Fragments / ViewModels).
+      No other `data` or `ui` module should depend on this (except for tests).
+    * `test` (optional) - Module containing test helpers for faking stuff exposed in the `api` module
 
 ## Running integration tests
 
