@@ -77,6 +77,13 @@ dependencyAnalysis {
             exclude("com.github.Zhuinden:simple-stack")
          }
       }
+
+      project(":app-screenshot-tests") {
+         onIncorrectConfiguration {
+            // screenshot tests need to include app as implementation, otherwise resources do not work properly
+            exclude(":app")
+         }
+      }
    }
 
    structure {
