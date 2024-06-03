@@ -8,7 +8,6 @@ import app.cash.paparazzi.Paparazzi
 import com.airbnb.android.showkase.models.Showkase
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import com.android.ide.common.rendering.api.SessionParams
-import com.android.resources.Density
 import com.android.resources.NightMode
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
@@ -77,8 +76,8 @@ class ScreenshotTests {
          PIXEL_5.copy(
             ydpi = 600,
             xdpi = 300,
-            screenWidth = 300 * Density.DPI_440.dpiValue / 160,
-            screenHeight = 600 * Density.DPI_440.dpiValue / 160,
+            screenWidth = 300 * 440 / 160,
+            screenHeight = 600 * 440 / 160,
             nightMode = NightMode.NOTNIGHT
          )
       )
