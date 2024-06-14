@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.navigation.keys
 
 import kotlinx.parcelize.Parcelize
-import si.inova.kotlinova.navigation.screenkeys.NoArgsScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.base.BaseScreenKey
 
 @Parcelize
-object PostListScreenKey : NoArgsScreenKey()
+data object PostListScreenKey : BaseScreenKey()
