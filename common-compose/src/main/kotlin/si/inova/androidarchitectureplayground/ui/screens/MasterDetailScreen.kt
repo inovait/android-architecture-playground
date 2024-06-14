@@ -1,10 +1,13 @@
 package si.inova.androidarchitectureplayground.ui.screens
 
-import androidx.activity.compose.BackHandler
+import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.SeekableTransitionState
+import androidx.compose.animation.core.TransitionState
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -18,10 +21,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.screens.Screen
@@ -43,13 +53,20 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
       val defaultOpenDetails = getDefaultOpenDetails(key)
 
       val currentDetailScreen = rememberSaveable { mutableStateOf<D?>(defaultOpenDetails) }
-      val openState = rememberSaveable { mutableStateOf(currentDetailScreen.value != null) }
+      val openState = rememberSaveable(
+         saver = Saver(
+            save = { it.currentState },
+            restore = { SeekableTransitionState(it) }
+         )
+      ) { SeekableTransitionState(currentDetailScreen.value != null) }
       val lastKey = rememberSaveable { mutableStateOf(key) }
+
+      val scope = rememberCoroutineScope()
 
       LaunchedEffect(defaultOpenDetails) {
          if (lastKey.value != key && defaultOpenDetails != currentDetailScreen.value) {
             currentDetailScreen.value = defaultOpenDetails
-            openState.value = defaultOpenDetails != null
+            openState.snapTo(defaultOpenDetails != null)
          }
 
          lastKey.value = key
@@ -57,7 +74,9 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
 
       fun openDetail(key: D) {
          currentDetailScreen.value = key
-         openState.value = true
+         scope.launch {
+            openState.animateTo(true)
+         }
       }
 
       val master = remember {
@@ -78,8 +97,8 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
 
       if (widthSize == WindowWidthSizeClass.Compact) {
          MasterDetailOnPhone(
-            openState = openState::value,
-            updateOpenState = { openState.value = it },
+            openState = openState,
+            updateOpenState = openState::updateOpenState,
             currentDetailScreen = currentDetailScreen::value,
             master = master,
             detail = detail
@@ -92,16 +111,15 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
    @Composable
    @OptIn(ExperimentalAnimationApi::class)
    private fun MasterDetailOnPhone(
-      openState: () -> Boolean,
-      updateOpenState: (Boolean) -> Unit,
+      openState: TransitionState<Boolean>,
+      updateOpenState: suspend (Boolean, Float?) -> Unit,
       currentDetailScreen: () -> D?,
       master: @Composable (Modifier) -> Unit,
       detail: @Composable (Modifier, D) -> Unit,
    ) {
       val saveableStateHolder = rememberSaveableStateHolder()
 
-      AnimatedContent(
-         openState(),
+      rememberTransition(openState).AnimatedContent(
          transitionSpec = {
             if (this.targetState) {
                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) togetherWith
@@ -111,7 +129,6 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
                   slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
             }
          },
-         label = "Master Detail"
       ) { open ->
          saveableStateHolder.SaveableStateProvider(open) {
             if (open) {
@@ -124,8 +141,19 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          }
       }
 
-      BackHandler(enabled = openState()) {
-         updateOpenState(false)
+      PredictiveBackHandler(enabled = openState.currentState == true) { events ->
+         try {
+            events.collectLatest {
+               updateOpenState(false, it.progress)
+            }
+            updateOpenState(false, null)
+         } catch (e: CancellationException) {
+            withContext(NonCancellable) {
+               updateOpenState(true, null)
+            }
+
+            throw e
+         }
       }
    }
 
@@ -161,4 +189,16 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
 
    @Composable
    protected abstract fun Detail(key: D)
+}
+
+private suspend fun SeekableTransitionState<Boolean>.updateOpenState(targetState: Boolean, progress: Float?) {
+   if (progress != null) {
+      seekTo(progress, targetState)
+   } else {
+      if (targetState) {
+         snapTo(targetState)
+      } else {
+         animateTo(targetState)
+      }
+   }
 }
