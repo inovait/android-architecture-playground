@@ -2,6 +2,7 @@ import com.android.build.api.variant.BuildConfigField
 import com.android.build.api.variant.VariantOutputConfiguration
 import com.squareup.anvil.plugin.AnvilExtension
 import org.gradle.accessors.dm.LibrariesForLibs
+import tasks.setupTooManyKotlinFilesTask
 import java.util.Optional
 
 val libs = the<LibrariesForLibs>()
@@ -96,3 +97,5 @@ dependencies {
    kapt(libs.dagger.compiler)
    androidTestImplementation(libs.androidx.test.runner)
 }
+
+project.setupTooManyKotlinFilesTask()
