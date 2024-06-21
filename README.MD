@@ -75,6 +75,13 @@ Process for updating all library versions::
 
 ## Creating a new module
 
+To easily add new modules, first enable project templates (you only need to do this once).
+Open Android Studio's Settings, go to "File and Code Templates" and set Scheme to "Project".
+
+![](docs/enable_templates.png)
+
+Then, to create a new module:
+
 1. Right click on the root in the project window, select New and then the project type you want
   ![Image](docs/module-factory.png)
 2. Add module to `settings.gradle.kts`
