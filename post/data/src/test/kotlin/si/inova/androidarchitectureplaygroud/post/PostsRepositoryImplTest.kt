@@ -94,7 +94,7 @@ class PostsRepositoryImplTest {
             body = "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
             userId = 26,
             tags = listOf("love", "english"),
-            reactions = 7,
+            reactions = PostDto.Reactions(7, 0),
             image = "https://i.dummyjson.com/data/products/12/1.jpg"
          )
       )
@@ -139,7 +139,7 @@ class PostsRepositoryImplTest {
             body = "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
             userId = 26,
             tags = listOf("love", "english"),
-            reactions = 7,
+            reactions = PostDto.Reactions(0, 7),
             image = "https://i.dummyjson.com/data/products/12/1.jpg"
          )
       )
@@ -174,7 +174,7 @@ class PostsRepositoryImplTest {
             body = "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
             userId = 26,
             tags = listOf("love", "english"),
-            reactions = 7,
+            reactions = PostDto.Reactions(3, 4),
             image = "https://i.dummyjson.com/data/products/12/1.jpg"
          )
       )
@@ -214,7 +214,7 @@ class PostsRepositoryImplTest {
          body = "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
          userId = 26,
          tags = listOf("love", "english"),
-         reactions = 7,
+         reactions = PostDto.Reactions(7, 0),
          image = "https://i.dummyjson.com/data/products/12/1.jpg"
       )
 
@@ -239,7 +239,7 @@ class PostsRepositoryImplTest {
             cancelAndConsumeRemainingEvents()
          }
 
-         postService.providePostDetails(testPost.copy(reactions = 12))
+         postService.providePostDetails(testPost.copy(reactions = PostDto.Reactions(6, 6)))
 
          advanceTimeBy(TimeUnit.MINUTES.toMillis(15))
 
@@ -258,7 +258,7 @@ class PostsRepositoryImplTest {
          body = "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
          userId = 26,
          tags = listOf("love", "english"),
-         reactions = 7,
+         reactions = PostDto.Reactions(7, 0),
          image = "https://i.dummyjson.com/data/products/12/1.jpg"
       )
 
@@ -283,7 +283,7 @@ class PostsRepositoryImplTest {
             cancelAndConsumeRemainingEvents()
          }
 
-         postService.providePostDetails(testPost.copy(reactions = 8))
+         postService.providePostDetails(testPost.copy(reactions = PostDto.Reactions(2, 6)))
 
          runCurrent()
 
@@ -305,7 +305,7 @@ class PostsRepositoryImplTest {
                "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
                userId = 26,
                tags = listOf("love", "english"),
-               reactions = 7,
+               reactions = PostDto.Reactions(7, 0),
                image = "https://i.dummyjson.com/data/products/12/1.jpg"
             )
          )
@@ -347,7 +347,7 @@ class PostsRepositoryImplTest {
                "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
                userId = 26,
                tags = listOf("love", "english"),
-               reactions = 7,
+               reactions = PostDto.Reactions(7, 0),
                image = "https://i.dummyjson.com/data/products/12/1.jpg"
             )
          )
