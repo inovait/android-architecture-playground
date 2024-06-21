@@ -45,7 +45,7 @@ fun PostDto.toDb(lastUpdate: Long): DbPost {
       body = body,
       user_id = userId.toLong(),
       tags = tags.joinToString(","),
-      num_reactions = reactions.toLong(),
+      num_reactions = (reactions.likes + reactions.dislikes).toLong(),
       image_url = image,
       full_data = true,
       last_update = lastUpdate
