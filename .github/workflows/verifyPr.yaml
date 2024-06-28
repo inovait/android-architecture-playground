@@ -42,7 +42,7 @@ jobs:
       # Tests
 
       - name: Lint
-        run: "./gradlew lintRelease detektMain detektTest -x detektRelease -x detektBenchmark -x detektReleaseUnitTest -x detektBenchmarkUnitTest assertModuleGraph buildHealth detectTooManyFiles$GLOBAL_FLAGS"
+        run: "./gradlew lintRelease detektMain detektTest -x detektRelease -x detektBenchmark -x detektReleaseUnitTest -x detektBenchmarkUnitTest assertModuleGraph buildHealth detectTooManyFiles --continue$GLOBAL_FLAGS"
       - name: Compile Unit Tests
         run: "./gradlew compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest$GLOBAL_FLAGS"
       - name: Run Unit Tests
