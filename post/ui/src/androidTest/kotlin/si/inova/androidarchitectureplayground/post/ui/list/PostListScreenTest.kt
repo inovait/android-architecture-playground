@@ -13,11 +13,11 @@ import kotlinx.coroutines.MainScope
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
 import si.inova.androidarchitectureplayground.post.FakePostsRepository
+import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome

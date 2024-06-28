@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplaygroud.post.exceptions
+package si.inova.androidarchitectureplayground.post.exceptions
 
 import si.inova.kotlinova.core.outcome.CauseException
 

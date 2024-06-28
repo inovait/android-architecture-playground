@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplaygroud.post.db
+package si.inova.androidarchitectureplayground.post.db
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach

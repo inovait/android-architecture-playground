@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplaygroud.post
+package si.inova.androidarchitectureplayground.post
 
 import app.cash.sqldelight.async.coroutines.awaitAsOne
 import app.cash.turbine.test
@@ -8,14 +8,14 @@ import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import si.inova.androidarchitectureplaygroud.post.db.createTestPostQueries
-import si.inova.androidarchitectureplaygroud.post.exceptions.UnknownPostException
-import si.inova.androidarchitectureplaygroud.post.model.Post
-import si.inova.androidarchitectureplaygroud.post.network.FakePostsService
-import si.inova.androidarchitectureplaygroud.post.network.model.LightPostDto
-import si.inova.androidarchitectureplaygroud.post.network.model.PostDto
 import si.inova.androidarchitectureplayground.common.test.datastore.runTestWithDispatchers
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
+import si.inova.androidarchitectureplayground.post.db.createTestPostQueries
+import si.inova.androidarchitectureplayground.post.exceptions.UnknownPostException
+import si.inova.androidarchitectureplayground.post.model.Post
+import si.inova.androidarchitectureplayground.post.network.FakePostsService
+import si.inova.androidarchitectureplayground.post.network.model.LightPostDto
+import si.inova.androidarchitectureplayground.post.network.model.PostDto
 import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.test.outcomes.shouldBeErrorWith
 import si.inova.kotlinova.core.test.outcomes.shouldBeProgressWithData

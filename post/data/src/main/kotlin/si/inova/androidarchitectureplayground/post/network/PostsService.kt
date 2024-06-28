@@ -1,10 +1,10 @@
-package si.inova.androidarchitectureplaygroud.post.network
+package si.inova.androidarchitectureplayground.post.network
 
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import si.inova.androidarchitectureplaygroud.post.network.model.PostDto
-import si.inova.androidarchitectureplaygroud.post.network.model.PostsDto
+import si.inova.androidarchitectureplayground.post.network.model.PostDto
+import si.inova.androidarchitectureplayground.post.network.model.PostsDto
 
 interface PostsService {
    @GET("posts")

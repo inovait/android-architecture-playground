@@ -1,15 +1,15 @@
-package si.inova.androidarchitectureplaygroud.post.network
+package si.inova.androidarchitectureplayground.post.network
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import si.inova.androidarchitectureplaygroud.post.PostsDataModule
-import si.inova.androidarchitectureplaygroud.post.network.model.LightPostDto
-import si.inova.androidarchitectureplaygroud.post.network.model.PostDto
-import si.inova.androidarchitectureplaygroud.post.network.model.PostsDto
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
 import si.inova.androidarchitectureplayground.network.test.serviceFactory
+import si.inova.androidarchitectureplayground.post.PostsDataModule
+import si.inova.androidarchitectureplayground.post.network.model.LightPostDto
+import si.inova.androidarchitectureplayground.post.network.model.PostDto
+import si.inova.androidarchitectureplayground.post.network.model.PostsDto
 import si.inova.kotlinova.retrofit.mockWebServer
 import si.inova.kotlinova.retrofit.setJsonBodyFromResource
 

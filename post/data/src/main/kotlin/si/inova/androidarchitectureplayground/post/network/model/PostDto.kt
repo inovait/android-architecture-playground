@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplaygroud.post.network.model
+package si.inova.androidarchitectureplayground.post.network.model
 
 import com.squareup.moshi.JsonClass
 

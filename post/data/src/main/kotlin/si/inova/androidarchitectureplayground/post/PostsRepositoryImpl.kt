@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplaygroud.post
+package si.inova.androidarchitectureplayground.post
 
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
@@ -14,15 +14,15 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import si.inova.androidarchitectureplaygroud.post.exceptions.UnknownPostException
-import si.inova.androidarchitectureplaygroud.post.model.Post
-import si.inova.androidarchitectureplaygroud.post.model.toDb
-import si.inova.androidarchitectureplaygroud.post.model.toPost
-import si.inova.androidarchitectureplaygroud.post.network.PostsService
 import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.common.pagination.OffsetDatabaseBackedPaginatedDataStream
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
+import si.inova.androidarchitectureplayground.post.exceptions.UnknownPostException
+import si.inova.androidarchitectureplayground.post.model.Post
+import si.inova.androidarchitectureplayground.post.model.toDb
+import si.inova.androidarchitectureplayground.post.model.toPost
+import si.inova.androidarchitectureplayground.post.network.PostsService
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPost
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPostQueries
 import si.inova.kotlinova.core.exceptions.UnknownCauseException

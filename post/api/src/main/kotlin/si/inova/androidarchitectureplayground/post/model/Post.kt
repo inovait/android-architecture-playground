@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplaygroud.post.model
+package si.inova.androidarchitectureplayground.post.model
 
 data class Post(
    val id: Int,

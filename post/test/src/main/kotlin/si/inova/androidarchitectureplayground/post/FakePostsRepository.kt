@@ -3,9 +3,8 @@ package si.inova.androidarchitectureplayground.post
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import si.inova.androidarchitectureplaygroud.post.PostsRepository
-import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
+import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.kotlinova.core.outcome.Outcome
 
 class FakePostsRepository : PostsRepository {

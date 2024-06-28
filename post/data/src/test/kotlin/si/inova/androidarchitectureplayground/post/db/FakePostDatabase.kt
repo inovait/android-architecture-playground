@@ -1,7 +1,7 @@
-package si.inova.androidarchitectureplaygroud.post.db
+package si.inova.androidarchitectureplayground.post.db
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import si.inova.androidarchitectureplaygroud.post.PostsDataModule
+import si.inova.androidarchitectureplayground.post.PostsDataModule
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.Database
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPost
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPostQueries

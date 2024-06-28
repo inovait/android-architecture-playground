@@ -1,7 +1,7 @@
-package si.inova.androidarchitectureplaygroud.post.model
+package si.inova.androidarchitectureplayground.post.model
 
-import si.inova.androidarchitectureplaygroud.post.network.model.LightPostDto
-import si.inova.androidarchitectureplaygroud.post.network.model.PostDto
+import si.inova.androidarchitectureplayground.post.network.model.LightPostDto
+import si.inova.androidarchitectureplayground.post.network.model.PostDto
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPost
 
 fun DbPost.toPost(): Post {

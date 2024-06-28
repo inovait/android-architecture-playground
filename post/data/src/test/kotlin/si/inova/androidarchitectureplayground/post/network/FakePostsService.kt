@@ -1,8 +1,8 @@
-package si.inova.androidarchitectureplaygroud.post.network
+package si.inova.androidarchitectureplayground.post.network
 
-import si.inova.androidarchitectureplaygroud.post.network.model.LightPostDto
-import si.inova.androidarchitectureplaygroud.post.network.model.PostDto
-import si.inova.androidarchitectureplaygroud.post.network.model.PostsDto
+import si.inova.androidarchitectureplayground.post.network.model.LightPostDto
+import si.inova.androidarchitectureplayground.post.network.model.PostDto
+import si.inova.androidarchitectureplayground.post.network.model.PostsDto
 import si.inova.kotlinova.retrofit.FakeService
 import si.inova.kotlinova.retrofit.ServiceTestingHelper
 

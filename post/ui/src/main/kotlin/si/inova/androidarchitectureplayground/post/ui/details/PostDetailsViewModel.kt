@@ -3,9 +3,9 @@ package si.inova.androidarchitectureplayground.post.ui.details
 import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import si.inova.androidarchitectureplaygroud.post.PostsRepository
-import si.inova.androidarchitectureplaygroud.post.model.Post
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
+import si.inova.androidarchitectureplayground.post.PostsRepository
+import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
