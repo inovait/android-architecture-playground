@@ -16,6 +16,14 @@ jobs:
         run: "sudo apt-get install -y libfreetype6 fontconfig fonts-dejavu"
       - name: Globally enable build cache and parallel execution
         run: "echo -e 'org.gradle.caching=true\norg.gradle.parallel=true' >> ~/.gradle/gradle.properties"
+      - name: Force all tasks to be rerun when debug mode is on
+        # This allows us to force rerun the build if cache has gotten corrupted
+        run: 'if [[ "${{ runner.debug }}" == "1" ]]; then
+                  echo "GLOBAL_FLAGS= --rerun-tasks" >> "$GITHUB_ENV";
+              else
+                  echo "GLOBAL_FLAGS=" >> "$GITHUB_ENV";
+              fi
+            '
       - uses: actions/checkout@v3
         with:
           lfs: true
@@ -26,7 +34,7 @@ jobs:
       # Build
 
       - name: Compile app
-        run: "./gradlew compileReleaseotlin assembleDebug"
+        run: "./gradlew compileReleaseotlin assembleDebug$GLOBAL_FLAGS"
         env:
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
@@ -34,19 +42,19 @@ jobs:
       # Tests
 
       - name: Lint
-        run: "./gradlew lintRelease detektRelease detektReleaseAndroidTest detektReleaseUnitTest assertModuleGraph buildHealth detectTooManyFiles"
+        run: "./gradlew lintRelease detektRelease detektReleaseAndroidTest detektReleaseUnitTest assertModuleGraph buildHealth detectTooManyFiles$GLOBAL_FLAGS"
       - name: Compile Unit Tests
-        run: "./gradlew compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest"
+        run: "./gradlew compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest$GLOBAL_FLAGS"
       - name: Run Unit Tests
-        run: "./gradlew test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest"
+        run: "./gradlew test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest$GLOBAL_FLAGS"
       - name: Run Android Emulator tests
         uses: inovait/actions-common/android-run-with-emulator@main
         with:
-          command: './gradlew connectedAndroidTest'
+          command: './gradlew connectedAndroidTest$GLOBAL_FLAGS'
       - name: "Generate new Screenshot Tests"
         run: "config/generate-screenshots.sh ${{ github.event.pull_request.head.ref }}"
       - name: "Run Screenshot Tests"
-        run: "./gradlew --continue verifyPaparazziDebug"
+        run: "./gradlew --continue verifyPaparazziDebug$GLOBAL_FLAGS"
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: always()

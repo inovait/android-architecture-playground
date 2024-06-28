@@ -20,6 +20,14 @@ jobs:
         run: "sudo apt-get install -y libfreetype6 fontconfig fonts-dejavu"
       - name: Globally enable build cache and parallel execution
         run: "echo -e 'org.gradle.caching=true\norg.gradle.parallel=true' >> ~/.gradle/gradle.properties"
+      - name: Force all tasks to be rerun when debug mode is on
+        # This allows us to force rerun the build if cache has gotten corrupted
+        run: 'if [[ "${{ runner.debug }}" == "1" ]]; then
+                  echo "GLOBAL_FLAGS= --rerun-tasks" >> "$GITHUB_ENV";
+              else
+                  echo "GLOBAL_FLAGS=" >> "$GITHUB_ENV";
+              fi
+            '
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -32,7 +40,7 @@ jobs:
       # Build app
 
       - name: Compile app
-        run: "./gradlew -PtestAppWithProguard compileDebugKotlin assembleRelease"
+        run: "./gradlew -PtestAppWithProguard compileDebugKotlin assembleRelease$GLOBAL_FLAGS"
         env:
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
@@ -40,21 +48,21 @@ jobs:
       # Tests
 
       - name: Lint
-        run: "./gradlew -PtestAppWithProguard lintRelease detektRelease detektDebugAndroidTest detektReleaseUnitTest assertModuleGraph buildHealth detectTooManyFiles"
+        run: "./gradlew -PtestAppWithProguard lintRelease detektRelease detektDebugAndroidTest detektReleaseUnitTest assertModuleGraph buildHealth detectTooManyFiles$GLOBAL_FLAGS"
       - name: Compile Unit Tests
-        run: "./gradlew -PtestAppWithProguard compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest"
+        run: "./gradlew -PtestAppWithProguard compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest$GLOBAL_FLAGS"
       - name: Run Unit Tests
-        run: "./gradlew -PtestAppWithProguard test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest"
+        run: "./gradlew -PtestAppWithProguard test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest$GLOBAL_FLAGS"
       - name: Run Android Emulator tests
         uses: inovait/actions-common/android-run-with-emulator@v2
         with:
-          command: './gradlew -PtestAppWithProguard -PtestAppWithProguard connectedDebugAndroidTest'
+          command: './gradlew -PtestAppWithProguard -PtestAppWithProguard connectedDebugAndroidTest$GLOBAL_FLAGS'
       # This generally does not need to be done on develop, only on PRs. But since there is no PRs on this project,
       # it is done all the same
       - name: "Generate new Screenshot Tests"
         run: "config/generate-screenshots.sh main"
       - name: "Run Screenshot Tests"
-        run: "./gradlew -PtestAppWithProguard --continue verifyPaparazziDebug"
+        run: "./gradlew -PtestAppWithProguard --continue verifyPaparazziDebug$GLOBAL_FLAGS"
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: always()
