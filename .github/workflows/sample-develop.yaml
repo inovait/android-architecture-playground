@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      - uses: inovait/actions-common/android-setup@v5
+      - uses: inovait/actions-common/android-setup@v7
         with:
           java-version: 17
 
@@ -54,7 +54,7 @@ jobs:
       - name: Run Unit Tests
         run: "./gradlew -PtestAppWithProguard test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest$GLOBAL_FLAGS"
       - name: Run Android Emulator tests
-        uses: inovait/actions-common/android-run-with-emulator@v2
+        uses: inovait/actions-common/android-run-with-emulator@v7
         with:
           command: './gradlew -PtestAppWithProguard -PtestAppWithProguard connectedDebugAndroidTest$GLOBAL_FLAGS'
       # This generally does not need to be done on develop, only on PRs. But since there is no PRs on this project,
@@ -82,7 +82,7 @@ jobs:
 
       # This project has no actual release, but is kept in as an example
       #      - name: Generate Changelog
-      #        uses: inovait/actions-common/changelog-since-last-build@v3
+      #        uses: inovait/actions-common/changelog-since-last-build@v7
       #        with:
       #          git_commit_url_prefix: 'https://github.com/inovait/test-genie-android/commit/'
       #          target_file: "CHANGELOG.MD"
@@ -93,7 +93,7 @@ jobs:
       #          git tag ${{env.TAG_BUILD}}
       #          git push origin ${{env.TAG_BUILD}}
       #      - name: Publish to spotlight
-      #        uses: inovait/actions-common/spotlight-publish@v2
+      #        uses: inovait/actions-common/spotlight-publish@v7
       #        with:
       #          api_key: ${{secrets.SPOTLIGHT_KEY}}
       #          destination: 'release'
