@@ -6,10 +6,10 @@ import dagger.Provides
 import si.inova.androidarchitectureplayground.BuildConfig
 import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.common.exceptions.CrashOnDebugException
+import si.inova.kotlinova.core.exceptions.UnknownCauseException
 import si.inova.kotlinova.core.logging.logcat
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.reporting.ErrorReporter
-import kotlin.coroutines.cancellation.CancellationException
 
 @Suppress("unused")
 @ContributesTo(ApplicationScope::class)
@@ -19,12 +19,12 @@ class ErrorReportingModule {
    fun provideErrorReporter(): ErrorReporter {
       return object : ErrorReporter {
          override fun report(throwable: Throwable) {
-            if (throwable is CancellationException) {
-               report(Exception("Got cancellation exception", throwable))
+            if (throwable !is CauseException) {
+               report(UnknownCauseException("Got reported non-cause exception", throwable))
                return
             }
 
-            if (throwable !is CauseException || throwable.shouldReport) {
+            if (throwable.shouldReport) {
                logcat { "Reporting $throwable to Firebase" }
                // Substitute with actual Firebase reporting
                throwable.printStackTrace()
