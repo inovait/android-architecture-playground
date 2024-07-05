@@ -54,7 +54,7 @@ sqldelight = "2.0.2"
 tomlj = "1.1.1"
 turbine = "1.1.0"
 versionsChecker = "0.51.0"
-whatTheStack = "f508cf4ef5"
+whatTheStack = "1.0.0-alpha07"
 
 [libraries]
 androidGradleCacheFix = { module = "org.gradle.android.cache-fix:org.gradle.android.cache-fix.gradle.plugin", version.ref = "androidGradleCacheFix" }
@@ -154,7 +154,7 @@ sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-async = { module = "app.cash.sqldelight:async-extensions", version.ref = "sqldelight" }
 tomlj = { module = "org.tomlj:tomlj", version.ref = "tomlj" }
-whatTheStack = { module = "com.github.matejdro:WhatTheStack", version.ref = "whatTheStack" }
+whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTheStack" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 
