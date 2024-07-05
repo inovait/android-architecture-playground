@@ -16,7 +16,6 @@ android {
 dependencies {
    implementation(libs.kotlinova.compose)
    implementation(libs.androidx.compose.material3.sizeClasses)
-   implementation(libs.androidx.core)
    implementation(libs.kotlinova.core)
    implementation(libs.coil)
 }
