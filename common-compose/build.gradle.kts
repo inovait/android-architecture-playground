@@ -18,7 +18,6 @@ dependencies {
 
    implementation(libs.kotlinova.compose)
    implementation(libs.androidx.compose.material3.sizeClasses)
-   implementation(libs.androidx.core)
    implementation(libs.kotlin.coroutines)
    implementation(libs.kotlinova.core)
    implementation(libs.androidx.activity.compose)
