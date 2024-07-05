@@ -1,0 +1,8 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun Content(
+  unused key: LoginScreenKey
+  <this>: LoginScreen
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun Content(
+  unused key: ManageProfileScreenKey
+  stable <this>: ManageProfileScreenImpl
+)

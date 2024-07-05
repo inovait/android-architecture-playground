@@ -1,0 +1,107 @@
+stable class ShowkaseMetadata_si_inova_androidarchitectureplayground_post_ui_details {
+  <runtime stability> = Stable
+}
+stable class HomePostsScreen {
+  stable val userListScreen: PostListScreen
+  runtime val userDetailsScreen: Screen<PostDetailsScreenKey>
+}
+stable class PostDetailsScreen {
+  unstable val viewModel: PostDetailsViewModel
+  stable val navigator: Navigator
+}
+unstable class PostDetailsViewModel {
+  unstable val resources: CoroutineResourceManager
+  unstable val postRepository: PostsRepository
+  unstable val actionLogger: ActionLogger
+  unstable val _postDetails: MutableStateFlow<Outcome<Post>>
+  stable var postId: Int?
+  <runtime stability> = Unstable
+}
+stable class PostListScreen {
+  unstable val viewModel: PostListViewModel
+  stable val navigator: Navigator
+}
+stable class PostListState {
+  stable val posts: List<Post>
+  stable val hasAnyDataLeft: Boolean
+  <runtime stability> = 
+}
+unstable class PostListViewModel {
+  unstable val resources: CoroutineResourceManager
+  unstable val postRepository: PostsRepository
+  unstable val actionLogger: ActionLogger
+  unstable val _postList: MutableStateFlow<Outcome<PostListState>>
+  unstable var postPaginatedList: PaginatedDataStream<List<Post>>?
+  <runtime stability> = Unstable
+}
+stable class HomePostsScreenModule_Companion_ProvidesScreenRegistrationFactory {
+  <runtime stability> = Stable
+}
+stable class PostListScreenModule {
+  <runtime stability> = Stable
+}
+stable class PostListViewModelBackstackModule {
+  <runtime stability> = Stable
+}
+unstable class PostListViewModelBackstackModule_ProvideFromSimpleStackFactory {
+  stable val module: PostListViewModelBackstackModule
+  unstable val backstack: Provider<Backstack>
+  <runtime stability> = Unstable
+}
+unstable class PostListScreenModule_Companion_ProvidesScreenFactoryFactory {
+  unstable val navigatorProvider: Provider<@[JvmSuppressWildcards(suppress = <null>)] Navigator>
+  <runtime stability> = Unstable
+}
+unstable class PostListViewModel_Factory {
+  unstable val resources: Provider<CoroutineResourceManager>
+  unstable val postRepository: Provider<PostsRepository>
+  unstable val actionLogger: Provider<ActionLogger>
+  <runtime stability> = Unstable
+}
+stable class PostListScreenModule_Companion_ProvidesScreenRegistrationFactory {
+  <runtime stability> = Stable
+}
+unstable class PostListScreenModule_Companion_BindsScreenFactoryToParentTypeFactory {
+  unstable val screenFactory: Provider<@[JvmSuppressWildcards(suppress = <null>)] ScreenFactory<PostListScreen>>
+  <runtime stability> = Unstable
+}
+unstable class HomePostsScreenModule_Companion_ProvidesScreenFactoryFactory {
+  unstable val userListScreenFactory: Provider<@[JvmSuppressWildcards(suppress = <null>)] ScreenFactory<PostListScreen>>
+  unstable val userDetailsScreenFactory: Provider<@[JvmSuppressWildcards(suppress = <null>)] ScreenFactory<Screen<PostDetailsScreenKey>>>
+  <runtime stability> = Unstable
+}
+unstable class HomePostsScreenModule_Companion_BindsScreenFactoryToParentTypeFactory {
+  unstable val screenFactory: Provider<@[JvmSuppressWildcards(suppress = <null>)] ScreenFactory<HomePostsScreen>>
+  <runtime stability> = Unstable
+}
+stable class HomePostsScreenModule {
+  <runtime stability> = Stable
+}
+stable class PostDetailsScreenModule {
+  <runtime stability> = Stable
+}
+unstable class PostDetailsViewModelBackstackModule_ProvideFromSimpleStackFactory {
+  stable val module: PostDetailsViewModelBackstackModule
+  unstable val backstack: Provider<Backstack>
+  <runtime stability> = Unstable
+}
+unstable class PostDetailsViewModel_Factory {
+  unstable val resources: Provider<CoroutineResourceManager>
+  unstable val postRepository: Provider<PostsRepository>
+  unstable val actionLogger: Provider<ActionLogger>
+  <runtime stability> = Unstable
+}
+unstable class PostDetailsScreenModule_Companion_BindsScreenFactoryToParentTypeFactory {
+  unstable val screenFactory: Provider<@[JvmSuppressWildcards(suppress = <null>)] ScreenFactory<PostDetailsScreen>>
+  <runtime stability> = Unstable
+}
+unstable class PostDetailsScreenModule_Companion_ProvidesScreenFactoryFactory {
+  unstable val navigatorProvider: Provider<@[JvmSuppressWildcards(suppress = <null>)] Navigator>
+  <runtime stability> = Unstable
+}
+stable class PostDetailsScreenModule_Companion_ProvidesScreenRegistrationFactory {
+  <runtime stability> = Stable
+}
+stable class PostDetailsViewModelBackstackModule {
+  <runtime stability> = Stable
+}
