@@ -5,14 +5,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshDefaults
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -81,9 +85,13 @@ private fun UserListContent(
    openUserDetails: (id: Int) -> Unit,
 ) {
    val refreshing = state is Outcome.Progress && state.style != LoadingStyle.ADDITIONAL_DATA
+   val topWindowOffset = WindowInsets.safeDrawing.asPaddingValues().calculateTopPadding()
+
    val refreshState = rememberPullRefreshState(
       refreshing = refreshing,
-      onRefresh = { refresh() }
+      onRefresh = { refresh() },
+      refreshThreshold = PullRefreshDefaults.RefreshThreshold + topWindowOffset,
+      refreshingOffset = PullRefreshDefaults.RefreshingOffset + topWindowOffset
    )
 
    val lazyListState = rememberLazyListState()
@@ -122,7 +130,8 @@ private fun ColumnScope.UserList(
       Modifier
          .fillMaxWidth()
          .weight(1f),
-      lazyListState
+      lazyListState,
+      contentPadding = WindowInsets.safeDrawing.asPaddingValues()
    ) {
       itemsWithDivider(state.data?.users.orEmpty()) {
          Text(

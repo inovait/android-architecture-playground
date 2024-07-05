@@ -3,12 +3,17 @@ package si.inova.androidarchitectureplayground.user.ui.details
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshDefaults
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -52,13 +57,17 @@ class UserDetailsScreen(
 @Composable
 private fun UserDetailsContent(userOutcome: Outcome<User>, refresh: () -> Unit) {
    val refreshing = userOutcome is Outcome.Progress
+   val topWindowOffset = WindowInsets.safeDrawing.asPaddingValues().calculateTopPadding()
+
    val refreshState = rememberPullRefreshState(
       refreshing = refreshing,
-      onRefresh = { refresh() }
+      onRefresh = { refresh() },
+      refreshThreshold = PullRefreshDefaults.RefreshThreshold + topWindowOffset,
+      refreshingOffset = PullRefreshDefaults.RefreshingOffset + topWindowOffset
    )
 
    Box(Modifier.pullRefresh(refreshState)) {
-      Column {
+      Column(Modifier.safeDrawingPadding()) {
          if (userOutcome is Outcome.Error) {
             Text(
                userOutcome.exception.commonUserFriendlyMessage(userOutcome.data != null),
