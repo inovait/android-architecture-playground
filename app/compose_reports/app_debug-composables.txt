@@ -1,7 +1,0 @@
-restartable scheme("[androidx.compose.ui.UiComposable]") fun NavigationRoot(
-  initialHistory: ImmutableList<ScreenKey>
-  unstable <this>: MainActivity
-)
-restartable skippable fun LogCurrentScreen(
-  stable backstack: Backstack
-)
