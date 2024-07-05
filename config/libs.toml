@@ -53,7 +53,7 @@ showkase = "1.0.3"
 tomlj = "1.1.1"
 turbine = "1.1.0"
 versionsChecker = "0.51.0"
-whatTheStack = "f508cf4ef5"
+whatTheStack = "1.0.0-alpha07"
 
 [libraries]
 androidGradleCacheFix = { module = "org.gradle.android.cache-fix:org.gradle.android.cache-fix.gradle.plugin", version.ref = "androidGradleCacheFix" }
@@ -148,7 +148,7 @@ showkase = { module = "com.airbnb.android:showkase", version.ref = "showkase" }
 showkase-processor = { module = "com.airbnb.android:showkase-processor", version.ref = "showkase" }
 simpleStack = { module = "com.github.Zhuinden:simple-stack", version.ref = "simpleStack" }
 tomlj = { module = "org.tomlj:tomlj", version.ref = "tomlj" }
-whatTheStack = { module = "com.github.matejdro:WhatTheStack", version.ref = "whatTheStack" }
+whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTheStack" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 
