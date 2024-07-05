@@ -1,0 +1,6 @@
+stable class ShowkaseMetadata_showkase_si_inova_androidarchitectureplayground_ui_debugging_fullscreenpreviews {
+  <runtime stability> = Stable
+}
+stable class ShowkaseMetadata_si_inova_androidarchitectureplayground_ui_components {
+  <runtime stability> = Stable
+}

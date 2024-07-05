@@ -1,0 +1,43 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable], [androidx.compose.ui.UiComposable]]") fun ProgressErrorSuccessScaffold(
+  stable outcome: Outcome<T>?
+  stable modifier: Modifier? = @static Companion
+  stable errorText: Function3<CauseException, Composer, Int, String>? = @dynamic { it: CauseException, $composer: Composer?, $changed: Int ->
+  $composer  .  startReplaceableGroup  (  -1984434609  )  
+  sourceInformation  (  $composer  ,   "C26@1195L27:ProgressErrorSuccessScaffold.kt#cri6mm"  )  
+  if (  isTraceInProgress  (  )  ) {
+    traceEventStart    (    -1984434609    ,     $changed    ,     -1    ,     "si.inova.androidarchitectureplayground.ui.components.ProgressErrorSuccessScaffold.<anonymous> (ProgressErrorSuccessScaffold.kt:26)"    )
+  }
+  
+  val   tmp0   =   it  .  commonUserFriendlyMessage  (  false  ,   $composer  ,   0b1110   and   $changed  ,   0b0001  )  
+  if (  isTraceInProgress  (  )  ) {
+    traceEventEnd    (    )
+  }
+  
+  $composer  .  endReplaceableGroup  (  )  
+  tmp0
+}
+
+  stable data: Function3<T, Composer, Int, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ErrorPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProgressPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable, [androidx.compose.ui.UiComposable]]") fun PreviewTheme(
+  stable formatter: AndroidDateTimeFormatter? = @dynamic FakeAndroidDateTimeFormatter()
+  stable fill: Boolean = @static true
+  stable content: Function2<Composer, Int, Unit>
+)
+fun commonUserFriendlyMessage(
+  stable <this>: CauseException
+  stable hasExistingData: Boolean = @static false
+): String
+restartable skippable scheme("[0, [0]]") fun AndroidArchitecturePlaygroundTheme(
+  stable darkTheme: Boolean = @dynamic isSystemInDarkTheme($composer, 0)
+  stable dynamicColor: Boolean = @static true
+  stable content: Function2<Composer, Int, Unit>
+)
+fun defaultColor(
+  stable <this>: TransparencyFixRippleTheme
+): Color
+fun rippleAlpha(
+  stable <this>: TransparencyFixRippleTheme
+): RippleAlpha
