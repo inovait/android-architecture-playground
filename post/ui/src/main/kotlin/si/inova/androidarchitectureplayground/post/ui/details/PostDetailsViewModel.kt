@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.post.ui.details
 
-import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
@@ -11,7 +10,6 @@ import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
 import javax.inject.Inject
 
-@Stable
 class PostDetailsViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val postRepository: PostsRepository,

@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.user.ui.list
 
-import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -14,7 +13,6 @@ import si.inova.kotlinova.core.outcome.mapData
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
 import javax.inject.Inject
 
-@Stable
 class UserListViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val userRepository: UserRepository,

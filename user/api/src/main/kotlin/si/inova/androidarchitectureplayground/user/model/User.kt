@@ -1,5 +1,8 @@
 package si.inova.androidarchitectureplayground.user.model
 
+import si.inova.kotlinova.core.data.Immutable
+
+@Immutable
 data class User(
    val id: Int,
    val firstName: String,

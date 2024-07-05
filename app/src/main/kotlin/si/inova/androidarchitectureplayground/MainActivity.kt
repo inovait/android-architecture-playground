@@ -123,27 +123,27 @@ class MainActivity : ComponentActivity() {
       }
    }
 
-   @Composable
-   private fun LogCurrentScreen(backstack: Backstack) {
-      DisposableEffect(backstack) {
-         val listener = Backstack.CompletionListener {
-            @Suppress("UNUSED_VARIABLE") // TODO use it
-            val newTopKey = it.topNewKey<ScreenKey>()
-
-            // TODO log new top key here to the crash reporting service, such as Firebase
-            //  (and ideally set a Key) to make debugging crashes / error reports easier
-         }
-
-         backstack.addStateChangeCompletionListener(listener)
-
-         onDispose { backstack.removeStateChangeCompletionListener(listener) }
-      }
-   }
-
    private inner class ViewModelFactory(private val startIntent: Intent) : ViewModelProvider.Factory {
       override fun <T : ViewModel> create(modelClass: Class<T>): T {
          @Suppress("UNCHECKED_CAST")
          return mainViewModelFactory.create(startIntent) as T
       }
+   }
+}
+
+@Composable
+private fun LogCurrentScreen(backstack: Backstack) {
+   DisposableEffect(backstack) {
+      val listener = Backstack.CompletionListener {
+         @Suppress("UNUSED_VARIABLE") // TODO use it
+         val newTopKey = it.topNewKey<ScreenKey>()
+
+         // TODO log new top key here to the crash reporting service, such as Firebase
+         //  (and ideally set a Key) to make debugging crashes / error reports easier
+      }
+
+      backstack.addStateChangeCompletionListener(listener)
+
+      onDispose { backstack.removeStateChangeCompletionListener(listener) }
    }
 }

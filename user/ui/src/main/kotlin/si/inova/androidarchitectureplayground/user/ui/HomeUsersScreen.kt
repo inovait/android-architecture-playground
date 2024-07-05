@@ -1,6 +1,7 @@
 package si.inova.androidarchitectureplayground.user.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import si.inova.androidarchitectureplayground.navigation.keys.HomeUsersScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.ui.screens.MasterDetailScreen
@@ -9,6 +10,7 @@ import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding(boundType = Screen::class)
+@Stable
 class HomeUsersScreen(
    private val userListScreen: UserListScreen,
    private val userDetailsScreen: Screen<UserDetailsScreenKey>,

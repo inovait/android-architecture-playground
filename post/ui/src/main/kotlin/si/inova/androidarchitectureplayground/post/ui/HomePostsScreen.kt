@@ -1,6 +1,7 @@
 package si.inova.androidarchitectureplayground.post.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import si.inova.androidarchitectureplayground.navigation.keys.HomePostsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.post.ui.list.PostListScreen
@@ -9,6 +10,7 @@ import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding(boundType = Screen::class)
+@Stable
 class HomePostsScreen(
    private val userListScreen: PostListScreen,
    private val userDetailsScreen: Screen<PostDetailsScreenKey>,
