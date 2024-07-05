@@ -95,9 +95,18 @@ sqldelight {
    databases {
       create("Database") {
          packageName.set("si.inova.androidarchitectureplayground")
+         schemaOutputDirectory.set(file("src/main/sqldelight/databases"))
+
          dependency(projects.user.data)
          dependency(projects.post.data)
       }
+   }
+}
+
+afterEvaluate {
+   tasks.named("verifyDebugDatabaseMigration") {
+      // Workaround for the https://github.com/cashapp/sqldelight/issues/5115
+      mustRunAfter("generateDebugDatabaseSchema")
    }
 }
 
