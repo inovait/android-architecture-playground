@@ -11,6 +11,7 @@ import dagger.multibindings.Multibinds
 import okhttp3.OkHttpClient
 import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.kotlinova.retrofit.interceptors.BypassCacheInterceptor
+import java.time.Duration
 import javax.inject.Singleton
 
 @Module
@@ -60,8 +61,14 @@ abstract class NetworkModule {
                   diskCache = certificateTransparencyDiskCache
                }
             )
+            .callTimeout(DEFAULT_TIMEOUT)
+            .readTimeout(DEFAULT_TIMEOUT)
+            .writeTimeout(DEFAULT_TIMEOUT)
+            .connectTimeout(DEFAULT_TIMEOUT)
       }
    }
 }
 
 interface MoshiAdapter
+
+private val DEFAULT_TIMEOUT = Duration.ofSeconds(10)
