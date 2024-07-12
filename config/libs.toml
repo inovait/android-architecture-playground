@@ -23,6 +23,7 @@ androidx-perfetto = "1.0.0"
 androidx-r8 = "8.5.35"
 anvil = "2.5.0-beta07"
 certificateTransparency = "2.5.49"
+composeGuard = "2.2.1"
 coil = "2.7.0"
 dagger = "2.51.1"
 desugarJdkLibs = "2.0.4"
@@ -99,6 +100,7 @@ anvil-utils = { module = "com.squareup.anvil:compiler-utils", version.ref = "anv
 certificateTransparency = { module = "com.appmattus.certificatetransparency:certificatetransparency", version.ref = "certificateTransparency" }
 certificateTransparency-android = { module = "com.appmattus.certificatetransparency:certificatetransparency-android", version.ref = "certificateTransparency" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+composeGuard = { module = "com.joetr.compose.guard:com.joetr.compose.guard.gradle.plugin", version.ref = "composeGuard" }
 dagger-runtime = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
