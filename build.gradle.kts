@@ -130,5 +130,10 @@ dependencyAnalysis {
       bundle("sqlDelight") {
          includeGroup("app.cash.sqldelight")
       }
+
+      bundle("dagger") {
+         includeGroup("com.google.dagger")
+         includeDependency("javax.inject:javax.inject")
+      }
    }
 }
