@@ -4,6 +4,10 @@ import util.commonKotlinOptions
 
 val libs = the<LibrariesForLibs>()
 
+plugins {
+   id("com.joetr.compose.guard")
+}
+
 commonAndroid {
    buildFeatures {
       compose = true

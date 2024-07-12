@@ -1,0 +1,47 @@
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun Master(
+  unused key: HomeUsersScreenKey
+  stable openDetail: Function1<UserDetailsScreenKey, Unit>
+  stable <this>: HomeUsersScreen
+)
+restartable skippable fun Detail(
+  key: UserDetailsScreenKey
+  stable <this>: HomeUsersScreen
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun Content(
+  key: UserDetailsScreenKey
+  stable <this>: UserDetailsScreen
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun UserDetailsContent(
+  stable userOutcome: Outcome<User>
+  stable refresh: Function0<Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ShowUser(
+  stable user: User
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun SuccesPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ProgressPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun ErrorPreview()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun Content(
+  unused key: UserListScreenKey
+  stable <this>: UserListScreen
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun Content(
+  stable navigate: Function1<@[ParameterName(name = 'id')] Int, Unit>
+  stable <this>: UserListScreen
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun UserListContent(
+  stable state: Outcome<UserListState>
+  stable loadMore: Function0<Unit>
+  stable refresh: Function0<Unit>
+  stable openUserDetails: Function1<@[ParameterName(name = 'id')] Int, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun UserList(
+  stable <this>: ColumnScope
+  stable lazyListState: LazyListState
+  stable state: Outcome<UserListState>
+  stable openUserDetails: Function1<@[ParameterName(name = 'id')] Int, Unit>
+)
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun UserListContentSuccess()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun UserListContentLoading()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun UserListContentError()
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun UserListContentLoadingMore()
