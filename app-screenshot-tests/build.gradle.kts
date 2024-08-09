@@ -38,6 +38,15 @@ plugins.withId("app.cash.paparazzi") {
    }
 }
 
+dependencyAnalysis {
+   issues {
+      onIncorrectConfiguration {
+         // screenshot tests need to include app as implementation, otherwise resources do not work properly
+         exclude(":app")
+      }
+   }
+}
+
 dependencies {
    implementation(projects.app) {
       // If your app has multiple flavors, this is how you define them:
