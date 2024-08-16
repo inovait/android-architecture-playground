@@ -7,5 +7,8 @@
     "love",
     "english"
   ],
-  "reactions": 7
+  "reactions": {
+    "likes": 4,
+    "dislikes": 3
+  }
 }

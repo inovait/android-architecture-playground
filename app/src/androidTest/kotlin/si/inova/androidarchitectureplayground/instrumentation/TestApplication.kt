@@ -13,6 +13,7 @@ class TestApplication : MyApplication() {
    init {
       // We need to make these calls as a workaround for the https://issuetracker.google.com/issues/277672742
       Duration.ofMillis(0L)
+      Duration.ofSeconds(0L)
       TimeZone.getTimeZone("UTC")
    }
 }

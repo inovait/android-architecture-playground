@@ -1,5 +1,5 @@
 # Uncomment this to debug tests. Comment it back to ensure that tests also test whether obfuscation breaks anything
-#-dontobfuscate
+# -dontobfuscate
 
 # Proguard rules needed for instrumented tests to pass
 # (since instrumented tests use some code that would otherwise be optimized out)
@@ -48,5 +48,9 @@
     *;
 }
 -keep class * extends dagger.internal.Factory {
+    *;
+}
+
+-keep class si.inova.androidarchitectureplayground.instrumentation.** {
     *;
 }
