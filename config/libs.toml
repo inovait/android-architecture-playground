@@ -20,6 +20,7 @@ androidx-test-espresso = "3.6.1"
 androidx-test-runner = "1.6.1"
 androidx-test-orchestrator = "1.5.0"
 androidx-perfetto = "1.0.0"
+androidx-r8 = "8.5.35"
 anvil = "2.5.0-beta07"
 certificateTransparency = "2.5.49"
 coil = "2.7.0"
@@ -30,6 +31,7 @@ detekt-compilerWarnings = "0.0.4"
 detekt-compose = "0.4.8"
 dependencyAnalysis = "1.33.0"
 dispatch = "1.0.0-beta10"
+keeperPlugin = "0.16.1"
 kotlin = "1.9.24"
 kotlin-coroutines = "1.8.0"
 kotlin-immutableCollections = "0.3.7"
@@ -90,6 +92,7 @@ androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiaut
 androidx-test-junitRules = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext" }
 androidx-perfetto = { module = "androidx.tracing:tracing-perfetto", version.ref = "androidx-perfetto" }
 androidx-perfetto-binary = { module = "androidx.tracing:tracing-perfetto-binary", version.ref = "androidx-perfetto" }
+androidx-r8 = { module = "com.android.tools:r8", version.ref = "androidx-r8" }
 anvil = { module = "com.squareup.anvil:gradle-plugin", version.ref = "anvil" }
 anvil-api = { module = "com.squareup.anvil:compiler-api", version.ref = "anvil" }
 anvil-utils = { module = "com.squareup.anvil:compiler-utils", version.ref = "anvil" }
@@ -112,6 +115,7 @@ junit4 = { module = "junit:junit", version.ref = "junit4" }
 junit4-parameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "junit4-parameterinjector" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+keeperPlugin = { module = "com.slack.keeper:keeper", version.ref = "keeperPlugin" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
