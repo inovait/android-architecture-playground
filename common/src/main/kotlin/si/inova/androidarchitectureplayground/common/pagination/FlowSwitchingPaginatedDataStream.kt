@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
  * To wait for next page request from the user, you can call receive on the [nextPageChannel] channel.
  */
 abstract class FlowSwitchingPaginatedDataStream<T> : PaginatedDataStream<T> {
-   protected val nextPageChannel = Channel<Unit>()
+   protected val nextPageChannel = Channel<Unit>(Channel.CONFLATED)
    protected val targetFlow: MutableStateFlow<Flow<PaginatedDataStream.PaginationResult<T>>> =
       MutableStateFlow(emptyFlow())
 
