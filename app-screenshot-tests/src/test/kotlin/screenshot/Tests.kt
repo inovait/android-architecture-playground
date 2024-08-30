@@ -1,8 +1,10 @@
-package si.inova.androidarchitectureplayground.screenshottests
+// Package is intentionally short to reduce image file name
+package screenshot
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalInspectionMode
+import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
@@ -19,10 +21,10 @@ import org.junit.runner.RunWith
 
 @Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
-class ScreenshotTests {
+class Tests {
    @get:Rule
    val paparazzi = Paparazzi(
-      deviceConfig = PIXEL_5,
+      deviceConfig = DeviceConfig.PIXEL_5,
       theme = "android:Theme.Material.Light.NoActionBar",
       maxPercentDifference = 0.0,
       showSystemUi = false,
@@ -41,9 +43,11 @@ class ScreenshotTests {
    }
 
    data class TestKey(val showkaseBrowserComponent: ShowkaseBrowserComponent) {
-      override fun toString(): String {
-         return showkaseBrowserComponent.componentKey
+      val key = with(showkaseBrowserComponent) {
+         componentName + (styleName?.let { "-$it" } ?: "")
       }
+
+      override fun toString(): String = key
    }
 
    @Before
@@ -54,7 +58,7 @@ class ScreenshotTests {
    }
 
    @Test
-   fun launchTests(
+   fun test(
       @TestParameter(valuesProvider = PreviewProvider::class)
       testKey: TestKey,
    ) {
@@ -68,7 +72,7 @@ class ScreenshotTests {
          composable()
       }
       paparazzi.unsafeUpdateConfig(
-         PIXEL_5.copy(
+         DeviceConfig.PIXEL_5.copy(
             nightMode = NightMode.NIGHT
          )
       )
