@@ -117,7 +117,7 @@ private fun ShowUser(user: User) {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun SuccesPreview() {
+internal fun UserDetailsScreenSuccesPreview() {
    val testUser = User(
       id = 1,
       firstName = "John",
@@ -141,7 +141,7 @@ internal fun SuccesPreview() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun ProgressPreview() {
+internal fun UserDetailsScreenProgressPreview() {
    val testUser = User(
       id = 1,
       firstName = "John",
@@ -165,7 +165,7 @@ internal fun ProgressPreview() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun ErrorPreview() {
+internal fun UserDetailsScreenErrorPreview() {
    val testUser = User(
       id = 1,
       firstName = "John",

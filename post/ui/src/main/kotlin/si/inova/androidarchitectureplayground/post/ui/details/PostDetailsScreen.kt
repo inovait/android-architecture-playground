@@ -151,7 +151,7 @@ private fun ShowPost(post: Post, navigateToUserDetails: (Int) -> Unit) {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun SuccesPreview() {
+internal fun PostDetailsScreenSuccesPreview() {
    val testPost = Post(
       id = 11,
       title = "She was aware that things could go wrong.",
@@ -170,7 +170,7 @@ internal fun SuccesPreview() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun ProgressPreview() {
+internal fun PostDetailsScreenProgressPreview() {
    val testPost = Post(
       id = 11,
       title = "She was aware that things could go wrong.",
@@ -189,7 +189,7 @@ internal fun ProgressPreview() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun ErrorPreview() {
+internal fun PostDetailsScreenErrorPreview() {
    val testPost = Post(
       id = 11,
       title = "She was aware that things could go wrong.",

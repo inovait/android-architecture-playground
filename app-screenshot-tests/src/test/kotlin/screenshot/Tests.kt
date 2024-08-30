@@ -33,10 +33,21 @@ class Tests {
    )
 
    object PreviewProvider : TestParameterValuesProvider() {
-      override fun provideValues(context: Context?): List<*> =
-         Showkase.getMetadata().componentList
+      override fun provideValues(context: Context?): List<*> {
+         val components = Showkase.getMetadata().componentList
             .filter { it.group != "Default Group" }
             .map { TestKey(it) }
+
+         for (i in components.indices) {
+            for (j in components.indices) {
+               if (i != j && components[i].key == components[j].key) {
+                  throw AssertionError("Duplicate @Preview: '${components[i].key}'")
+               }
+            }
+         }
+
+         return components
+      }
    }
 
    data class TestKey(val showkaseBrowserComponent: ShowkaseBrowserComponent) {

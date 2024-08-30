@@ -56,8 +56,8 @@ fun <T> ProgressErrorSuccessScaffold(
 
 @Preview
 @Composable
-@ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold")
-internal fun ErrorPreview() {
+@ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold", styleName = "Error")
+internal fun ProgressErrorSuccessScaffoldErrorPreview() {
    PreviewTheme(fill = false) {
       ProgressErrorSuccessScaffold(Outcome.Error<Unit>(UnknownCauseException())) {
       }
@@ -66,8 +66,8 @@ internal fun ErrorPreview() {
 
 @Preview
 @Composable
-@ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold")
-internal fun ProgressPreview() {
+@ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold", styleName = "Progress")
+internal fun ProgressErrorSuccessScaffoldProgressPreview() {
    PreviewTheme(fill = false) {
       ProgressErrorSuccessScaffold(Outcome.Progress<Unit>()) {
       }
