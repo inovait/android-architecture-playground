@@ -53,7 +53,7 @@ class Tests {
 
    data class TestKey(val showkaseBrowserComponent: ShowkaseBrowserComponent) {
       val key = with(showkaseBrowserComponent) {
-         componentName + (styleName?.let { "-$it" } ?: "")
+         componentName + (styleName?.let { "-$it" }.orEmpty())
       }
 
       override fun toString(): String = key
