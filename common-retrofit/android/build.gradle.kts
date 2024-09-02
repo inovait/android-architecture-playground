@@ -13,7 +13,6 @@ dependencies {
    api(libs.kotlinova.retrofit)
    api(libs.certificateTransparency)
 
-   implementation(projects.commonAndroid)
    implementation(libs.kotlin.coroutines)
    implementation(libs.certificateTransparency.android)
 }

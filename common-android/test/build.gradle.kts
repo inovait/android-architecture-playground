@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-   api(projects.commonAndroid)
+//   api(projects.commonAndroid)
    implementation(libs.kotlin.coroutines.test)
 }
