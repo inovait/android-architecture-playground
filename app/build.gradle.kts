@@ -130,7 +130,6 @@ custom {
 
 dependencies {
    implementation(projects.common)
-   implementation(projects.commonAndroid)
    implementation(projects.commonNavigation)
    implementation(projects.commonRetrofit)
    implementation(projects.commonRetrofit.android)
@@ -168,8 +167,6 @@ dependencies {
 
    debugImplementation(libs.whatTheStack)
 
-   testImplementation(projects.commonAndroid.test)
-   androidTestImplementation(projects.commonAndroid.test)
    androidTestImplementation(libs.androidx.test.junitRules)
    androidTestImplementation(libs.androidx.test.runner)
    androidTestImplementation(libs.junit4)
