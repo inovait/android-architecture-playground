@@ -95,6 +95,7 @@ complexity:
   CognitiveComplexMethod:
     active: true
     threshold: 15
+    ignoreAnnotated: [ 'Composable' ] # Many false positives on Compose, since it detects nested composables (which are common) as Complex
   ComplexCondition:
     active: true
     threshold: 4
