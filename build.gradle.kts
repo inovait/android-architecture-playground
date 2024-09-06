@@ -1,8 +1,12 @@
+import nl.littlerobots.vcu.plugin.resolver.ModuleVersionCandidate
+import nl.littlerobots.vcu.plugin.versionSelector
+
 // Please do not add things here unless really necesary in order to stay compatible with
 // project isolation when it comes out (https://gradle.github.io/configuration-cache/#project_isolation)
 
 plugins {
    id("com.autonomousapps.dependency-analysis")
+   alias(libs.plugins.versionCatalogUpdate)
 }
 
 dependencyAnalysis {
@@ -62,5 +66,27 @@ dependencyAnalysis {
          includeGroup("com.google.dagger")
          includeDependency("javax.inject:javax.inject")
       }
+   }
+}
+
+versionCatalogUpdate {
+   catalogFile.set(file("config/libs.toml"))
+
+   keep {
+
+   }
+
+   fun ModuleVersionCandidate.newlyContains(keyword: String): Boolean {
+      return !currentVersion.contains(keyword, ignoreCase = true) && candidate.version.contains(keyword, ignoreCase = true)
+   }
+
+   versionSelector {
+      !it.newlyContains("alpha") &&
+         !it.newlyContains("beta") &&
+         !it.newlyContains("RC") &&
+         !it.newlyContains("M") &&
+         !it.newlyContains("eap") &&
+         !it.newlyContains("dev") &&
+         !it.newlyContains("pre")
    }
 }

@@ -56,7 +56,6 @@ simpleStack = "2.9.0"
 sqldelight = "2.0.2"
 tomlj = "1.1.1"
 turbine = "1.1.0"
-versionsChecker = "0.51.0"
 versionCatalogUpdate = "0.8.4"
 whatTheStack = "1.0.0-alpha08"
 
@@ -161,7 +160,6 @@ sqldelight-gradle = { module = "app.cash.sqldelight:gradle-plugin", version.ref 
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 tomlj = { module = "org.tomlj:tomlj", version.ref = "tomlj" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-versionsCheckerPlugin = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "versionsChecker" }
 whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTheStack" }
 
 [plugins]
@@ -169,4 +167,3 @@ anvil = { id = "com.squareup.anvil", version.ref = "anvil" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }
-versionsChecker = { id = "com.github.ben-manes.versions", version.ref = "versionsChecker" }

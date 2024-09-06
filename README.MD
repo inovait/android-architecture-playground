@@ -34,17 +34,12 @@ See also other branches:
 
 Process for updating all library versions::
 
-1. ~~Run `./gradlew dependencyUpdates :buildSrc:dependencyUpdates --no-configuration-cache > /dev/null
-   && ./gradlew :app:updateLibsToml`.
-   This will check for new versions of all libraries and automatically bump versions inside `libs.toml`.~~
-   Until [AGP issue](https://issuetracker.google.com/issues/315689874) is resolved, auto update
-   is broken. You must open libs.toml, and manually update all versions
-   that are marked in yellow (Lint warning)
-2. Check the output of the above task and manually update any libraries that task said it couldn't update automatically.
+1. Open `libs.toml` file and check if any versions marked with `@pin` have been unblocked and can now be updated
+2. Run `./gradlew versionCatalogUpdate`.
 3. Update Gradle version (see instructions in the [gradle wrapper's properties](gradle/wrapper/gradle-wrapper.properties))
-2. Sync the project, build the app and run all tests to make sure everything still works.
-3. Run `detektDebug` gradle task to find any new deprecated code
-4. For any new deprecated code found by the search:
+4. Sync the project, build the app and run all tests to make sure everything still works.
+5. Run `detektDebug` gradle task to find any new deprecated code
+6. For any new deprecated code found by the search:
     * If the fix is trivial, fix it immediately as part of the update commit
     * Otherwise, make a tech debt ticket and add a @Suppress with the ticket number
       (and/or discuss with the team how to address it)
