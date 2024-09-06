@@ -25,6 +25,9 @@ composeGuardCheck {
 
    // We don't care about unstable classes, only unstable Composables
    errorOnNewUnstableClasses = false
+
+   // By default, all composables should be stable, so no need to generate baseline in most cases
+   reportAllOnMissingBaseline = true
 }
 
 // Workaround for https://github.com/j-roskopf/ComposeGuard/issues/47 - manually register compose reports and metrics folder
