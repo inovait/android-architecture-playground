@@ -1,7 +1,6 @@
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import util.commonAndroid
-import util.commonKotlinOptions
 
 val libs = the<LibrariesForLibs>()
 
@@ -16,15 +15,9 @@ commonAndroid {
    composeOptions {
       kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
    }
-   commonKotlinOptions {
-      freeCompilerArgs += listOf(
-         "-P",
-         "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
-            "${rootDir.absolutePath}/config/global_compose_stable_classes.txt"
-      )
-   }
 }
 
+//region Compose Guard
 composeGuardCheck {
    // Dynamic property detection is error prone on debug builds (and we are only building debug builds for PR changes)
    // See https://chrisbanes.me/posts/composable-metrics/#default-parameter-expressions-that-are-dynamic
@@ -60,12 +53,27 @@ project.tasks.named { composeCompileTasks.contains(it) }.withType<KotlinCompile<
    outputs.dir(composeReportsFolder)
 }
 
+afterEvaluate {
+   val kotlinTasks = ArrayList<String>()
+   project.tasks.withType<KotlinCompile<*>>() {
+      kotlinTasks += name
+   }
+   project.tasks.named("debugComposeCompilerCheck") {
+      // Compose guard accesses outputs of all kotlin tasks, but does not properly declare its dependencies
+      // We fix that for them
+      for (task in kotlinTasks) {
+         mustRunAfter(task)
+      }
+   }
+}
+
 tasks.register<Copy>("generateComposeGuardBaseline") {
    from(composeReportsFolder)
    into(composeGuardGenerate.outputDirectory)
 
    dependsOn("compileDebugKotlin")
 }
+//endregion
 
 dependencies {
    add("implementation", libs.androidx.compose.ui)
