@@ -61,6 +61,8 @@ simpleStack = "2.9.0"
 sqldelight = "2.0.2"
 tomlj = "1.1.1"
 turbine = "1.1.0"
+unmock-androidJar = "14-robolectric-10818077"
+unmock-plugin = "0.8.0"
 versionCatalogUpdate = "0.8.4"
 whatTheStack = "1.0.0-alpha08"
 
@@ -165,6 +167,8 @@ sqldelight-gradle = { module = "app.cash.sqldelight:gradle-plugin", version.ref 
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 tomlj = { module = "org.tomlj:tomlj", version.ref = "tomlj" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+unmock-androidJar = { module = "org.robolectric:android-all", version.ref = "unmock-androidJar" }
+unmock-plugin = { module = "com.github.bjoernq:unmockplugin", version.ref = "unmock-plugin" }
 whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTheStack" }
 
 [plugins]

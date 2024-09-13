@@ -3,6 +3,7 @@ plugins {
    di
    compose
    navigation
+   unmock
 }
 
 android {

@@ -8,7 +8,6 @@ import si.inova.kotlinova.navigation.instructions.NavigateWithConditions
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction
 import si.inova.kotlinova.navigation.instructions.OpenScreenOrMoveToTop
 import si.inova.kotlinova.navigation.instructions.ReplaceBackstack
-import si.inova.kotlinova.navigation.instructions.ReplaceBackstackOrOpenScreen
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
 @Parcelize
@@ -59,7 +58,7 @@ class ReplaceBackstackOrOpenScreenWithLogin(val replaceBackstack: Boolean, varar
 
    override fun equals(other: Any?): Boolean {
       if (this === other) return true
-      if (other !is ReplaceBackstackOrOpenScreen) return false
+      if (other !is ReplaceBackstackOrOpenScreenWithLogin) return false
 
       if (replaceBackstack != other.replaceBackstack) return false
       if (!history.contentEquals(other.history)) return false
