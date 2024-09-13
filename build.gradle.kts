@@ -1,7 +1,7 @@
 import nl.littlerobots.vcu.plugin.resolver.ModuleVersionCandidate
 import nl.littlerobots.vcu.plugin.versionSelector
 
-// Please do not add things here unless really necesary in order to stay compatible with
+// Please do not add any subprojects {} / allprojects {} blocks or anything else that affects suborpojects to allow for
 // project isolation when it comes out (https://gradle.github.io/configuration-cache/#project_isolation)
 
 plugins {
@@ -85,4 +85,9 @@ versionCatalogUpdate {
          !it.newlyContains("dev") &&
          !it.newlyContains("pre")
    }
+}
+
+// Always update to the ALL distribution when updating Gradle
+tasks.wrapper {
+   distributionType = Wrapper.DistributionType.ALL
 }
