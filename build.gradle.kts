@@ -72,10 +72,6 @@ dependencyAnalysis {
 versionCatalogUpdate {
    catalogFile.set(file("config/libs.toml"))
 
-   keep {
-
-   }
-
    fun ModuleVersionCandidate.newlyContains(keyword: String): Boolean {
       return !currentVersion.contains(keyword, ignoreCase = true) && candidate.version.contains(keyword, ignoreCase = true)
    }
