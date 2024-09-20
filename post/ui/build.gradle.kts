@@ -27,7 +27,6 @@ dependencies {
    api(libs.kotlinova.navigation)
    implementation(libs.kotlinova.core)
    implementation(libs.androidx.activity.compose)
-   implementation(libs.androidx.compose.material)
    implementation(libs.coil)
 
    testImplementation(projects.post.test)

@@ -15,13 +15,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshDefaults
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.pullToRefresh
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -78,7 +77,7 @@ class UserListScreen(
    }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun UserListContent(
    state: Outcome<UserListState>,
@@ -89,17 +88,19 @@ private fun UserListContent(
    val refreshing = state is Outcome.Progress && state.style != LoadingStyle.ADDITIONAL_DATA
    val topWindowOffset = WindowInsets.safeDrawing.asPaddingValues().calculateTopPadding()
 
-   val refreshState = rememberPullRefreshState(
-      refreshing = refreshing,
-      onRefresh = { refresh() },
-      refreshThreshold = PullRefreshDefaults.RefreshThreshold + topWindowOffset,
-      refreshingOffset = PullRefreshDefaults.RefreshingOffset + topWindowOffset
-   )
+   val refreshState = rememberPullToRefreshState()
 
    val lazyListState = rememberLazyListState()
    lazyListState.DetectScrolledToBottom(loadMore)
 
-   Box(Modifier.pullRefresh(refreshState)) {
+   Box(
+      Modifier.pullToRefresh(
+         refreshing,
+         refreshState,
+         onRefresh = refresh,
+         threshold = topWindowOffset + 48.dp
+      )
+   ) {
       Column {
          if (state is Outcome.Error) {
             Text(
@@ -114,10 +115,11 @@ private fun UserListContent(
          UserList(lazyListState, state, openUserDetails)
       }
 
-      PullRefreshIndicator(
-         refreshing = refreshing,
+      PullToRefreshDefaults.Indicator(
          state = refreshState,
-         modifier = Modifier.align(Alignment.TopCenter)
+         modifier = Modifier.align(Alignment.TopCenter),
+         isRefreshing = refreshing,
+         threshold = topWindowOffset + 48.dp,
       )
    }
 }
