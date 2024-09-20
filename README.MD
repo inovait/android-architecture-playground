@@ -85,6 +85,7 @@ Then, to create a new module:
   ![Image](docs/module-factory.png)
 2. Add module to `settings.gradle.kts`
 3. Add module to app's `build.gradle.kts` as `implementation(projects.newModule)`)
+4. Remove leading space from all generated ` .gitignore` files (workaround for the https://youtrack.jetbrains.com/issue/IJPL-2568)
 
 ## Hierarchy of the feature modules
 
