@@ -3,7 +3,6 @@ import com.android.build.api.variant.VariantOutputConfiguration
 import com.squareup.anvil.plugin.AnvilExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 import tasks.setupTooManyKotlinFilesTask
-import java.util.Optional
 
 val libs = the<LibrariesForLibs>()
 
@@ -65,15 +64,11 @@ android {
          }.standardOutput.asText.map { it.trim() }
 
          val baseVersionName = defaultConfig.versionName
-         val buildNumberProvider = provider { Optional.ofNullable(System.getenv("BUILD_NUMBER")?.toInt()) }
+         val buildNumberProvider = providers.environmentVariable("BUILD_NUMBER")
 
-         val appendedVersionName = buildNumberProvider.flatMap { buildNumber ->
-            if (buildNumber.isPresent) {
-               provider { "$baseVersionName-${buildNumber.get()}" }
-            } else {
-               gitHashProvider.map { gitHash -> "$baseVersionName-local-$gitHash" }
-            }
-         }
+         // A bit weird syntax as a workaround for the https://github.com/gradle/gradle/issues/30792
+         val appendedVersionName = buildNumberProvider.map { "$baseVersionName-$it" }
+            .orElse(gitHashProvider.map { gitHash -> "$baseVersionName-local-$gitHash" })
 
          variant.buildConfigFields.put(
             "VERSION_NAME",
@@ -87,7 +82,7 @@ android {
          )
 
          mainOutput.versionName.set(appendedVersionName)
-         mainOutput.versionCode.set(buildNumberProvider.map { it.orElse(1) })
+         mainOutput.versionCode.set(buildNumberProvider.orElse("1").map { it.toInt() })
       }
    }
 }
