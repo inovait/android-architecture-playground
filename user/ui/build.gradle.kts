@@ -20,9 +20,9 @@ custom {
 
 dependencies {
    api(projects.common)
-   api(projects.commonCompose)
    api(projects.user.api)
 
+   implementation(projects.commonCompose)
    api(libs.kotlinova.navigation)
    implementation(libs.kotlinova.core)
 

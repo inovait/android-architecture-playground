@@ -2,9 +2,9 @@ package si.inova.androidarchitectureplayground.user.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import si.inova.androidarchitectureplayground.navigation.base.MasterDetailScreen
 import si.inova.androidarchitectureplayground.navigation.keys.HomeUsersScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
-import si.inova.androidarchitectureplayground.ui.screens.MasterDetailScreen
 import si.inova.androidarchitectureplayground.user.ui.list.UserListScreen
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.screens.InjectNavigationScreen

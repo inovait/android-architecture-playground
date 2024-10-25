@@ -2,10 +2,10 @@ package si.inova.androidarchitectureplayground.post.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import si.inova.androidarchitectureplayground.navigation.base.MasterDetailScreen
 import si.inova.androidarchitectureplayground.navigation.keys.HomePostsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.post.ui.list.PostListScreen
-import si.inova.androidarchitectureplayground.ui.screens.MasterDetailScreen
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen

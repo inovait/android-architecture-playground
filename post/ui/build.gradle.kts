@@ -20,8 +20,8 @@ custom {
 
 dependencies {
    api(projects.common)
-   api(projects.commonCompose)
    api(projects.post.api)
+   implementation(projects.commonCompose)
 
    api(libs.kotlin.coroutines)
    api(libs.kotlinova.navigation)

@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.screens
+package si.inova.androidarchitectureplayground.navigation.base
 
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.AnimatedContent
@@ -95,7 +95,7 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          }
       }
 
-      if (widthSize == WindowWidthSizeClass.Compact) {
+      if (widthSize == WindowWidthSizeClass.Companion.Compact) {
          MasterDetailOnPhone(
             openState = openState,
             updateOpenState = openState::updateOpenState,
