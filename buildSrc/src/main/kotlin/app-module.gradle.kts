@@ -1,6 +1,5 @@
 import com.android.build.api.variant.BuildConfigField
 import com.android.build.api.variant.VariantOutputConfiguration
-import com.squareup.anvil.plugin.AnvilExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 import tasks.setupTooManyKotlinFilesTask
 
@@ -9,18 +8,9 @@ val libs = the<LibrariesForLibs>()
 plugins {
    id("com.android.application")
    id("android-module-commons")
-   id("kotlin-kapt")
    id("kotlinova")
    id("com.jraska.module.graph.assertion")
-   id("com.squareup.anvil")
-}
-
-afterEvaluate {
-   if (pluginManager.hasPlugin("com.squareup.anvil")) {
-      configure<AnvilExtension> {
-         syncGeneratedSources.set(true)
-      }
-   }
+   id("di")
 }
 
 kotlinova {
@@ -95,8 +85,6 @@ tasks.register("printVersionName") {
 }
 
 dependencies {
-   implementation(libs.dagger.runtime)
-   kapt(libs.dagger.compiler)
    androidTestImplementation(libs.androidx.test.runner)
 }
 

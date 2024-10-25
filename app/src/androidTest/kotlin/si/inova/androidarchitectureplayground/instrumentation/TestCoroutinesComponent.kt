@@ -1,32 +1,19 @@
 package si.inova.androidarchitectureplayground.instrumentation
 
-import com.squareup.anvil.annotations.ContributesTo
-import dagger.Module
-import dagger.Provides
 import dispatch.core.DefaultCoroutineScope
 import dispatch.core.DispatcherProvider
 import dispatch.core.IOCoroutineScope
 import dispatch.core.MainImmediateCoroutineScope
-import si.inova.androidarchitectureplayground.common.di.ApplicationScope
-import si.inova.androidarchitectureplayground.di.CoroutinesModule
+import me.tatarka.inject.annotations.Provides
 import si.inova.kotlinova.compose.androidtest.idlingresource.FixedIdlingDispatcher
 import si.inova.kotlinova.compose.androidtest.idlingresource.RegisteringCoroutineResourceManager
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.reporting.ErrorReporter
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
 
-@ContributesTo(ApplicationScope::class, replaces = [CoroutinesModule::class])
-@Module
-object TestCoroutinesModule {
-   private val defaultDispatcherProvider = object : DispatcherProvider {}
-
-   val idlingDispatcherProvider = object : DispatcherProvider {
-      override val default = FixedIdlingDispatcher(defaultDispatcherProvider.default)
-      override val io = FixedIdlingDispatcher(defaultDispatcherProvider.io)
-      override val main = FixedIdlingDispatcher(defaultDispatcherProvider.main)
-      override val mainImmediate = FixedIdlingDispatcher(defaultDispatcherProvider.mainImmediate)
-      override val unconfined = FixedIdlingDispatcher(defaultDispatcherProvider.unconfined)
-   }
-
+@ContributesTo(AppScope::class)
+interface TestCoroutinesComponent {
    @Provides
    fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
       return MainImmediateCoroutineScope(dispatcherProvider = idlingDispatcherProvider)
@@ -48,5 +35,17 @@ object TestCoroutinesModule {
       errorReporter: ErrorReporter,
    ): CoroutineResourceManager {
       return RegisteringCoroutineResourceManager(mainCoroutineScope, errorReporter)
+   }
+
+   companion object {
+      private val defaultDispatcherProvider = object : DispatcherProvider {}
+
+      val idlingDispatcherProvider = object : DispatcherProvider {
+         override val default = FixedIdlingDispatcher(defaultDispatcherProvider.default)
+         override val io = FixedIdlingDispatcher(defaultDispatcherProvider.io)
+         override val main = FixedIdlingDispatcher(defaultDispatcherProvider.main)
+         override val mainImmediate = FixedIdlingDispatcher(defaultDispatcherProvider.mainImmediate)
+         override val unconfined = FixedIdlingDispatcher(defaultDispatcherProvider.unconfined)
+      }
    }
 }

@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
 import si.inova.androidarchitectureplayground.network.test.serviceFactory
-import si.inova.androidarchitectureplayground.user.UsersDataModule
+import si.inova.androidarchitectureplayground.user.UsersDataComponent
 import si.inova.androidarchitectureplayground.user.network.model.LightUserDto
 import si.inova.androidarchitectureplayground.user.network.model.UserDto
 import si.inova.androidarchitectureplayground.user.network.model.UsersDto
@@ -22,7 +22,7 @@ class UsersServiceTest {
          }
 
          val serviceFactory = serviceFactory(this@runTest)
-         val service = UsersDataModule.provideUsersService(serviceFactory)
+         val service = object : UsersDataComponent {}.provideUsersService(serviceFactory)
 
          val expectedUsers = UsersDto(
             listOf(
@@ -59,7 +59,7 @@ class UsersServiceTest {
          }
 
          val serviceFactory = serviceFactory(this@runTest)
-         val service = UsersDataModule.provideUsersService(serviceFactory)
+         val service = object : UsersDataComponent {}.provideUsersService(serviceFactory)
 
          val expectedUsers = UsersDto(
             listOf(
@@ -96,7 +96,7 @@ class UsersServiceTest {
          }
 
          val serviceFactory = serviceFactory(this@runTest)
-         val service = UsersDataModule.provideUsersService(serviceFactory)
+         val service = object : UsersDataComponent {}.provideUsersService(serviceFactory)
 
          val expectedUser = UserDto(
             id = 7,
@@ -128,7 +128,7 @@ class UsersServiceTest {
          }
 
          val serviceFactory = serviceFactory(this@runTest)
-         val service = UsersDataModule.provideUsersService(serviceFactory)
+         val service = object : UsersDataComponent {}.provideUsersService(serviceFactory)
 
          shouldThrow<BackendException> {
             service.getUser(7)

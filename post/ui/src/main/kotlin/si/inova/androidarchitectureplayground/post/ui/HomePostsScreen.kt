@@ -7,10 +7,12 @@ import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenK
 import si.inova.androidarchitectureplayground.post.ui.list.PostListScreen
 import si.inova.androidarchitectureplayground.ui.screens.MasterDetailScreen
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
+import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding(boundType = Screen::class)
 @Stable
+@InjectNavigationScreen
 class HomePostsScreen(
    private val userListScreen: PostListScreen,
    private val userDetailsScreen: Screen<PostDetailsScreenKey>,

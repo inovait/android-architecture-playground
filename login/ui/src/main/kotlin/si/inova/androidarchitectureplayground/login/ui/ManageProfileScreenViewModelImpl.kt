@@ -1,8 +1,8 @@
 package si.inova.androidarchitectureplayground.login.ui
 
-import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import me.tatarka.inject.annotations.Inject
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
@@ -14,8 +14,10 @@ import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.instructions.ReplaceBackstack
 import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
-import javax.inject.Inject
+import si.inova.kotlinova.navigation.services.InjectScopedService
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
 
+@InjectScopedService
 @ContributesBinding(BackstackScope::class, ManageProfileScreenViewModel::class)
 class ManageProfileScreenViewModelImpl @Inject constructor(
    private val resources: CoroutineResourceManager,

@@ -4,18 +4,18 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import com.squareup.anvil.annotations.ContributesBinding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import si.inova.androidarchitectureplayground.common.di.ApplicationScope
+import me.tatarka.inject.annotations.Inject
+import me.tatarka.inject.annotations.Qualifier
 import si.inova.androidarchitectureplayground.login.LoginRepository
-import javax.inject.Inject
-import javax.inject.Qualifier
-import javax.inject.Singleton
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 
-@Singleton
-@ContributesBinding(ApplicationScope::class)
+@SingleIn(AppScope::class)
+@ContributesBinding(AppScope::class)
 class LoginRepositoryImpl @Inject constructor(
    @LoginDataStore
    private val preferences: DataStore<Preferences>,

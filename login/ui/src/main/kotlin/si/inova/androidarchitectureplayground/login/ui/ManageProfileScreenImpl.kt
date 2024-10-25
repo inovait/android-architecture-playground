@@ -17,10 +17,12 @@ import si.inova.androidarchitectureplayground.ui.showkase.ShowkaseLauncher
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
+import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding
 @Stable
+@InjectNavigationScreen
 class ManageProfileScreenImpl(
    private val viewModel: ManageProfileScreenViewModel,
    private val showkaseLauncher: ShowkaseLauncher,

@@ -3,6 +3,7 @@ package si.inova.androidarchitectureplayground.post.ui.list
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import me.tatarka.inject.annotations.Inject
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.post.PostsRepository
@@ -11,8 +12,9 @@ import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.outcome.mapData
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
-import javax.inject.Inject
+import si.inova.kotlinova.navigation.services.InjectScopedService
 
+@InjectScopedService
 class PostListViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val postRepository: PostsRepository,

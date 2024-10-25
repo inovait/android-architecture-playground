@@ -40,26 +40,20 @@ configure<DependencyAnalysisSubExtension> {
          exclude("androidx.compose.ui:ui-tooling-preview")
          exclude("androidx.lifecycle:lifecycle-runtime-compose")
          exclude("si.inova.kotlinova:compose")
+
+         // This is fine, included with anvil
+         exclude("software.amazon.lastmile.kotlin.inject.anvil:runtime-optional")
       }
 
       onIncorrectConfiguration {
          // Showkase is only used by the generated code, by app module that also needs to explicitly include showkase
          exclude("com.airbnb.android:showkase")
 
-         // Dagger runtime annotations are useless without explicit dagger dependency
-         exclude("com.google.dagger:dagger")
-
          // Navigation should be included as-needed to reduce already huge amount of modules depending on it
          exclude(":common-navigation")
       }
 
       onUsedTransitiveDependencies {
-         // This is fine, included with dagger
-         exclude("javax.inject:javax.inject")
-
-         // This is fine, included with anvil
-         exclude("com.squareup.anvil:annotations")
-
          // This is fine, included with sqldelight
          exclude("androidx.sqlite:sqlite")
 

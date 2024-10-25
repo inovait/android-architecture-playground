@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-   api(projects.common)
    api(projects.login.api)
    api(libs.dispatch)
    api(libs.kotlin.coroutines)

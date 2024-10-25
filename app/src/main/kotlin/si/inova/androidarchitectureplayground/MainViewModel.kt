@@ -3,21 +3,20 @@ package si.inova.androidarchitectureplayground
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import me.tatarka.inject.annotations.Assisted
+import me.tatarka.inject.annotations.Inject
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
-class MainViewModel @AssistedInject constructor(
+class MainViewModel @Inject constructor(
    private val loginRepository: LoginRepository,
    @Assisted
    private val startIntent: Intent,
@@ -43,11 +42,6 @@ class MainViewModel @AssistedInject constructor(
             LoginScreenKey(OpenScreen(HomeScreenKey()))
          }
       }
-   }
-
-   @AssistedFactory
-   interface Factory {
-      fun create(intent: Intent): MainViewModel
    }
 }
 

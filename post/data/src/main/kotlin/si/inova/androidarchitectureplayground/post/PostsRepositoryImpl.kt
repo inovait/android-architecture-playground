@@ -4,7 +4,6 @@ import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
-import com.squareup.anvil.annotations.ContributesBinding
 import dispatch.core.dispatcherProvider
 import dispatch.core.withIO
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +13,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import si.inova.androidarchitectureplayground.common.di.ApplicationScope
+import me.tatarka.inject.annotations.Inject
 import si.inova.androidarchitectureplayground.common.pagination.OffsetDatabaseBackedPaginatedDataStream
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
@@ -30,11 +29,12 @@ import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.outcome.catchIntoOutcome
 import si.inova.kotlinova.core.time.TimeProvider
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
-@ContributesBinding(ApplicationScope::class)
+@ContributesBinding(AppScope::class)
 class PostsRepositoryImpl @Inject constructor(
    private val postsService: PostsService,
    private val postDb: DbPostQueries,

@@ -34,10 +34,12 @@ import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPre
 import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
+import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding
 @Stable
+@InjectNavigationScreen
 class UserDetailsScreen(
    private val viewModel: UserDetailsViewModel,
 ) : Screen<UserDetailsScreenKey>() {

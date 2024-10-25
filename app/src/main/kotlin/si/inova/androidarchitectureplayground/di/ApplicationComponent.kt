@@ -1,29 +1,23 @@
 package si.inova.androidarchitectureplayground.di
 
 import android.app.Application
-import com.squareup.anvil.annotations.MergeComponent
-import dagger.BindsInstance
-import dagger.Component
-import si.inova.androidarchitectureplayground.MainActivity
-import si.inova.androidarchitectureplayground.MyApplication
-import si.inova.androidarchitectureplayground.common.di.ApplicationScope
-import si.inova.kotlinova.navigation.di.OuterNavigationScope
-import javax.inject.Singleton
+import dispatch.core.DefaultCoroutineScope
+import me.tatarka.inject.annotations.Component
+import me.tatarka.inject.annotations.Provides
+import si.inova.kotlinova.core.reporting.ErrorReporter
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.MergeComponent
+import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 
-@MergeComponent(ApplicationScope::class)
-@MergeComponent(OuterNavigationScope::class)
-@Singleton
-interface MainApplicationComponent : ApplicationComponent {
-   @Component.Factory
-   interface Factory {
-      fun create(
-         @BindsInstance
-         application: Application,
-      ): MainApplicationComponent
-   }
-}
+@Component
+@MergeComponent(AppScope::class)
+@SingleIn(AppScope::class)
+abstract class MainApplicationComponent(
+   @get:Provides
+   val application: Application,
+) : ApplicationComponent, MainApplicationComponentMerged
 
-interface ApplicationComponent {
-   fun inject(mainActivity: MainActivity)
-   fun inject(myApplication: MyApplication)
+interface ApplicationComponent : NavigationSubComponent.Factory {
+   fun getErrorReporter(): ErrorReporter
+   fun getDefaultCoroutineScope(): DefaultCoroutineScope
 }

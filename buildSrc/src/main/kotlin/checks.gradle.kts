@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.accessors.dm.LibrariesForLibs
 import si.inova.kotlinova.gradle.KotlinovaExtension
 import util.commonAndroid
@@ -24,6 +25,11 @@ if (isAndroidProject()) {
 
 detekt {
    config.setFrom("$rootDir/config/detekt.yml")
+}
+
+tasks.withType<Detekt>() {
+   // Exclude everything generated with Anvil
+   setExcludes(listOf("**/amazon/lastmile/inject/**"))
 }
 
 configure<KotlinovaExtension> {

@@ -5,6 +5,6 @@ import si.inova.androidarchitectureplayground.di.ApplicationComponent
 
 class TestApplication : MyApplication() {
    override val applicationComponent: ApplicationComponent by lazy {
-      DaggerTestAppComponent.factory().create(this)
+      TestApplicationComponent::class.create(this)
    }
 }

@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-   api(projects.common)
    api(projects.commonRetrofit)
    api(libs.dispatch)
    api(libs.kotlinova.core)

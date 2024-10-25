@@ -12,8 +12,10 @@ import androidx.compose.ui.res.stringResource
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
 import si.inova.kotlinova.core.outcome.Outcome
+import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
+@InjectNavigationScreen
 class LoginScreen(
    private val viewModel: LoginScreenViewModel,
 ) : Screen<LoginScreenKey>() {

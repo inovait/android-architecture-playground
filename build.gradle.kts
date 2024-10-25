@@ -43,8 +43,9 @@ dependencyAnalysis {
          includeGroup("androidx.lifecycle")
       }
 
-      bundle("anvil") {
-         includeGroup("com.squareup.anvil")
+      bundle("inject") {
+         includeGroup("me.tatarka.inject")
+         includeGroup("software.amazon.lastmile.kotlin.inject.anvil")
       }
 
       bundle("datastore") {

@@ -1,19 +1,14 @@
 package si.inova.androidarchitectureplayground.instrumentation
 
 import android.util.Log
-import com.squareup.anvil.annotations.ContributesTo
-import dagger.Module
-import dagger.Provides
-import si.inova.androidarchitectureplayground.common.di.ApplicationScope
-import si.inova.androidarchitectureplayground.di.ErrorReportingModule
+import me.tatarka.inject.annotations.Provides
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.reporting.ErrorReporter
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
 
-@ContributesTo(ApplicationScope::class, replaces = [ErrorReportingModule::class])
-@Module
-object TestErrorReportingModule {
-   val caughtExceptions = ArrayList<Throwable>()
-
+@ContributesTo(AppScope::class)
+interface TestErrorReportingComponent {
    @Provides
    fun provideErrorReporter(): ErrorReporter {
       return ErrorReporter {
@@ -22,5 +17,9 @@ object TestErrorReportingModule {
             caughtExceptions += it
          }
       }
+   }
+
+   companion object {
+      val caughtExceptions = ArrayList<Throwable>()
    }
 }

@@ -1,16 +1,16 @@
 package si.inova.androidarchitectureplayground.home
 
 import android.net.Uri
-import com.squareup.anvil.annotations.ContributesMultibinding
+import me.tatarka.inject.annotations.Inject
 import si.inova.androidarchitectureplayground.navigation.conditions.ReplaceBackstackOrOpenScreenWithLogin
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.kotlinova.navigation.deeplink.DeepLinkHandler
 import si.inova.kotlinova.navigation.deeplink.handleMultipleDeepLinks
 import si.inova.kotlinova.navigation.di.OuterNavigationScope
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction
-import javax.inject.Inject
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
 
-@ContributesMultibinding(OuterNavigationScope::class)
+@ContributesBinding(OuterNavigationScope::class, multibinding = true)
 class HomeDeepLinks @Inject constructor() : DeepLinkHandler {
    override fun handleDeepLink(uri: Uri, startup: Boolean): NavigationInstruction? {
       return handleMultipleDeepLinks(uri, startup) {

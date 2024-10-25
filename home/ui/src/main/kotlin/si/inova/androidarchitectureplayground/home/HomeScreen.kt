@@ -30,8 +30,10 @@ import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScree
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.instructions.navigateTo
 import si.inova.kotlinova.navigation.navigator.Navigator
+import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
+@InjectNavigationScreen
 class HomeScreen(
    private val navigator: Navigator,
    private val usersScreen: Screen<HomeUsersScreenKey>,

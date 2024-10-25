@@ -42,10 +42,12 @@ import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.instructions.navigateTo
 import si.inova.kotlinova.navigation.navigator.Navigator
+import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
 @ContributesScreenBinding
 @Stable
+@InjectNavigationScreen
 class PostDetailsScreen(
    private val viewModel: PostDetailsViewModel,
    private val navigator: Navigator,
