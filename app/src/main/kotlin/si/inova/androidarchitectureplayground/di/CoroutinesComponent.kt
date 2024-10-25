@@ -1,20 +1,17 @@
 package si.inova.androidarchitectureplayground.di
 
-import com.squareup.anvil.annotations.ContributesTo
-import dagger.Module
-import dagger.Provides
 import dispatch.core.DefaultCoroutineScope
 import dispatch.core.DispatcherProvider
 import dispatch.core.IOCoroutineScope
 import dispatch.core.MainImmediateCoroutineScope
-import si.inova.androidarchitectureplayground.common.di.ApplicationScope
+import me.tatarka.inject.annotations.Provides
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.reporting.ErrorReporter
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
 
-@Suppress("unused")
-@ContributesTo(ApplicationScope::class)
-@Module
-class CoroutinesModule {
+@ContributesTo(AppScope::class)
+interface CoroutinesComponent {
    @Provides
    fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
       return MainImmediateCoroutineScope(object : DispatcherProvider {})

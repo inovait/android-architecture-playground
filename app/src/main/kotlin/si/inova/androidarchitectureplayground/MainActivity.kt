@@ -36,30 +36,26 @@ import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.di.NavigationInjection
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.simplestack.RootNavigationContainer
-import javax.inject.Inject
-import javax.inject.Provider
 
 class MainActivity : ComponentActivity() {
-   @Inject
-   lateinit var navigationInjectionFactory: NavigationInjection.Factory
-
-   @Inject
-   lateinit var mainDeepLinkHandler: MainDeepLinkHandler
-
-   @Inject
-   lateinit var navigationContext: NavigationContext
-
-   @Inject
-   lateinit var dateFormatter: AndroidDateTimeFormatter
-
-   @Inject
-   lateinit var viewModelProvider: Provider<MainViewModel>
+   private lateinit var navigationInjectionFactory: NavigationInjection.Factory
+   private lateinit var mainDeepLinkHandler: MainDeepLinkHandler
+   private lateinit var navigationContext: NavigationContext
+   private lateinit var dateFormatter: AndroidDateTimeFormatter
+   private lateinit var mainViewModelFactory: () -> MainViewModel
 
    private val viewModel by viewModels<MainViewModel>() { ViewModelFactory() }
    private var initComplete = false
 
    override fun onCreate(savedInstanceState: Bundle?) {
-      (requireNotNull(application) as MyApplication).applicationComponent.inject(this)
+      val navigationSubcomponent = (requireNotNull(application) as MyApplication).applicationComponent.createNavigationComponent()
+
+      navigationInjectionFactory = navigationSubcomponent.getNavigationInjectionFactory()
+      mainDeepLinkHandler = navigationSubcomponent.getMainDeepLinkHandler()
+      navigationContext = navigationSubcomponent.getNavigationContext()
+      dateFormatter = navigationSubcomponent.getDateFormatter()
+      mainViewModelFactory = navigationSubcomponent.getMainViewModelFactory()
+
       super.onCreate(savedInstanceState)
       enableEdgeToEdge()
 
@@ -126,7 +122,7 @@ class MainActivity : ComponentActivity() {
    private inner class ViewModelFactory : ViewModelProvider.Factory {
       override fun <T : ViewModel> create(modelClass: Class<T>): T {
          @Suppress("UNCHECKED_CAST")
-         return requireNotNull(viewModelProvider.get()) as T
+         return mainViewModelFactory() as T
       }
    }
 }

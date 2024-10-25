@@ -1,20 +1,18 @@
 package si.inova.androidarchitectureplayground.di
 
-import com.squareup.anvil.annotations.ContributesTo
-import dagger.Module
-import dagger.Provides
+import me.tatarka.inject.annotations.Provides
 import si.inova.androidarchitectureplayground.BuildConfig
-import si.inova.androidarchitectureplayground.common.di.ApplicationScope
 import si.inova.androidarchitectureplayground.common.exceptions.CrashOnDebugException
 import si.inova.kotlinova.core.exceptions.UnknownCauseException
 import si.inova.kotlinova.core.logging.logcat
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.reporting.ErrorReporter
+import software.amazon.lastmile.kotlin.inject.anvil.AppScope
+import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
 
 @Suppress("unused")
-@ContributesTo(ApplicationScope::class)
-@Module
-class ErrorReportingModule {
+@ContributesTo(AppScope::class)
+interface ErrorReportingComponent {
    @Provides
    fun provideErrorReporter(): ErrorReporter {
       return object : ErrorReporter {

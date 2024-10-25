@@ -1,4 +1,3 @@
-import com.squareup.anvil.plugin.AnvilExtension
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
@@ -8,14 +7,6 @@ plugins {
    id("org.jetbrains.kotlin.jvm")
 
    id("all-modules-commons")
-}
-
-afterEvaluate {
-   if (pluginManager.hasPlugin("com.squareup.anvil")) {
-      configure<AnvilExtension> {
-         generateDaggerFactories.set(true)
-      }
-   }
 }
 
 tasks.withType(KotlinCompilationTask::class.java) {

@@ -31,7 +31,7 @@ class IntegrationTestRule(
    }
 
    init {
-      TestNetworkUrlModule.url = server.url("").toString()
+      TestNetworkUrlComponent.url = server.url("").toString()
    }
 
    inline fun runWithServer(
@@ -57,14 +57,14 @@ class IntegrationTestRule(
 
    private val testEvents = object : TestWatcher() {
       override fun starting(description: Description?) {
-         TestErrorReportingModule.caughtExceptions.clear()
+         TestErrorReportingComponent.caughtExceptions.clear()
 
          composeTestRule.registerStandardIdlingResources()
       }
 
       override fun finished(description: Description?) {
          if (failTestForUnhandledExceptions) {
-            MultipleFailureException.assertEmpty(TestErrorReportingModule.caughtExceptions)
+            MultipleFailureException.assertEmpty(TestErrorReportingComponent.caughtExceptions)
          }
       }
    }

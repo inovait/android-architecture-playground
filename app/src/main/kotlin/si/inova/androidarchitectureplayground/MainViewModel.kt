@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import me.tatarka.inject.annotations.Inject
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
-import javax.inject.Inject
 
 class MainViewModel @Inject constructor() : ViewModel() {
    private val _startingScreen = MutableStateFlow<ScreenKey?>(null)

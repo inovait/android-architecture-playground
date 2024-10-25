@@ -20,11 +20,9 @@ androidx-test-ext = "1.2.1"
 androidx-test-orchestrator = "1.5.0"
 androidx-test-runner = "1.6.2"
 androidx-test-uiautomator = "2.3.0"
-anvil = "2.5.0-beta11"
 certificateTransparency = "2.5.57"
 coil = "2.7.0"
 composeGuard = "2.3.8"
-dagger = "2.52"
 dependencyAnalysis = "2.1.1"
 desugarJdkLibs = "2.1.2"
 detekt = "1.23.7"
@@ -40,7 +38,9 @@ kotest = "5.9.1"
 kotlin = "1.9.24"
 kotlin-coroutines = "1.9.0"
 kotlin-immutableCollections = "0.3.8"
-kotlinova = "3.2.0"
+kotlinova = "4.0.0-alpha01"
+kotlinInject = "0.7.2"
+kotlinInject-anvil = "0.0.5"
 # @pin until we can also update Kotlin
 ksp = "1.9.24-1.0.20"
 moduleGraphAssert = "2.7.1"
@@ -99,15 +99,10 @@ androidx-test-junitRules = { group = "androidx.test.ext", name = "junit", versio
 androidx-test-orchestrator = { module = "androidx.test:orchestrator", version.ref = "androidx-test-orchestrator" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "androidx-test-uiautomator" }
-anvil = { module = "com.squareup.anvil:gradle-plugin", version.ref = "anvil" }
-anvil-api = { module = "com.squareup.anvil:compiler-api", version.ref = "anvil" }
-anvil-utils = { module = "com.squareup.anvil:compiler-utils", version.ref = "anvil" }
 certificateTransparency = { module = "com.appmattus.certificatetransparency:certificatetransparency", version.ref = "certificateTransparency" }
 certificateTransparency-android = { module = "com.appmattus.certificatetransparency:certificatetransparency-android", version.ref = "certificateTransparency" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 composeGuard = { module = "com.joetr.compose.guard:com.joetr.compose.guard.gradle.plugin", version.ref = "composeGuard" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
-dagger-runtime = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
 desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
@@ -140,6 +135,11 @@ kotlinova-navigation-detekt = { module = "si.inova.kotlinova:navigation-detekt",
 kotlinova-navigation-test = { module = "si.inova.kotlinova:navigation-test", version.ref = "kotlinova" }
 kotlinova-retrofit = { module = "si.inova.kotlinova:retrofit", version.ref = "kotlinova" }
 kotlinova-retrofit-test = { module = "si.inova.kotlinova:retrofit-test", version.ref = "kotlinova" }
+kotlinInject-compiler = { module = "me.tatarka.inject:kotlin-inject-compiler-ksp", version.ref = "kotlinInject" }
+kotlinInject-runtime = { module = "me.tatarka.inject:kotlin-inject-runtime", version.ref = "kotlinInject" }
+kotlinInject-anvil-compiler = { module = "software.amazon.lastmile.kotlin.inject.anvil:compiler", version.ref = "kotlinInject-anvil" }
+kotlinInject-anvil-runtime = { module = "software.amazon.lastmile.kotlin.inject.anvil:runtime", version.ref = "kotlinInject-anvil" }
+kotlinInject-anvil-annotations = { module = "software.amazon.lastmile.kotlin.inject.anvil:runtime-optional", version.ref = "kotlinInject-anvil" }
 ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 moduleGraphAssert = { module = "com.jraska.module.graph.assertion:plugin", version.ref = "moduleGraphAssert" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
@@ -164,7 +164,6 @@ whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTh
 
 
 [plugins]
-anvil = { id = "com.squareup.anvil", version.ref = "anvil" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }

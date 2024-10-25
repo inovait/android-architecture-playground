@@ -10,24 +10,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import coil.Coil
 import coil.ImageLoader
-import dispatch.core.DefaultCoroutineScope
 import dispatch.core.DefaultDispatcherProvider
 import dispatch.core.defaultDispatcher
 import si.inova.androidarchitectureplayground.di.ApplicationComponent
-import si.inova.androidarchitectureplayground.di.DaggerMainApplicationComponent
+import si.inova.androidarchitectureplayground.di.MainApplicationComponent
+import si.inova.androidarchitectureplayground.di.create
 import si.inova.kotlinova.core.dispatchers.AccessCallbackDispatcherProvider
 import si.inova.kotlinova.core.logging.AndroidLogcatLogger
 import si.inova.kotlinova.core.logging.LogPriority
-import si.inova.kotlinova.core.reporting.ErrorReporter
-import javax.inject.Inject
-import javax.inject.Provider
 
 open class MyApplication : Application() {
-   @Inject
-   lateinit var errorReporter: Provider<ErrorReporter>
-
-   @Inject
-   lateinit var defaultScope: DefaultCoroutineScope
+   open val applicationComponent: ApplicationComponent by lazy {
+      MainApplicationComponent::class.create(this)
+   }
 
    init {
       if (BuildConfig.DEBUG) {
@@ -46,8 +41,6 @@ open class MyApplication : Application() {
          return
       }
 
-      applicationComponent.inject(this)
-
       AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.VERBOSE)
 
       enableStrictMode()
@@ -64,7 +57,7 @@ open class MyApplication : Application() {
          ImageLoader.Builder(this)
             // Load Coil cache on the background thread
             // See https://github.com/coil-kt/coil/issues/1878
-            .interceptorDispatcher(defaultScope.defaultDispatcher)
+            .interceptorDispatcher(applicationComponent.getDefaultCoroutineScope().defaultDispatcher)
             .build()
       }
    }
@@ -110,7 +103,7 @@ open class MyApplication : Application() {
                if (BuildConfig.DEBUG) {
                   throw e
                } else {
-                  errorReporter.get().report(e)
+                  applicationComponent.getErrorReporter().report(e)
                }
             }
             .build()
@@ -144,7 +137,7 @@ open class MyApplication : Application() {
       if (BuildConfig.DEBUG) {
          throw e
       } else {
-         errorReporter.get().report(e)
+         applicationComponent.getErrorReporter().report(e)
       }
    }
 
@@ -155,10 +148,6 @@ open class MyApplication : Application() {
       return activityManager.runningAppProcesses?.any {
          it.pid == myPid && packageName == it.processName
       } == true
-   }
-
-   open val applicationComponent: ApplicationComponent by lazy {
-      DaggerMainApplicationComponent.factory().create(this)
    }
 }
 
