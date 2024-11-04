@@ -6,14 +6,12 @@ val libs = the<LibrariesForLibs>()
 
 plugins {
    id("com.joetr.compose.guard")
+   id("org.jetbrains.kotlin.plugin.compose")
 }
 
 commonAndroid {
    buildFeatures {
       compose = true
-   }
-   composeOptions {
-      kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
    }
 }
 
