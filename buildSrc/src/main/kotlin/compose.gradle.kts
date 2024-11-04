@@ -1,27 +1,17 @@
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import util.commonAndroid
-import util.commonKotlinOptions
 
 val libs = the<LibrariesForLibs>()
 
 plugins {
    id("com.joetr.compose.guard")
+   id("org.jetbrains.kotlin.plugin.compose")
 }
 
 commonAndroid {
    buildFeatures {
       compose = true
-   }
-   composeOptions {
-      kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-   }
-   commonKotlinOptions {
-      freeCompilerArgs += listOf(
-         "-P",
-         "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
-            "${rootDir.absolutePath}/config/global_compose_stable_classes.txt"
-      )
    }
 }
 

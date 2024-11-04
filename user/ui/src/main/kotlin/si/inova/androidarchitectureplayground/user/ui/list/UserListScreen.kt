@@ -169,7 +169,7 @@ private fun ColumnScope.UserList(
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun UserListContentSuccess() {
+internal fun UserListContentSuccessPreview() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Success(
@@ -189,7 +189,7 @@ internal fun UserListContentSuccess() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun UserListContentLoading() {
+internal fun UserListContentLoadingPreview() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Progress(
@@ -209,7 +209,7 @@ internal fun UserListContentLoading() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun UserListContentError() {
+internal fun UserListContentErrorPreview() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Error(
@@ -230,7 +230,7 @@ internal fun UserListContentError() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun UserListContentLoadingMore() {
+internal fun UserListContentLoadingMorePreview() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Progress(

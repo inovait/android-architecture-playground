@@ -169,7 +169,7 @@ private fun ColumnScope.PostList(
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun PostListContentSuccess() {
+internal fun PostListContentSuccessPreview() {
    PreviewTheme {
       PostListContent(
          state = Outcome.Success(
@@ -189,7 +189,7 @@ internal fun PostListContentSuccess() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun PostListContentLoading() {
+internal fun PostListContentLoadingPreview() {
    PreviewTheme {
       PostListContent(
          state = Outcome.Progress(
@@ -209,7 +209,7 @@ internal fun PostListContentLoading() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun PostListContentError() {
+internal fun PostListContentErrorPreview() {
    PreviewTheme {
       PostListContent(
          state = Outcome.Error(
@@ -230,7 +230,7 @@ internal fun PostListContentError() {
 @FullScreenPreviews
 @ShowkaseComposable(group = "Test")
 @Composable
-internal fun PostListContentLoadingMore() {
+internal fun PostListContentLoadingMorePreview() {
    PreviewTheme {
       PostListContent(
          state = Outcome.Progress(

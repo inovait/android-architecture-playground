@@ -28,6 +28,7 @@ dependencies {
    implementation(libs.dependencyAnalysis)
    implementation(libs.keeperPlugin)
    implementation(libs.kotlin.plugin)
+   implementation(libs.kotlin.plugin.compose)
    implementation(libs.kotlinova.gradle)
    implementation(libs.moduleGraphAssert)
    implementation(libs.moshi.ir)
