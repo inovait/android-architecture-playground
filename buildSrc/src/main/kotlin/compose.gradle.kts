@@ -1,18 +1,11 @@
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
-import util.commonAndroid
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val libs = the<LibrariesForLibs>()
 
 plugins {
    id("com.joetr.compose.guard")
    id("org.jetbrains.kotlin.plugin.compose")
-}
-
-commonAndroid {
-   buildFeatures {
-      compose = true
-   }
 }
 
 //region Compose Guard
@@ -37,7 +30,7 @@ composeGuard {
 val composeCompileTasks = listOf("compileDebugKotlin", "compileReleaseKotlin")
 
 val composeReportsFolder = composeGuardCheck.outputDirectory.get()
-project.tasks.named { composeCompileTasks.contains(it) }.withType<KotlinCompile<*>>().configureEach {
+project.tasks.named { composeCompileTasks.contains(it) }.withType<KotlinCompile>().configureEach {
    kotlinOptions {
       freeCompilerArgs += listOf(
          "-P",
@@ -56,7 +49,7 @@ project.tasks.named { composeCompileTasks.contains(it) }.withType<KotlinCompile<
 
 afterEvaluate {
    val kotlinTasks = ArrayList<String>()
-   project.tasks.withType<KotlinCompile<*>>() {
+   project.tasks.withType<KotlinCompile>() {
       kotlinTasks += name
    }
    project.tasks.named("debugComposeCompilerCheck") {
