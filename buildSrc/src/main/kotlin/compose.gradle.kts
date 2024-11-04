@@ -31,13 +31,13 @@ val composeCompileTasks = listOf("compileDebugKotlin", "compileReleaseKotlin")
 
 val composeReportsFolder = composeGuardCheck.outputDirectory.get()
 project.tasks.named { composeCompileTasks.contains(it) }.withType<KotlinCompile>().configureEach {
-   kotlinOptions {
-      freeCompilerArgs += listOf(
+   compilerOptions {
+      freeCompilerArgs.addAll(
          "-P",
          "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
             "$composeReportsFolder"
       )
-      freeCompilerArgs += listOf(
+      freeCompilerArgs.addAll(
          "-P",
          "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
             "$composeReportsFolder"

@@ -1,7 +1,6 @@
 import com.android.build.api.dsl.LibraryBuildFeatures
 import org.gradle.accessors.dm.LibrariesForLibs
 import util.commonAndroid
-import util.commonKotlinOptions
 
 val libs = the<LibrariesForLibs>()
 
@@ -25,11 +24,6 @@ commonAndroid {
       targetCompatibility = JavaVersion.VERSION_17
 
       isCoreLibraryDesugaringEnabled = true
-   }
-
-   commonKotlinOptions {
-      freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-      freeCompilerArgs += "-opt-in=kotlinx.coroutines.FlowPreview"
    }
 
    defaultConfig {
@@ -71,6 +65,11 @@ commonAndroid {
 
 kotlin {
    jvmToolchain(17)
+
+   compilerOptions {
+      freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
+      freeCompilerArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
+   }
 }
 
 dependencies {
@@ -84,7 +83,7 @@ dependencies {
 
 // Workaround for the https://youtrack.jetbrains.com/issue/KT-63720
 tasks.named { it.contains("debug", ignoreCase = true) }.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-   kotlinOptions.freeCompilerArgs += "-Xdebug"
+   compilerOptions.freeCompilerArgs.add("-Xdebug")
 }
 
 detekt {
