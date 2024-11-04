@@ -8,6 +8,10 @@ plugins {
    id("org.jetbrains.kotlin.plugin.compose")
 }
 
+composeCompiler {
+   stabilityConfigurationFile = rootProject.layout.projectDirectory.file("config/global_compose_stable_classes.txt")
+}
+
 //region Compose Guard
 composeGuardCheck {
    // Dynamic property detection is error prone on debug builds (and we are only building debug builds for PR changes)
