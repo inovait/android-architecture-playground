@@ -142,14 +142,18 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
       }
 
       PredictiveBackHandler(enabled = openState.currentState == true) { events ->
+         var completed = false
          try {
             events.collectLatest {
                updateOpenState(false, it.progress)
             }
+            completed = true
             updateOpenState(false, null)
          } catch (e: CancellationException) {
-            withContext(NonCancellable) {
-               updateOpenState(true, null)
+            if (!completed) {
+               withContext(NonCancellable) {
+                  updateOpenState(true, null)
+               }
             }
 
             throw e
