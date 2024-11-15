@@ -23,7 +23,8 @@ fun PreviewTheme(
    Coil.setImageLoader(FakeCoilLoader())
 
    CompositionLocalProvider(LocalDateFormatter provides ComposeAndroidDateTimeFormatter(formatter)) {
-      AndroidArchitecturePlaygroundTheme {
+      // Disable Material You on previews (and screenshot tests) to improve reproducibility
+      AndroidArchitecturePlaygroundTheme(dynamicColor = false) {
          Surface(modifier = if (fill) Modifier.fillMaxSize() else Modifier, content = content)
       }
    }
