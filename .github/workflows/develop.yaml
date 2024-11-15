@@ -83,7 +83,7 @@ jobs:
 
       # This project has no actual release, but is kept in as an example
       #      - name: Generate Changelog
-      #        uses: inovait/actions-common/changelog-since-last-build@v7
+      #        uses: inovait/actions-common/changelog-since-last-build@v11
       #        with:
       #          git_commit_url_prefix: 'https://github.com/inovait/test-genie-android/commit/'
       #          target_file: "CHANGELOG.MD"
@@ -94,7 +94,7 @@ jobs:
       #          git tag ${{env.TAG_BUILD}}
       #          git push origin ${{env.TAG_BUILD}}
       #      - name: Publish to spotlight
-      #        uses: inovait/actions-common/spotlight-publish@v7
+      #        uses: inovait/actions-common/spotlight-publish@v11
       #        with:
       #          api_key: ${{secrets.SPOTLIGHT_KEY}}
       #          destination: 'release'
