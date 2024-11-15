@@ -77,7 +77,7 @@ jobs:
           show-rule-details: false
           sarif-file: 'merge.sarif'
       - name: "Upload Screenshot test failures"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: failed-screenshot-tests

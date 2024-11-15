@@ -73,7 +73,7 @@ jobs:
             **/build/outputs/*-results/**/*.xml
             **/build/*-results/**/*.xml
       - name: "Upload Screenshot test failures"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: failed-screenshot-tests
@@ -104,7 +104,7 @@ jobs:
       #            app/build/outputs/**/*-release.apk
       #            CHANGELOG.MD
       - name: "Upload proguard mappings"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mapping-app-release.txt
           path: app/build/outputs/mapping/release/mapping.txt
