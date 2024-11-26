@@ -124,6 +124,15 @@ keeper {
    automaticR8RepoManagement = false
 }
 
+//tasks.named { it.contains("debug", ignoreCase = true) }.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+//   compilerOptions.freeCompilerArgs.add("-Xdebug")
+//}
+//
+//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+//   compilerOptions.freeCompilerArgs.add("-Xdebug")
+//}
+
+
 custom {
    enableEmulatorTests.set(true)
 }

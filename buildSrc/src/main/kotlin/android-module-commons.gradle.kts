@@ -82,9 +82,9 @@ dependencies {
 }
 
 // Workaround for the https://youtrack.jetbrains.com/issue/KT-63720
-tasks.named { it.contains("debug", ignoreCase = true) }.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-   compilerOptions.freeCompilerArgs.add("-Xdebug")
-}
+//tasks.named { it.contains("debug", ignoreCase = true) }.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+//   compilerOptions.freeCompilerArgs.add("-Xdebug")
+//}
 
 detekt {
    config.from("$rootDir/config/detekt-android.yml")

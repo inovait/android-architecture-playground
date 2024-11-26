@@ -41,6 +41,9 @@ class MainViewModel @Inject constructor(
          } else {
             LoginScreenKey(OpenScreen(HomeScreenKey()))
          }
+
+         delay(100)
+         println("dummy")
       }
    }
 }
