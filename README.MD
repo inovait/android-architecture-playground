@@ -33,13 +33,13 @@ See also other branches:
 
 Process for updating all library versions::
 
-1. Open `libs.toml` file and check if any versions marked with `@pin` have been unblocked and can now be updated
-2. Run `./gradlew versionCatalogUpdate`.
-3. Update Gradle version
+1. Update Gradle version
     1. Find latest version and the checksum for -all version from https://gradle.org/release-checksums/
        (We use SHA to secure against wrapper attack, see https://blog.gradle.org/wrapper-attack-report)
     2. Run `./gradlew wrapper --gradle-version VERSION --gradle-distribution-sha256-sum SHA`, where you
        substitute `VERSION` and `SHA` with the info found in the previous step.
+2. Open `libs.toml` file and check if any versions marked with `@pin` have been unblocked and can now be updated
+3. Run `./gradlew versionCatalogUpdate`.
 4. Sync the project, build the app and run all tests to make sure everything still works.
 5. Run `detektDebug` gradle task to find any new deprecated code
 6. For any new deprecated code found by the search:
