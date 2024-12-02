@@ -59,6 +59,7 @@ configure<DependencyAnalysisSubExtension> {
 
          // This is fine, included with paparazzi
          exclude("com.android.tools.layoutlib:layoutlib-api")
+         exclude("com.android.tools.layoutlib:layoutlib")
          exclude("app.cash.paparazzi:layoutlib-native-jdk11")
 
          // This is fine, included with parcelize plugin
