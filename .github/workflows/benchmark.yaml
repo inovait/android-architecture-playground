@@ -34,7 +34,7 @@ jobs:
       - name: 'Save Service account'
         run: 'echo "${{ secrets.TEST_GCLOUD_ACCOUNT }}" | base64 -d > test-lab-key.json'
 
-      - uses: inovait/actions-common/android-setup@v11
+      - uses: inovait/actions-common/android-setup@v12
         with:
           java_version: '17'
       - name: "Set gcloud project"

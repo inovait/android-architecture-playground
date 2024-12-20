@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      - uses: inovait/actions-common/android-setup@v11
+      - uses: inovait/actions-common/android-setup@v12
         with:
           java-version: 17
 
