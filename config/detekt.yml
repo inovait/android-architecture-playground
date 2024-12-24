@@ -1101,7 +1101,7 @@ Compose:
   ModifierClickableOrder:
     active: true
   ModifierComposable:
-    active: true
+    active: false # Now recommended by Google since Modifier.composed {} has performance drawbacks
   ModifierMissing:
     active: true
   ModifierNaming:
