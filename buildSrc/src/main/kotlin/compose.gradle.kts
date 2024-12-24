@@ -51,20 +51,6 @@ project.tasks.named { composeCompileTasks.contains(it) }.withType<KotlinCompile>
    outputs.dir(composeReportsFolder)
 }
 
-afterEvaluate {
-   val kotlinTasks = ArrayList<String>()
-   project.tasks.withType<KotlinCompile>() {
-      kotlinTasks += name
-   }
-   project.tasks.named("debugComposeCompilerCheck") {
-      // Compose guard accesses outputs of all kotlin tasks, but does not properly declare its dependencies
-      // We fix that for them
-      for (task in kotlinTasks) {
-         mustRunAfter(task)
-      }
-   }
-}
-
 tasks.register<Copy>("generateComposeGuardBaseline") {
    from(composeReportsFolder)
    into(composeGuardGenerate.outputDirectory)
