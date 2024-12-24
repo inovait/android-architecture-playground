@@ -36,7 +36,7 @@ jobs:
 
       - uses: inovait/actions-common/android-setup@v12
         with:
-          java_version: '17'
+          java_version: '21'
       - name: "Set gcloud project"
         run: |
           gcloud auth login --cred-file=test-lab-key.json
