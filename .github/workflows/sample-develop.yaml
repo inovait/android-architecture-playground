@@ -65,6 +65,8 @@ jobs:
         run: "config/generate-screenshots.sh main"
       - name: "Run Screenshot Tests"
         run: "./gradlew -PtestAppWithProguard --continue verifyPaparazziDebug$GLOBAL_FLAGS"
+      - name: "Remove unused Screenshot Tests"
+        run: "config/remove-unused-screenshots.sh main"
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: always()
