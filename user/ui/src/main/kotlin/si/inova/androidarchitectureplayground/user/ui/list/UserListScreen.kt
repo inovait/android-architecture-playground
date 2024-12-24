@@ -5,13 +5,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.MutableWindowInsets
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.onConsumedWindowInsetsChanged
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -23,6 +30,7 @@ import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -103,7 +111,13 @@ private fun UserListContent(
          threshold = topWindowOffset + 48.dp
       )
    ) {
-      Column {
+      Column(
+         if (state is Outcome.Error) {
+            Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top))
+         } else {
+            Modifier
+         }
+      ) {
          if (state is Outcome.Error) {
             Text(
                state.exception.commonUserFriendlyMessage(state.data != null),
@@ -126,18 +140,24 @@ private fun UserListContent(
    }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ColumnScope.UserList(
    lazyListState: LazyListState,
    state: Outcome<UserListState>,
    openUserDetails: (id: Int) -> Unit,
 ) {
+   val consumedWindowInsets = remember { MutableWindowInsets() }
+
    LazyColumn(
       Modifier
          .fillMaxWidth()
-         .weight(1f),
+         .weight(1f)
+         .onConsumedWindowInsetsChanged {
+            consumedWindowInsets.insets = it
+         },
       lazyListState,
-      contentPadding = WindowInsets.safeDrawing.asPaddingValues()
+      contentPadding = WindowInsets.safeDrawing.exclude(consumedWindowInsets).asPaddingValues()
    ) {
       itemsWithDivider(state.data?.users.orEmpty()) {
          Text(
