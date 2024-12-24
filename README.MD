@@ -75,6 +75,14 @@ Every feature should contain following modules:
       No other `data` or `ui` module should depend on this (except for tests).
     * `test` (optional) - Module containing test helpers for faking stuff exposed in the `api` module
 
+If your module contains instrumented tests, you must enable them with the following call:
+
+```kotlin
+custom {
+   enableEmulatorTests.set(true)
+}
+```
+
 ## Running integration tests
 
 `./gradlew :app:connectedAndroidTest -PtestAppWithProguard`
