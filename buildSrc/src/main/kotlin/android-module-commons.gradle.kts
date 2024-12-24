@@ -1,5 +1,7 @@
 import com.android.build.api.dsl.LibraryBuildFeatures
+import com.android.build.gradle.tasks.asJavaVersion
 import org.gradle.accessors.dm.LibrariesForLibs
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import util.commonAndroid
 
 val libs = the<LibrariesForLibs>()
@@ -61,11 +63,18 @@ commonAndroid {
          androidResources = false
       }
    }
+
+   compileOptions {
+      // Android still creates java tasks, even with 100% Kotlin.
+      // Ensure that target compatiblity is equal to kotlin's jvmToolchain
+      lateinit var javaVersion: JavaVersion
+      the<KotlinProjectExtension>().jvmToolchain { javaVersion = this.languageVersion.get().asJavaVersion() }
+
+      targetCompatibility = javaVersion
+   }
 }
 
 kotlin {
-   jvmToolchain(17)
-
    compilerOptions {
       freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
       freeCompilerArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
