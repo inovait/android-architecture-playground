@@ -2,8 +2,10 @@ package si.inova.androidarchitectureplayground.post.ui.list
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import me.tatarka.inject.annotations.Inject
+import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.post.PostsRepository
@@ -34,11 +36,15 @@ class PostListViewModel @Inject constructor(
    private fun loadPostList(force: Boolean = false) = resources.launchResourceControlTask(_postList) {
       actionLogger.logAction { "PostListViewModel.loadPostList(force = $force)" }
 
-      val list = postRepository.getAllPosts(force)
-      postPaginatedList = list
+      val postsFlow = AwayDetectorFlow().flatMapLatest {
+         val list = postRepository.getAllPosts(force)
+         postPaginatedList = list
+
+         list.data
+      }
 
       emitAll(
-         list.data.map { paginationResult ->
+         postsFlow.map { paginationResult ->
             paginationResult.items.mapData {
                PostListState(it, paginationResult.hasAnyDataLeft)
             }

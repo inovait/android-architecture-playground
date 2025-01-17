@@ -2,7 +2,9 @@ package si.inova.androidarchitectureplayground.post.ui.details
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import me.tatarka.inject.annotations.Inject
+import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.post.PostsRepository
 import si.inova.androidarchitectureplayground.post.model.Post
@@ -39,7 +41,14 @@ class PostDetailsViewModel @Inject constructor(
    private fun loadPost(force: Boolean = false) {
       val postId = postId ?: return
       resources.launchResourceControlTask(_postDetails) {
-         emitAll(postRepository.getPostDetails(postId, force))
+         emitAll(
+            AwayDetectorFlow().flatMapLatest {
+               postRepository.getPostDetails(
+                  postId,
+                  force
+               )
+            }
+         )
       }
    }
 }

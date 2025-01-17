@@ -2,8 +2,10 @@ package si.inova.androidarchitectureplayground.user.ui.list
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import me.tatarka.inject.annotations.Inject
+import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.user.UserRepository
@@ -32,11 +34,15 @@ class UserListViewModel @Inject constructor(
    }
 
    private fun loadUserList(force: Boolean = false) = resources.launchResourceControlTask(_userList) {
-      val list = userRepository.getAllUsers(force)
-      userPaginatedList = list
+      val usersFlow = AwayDetectorFlow().flatMapLatest {
+         val list = userRepository.getAllUsers(force)
+         userPaginatedList = list
+
+         list.data
+      }
 
       emitAll(
-         list.data.map { paginationResult ->
+         usersFlow.map { paginationResult ->
             paginationResult.items.mapData {
                UserListState(it, paginationResult.hasAnyDataLeft)
             }

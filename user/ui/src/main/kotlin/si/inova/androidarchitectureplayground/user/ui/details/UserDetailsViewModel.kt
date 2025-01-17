@@ -2,7 +2,9 @@ package si.inova.androidarchitectureplayground.user.ui.details
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import me.tatarka.inject.annotations.Inject
+import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.user.UserRepository
 import si.inova.androidarchitectureplayground.user.model.User
@@ -10,6 +12,7 @@ import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
 import si.inova.kotlinova.navigation.services.InjectScopedService
+import kotlin.time.Duration.Companion.seconds
 
 @InjectScopedService
 class UserDetailsViewModel @Inject constructor(
@@ -40,7 +43,11 @@ class UserDetailsViewModel @Inject constructor(
       actionLogger.logAction { "UserDetailsViewModel.loadUser(force = $force)" }
       val userId = userId ?: return
       resources.launchResourceControlTask(_userDetails) {
-         emitAll(userRepository.getUserDetails(userId, force))
+         emitAll(
+            AwayDetectorFlow(10.seconds).flatMapLatest {
+               userRepository.getUserDetails(userId, force)
+            }
+         )
       }
    }
 }
