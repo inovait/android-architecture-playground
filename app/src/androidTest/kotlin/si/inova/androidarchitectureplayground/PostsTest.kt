@@ -6,6 +6,7 @@ import androidx.compose.ui.test.performClick
 import org.junit.Rule
 import org.junit.Test
 import si.inova.androidarchitectureplayground.instrumentation.IntegrationTestRule
+import si.inova.kotlinova.retrofit.runServer
 import si.inova.kotlinova.retrofit.setJsonBodyFromResource
 
 class PostsTest {
@@ -13,11 +14,11 @@ class PostsTest {
    val composeTestRule = IntegrationTestRule()
 
    @Test
-   fun showListOfPosts() = composeTestRule.runWithServer {
-      mockResponse("/posts?limit=10&skip=0") {
+   fun showListOfPosts() = composeTestRule.scope.runServer {
+      mockResponse("/posts?limit=10&skip=0", includeQueryParameters = true) {
          setJsonBodyFromResource("post_list.json")
       }
-      mockResponse("/users?limit=10&skip=0") {
+      mockResponse("/users?limit=10&skip=0", includeQueryParameters = true) {
          setJsonBodyFromResource("user_list.json")
       }
 
@@ -29,11 +30,11 @@ class PostsTest {
    }
 
    @Test
-   fun showPostDetails() = composeTestRule.runWithServer {
-      mockResponse("/posts?limit=10&skip=0") {
+   fun showPostDetails() = composeTestRule.scope.runServer {
+      mockResponse("/posts?limit=10&skip=0", includeQueryParameters = true) {
          setJsonBodyFromResource("post_list.json")
       }
-      mockResponse("/users?limit=10&skip=0") {
+      mockResponse("/users?limit=10&skip=0", includeQueryParameters = true) {
          setJsonBodyFromResource("user_list.json")
       }
       mockResponse("/posts/2") {
