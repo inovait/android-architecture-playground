@@ -1,12 +1,10 @@
 package si.inova.androidarchitectureplayground.di
 
-import me.tatarka.inject.annotations.Provides
 import si.inova.androidarchitectureplayground.MainViewModel
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
 import si.inova.kotlinova.navigation.deeplink.MainDeepLinkHandler
 import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.di.NavigationInjection
-import si.inova.kotlinova.navigation.di.NavigationStackSubComponent
 import si.inova.kotlinova.navigation.di.OuterNavigationScope
 import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import software.amazon.lastmile.kotlin.inject.anvil.ContributesSubcomponent
@@ -20,10 +18,6 @@ interface NavigationSubComponent {
    fun getNavigationContext(): NavigationContext
    fun getDateFormatter(): AndroidDateTimeFormatter
    fun getMainViewModelFactory(): () -> MainViewModel
-
-   @Provides
-   fun provideNavigationStackSubcomponentFactory(): NavigationStackSubComponent.Factory =
-      this as NavigationStackSubComponent.Factory
 
    @ContributesSubcomponent.Factory(AppScope::class)
    interface Factory {
