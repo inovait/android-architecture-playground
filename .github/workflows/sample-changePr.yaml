@@ -1,0 +1,38 @@
+# Sample Github Actions workflow that will detect PR being moved from draft (with "Draft:" prefix) to a ready-for-review.
+# When this happens, it will automatically move its corresponding Jira ticket to In Review.
+
+name: Change PR
+on:
+  pull_request:
+    types: [ edited ]
+jobs:
+  changePrBuild:
+    if: github.event.action == 'edited' && !contains(github.event.pull_request.title, 'Draft:') && startsWith(github.event.pull_request.title, 'JIRA-TICKET-PREFIX-HERE')
+    name: PR ready for review
+    runs-on: "node"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get ticket
+        uses: actions-ecosystem/action-regex-match@v2
+        id: get-ticket
+        with:
+          text: ${{ github.event.pull_request.title }}
+          regex: '[A-Z]{2,4}-[0-9]+'
+
+      - name: Login to Jira
+        uses: atlassian/gajira-login@40890b68ae12fed6b67ed1d0e31e9fd1912746ac
+        env:
+          JIRA_BASE_URL: 'https://myjira.atlassian.net/'
+          JIRA_USER_EMAIL: "myacc@jira.com"
+          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+
+      - name: Transition tickets to In Review
+        if: ${{ steps.get-ticket.outputs.match != '' }}
+        uses: inovait/actions-common/jira-transition@7ab5d6ff7d4868d04792f2aea1de19aabb501c0d
+        with:
+          tickets: "${{ steps.get-ticket.outputs.match }}"
+          from: 'In Progress'
+          to: 'In Review'

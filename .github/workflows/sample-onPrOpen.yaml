@@ -1,0 +1,31 @@
+# Sample Github Actions workflow that will detect when a non-draft PR is opened or when PR is transitioned from draft to non-draft.
+# When this happens, it will check whether PR has a jira ticket defined. If not, it will warn the developer, that PR is not linked to anything.
+
+
+name: Verify PR on Open
+on:
+  pull_request:
+    types: [ 'opened', 'reopened', 'edited' ]
+jobs:
+  verifyMissingTicketReferences:
+    if: "!contains(github.event.pull_request.title, 'Draft:') && (github.event.action != 'edited'  || 
+        (github.event.action == 'edited' && contains(github.event.changes.title.from, 'Draft:')))"
+    name: New PR
+    runs-on: "node"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Get jira tickets
+        uses: inovait/actions-common/jira-get-tickets-from-commits@1cf434ec3089ad171163da8ff16690ad09eeacf4
+        id: jira-tickets
+        with:
+          from: ${{ github.event.pull_request.base.sha }}
+          to: ${{ github.event.pull_request.head.sha }}
+      - run: "echo Tickets: \"${{ steps.jira-tickets.outputs.tickets }}\""
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@632cf9ce90574d125be56b5f3405cda41a84e2fd
+        if: steps.jira-tickets.outputs.tickets == ''
+        with:
+          message: |
+            Warning: No commits in this PR have a jira ticket assigned

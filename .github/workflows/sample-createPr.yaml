@@ -1,0 +1,70 @@
+# Sample Github action that will create a new PR whenever someone pushes a new branch.
+# If branch also contains a jira ticket, it will transition that ticket to progress
+
+name: Create new PR
+on: create
+jobs:
+  createNewPr:
+    name: Create new PR
+    runs-on: "node"
+    env:
+      OWNER_NAME: ${{github.actor}}
+      OWNER_MESSAGE: ${{github.event.ref}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: pull-request
+        id: open-pr
+        uses: inovait/pull-request@master
+        with:
+          github_token: ${{ github.token }}
+          destination_branch: "main"
+          pr_title: "Draft: ${{env.OWNER_MESSAGE}} - ${{env.OWNER_NAME}}"
+          pr_body: "Owner ${{env.OWNER_NAME}}"
+
+      - name: Get ticket
+        uses: actions-ecosystem/action-regex-match@v2
+        id: get-ticket
+        with:
+          text: ${{ env.OWNER_MESSAGE }}
+          regex: '[A-Z]{2,4}-[0-9]+'
+
+      - name: Login to Jira
+        if: ${{ steps.get-ticket.outputs.match != '' }}
+        uses: atlassian/gajira-login@40890b68ae12fed6b67ed1d0e31e9fd1912746ac
+        env:
+          JIRA_BASE_URL: 'https://myjira.atlassian.net/'
+          JIRA_USER_EMAIL: "myacc@jira.com"
+          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+
+      - name: Make a jira comment about a new release
+        if: ${{ steps.get-ticket.outputs.match != '' }}
+        uses: inovait/actions-common/jira-comment@7ab5d6ff7d4868d04792f2aea1de19aabb501c0d
+        with:
+          tickets: "${{ steps.get-ticket.outputs.match }}"
+          comment: |
+            {
+              "version": 1,
+              "type": "doc",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "${{env.OWNER_NAME}} started working on this issue ${{steps.open-pr.outputs.pr_url}}"
+                    }
+                  ]
+                }
+              ]
+            }
+
+      - name: Transition tickets to In Progress
+        if: ${{ steps.get-ticket.outputs.match != '' }}
+        uses: inovait/actions-common/jira-transition@7ab5d6ff7d4868d04792f2aea1de19aabb501c0d
+        with:
+          tickets: "${{ steps.get-ticket.outputs.match }}"
+          from: 'SELECTED FOR DEVELOPMENT'
+          to: 'In Progress'
