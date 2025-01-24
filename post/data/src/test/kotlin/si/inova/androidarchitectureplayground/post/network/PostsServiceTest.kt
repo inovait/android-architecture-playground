@@ -41,7 +41,7 @@ class PostsServiceTest {
    @Test
    fun `Load post list with limit and skip`() = runTest {
       mockWebServer {
-         mockResponse("/posts?limit=3&skip=2") {
+         mockResponse("/posts?limit=3&skip=2", includeQueryParameters = true) {
             setJsonBodyFromResource("post_list.json")
          }
 

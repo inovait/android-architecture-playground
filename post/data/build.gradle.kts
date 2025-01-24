@@ -28,6 +28,5 @@ dependencies {
    testImplementation(projects.commonRetrofit.test)
    testImplementation(libs.kotlinova.core.test)
    testImplementation(libs.kotlinova.retrofit.test)
-   testImplementation(libs.okhttp)
    testImplementation(libs.okhttp.mockWebServer)
 }

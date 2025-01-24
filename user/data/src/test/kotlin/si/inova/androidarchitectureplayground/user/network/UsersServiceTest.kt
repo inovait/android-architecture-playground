@@ -54,7 +54,7 @@ class UsersServiceTest {
    @Test
    fun `Load user list with limit and skip`() = runTest {
       mockWebServer {
-         mockResponse("/users?limit=3&skip=2") {
+         mockResponse("/users?limit=3&skip=2", includeQueryParameters = true) {
             setJsonBodyFromResource("user_list.json")
          }
 
