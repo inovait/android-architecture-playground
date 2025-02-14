@@ -9,7 +9,7 @@ plugins {
 }
 
 composeCompiler {
-   stabilityConfigurationFile = rootProject.layout.projectDirectory.file("config/global_compose_stable_classes.txt")
+   stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("config/global_compose_stable_classes.txt"))
 }
 
 //region Compose Guard
