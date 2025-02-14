@@ -1,5 +1,6 @@
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import tasks.setupTooManyKotlinFilesTaskForCommon
 
 val libs = the<LibrariesForLibs>()
 
@@ -10,6 +11,10 @@ plugins {
 
 configure<KotlinProjectExtension> {
    jvmToolchain(21)
+}
+
+if (name.startsWith("common-")) {
+   setupTooManyKotlinFilesTaskForCommon()
 }
 
 dependencies {
