@@ -1,7 +1,7 @@
 import com.android.build.api.variant.BuildConfigField
 import com.android.build.api.variant.VariantOutputConfiguration
 import org.gradle.accessors.dm.LibrariesForLibs
-import tasks.setupTooManyKotlinFilesTask
+import tasks.setupTooManyKotlinFilesTaskForApp
 
 val libs = the<LibrariesForLibs>()
 
@@ -81,4 +81,4 @@ dependencies {
    androidTestImplementation(libs.androidx.test.runner)
 }
 
-project.setupTooManyKotlinFilesTask()
+setupTooManyKotlinFilesTaskForApp()
