@@ -8,8 +8,9 @@ plugins {
    id("org.jetbrains.kotlin.plugin.compose")
 }
 
+val stableClassesFile = rootProject.layout.projectDirectory.file("config/global_compose_stable_classes.txt")
 composeCompiler {
-   stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("config/global_compose_stable_classes.txt"))
+   stabilityConfigurationFiles.add(stableClassesFile)
 }
 
 //region Compose Guard
@@ -48,7 +49,13 @@ project.tasks.named { composeCompileTasks.contains(it) }.withType<KotlinCompile>
       )
    }
 
+   inputs.file(stableClassesFile)
+
    outputs.dir(composeReportsFolder)
+}
+
+project.tasks.named { it.contains("ComposeCompilerCheck") }.configureEach {
+   inputs.file(stableClassesFile)
 }
 
 tasks.register<Copy>("generateComposeGuardBaseline") {
