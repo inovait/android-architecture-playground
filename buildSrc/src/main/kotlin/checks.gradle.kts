@@ -28,8 +28,11 @@ detekt {
 }
 
 tasks.withType<Detekt>() {
-   // Exclude everything generated with Anvil
-   setExcludes(listOf("**/amazon/lastmile/inject/**"))
+   val buildDir = project.layout.buildDirectory.asFile.get().absolutePath
+   // Exclude all generated files
+   exclude {
+      it.file.absolutePath.contains(buildDir)
+   }
 }
 
 configure<KotlinovaExtension> {
