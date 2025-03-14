@@ -11,18 +11,16 @@ import com.airbnb.android.showkase.models.Showkase
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import com.android.ide.common.rendering.api.SessionParams
 import com.android.resources.NightMode
-import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 import si.inova.androidarchitectureplayground.showkase.getMetadata
 
 @Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
-class Tests {
+abstract class TestsBase {
    @get:Rule
    val paparazzi = Paparazzi(
       deviceConfig = DeviceConfig.PIXEL_5,
@@ -33,9 +31,15 @@ class Tests {
    )
 
    object PreviewProvider : TestParameterValuesProvider() {
-      override fun provideValues(context: Context?): List<*> {
+      override fun provideValues(context: Context): List<*> {
+         val splitIndex = context.getOtherAnnotation(SplitIndex::class.java).index
+         val whitelistedPackages = Splits.paparazziSplits.elementAt(splitIndex)
+
          val components = Showkase.getMetadata().componentList
-            .filter { it.group != "Default Group" }
+            .filter { showkaseBrowserComponent ->
+               whitelistedPackages.any { showkaseBrowserComponent.componentKey.startsWith(it) } &&
+                  showkaseBrowserComponent.group != "Default Group"
+            }
             .map { TestKey(it) }
 
          for (i in components.indices) {
@@ -65,9 +69,8 @@ class Tests {
       // LottieTask.EXECUTOR = Executor(Runnable::run)
    }
 
-   @Test
-   fun test(
-      @TestParameter(valuesProvider = PreviewProvider::class)
+   protected open fun test(
+
       testKey: TestKey,
    ) {
       val composable = @Composable {
@@ -100,4 +103,6 @@ class Tests {
          composable()
       }
    }
+
+   annotation class SplitIndex(val index: Int)
 }
