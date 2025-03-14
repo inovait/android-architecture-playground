@@ -9,19 +9,16 @@ import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import com.android.ide.common.rendering.api.SessionParams
-import com.android.resources.Density
 import com.android.resources.NightMode
-import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 
 @Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
-class Tests {
+abstract class TestsBase {
    @get:Rule
    val paparazzi = Paparazzi(
       deviceConfig = DeviceConfig.PIXEL_5,
@@ -32,10 +29,15 @@ class Tests {
    )
 
    object PreviewProvider : TestParameterValuesProvider() {
-      override fun provideValues(context: Context?): List<*> {
-//          TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
-//          val components = Showkase.getMetadata().componentList
-//            .filter { it.group != "Default Group" }
+      override fun provideValues(context: Context): List<*> {
+//         TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
+//         val splitIndex = context.getOtherAnnotation(SplitIndex::class.java).index
+//         val whitelistedPackages = Splits.paparazziSplits.elementAt(splitIndex)
+//         val components = Showkase.getMetadata().componentList
+//            .filter { showkaseBrowserComponent ->
+//               whitelistedPackages.any { showkaseBrowserComponent.componentKey.startsWith(it) } &&
+//                  showkaseBrowserComponent.group != "Default Group"
+//            }
 //            .map { TestKey(it) }
          val components = emptyList<TestKey>()
 
@@ -66,9 +68,8 @@ class Tests {
       // LottieTask.EXECUTOR = Executor(Runnable::run)
    }
 
-   @Test
-   fun test(
-      @TestParameter(valuesProvider = PreviewProvider::class)
+   protected open fun test(
+
       testKey: TestKey,
    ) {
       val composable = @Composable {
@@ -92,8 +93,8 @@ class Tests {
          PIXEL_5.copy(
             ydpi = 600,
             xdpi = 300,
-            screenWidth = 300 * Density.DPI_440.dpiValue / 160,
-            screenHeight = 600 * Density.DPI_440.dpiValue / 160,
+            screenWidth = 300 * 440 / 160,
+            screenHeight = 600 * 440 / 160,
             nightMode = NightMode.NOTNIGHT
          )
       )
@@ -101,4 +102,6 @@ class Tests {
          composable()
       }
    }
+
+   annotation class SplitIndex(val index: Int)
 }
