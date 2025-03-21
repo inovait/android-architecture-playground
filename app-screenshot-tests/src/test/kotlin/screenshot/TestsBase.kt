@@ -37,8 +37,14 @@ abstract class TestsBase {
 
          val components = Showkase.getMetadata().componentList
             .filter { showkaseBrowserComponent ->
-               whitelistedPackages.any { showkaseBrowserComponent.componentKey.startsWith(it) } &&
-                  showkaseBrowserComponent.group != "Default Group"
+               val isInSplit = if (whitelistedPackages.isNotEmpty()) {
+                  whitelistedPackages.any { showkaseBrowserComponent.componentKey.startsWith(it) }
+               } else {
+                  val blacklistedPackages = Splits.paparazziSplits.flatten()
+                  blacklistedPackages.all { !showkaseBrowserComponent.componentKey.startsWith(it) }
+               }
+
+               isInSplit && showkaseBrowserComponent.group != "Default Group"
             }
             .map { TestKey(it) }
 
