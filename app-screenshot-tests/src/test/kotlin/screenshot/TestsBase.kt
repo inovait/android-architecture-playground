@@ -33,10 +33,17 @@ abstract class TestsBase {
 //         TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
 //         val splitIndex = context.getOtherAnnotation(SplitIndex::class.java).index
 //         val whitelistedPackages = Splits.paparazziSplits.elementAt(splitIndex)
+//
 //         val components = Showkase.getMetadata().componentList
 //            .filter { showkaseBrowserComponent ->
-//               whitelistedPackages.any { showkaseBrowserComponent.componentKey.startsWith(it) } &&
-//                  showkaseBrowserComponent.group != "Default Group"
+//               val isInSplit = if (whitelistedPackages.isNotEmpty()) {
+//                  whitelistedPackages.any { showkaseBrowserComponent.componentKey.startsWith(it) }
+//               } else {
+//                  val blacklistedPackages = Splits.paparazziSplits.flatten()
+//                  blacklistedPackages.all { !showkaseBrowserComponent.componentKey.startsWith(it) }
+//               }
+//
+//               isInSplit && showkaseBrowserComponent.group != "Default Group"
 //            }
 //            .map { TestKey(it) }
          val components = emptyList<TestKey>()
