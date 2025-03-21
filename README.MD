@@ -21,7 +21,8 @@ To create a new Android project from that:
 13. Change package in the templates (`.idea/fileTemplates/*`)
 14. Generate debug and release keystore (see below)
 15. Go through all TODOs inside the project
-16. Remove everything until `Readme for the application` from this README
+16. Delete `docs/FEATURES.MD`
+17. Remove everything until `Readme for the application` from this README
 
 ## Keystore
 
@@ -83,7 +84,7 @@ Open Android Studio's Settings, go to "File and Code Templates" and set Scheme t
 Then, to create a new module:
 
 1. Right click on the root in the project window, select New and then the project type you want
-  ![Image](docs/module-factory.png)
+   ![Image](docs/module-factory.png)
 2. Add module to `settings.gradle.kts`
 3. Add module to app's `build.gradle.kts` as `implementation(projects.newModule)`)
 4. Remove leading space from all generated ` .gitignore` files (workaround for the https://youtrack.jetbrains.com/issue/IJPL-2568)
