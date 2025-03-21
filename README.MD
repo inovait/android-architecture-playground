@@ -17,6 +17,8 @@ Features include:
 * Easy to use screenshot tests
 * Macrobenchmark
 
+See [FEATURES](docs/FEATURES.MD) for more info
+
 See also other branches:
 
 * `empty_kotlinova_project` = Empty template project with most of the kotlinova architecture set up
@@ -57,7 +59,7 @@ Open Android Studio's Settings, go to "File and Code Templates" and set Scheme t
 Then, to create a new module:
 
 1. Right click on the root in the project window, select New and then the project type you want
-  ![Image](docs/module-factory.png)
+   ![Image](docs/module-factory.png)
 2. Add module to `settings.gradle.kts`
 3. Add module to app's `build.gradle.kts` as `implementation(projects.newModule)`)
 4. Remove leading space from all generated ` .gitignore` files (workaround for the https://youtrack.jetbrains.com/issue/IJPL-2568)
