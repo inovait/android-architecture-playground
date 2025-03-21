@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.SeekableTransitionState
+import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.TransitionState
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.togetherWith
@@ -60,6 +61,7 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          )
       ) { SeekableTransitionState(currentDetailScreen.value != null) }
       val lastKey = rememberSaveable { mutableStateOf(key) }
+      val transition = rememberTransition(openState)
 
       val scope = rememberCoroutineScope()
 
@@ -79,18 +81,22 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          }
       }
 
+      val saveableStateHolder = rememberSaveableStateHolder()
+
       val master = remember {
-         movableContentOf<Modifier> { modifier ->
-            Box(modifier) {
+         movableContentOf {
+            saveableStateHolder.SaveableStateProvider(false) {
                Master(key, ::openDetail)
             }
          }
       }
 
       val detail = remember {
-         movableContentOf<Modifier, D> { _, detail ->
+         movableContentOf<D> { detail ->
             if (detail != null) {
-               Detail(detail)
+               saveableStateHolder.SaveableStateProvider(detail) {
+                  Detail(detail)
+               }
             }
          }
       }
@@ -98,10 +104,11 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
       if (widthSize == WindowWidthSizeClass.Companion.Compact) {
          MasterDetailOnPhone(
             openState = openState,
+            transition = transition,
             updateOpenState = openState::updateOpenState,
             currentDetailScreen = currentDetailScreen::value,
             master = master,
-            detail = detail
+            detail = detail,
          )
       } else {
          MasterDetailOnLargerScreen(currentDetailScreen::value, master, detail)
@@ -112,14 +119,13 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
    @OptIn(ExperimentalAnimationApi::class)
    private fun MasterDetailOnPhone(
       openState: TransitionState<Boolean>,
+      transition: Transition<Boolean>,
       updateOpenState: suspend (Boolean, Float?) -> Unit,
       currentDetailScreen: () -> D?,
-      master: @Composable (Modifier) -> Unit,
-      detail: @Composable (Modifier, D) -> Unit,
+      master: @Composable () -> Unit,
+      detail: @Composable (D) -> Unit,
    ) {
-      val saveableStateHolder = rememberSaveableStateHolder()
-
-      rememberTransition(openState).AnimatedContent(
+      transition.AnimatedContent(
          transitionSpec = {
             if (this.targetState) {
                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) togetherWith
@@ -130,13 +136,15 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
             }
          },
       ) { open ->
-         saveableStateHolder.SaveableStateProvider(open) {
-            if (open) {
-               currentDetailScreen()?.let {
-                  detail(Modifier.fillMaxSize(), it)
+         if (open) {
+            currentDetailScreen()?.let {
+               Box(Modifier.fillMaxSize()) {
+                  detail(it)
                }
-            } else {
-               master(Modifier.fillMaxSize())
+            }
+         } else {
+            Box(Modifier.fillMaxSize()) {
+               master()
             }
          }
       }
@@ -164,15 +172,17 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
    @Composable
    private fun MasterDetailOnLargerScreen(
       currentDetailScreen: () -> D?,
-      master: @Composable (Modifier) -> Unit,
-      detail: @Composable (Modifier, D) -> Unit,
+      master: @Composable () -> Unit,
+      detail: @Composable (D) -> Unit,
    ) {
       Row(Modifier.fillMaxSize()) {
-         master(
+         Box(
             Modifier
                .weight(1f)
                .fillMaxHeight()
-         )
+         ) {
+            master()
+         }
 
          Crossfade(
             currentDetailScreen(),
@@ -182,7 +192,9 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
             label = "Master Detail"
          ) { value ->
             if (value != null) {
-               detail(Modifier.fillMaxSize(), value)
+               Box(Modifier.fillMaxSize()) {
+                  detail(value)
+               }
             }
          }
       }
