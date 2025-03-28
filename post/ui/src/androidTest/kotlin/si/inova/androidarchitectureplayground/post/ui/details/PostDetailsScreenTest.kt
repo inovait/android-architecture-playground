@@ -6,7 +6,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
-import coil.Coil
+import coil3.SingletonImageLoader
+import coil3.annotation.DelicateCoilApi
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.MainScope
@@ -34,9 +35,10 @@ class PostDetailsScreenTest {
    private val viewModel = PostDetailsViewModel(CoroutineResourceManager(MainScope(), { throw it }), postRepository, {})
    private val screen = PostDetailsScreen(viewModel, navigator)
 
+   @OptIn(DelicateCoilApi::class)
    @Before
    fun setUp() {
-      Coil.setImageLoader(FakeCoilLoader())
+      SingletonImageLoader.setUnsafe(FakeCoilLoader())
 
       postRepository.setPostDetails(
          77,
@@ -55,9 +57,10 @@ class PostDetailsScreenTest {
       )
    }
 
+   @OptIn(DelicateCoilApi::class)
    @After
    fun tearDown() {
-      Coil.reset()
+      SingletonImageLoader.reset()
    }
 
    @Test

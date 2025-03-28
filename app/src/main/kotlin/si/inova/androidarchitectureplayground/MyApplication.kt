@@ -8,8 +8,8 @@ import android.os.StrictMode.VmPolicy
 import android.os.strictmode.Violation
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import coil.Coil
-import coil.ImageLoader
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
 import dispatch.core.DefaultDispatcherProvider
 import dispatch.core.defaultDispatcher
 import si.inova.androidarchitectureplayground.di.ApplicationComponent
@@ -53,11 +53,11 @@ open class MyApplication : Application() {
          }
       )
 
-      Coil.setImageLoader {
+      SingletonImageLoader.setSafe {
          ImageLoader.Builder(this)
             // Load Coil cache on the background thread
             // See https://github.com/coil-kt/coil/issues/1878
-            .interceptorDispatcher(applicationComponent.getDefaultCoroutineScope().defaultDispatcher)
+            .interceptorCoroutineContext(applicationComponent.getDefaultCoroutineScope().defaultDispatcher)
             .build()
       }
    }

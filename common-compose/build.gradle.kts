@@ -17,4 +17,5 @@ dependencies {
    implementation(libs.kotlin.coroutines)
    implementation(libs.kotlinova.core)
    implementation(libs.coil)
+   implementation(libs.coil.okhttp)
 }
