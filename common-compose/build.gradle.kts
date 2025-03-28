@@ -16,4 +16,5 @@ android {
 dependencies {
    implementation(libs.kotlinova.core)
    implementation(libs.coil)
+   implementation(libs.coil.okhttp)
 }
