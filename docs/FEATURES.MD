@@ -19,7 +19,7 @@ to save state inside ViewModel](https://github.com/inovait/kotlinova/tree/master
 
 # Dark mode and Material You support
 
-Mostly handled by Google' material libraries, but enabled in
+Mostly handled by Google's material libraries, but enabled in
 the [Theme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplayground/ui/theme/Theme.kt) file.
 
 # Improved support for large screens (two-pane layout for user and post list)
@@ -33,7 +33,7 @@ the [Theme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplaygr
 
 # Offline support
 
-* Both posts and user data use SQLDelight to store data
+* Both post and user data use SQLDelight to store data
 * Every module handles its own tables, all of which get merged into one database in the `app` module
 * CI runs `verifyDebugDatabaseMigration` to ensure all database migration files are valid at all times
 
@@ -50,10 +50,10 @@ All reusable components have `@ShowkaseComposable` annotation and there is a "Co
 
 * All classes in `:data` modules and ViewModels have unit tests that verifies their correctness
 * All screens have instrumented tests that verify user interaction
-* All Retrofit interfaces are tested with the MockWebServer to ensure they actually load data and decode the JSON properly
+* All Retrofit interfaces are tested with the MockWebServer to ensure they actually load the data and decode the JSON properly
 
 * All unit tests use JUnit5 + kotest assertions, which are auto included as a dependency in every module for convenience
-* kotest assertion's rules are set up more pragmatically to allow printing larger diffs
+* kotest assertion's rules config is set up more pragmatically to allow printing larger diffs
 * Tests can include [unmock](https://github.com/bjoernQ/unmock-plugin), which allows use of utility Android classes (such as
   `Uri`) inside JVM unit tests
 
@@ -62,8 +62,9 @@ All reusable components have `@ShowkaseComposable` annotation and there is a "Co
 `androidTest` tests in the `app` module:
 
 * Initialize the whole app with proper DI instead of just instantiating screens/classes individually
-* Instantiate everything as it would in the production app, except for network requests, which are replaced with MockWebServer, to
-  make tests independent of the server
+* Instantiate everything as it would in the production app, except for network requests, which are replaced with the
+  MockWebServer,
+  to make tests independent of the server
 * Navigate to every screen to ensure navigation does not break
 * Are run after R8 minifying, to catch any issues that might arise from it
 
@@ -104,8 +105,8 @@ To achieve maximum scalability, project uses `api`/`data`/`ui`/`test` module gro
 
 # Shared build logic
 
-Most of the build logic consists of reusable convention plugins in shared `buildSrc`. Individual app modules can opt-in into
-various behavior by just including these plugins inside `plugins {}` block
+Most of the build logic consists of reusable convention plugins in the shared `buildSrc`. Individual app modules can opt-in into
+various behaviors by just including these plugins inside the `plugins {}` block
 
 # Pure kotlin modules + optimized Android modules
 
@@ -143,7 +144,7 @@ App includes [Detekt](https://github.com/detekt/detekt/) implementation with:
   allowing easy diagnosing on why PR build failed
   App includes CI configuration
 
-# Module Graph
+# Module Graph assert
 
 App uses [module-graph-assert](https://github.com/jraska/modules-graph-assert) plugin to enforce optimal modularisation in
 the [app-module.gradle.kts](../buildSrc/src/main/kotlin/app-module.gradle.kts):
@@ -174,7 +175,7 @@ case of a crash to aid with
 debugging. [Custom detekt rule](../detekt/src/main/kotlin/si/inova/androidarchitectureplayground/detekt/UseActionLoggerInViewModels.kt)
 enforces its use.
 
-You can add following live template to the Android Studio to make creating these very easy:
+You can add a following live template to the Android Studio to make creating these very easy:
 
 ```xml
 
@@ -210,9 +211,10 @@ stack traces on debug builds. They slow down the app, but they make debugging co
 
 # Configuration-cache friendly versioning and BuildConfig
 
-[app-module.gradle.kts](buildSrc/src/main/kotlin/app-module.gradle.kts) sets up configuration-cache friendly determination of the
+[app-module.gradle.kts](../buildSrc/src/main/kotlin/app-module.gradle.kts) sets up configuration-cache friendly determination of
+the
 version name, version code and BuildConfig variables, using git hashes by default as an example. This allows Gradle to reuse
-configuration cache even when those variable changes.
+configuration cache even when those variables change.
 
 # CrashOnDebugException
 
@@ -222,7 +224,7 @@ behavior that should not happen, without crashing users in production.
 
 # Automatic reload after user idle
 
-[AwayDetectorFlow](..common/src/main/kotlin/si/inova/androidarchitectureplayground/common/flow/AwayDetectorFlow.kt) allows
+[AwayDetectorFlow](../common/src/main/kotlin/si/inova/androidarchitectureplayground/common/flow/AwayDetectorFlow.kt) allows
 easy implementation of automatic reloads when user re-opens the app after a longer period of being in the background.
 
 # Multi-preview
