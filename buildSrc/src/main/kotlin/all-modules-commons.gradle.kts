@@ -25,5 +25,6 @@ dependencies {
       add("testImplementation", libs.turbine)
 
       add("testRuntimeOnly", libs.junit5.engine)
+      add("testRuntimeOnly", libs.junit5.launcher)
    }
 }
