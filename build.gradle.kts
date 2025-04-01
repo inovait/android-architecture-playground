@@ -16,7 +16,7 @@ dependencyAnalysis {
 
       bundle("coil") {
          // We only ever want coil-compose, so coil is considered as a group
-         includeGroup("io.coil-kt")
+         includeGroup("io.coil-kt.coil3")
       }
 
       bundle("compose") {
