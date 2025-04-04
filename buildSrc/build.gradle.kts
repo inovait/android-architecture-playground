@@ -46,11 +46,11 @@ dependencies {
    detektPlugins(libs.detekt.compose)
 }
 
-tasks.register("pre-commit-hook", Copy::class) {
+tasks.register("commit-hooks", Copy::class) {
    from("$rootDir/../config/hooks/")
    into("$rootDir/../.git/hooks")
 }
 
 afterEvaluate {
-   tasks.getByName("jar").dependsOn("pre-commit-hook")
+   tasks.getByName("jar").dependsOn("commit-hooks")
 }
