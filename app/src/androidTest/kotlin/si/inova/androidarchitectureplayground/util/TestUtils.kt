@@ -1,11 +1,22 @@
 package si.inova.androidarchitectureplayground.util
 
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import si.inova.androidarchitectureplayground.instrumentation.TestCoroutinesComponent
-import si.inova.kotlinova.compose.androidtest.idlingresource.LoadingCountingIdlingResource
-import si.inova.kotlinova.compose.androidtest.idlingresource.registerIdlingDispatchers
+import androidx.compose.ui.test.onNodeWithText
 
-fun ComposeTestRule.registerStandardIdlingResources() {
-   registerIdlingDispatchers(TestCoroutinesComponent.idlingDispatcherProvider)
-   registerIdlingResource(LoadingCountingIdlingResource)
+/**
+ * Wait for a node to show up and then execute [onNodeWithText].
+ */
+@OptIn(ExperimentalTestApi::class)
+fun ComposeTestRule.onAwaitingNodeWithText(
+   text: String,
+   substring: Boolean = false,
+   ignoreCase: Boolean = false,
+   useUnmergedTree: Boolean = false,
+   timeoutMs: Long = 5_000,
+): SemanticsNodeInteraction {
+   waitUntilAtLeastOneExists(hasText(text, substring, ignoreCase), timeoutMillis = timeoutMs)
+   return onNodeWithText(text, substring, ignoreCase, useUnmergedTree)
 }

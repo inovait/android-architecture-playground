@@ -11,7 +11,6 @@ import org.junit.runner.Description
 import org.junit.runners.model.MultipleFailureException
 import org.junit.runners.model.Statement
 import si.inova.androidarchitectureplayground.MainActivity
-import si.inova.androidarchitectureplayground.util.registerStandardIdlingResources
 import si.inova.kotlinova.retrofit.MockWebServerScope
 
 class IntegrationTestRule(
@@ -32,8 +31,6 @@ class IntegrationTestRule(
    private val testEvents = object : TestWatcher() {
       override fun starting(description: Description?) {
          TestErrorReportingComponent.caughtExceptions.clear()
-
-         composeTestRule.registerStandardIdlingResources()
       }
 
       override fun finished(description: Description?) {
