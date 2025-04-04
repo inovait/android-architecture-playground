@@ -1,11 +1,11 @@
 package si.inova.androidarchitectureplayground
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.junit.Rule
 import org.junit.Test
 import si.inova.androidarchitectureplayground.instrumentation.IntegrationTestRule
+import si.inova.androidarchitectureplayground.util.onAwaitingNodeWithText
 import si.inova.kotlinova.retrofit.runServer
 import si.inova.kotlinova.retrofit.setJsonBodyFromResource
 
@@ -22,12 +22,12 @@ class UsersTest {
          setJsonBodyFromResource("user_list.json")
       }
 
-      composeTestRule.onNodeWithText("Login").performClick()
-      composeTestRule.onNodeWithText("Users").performClick()
+      composeTestRule.onAwaitingNodeWithText("Login").performClick()
+      composeTestRule.onAwaitingNodeWithText("Users").performClick()
 
-      composeTestRule.onNodeWithText("Terry Medhurst").assertIsDisplayed()
-      composeTestRule.onNodeWithText("Juliet Beck").assertIsDisplayed()
-      composeTestRule.onNodeWithText("Max Howell").assertIsDisplayed()
+      composeTestRule.onAwaitingNodeWithText("Terry Medhurst").assertIsDisplayed()
+      composeTestRule.onAwaitingNodeWithText("Juliet Beck").assertIsDisplayed()
+      composeTestRule.onAwaitingNodeWithText("Max Howell").assertIsDisplayed()
    }
 
    @Test
@@ -43,10 +43,10 @@ class UsersTest {
          setJsonBodyFromResource("single_user.json")
       }
 
-      composeTestRule.onNodeWithText("Login").performClick()
-      composeTestRule.onNodeWithText("Users").performClick()
-      composeTestRule.onNodeWithText("Max Howell").performClick()
+      composeTestRule.onAwaitingNodeWithText("Login").performClick()
+      composeTestRule.onAwaitingNodeWithText("Users").performClick()
+      composeTestRule.onAwaitingNodeWithText("Max Howell").performClick()
 
-      composeTestRule.onNodeWithText("Apache Helicopter", substring = true).assertIsDisplayed()
+      composeTestRule.onAwaitingNodeWithText("Apache Helicopter", substring = true).assertIsDisplayed()
    }
 }

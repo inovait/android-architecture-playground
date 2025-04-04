@@ -1,14 +1,16 @@
 package si.inova.androidarchitectureplayground
 
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.junit.Rule
 import org.junit.Test
 import si.inova.androidarchitectureplayground.instrumentation.IntegrationTestRule
+import si.inova.androidarchitectureplayground.util.onAwaitingNodeWithText
 import si.inova.kotlinova.retrofit.runServer
 import si.inova.kotlinova.retrofit.setJsonBodyFromResource
 
+@OptIn(ExperimentalTestApi::class)
 class PostsTest {
    @get:Rule
    val composeTestRule = IntegrationTestRule()
@@ -22,11 +24,11 @@ class PostsTest {
          setJsonBodyFromResource("user_list.json")
       }
 
-      composeTestRule.onNodeWithText("Login").performClick()
-      composeTestRule.onNodeWithText("Posts").performClick()
+      composeTestRule.onAwaitingNodeWithText("Login").performClick()
+      composeTestRule.onAwaitingNodeWithText("Posts").performClick()
 
-      composeTestRule.onNodeWithText("His mother had always taught him").assertIsDisplayed()
-      composeTestRule.onNodeWithText("He was an expert but not in a discipline").assertIsDisplayed()
+      composeTestRule.onAwaitingNodeWithText("His mother had always taught him").assertIsDisplayed()
+      composeTestRule.onAwaitingNodeWithText("He was an expert but not in a discipline").assertIsDisplayed()
    }
 
    @Test
@@ -41,10 +43,10 @@ class PostsTest {
          setJsonBodyFromResource("single_post.json")
       }
 
-      composeTestRule.onNodeWithText("Login").performClick()
-      composeTestRule.onNodeWithText("Posts").performClick()
-      composeTestRule.onNodeWithText("He was an expert but not in a discipline").performClick()
+      composeTestRule.onAwaitingNodeWithText("Login").performClick()
+      composeTestRule.onAwaitingNodeWithText("Posts").performClick()
+      composeTestRule.onAwaitingNodeWithText("He was an expert but not in a discipline").performClick()
 
-      composeTestRule.onNodeWithText("love", substring = true).assertIsDisplayed()
+      composeTestRule.onAwaitingNodeWithText("love", substring = true).assertIsDisplayed()
    }
 }
