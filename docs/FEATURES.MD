@@ -249,4 +249,8 @@ See `si.inova.androidarchitectureplayground.post.PostsDataComponent.providePosts
 Included [version-catalog-udpate-plugin](https://github.com/littlerobots/version-catalog-update-plugin) allows easy updating
 of all dependencies in the project.
 
+# Pre-commit hook that prevents pushing from some branches
 
+When using a remote without branch protection, one can quickly accidentally push code into main branch.
+We have a simple [pre-push](../config/hooks/pre-push) hook to prevent this
+(hook is disabled by default, enable it by removing `exit 0` at the start). 

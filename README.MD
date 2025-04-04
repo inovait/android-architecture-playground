@@ -22,6 +22,7 @@ To create a new Android project from that:
 14. Generate debug and release keystore (see below)
 15. Go through all TODOs inside the project
 16. Delete `docs/FEATURES.MD`
+17. Remove `exit 0` from the beginning of the `/config/hooks/pre-push`
 17. Remove everything until `Readme for the application` from this README
 
 ## Keystore
