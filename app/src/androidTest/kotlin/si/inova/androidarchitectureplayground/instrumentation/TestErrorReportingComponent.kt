@@ -15,6 +15,8 @@ interface TestErrorReportingComponent {
          if (it !is CauseException || it.shouldReport) {
             Log.e("Testing", "Got unhandled exception", it)
             caughtExceptions += it
+         } else {
+            Log.w("Testing", "Got an exception", it)
          }
       }
    }
