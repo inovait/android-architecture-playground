@@ -1,6 +1,6 @@
 package si.inova.androidarchitectureplayground.post.model
 
-import si.inova.kotlinova.core.data.Immutable
+import androidx.compose.runtime.Immutable
 
 @Immutable
 data class Post(
