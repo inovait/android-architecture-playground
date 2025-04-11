@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
  */
 abstract class FlowSwitchingPaginatedDataStream<T> : PaginatedDataStream<T> {
    protected val nextPageChannel = Channel<Unit>(Channel.CONFLATED)
+
+   @Suppress("ForbiddenMethodCall") // This empty flow here is warranted as it's default value that consumers need to replace
    protected val targetFlow: MutableStateFlow<Flow<PaginatedDataStream.PaginationResult<T>>> =
       MutableStateFlow(emptyFlow())
 
