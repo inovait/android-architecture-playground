@@ -21,9 +21,11 @@ custom {
 dependencies {
    api(projects.common)
    api(projects.user.api)
-
    implementation(projects.commonCompose)
+
    api(libs.kotlinova.navigation)
+   implementation(libs.androidx.paging)
+   implementation(libs.androidx.paging.compose)
    implementation(libs.kotlinova.core)
 
    testImplementation(projects.user.test)

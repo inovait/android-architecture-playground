@@ -1,5 +1,9 @@
 package si.inova.androidarchitectureplayground.user.ui.list
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import androidx.paging.liveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -26,7 +30,7 @@ class UserListViewModel @Inject constructor(
    val userList: StateFlow<Outcome<UserListState>>
       get() = _userList
 
-   private var userPaginatedList: PaginatedDataStream<List<User>>? = null
+//   private var userPaginatedList: PaginatedDataStream<List<User>>? = null
 
    override fun onServiceRegistered() {
       actionLogger.logAction { "UserListViewModel.onServiceRegistered()" }
@@ -34,26 +38,29 @@ class UserListViewModel @Inject constructor(
    }
 
    private fun loadUserList(force: Boolean = false) = resources.launchResourceControlTask(_userList) {
-      val usersFlow = AwayDetectorFlow().flatMapLatest {
-         val list = userRepository.getAllUsers(force)
-         userPaginatedList = list
+      val pager = Pager(PagingConfig(pageSize = 10), pagingSourceFactory = { userRepository.getAllUsers() })
+         .also { it.liveData }
+         .flow
 
-         list.data
+      val usersFlow = AwayDetectorFlow().flatMapLatest {
+         val list = pager
+//         userPaginatedList = list
+
+         pager
       }
+
 
       emitAll(
          usersFlow.map { paginationResult ->
-            paginationResult.items.mapData {
-               UserListState(it, paginationResult.hasAnyDataLeft)
-            }
+            Outcome.Success(UserListState(paginationResult))
          }
       )
    }
 
-   fun nextPage() {
-      actionLogger.logAction { "UserListViewModel.nextPage()" }
-      userPaginatedList?.nextPage()
-   }
+//   fun nextPage() {
+//      actionLogger.logAction { "UserListViewModel.nextPage()" }
+//      userPaginatedList?.nextPage()
+//   }
 
    fun refresh() {
       actionLogger.logAction { "UserListViewModel.refresh()" }

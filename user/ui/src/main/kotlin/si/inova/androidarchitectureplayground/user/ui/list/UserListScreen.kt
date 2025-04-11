@@ -79,7 +79,7 @@ class UserListScreen(
       if (data != null) {
          UserListContent(
             data,
-            viewModel::nextPage,
+            {},
             viewModel::refresh,
             navigate
          )
@@ -149,6 +149,8 @@ private fun ColumnScope.UserList(
 ) {
    val consumedWindowInsets = remember { MutableWindowInsets() }
 
+   val lazyPagingItems = state.data?.users!!.coll
+
    LazyColumn(
       Modifier
          .fillMaxWidth()
@@ -186,85 +188,85 @@ private fun ColumnScope.UserList(
    }
 }
 
-@FullScreenPreviews
-@ShowkaseComposable(group = "Test")
-@Composable
-internal fun UserListContentSuccessPreview() {
-   PreviewTheme {
-      UserListContent(
-         state = Outcome.Success(
-            UserListState(
-               List<User>(20) {
-                  User(it, "First $it", "Last $it")
-               }
-            )
-         ),
-         loadMore = { },
-         refresh = { },
-         openUserDetails = {}
-      )
-   }
-}
-
-@FullScreenPreviews
-@ShowkaseComposable(group = "Test")
-@Composable
-internal fun UserListContentLoadingPreview() {
-   PreviewTheme {
-      UserListContent(
-         state = Outcome.Progress(
-            UserListState(
-               List<User>(20) {
-                  User(it, "First $it", "Last $it")
-               }
-            )
-         ),
-         loadMore = { },
-         refresh = { },
-         openUserDetails = {}
-      )
-   }
-}
-
-@FullScreenPreviews
-@ShowkaseComposable(group = "Test")
-@Composable
-internal fun UserListContentErrorPreview() {
-   PreviewTheme {
-      UserListContent(
-         state = Outcome.Error(
-            NoNetworkException(),
-            UserListState(
-               List<User>(20) {
-                  User(it, "First $it", "Last $it")
-               }
-            )
-         ),
-         loadMore = { },
-         refresh = { },
-         openUserDetails = {}
-      )
-   }
-}
-
-@FullScreenPreviews
-@ShowkaseComposable(group = "Test")
-@Composable
-internal fun UserListContentLoadingMorePreview() {
-   PreviewTheme {
-      UserListContent(
-         state = Outcome.Progress(
-            UserListState(
-               List<User>(3) {
-                  User(it, "First $it", "Last $it")
-               },
-               hasAnyDataLeft = true
-            ),
-            style = LoadingStyle.ADDITIONAL_DATA
-         ),
-         loadMore = { },
-         refresh = { },
-         openUserDetails = {}
-      )
-   }
-}
+//@FullScreenPreviews
+//@ShowkaseComposable(group = "Test")
+//@Composable
+//internal fun UserListContentSuccessPreview() {
+//   PreviewTheme {
+//      UserListContent(
+//         state = Outcome.Success(
+//            UserListState(
+//               List<User>(20) {
+//                  User(it, "First $it", "Last $it")
+//               }
+//            )
+//         ),
+//         loadMore = { },
+//         refresh = { },
+//         openUserDetails = {}
+//      )
+//   }
+//}
+//
+//@FullScreenPreviews
+//@ShowkaseComposable(group = "Test")
+//@Composable
+//internal fun UserListContentLoadingPreview() {
+//   PreviewTheme {
+//      UserListContent(
+//         state = Outcome.Progress(
+//            UserListState(
+//               List<User>(20) {
+//                  User(it, "First $it", "Last $it")
+//               }
+//            )
+//         ),
+//         loadMore = { },
+//         refresh = { },
+//         openUserDetails = {}
+//      )
+//   }
+//}
+//
+//@FullScreenPreviews
+//@ShowkaseComposable(group = "Test")
+//@Composable
+//internal fun UserListContentErrorPreview() {
+//   PreviewTheme {
+//      UserListContent(
+//         state = Outcome.Error(
+//            NoNetworkException(),
+//            UserListState(
+//               List<User>(20) {
+//                  User(it, "First $it", "Last $it")
+//               }
+//            )
+//         ),
+//         loadMore = { },
+//         refresh = { },
+//         openUserDetails = {}
+//      )
+//   }
+//}
+//
+//@FullScreenPreviews
+//@ShowkaseComposable(group = "Test")
+//@Composable
+//internal fun UserListContentLoadingMorePreview() {
+//   PreviewTheme {
+//      UserListContent(
+//         state = Outcome.Progress(
+//            UserListState(
+//               List<User>(3) {
+//                  User(it, "First $it", "Last $it")
+//               },
+//               hasAnyDataLeft = true
+//            ),
+//            style = LoadingStyle.ADDITIONAL_DATA
+//         ),
+//         loadMore = { },
+//         refresh = { },
+//         openUserDetails = {}
+//      )
+//   }
+//}
