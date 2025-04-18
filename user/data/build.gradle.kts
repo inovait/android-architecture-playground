@@ -22,6 +22,7 @@ dependencies {
    api(libs.kotlin.coroutines)
    api(libs.kotlinova.core)
    api(libs.retrofit)
+   implementation(libs.androidx.paging.common)
    implementation(libs.dispatch)
 
    testImplementation(projects.common.test)

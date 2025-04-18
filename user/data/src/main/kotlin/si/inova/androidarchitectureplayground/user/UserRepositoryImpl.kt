@@ -1,11 +1,14 @@
 package si.inova.androidarchitectureplayground.user
 
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
 import dispatch.core.dispatcherProvider
 import dispatch.core.withIO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.asFlow
@@ -40,12 +43,32 @@ class UserRepositoryImpl @Inject constructor(
    private val userDb: DbUserQueries,
    private val timeProvider: TimeProvider,
 ) : UserRepository {
-   override fun getAllUsers(force: Boolean): PaginatedDataStream<List<User>> {
-      return OffsetDatabaseBackedPaginatedDataStream<User>(
-         loadFromNetwork = ::loadUsersFromNetwork,
-         loadFromDatabase = { offset, limit -> loadUsersFromDatabase(offset, limit, force) },
-         saveToDatabase = ::saveUsersToDatabase
-      )
+   override fun getAllUsers(force: Boolean): PagingSource<Int, User> {
+      return object: PagingSource<Int, User>() {
+         override fun getRefreshKey(state: PagingState<Int, User>): Int? {
+            return state.anchorPosition
+         }
+
+         override suspend fun load(params: LoadParams<Int>): LoadResult<Int, User> {
+            delay(2_000)
+            val key = params.key ?: 0
+            val data = loadUsersFromNetwork(key, params.loadSize) as Outcome.Success
+            println("load $key ${params.loadSize} ${data.data.size}")
+
+            return LoadResult.Page(
+               data.data,
+               if (key == 0) null else key - params.loadSize,
+               if (data.data.size >= params.loadSize) key + params.loadSize else null,
+               itemsAfter = 1
+            ).also { println("result $it") }
+         }
+      }
+
+//      return OffsetDatabaseBackedPaginatedDataStream<User>(
+//         loadFromNetwork = ::loadUsersFromNetwork,
+//         loadFromDatabase = { offset, limit -> loadUsersFromDatabase(offset, limit, force) },
+//         saveToDatabase = ::saveUsersToDatabase
+//      )
    }
 
    override fun getUserDetails(id: Int, force: Boolean): Flow<Outcome<User>> {
@@ -170,3 +193,4 @@ private fun DbUser.isValidForUserDetails(cacheDeadline: Long): Boolean {
 }
 
 private val CACHE_DURATION_MS = TimeUnit.MINUTES.toMillis(10L)
+private const val DEFAULT_PAGE_SIZE = 10
