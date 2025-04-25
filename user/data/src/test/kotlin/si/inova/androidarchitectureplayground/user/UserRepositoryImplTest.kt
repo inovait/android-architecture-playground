@@ -1,16 +1,18 @@
 package si.inova.androidarchitectureplayground.user
 
+import androidx.paging.testing.asSnapshot
 import app.cash.sqldelight.async.coroutines.awaitAsOne
 import app.cash.turbine.test
-import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.booleans.shouldBeTrue
+import dispatch.core.IOCoroutineScope
+import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import si.inova.androidarchitectureplayground.common.test.datastore.runTestWithDispatchers
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
 import si.inova.androidarchitectureplayground.user.db.createTestUserQueries
@@ -20,229 +22,85 @@ import si.inova.androidarchitectureplayground.user.network.FakeUsersService
 import si.inova.androidarchitectureplayground.user.network.model.LightUserDto
 import si.inova.androidarchitectureplayground.user.network.model.UserDto
 import si.inova.kotlinova.core.exceptions.NoNetworkException
-import si.inova.kotlinova.core.outcome.LoadingStyle
-import si.inova.kotlinova.core.outcome.Outcome
+import si.inova.kotlinova.core.test.TestScopeWithDispatcherProvider
 import si.inova.kotlinova.core.test.outcomes.shouldBeErrorWith
 import si.inova.kotlinova.core.test.outcomes.shouldBeProgressWithData
 import si.inova.kotlinova.core.test.outcomes.shouldBeSuccessWithData
 import si.inova.kotlinova.core.test.time.virtualTimeProvider
 import si.inova.kotlinova.retrofit.InterceptionStyle
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.minutes
 
 class UserRepositoryImplTest {
    private val userService = FakeUsersService()
    private val userQueries = createTestUserQueries()
-   private val scope = TestScope()
+   private val scope = TestScopeWithDispatcherProvider()
 
-   private val repository = UserRepositoryImpl(userService, userQueries, scope.virtualTimeProvider())
+   private val repository = UserRepositoryImpl(
+      userService,
+      userQueries,
+      scope.virtualTimeProvider(),
+      IOCoroutineScope(scope.coroutineContext)
+   )
 
    @BeforeEach
    fun setUp() {
-      userService.providedUsers = createFakeUsersDto(0, 30)
+      userService.providedUsers = createFakeUsersDto(0, 60)
    }
 
    @Test
    fun `Provide first page of list of users from network`() = scope.runTestWithDispatchers {
-      val expectedUsers = createFakeUsers(0, 10)
+      val expectedUsers = createFakeUsers(0, 30)
 
       val dataStream = repository.getAllUsers()
-      dataStream.data.test {
-         runCurrent()
-         val users = expectMostRecentItem()
+      val actualUsers = dataStream.asSnapshot {}
 
-         users.items shouldBeSuccessWithData expectedUsers
-      }
+      actualUsers shouldBe expectedUsers
    }
 
    @Test
    fun `Provide second page of list of users from network`() = scope.runTestWithDispatchers {
-      val expectedUsers = createFakeUsers(0, 20)
-
       val dataStream = repository.getAllUsers()
-      dataStream.data.test {
-         runCurrent()
-         dataStream.nextPage()
-         runCurrent()
-
-         val users = expectMostRecentItem()
-
-         users.items shouldBeSuccessWithData expectedUsers
+      val actualUsers = dataStream.asSnapshot {
+         scrollTo(20)
       }
+
+      // Prefetching logic in Paging prevents us from easily determining how much is loaded, so just test that
+      // later items are actually loaded
+      actualUsers.last().id shouldBeGreaterThan 30
    }
 
    @Test
    fun `Provide first page from cached database`() = scope.runTestWithDispatchers {
-      val expectedUsers = createFakeUsers(0, 10)
+      val expectedUsers = createFakeUsers(0, 30)
 
       val cachingDataStream = repository.getAllUsers()
-      cachingDataStream.data.first() // Load data into database
+      cachingDataStream.asSnapshot { } // Load data into database
 
       userService.interceptAllFutureCallsWith(InterceptionStyle.Error(IllegalStateException("Network should not be called now")))
 
       val dataStream = repository.getAllUsers()
 
-      dataStream.data.test {
-         runCurrent()
+      val actualUsers = dataStream.asSnapshot {}
 
-         val users = expectMostRecentItem()
-
-         users.items shouldBeSuccessWithData expectedUsers
-      }
+      actualUsers shouldBe expectedUsers
    }
 
    @Test
-   fun `Provide second page from cached database`() = scope.runTestWithDispatchers {
-      val expectedUsers = createFakeUsers(0, 20)
-
+   fun `When cache is expired, re-load from network`() = scope.runTestWithDispatchers {
       val cachingDataStream = repository.getAllUsers()
-      cachingDataStream.data.test {
-         runCurrent()
-         cachingDataStream.nextPage()
-         runCurrent()
-         cancelAndConsumeRemainingEvents()
-      }
+      cachingDataStream.asSnapshot { } // Load data into database
 
-      userService.interceptAllFutureCallsWith(InterceptionStyle.Error(AssertionError("Network should not be called now")))
+      delay(15.minutes)
+
+      userService.interceptAllFutureCallsWith(InterceptionStyle.Error(IllegalStateException("Network should be called now")))
 
       val dataStream = repository.getAllUsers()
 
-      dataStream.data.test {
-         runCurrent()
-         dataStream.nextPage()
-         runCurrent()
-
-         val users = expectMostRecentItem()
-
-         users.items shouldBeSuccessWithData expectedUsers
+      assertThrows<IllegalStateException>("Network should be called now") {
+         dataStream.asSnapshot {}
       }
    }
-
-   @Test
-   fun `Provide subsequent page from network if database is not ready`() = scope.runTestWithDispatchers {
-      val expectedUsers = createFakeUsers(0, 20)
-
-      val cachingDataStream = repository.getAllUsers()
-      cachingDataStream.data.first() // Load data into database
-
-      val dataStream = repository.getAllUsers()
-
-      dataStream.data.test {
-         runCurrent()
-         dataStream.nextPage()
-         runCurrent()
-
-         val users = expectMostRecentItem()
-
-         users.items shouldBeSuccessWithData expectedUsers
-      }
-   }
-
-   @Test
-   fun `Provide proper value for has any data left`() = scope.runTestWithDispatchers {
-      val cachingDataStream = repository.getAllUsers()
-      cachingDataStream.data.first() // Load data into database
-
-      val dataStream = repository.getAllUsers()
-
-      dataStream.data.test {
-         runCurrent()
-         expectMostRecentItem().hasAnyDataLeft.shouldBeTrue()
-
-         dataStream.nextPage()
-         runCurrent()
-         expectMostRecentItem().hasAnyDataLeft.shouldBeTrue()
-
-         dataStream.nextPage()
-         runCurrent()
-         expectMostRecentItem().hasAnyDataLeft.shouldBeTrue()
-
-         dataStream.nextPage()
-         runCurrent()
-         expectMostRecentItem().hasAnyDataLeft.shouldBeFalse()
-      }
-   }
-
-   @Test
-   fun `When cache is expired, show expired data first as Loading while fetching in the background`() =
-      scope.runTestWithDispatchers {
-         val cachingDataStream = repository.getAllUsers()
-         cachingDataStream.data.first() // Load data into database
-         runCurrent()
-
-         advanceTimeBy(TimeUnit.MINUTES.toMillis(15))
-
-         val dataStream = repository.getAllUsers()
-
-         dataStream.data.test {
-            awaitItem().items shouldBeProgressWithData createFakeUsers(0, 10)
-            awaitItem().items shouldBeSuccessWithData createFakeUsers(0, 10)
-         }
-      }
-
-   @Test
-   fun `When user requests force loading, show expired data first as Loading while fetching in the background`() =
-      scope.runTestWithDispatchers {
-         val cachingDataStream = repository.getAllUsers()
-         cachingDataStream.data.first() // Load data into database
-         runCurrent()
-
-         userService.providedUsers = createFakeUsersDto(1, 31)
-
-         val dataStream = repository.getAllUsers(force = true)
-
-         dataStream.data.test {
-            awaitItem().items shouldBeProgressWithData createFakeUsers(0, 10)
-            awaitItem().items shouldBeSuccessWithData createFakeUsers(1, 11)
-         }
-      }
-
-   @Test
-   fun `Show loading of subsequent pages with additional data style`() =
-      scope.runTestWithDispatchers {
-         userService.interceptAllFutureCallsWith(InterceptionStyle.InfiniteLoad)
-
-         val dataStream = repository.getAllUsers()
-
-         dataStream.data.test {
-            runCurrent()
-            expectMostRecentItem().items shouldBe Outcome.Progress(emptyList(), style = LoadingStyle.NORMAL)
-
-            userService.completeInfiniteLoad()
-            runCurrent()
-            dataStream.nextPage()
-            runCurrent()
-
-            expectMostRecentItem().items shouldBe Outcome.Progress(createFakeUsers(0, 10), style = LoadingStyle.ADDITIONAL_DATA)
-
-            userService.completeInfiniteLoad()
-            runCurrent()
-            dataStream.nextPage()
-            runCurrent()
-
-            expectMostRecentItem().items shouldBe Outcome.Progress(createFakeUsers(0, 20), style = LoadingStyle.ADDITIONAL_DATA)
-         }
-      }
-
-   @Test
-   fun `Include stale database data in error, when network fetch of user list fails`() =
-      scope.runTestWithDispatchers {
-         val cachingDataStream = repository.getAllUsers()
-         cachingDataStream.data.first() // Load data into database
-         runCurrent()
-
-         userService.interceptAllFutureCallsWith(InterceptionStyle.Error(NoNetworkException()))
-
-         val dataStream = repository.getAllUsers(force = true)
-
-         dataStream.data.test {
-            awaitItem() // Loading item
-
-            awaitItem().items.shouldBeErrorWith(
-               expectedData = createFakeUsers(0, 10),
-               exceptionType = NoNetworkException::class.java
-            )
-         }
-      }
 
    @Test
    fun `Provide single user from network`() = scope.runTestWithDispatchers {
@@ -523,8 +381,8 @@ class UserRepositoryImplTest {
 
          val expectedUserLoading = User(
             id = 1,
-            firstName = "First 1",
-            lastName = "Second 1"
+            firstName = "First 0",
+            lastName = "Second 0"
          )
 
          val expectedUserSuccess = User(
@@ -543,7 +401,7 @@ class UserRepositoryImplTest {
          )
 
          val cachingDataStream = repository.getAllUsers()
-         cachingDataStream.data.first() // Load data into database
+         cachingDataStream.asSnapshot {} // Load data into database
          runCurrent()
 
          repository.getUserDetails(1).test {
@@ -611,7 +469,7 @@ class UserRepositoryImplTest {
    private fun createFakeUsersDto(from: Int, to: Int): List<LightUserDto> {
       return List(to - from) {
          LightUserDto(
-            it,
+            it + 1,
             "First $it",
             "Second $it"
          )
@@ -621,7 +479,7 @@ class UserRepositoryImplTest {
    private fun createFakeUsers(from: Int, to: Int): List<User> {
       return List(to - from) {
          User(
-            id = it,
+            id = it + 1,
             firstName = "First $it",
             lastName = "Second $it"
          )
