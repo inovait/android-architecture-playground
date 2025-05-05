@@ -30,12 +30,12 @@ custom {
 
 dependencies {
    implementation(libs.junit4)
-   implementation(libs.androidx.test.espresso)
+   implementation(libs.androidx.test.core)
    implementation(libs.androidx.test.uiautomator)
    implementation(libs.androidx.benchmark.macro.junit4)
-   implementation(libs.androidx.profileInstaller)
-   implementation(libs.androidx.perfetto)
-   implementation(libs.androidx.perfetto.binary)
+   runtimeOnly(libs.androidx.profileInstaller)
+   runtimeOnly(libs.androidx.perfetto)
+   runtimeOnly(libs.androidx.perfetto.binary)
    implementation(libs.kotest.assertions)
 }
 

@@ -35,12 +35,20 @@ dependencyAnalysis {
          includeGroup("androidx.activity")
       }
 
+      bundle("androidxBenchmark") {
+         includeGroup("androidx.benchmark")
+      }
+
       bundle("androidxCore") {
          includeGroup("androidx.core")
       }
 
       bundle("androidxLifecycle") {
          includeGroup("androidx.lifecycle")
+      }
+
+      bundle("androidxTest") {
+         includeGroup("androidx.test")
       }
 
       bundle("inject") {
