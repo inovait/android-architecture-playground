@@ -23,7 +23,9 @@ dependencies {
    api(projects.user.api)
 
    implementation(projects.commonCompose)
+   implementation(projects.commonPaging)
    api(libs.kotlinova.navigation)
+   implementation(libs.androidx.paging.common)
    implementation(libs.kotlinova.core)
 
    testImplementation(projects.user.test)

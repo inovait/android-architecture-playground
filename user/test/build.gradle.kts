@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-   api(projects.common)
    api(projects.user.api)
+   api(libs.androidx.paging.common)
 
    implementation(libs.kotlin.coroutines)
    implementation(libs.kotlinova.core)
