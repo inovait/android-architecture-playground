@@ -13,8 +13,14 @@ CREATE TABLE dbUser (
     last_update INTEGER NOT NULL
 );
 
+countUsers:
+SELECT count (*) FROM dbUser;
+
 selectAll:
 SELECT * FROM dbUser LIMIT :limit OFFSET :offset;
+
+selectOldestLastUpdate:
+SELECT min(last_update) FROM dbUser;
 
 selectSingle:
 SELECT * FROM dbUser WHERE id = :id;

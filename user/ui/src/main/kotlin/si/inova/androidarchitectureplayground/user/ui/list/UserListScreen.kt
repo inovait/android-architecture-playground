@@ -20,10 +20,13 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.pullToRefresh
@@ -39,13 +42,14 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
+import si.inova.androidarchitectureplayground.paging.PagedList
+import si.inova.androidarchitectureplayground.paging.pagedListOf
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
 import si.inova.androidarchitectureplayground.ui.lists.DetectScrolledToBottom
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.architectureplayground.user.R
-import si.inova.kotlinova.compose.components.itemsWithDivider
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
 import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.LoadingStyle
@@ -79,7 +83,7 @@ class UserListScreen(
       if (data != null) {
          UserListContent(
             data,
-            viewModel::nextPage,
+            {},
             viewModel::refresh,
             navigate
          )
@@ -90,7 +94,7 @@ class UserListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun UserListContent(
-   state: Outcome<UserListState>,
+   state: Outcome<PagedList<User>>,
    loadMore: () -> Unit,
    refresh: () -> Unit,
    openUserDetails: (id: Int) -> Unit,
@@ -144,7 +148,7 @@ private fun UserListContent(
 @Composable
 private fun ColumnScope.UserList(
    lazyListState: LazyListState,
-   state: Outcome<UserListState>,
+   state: Outcome<PagedList<User>>,
    openUserDetails: (id: Int) -> Unit,
 ) {
    val consumedWindowInsets = remember { MutableWindowInsets() }
@@ -159,7 +163,20 @@ private fun ColumnScope.UserList(
       lazyListState,
       contentPadding = WindowInsets.safeDrawing.exclude(consumedWindowInsets).asPaddingValues()
    ) {
-      itemsWithDivider(state.data?.users.orEmpty()) {
+      itemsWithDivider(
+         state.data ?: pagedListOf(),
+         placeholderContent = {
+            Box(
+               Modifier
+                  .fillMaxWidth()
+                  .height(32.dp)
+                  .background(Color.Green),
+               Alignment.Center
+            ) {
+               CircularProgressIndicator(Modifier.size(32.dp))
+            }
+         }
+      ) {
          Text(
             stringResource(R.string.first_last_name, it.firstName, it.lastName),
             Modifier
@@ -169,17 +186,15 @@ private fun ColumnScope.UserList(
          )
       }
 
-      if (state.data?.hasAnyDataLeft == true) {
+      if (state is Outcome.Progress && state.style == LoadingStyle.ADDITIONAL_DATA) {
          item {
             Box(
                Modifier
                   .fillMaxWidth()
                   .height(32.dp),
-               Alignment.Center
+               Alignment.Center,
             ) {
-               if (state is Outcome.Progress && state.style == LoadingStyle.ADDITIONAL_DATA) {
-                  CircularProgressIndicator(Modifier.size(32.dp))
-               }
+               CircularProgressIndicator(Modifier.size(32.dp))
             }
          }
       }
@@ -193,7 +208,7 @@ internal fun UserListContentSuccessPreview() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Success(
-            UserListState(
+            pagedListOf(
                List<User>(20) {
                   User(it, "First $it", "Last $it")
                }
@@ -213,7 +228,7 @@ internal fun UserListContentLoadingPreview() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Progress(
-            UserListState(
+            pagedListOf(
                List<User>(20) {
                   User(it, "First $it", "Last $it")
                }
@@ -234,7 +249,7 @@ internal fun UserListContentErrorPreview() {
       UserListContent(
          state = Outcome.Error(
             NoNetworkException(),
-            UserListState(
+            pagedListOf(
                List<User>(20) {
                   User(it, "First $it", "Last $it")
                }
@@ -254,11 +269,10 @@ internal fun UserListContentLoadingMorePreview() {
    PreviewTheme {
       UserListContent(
          state = Outcome.Progress(
-            UserListState(
+            pagedListOf(
                List<User>(3) {
                   User(it, "First $it", "Last $it")
                },
-               hasAnyDataLeft = true
             ),
             style = LoadingStyle.ADDITIONAL_DATA
          ),
@@ -266,5 +280,50 @@ internal fun UserListContentLoadingMorePreview() {
          refresh = { },
          openUserDetails = {}
       )
+   }
+}
+
+/**
+ * Adds a list of items with dividers between them.
+ *
+ * @param items the data list
+ * @param modifier Modifier for the entire combined item. Use for animations.
+ * @param dividerContent the content displayed between each item
+ * @param key a factory of stable and unique keys representing the item. Using the same key
+ * for multiple items in the list is not allowed. Type of the key should be saveable
+ * via Bundle on Android. If null is passed the position in the list will represent the key.
+ * When you specify the key the scroll position will be maintained based on the key, which
+ * means if you add/remove items before the current visible item the item with the given key
+ * will be kept as the first visible one.
+ * @param contentType a factory of the content types for the item. The item compositions of
+ * the same type could be reused more efficiently. Note that null is a valid type and items of such
+ * type will be considered compatible.
+ * @param placeholderContent Placeholder for items that are not yet loaded
+ * @param itemContent the content displayed by a single item
+ */
+
+private inline fun <T> LazyListScope.itemsWithDivider(
+   items: PagedList<T>,
+   crossinline modifier: LazyItemScope.(T?) -> Modifier = { Modifier },
+   crossinline dividerContent: @Composable () -> Unit = { HorizontalDivider() },
+   noinline key: ((item: T?) -> Any)? = null,
+   noinline contentType: (item: T?) -> Any? = { null },
+   crossinline placeholderContent: @Composable LazyItemScope.() -> Unit,
+   crossinline itemContent: @Composable LazyItemScope.(item: T) -> Unit,
+) = items(
+   count = items.size,
+   key = if (key != null) { index: Int -> key(items.peek(index)) } else null,
+   contentType = { index: Int -> contentType(items.peek(index)) }
+) {
+   val item = items[it]
+   Column(modifier(item)) {
+      if (item != null) {
+         itemContent(item)
+      } else {
+         placeholderContent()
+      }
+      if (it < items.size - 1) {
+         dividerContent()
+      }
    }
 }

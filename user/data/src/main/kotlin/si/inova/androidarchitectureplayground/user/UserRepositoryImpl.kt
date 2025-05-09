@@ -1,10 +1,20 @@
 package si.inova.androidarchitectureplayground.user
 
-import app.cash.sqldelight.async.coroutines.awaitAsList
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
+import androidx.paging.map
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
+import app.cash.sqldelight.paging3.QueryPagingSource
+import dispatch.core.IOCoroutineScope
 import dispatch.core.dispatcherProvider
+import dispatch.core.ioDispatcher
 import dispatch.core.withIO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -14,8 +24,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import me.tatarka.inject.annotations.Inject
-import si.inova.androidarchitectureplayground.common.pagination.OffsetDatabaseBackedPaginatedDataStream
-import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
 import si.inova.androidarchitectureplayground.user.exceptions.UnknownUserException
 import si.inova.androidarchitectureplayground.user.model.User
@@ -27,7 +35,6 @@ import si.inova.androidarchitectureplayground.user.sqldelight.generated.DbUserQu
 import si.inova.kotlinova.core.exceptions.UnknownCauseException
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.outcome.Outcome
-import si.inova.kotlinova.core.outcome.catchIntoOutcome
 import si.inova.kotlinova.core.time.TimeProvider
 import software.amazon.lastmile.kotlin.inject.anvil.AppScope
 import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
@@ -39,13 +46,28 @@ class UserRepositoryImpl @Inject constructor(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,
    private val timeProvider: TimeProvider,
+   private val ioScope: IOCoroutineScope,
 ) : UserRepository {
-   override fun getAllUsers(force: Boolean): PaginatedDataStream<List<User>> {
-      return OffsetDatabaseBackedPaginatedDataStream<User>(
-         loadFromNetwork = ::loadUsersFromNetwork,
-         loadFromDatabase = { offset, limit -> loadUsersFromDatabase(offset, limit, force) },
-         saveToDatabase = ::saveUsersToDatabase
+   @OptIn(ExperimentalPagingApi::class)
+   override fun getAllUsers(): Flow<PagingData<User>> {
+      return Pager(
+         PagingConfig(pageSize = DEFAULT_PAGE_SIZE),
+         pagingSourceFactory = {
+            QueryPagingSource(
+               countQuery = userDb.countUsers(),
+               transacter = userDb,
+               context = ioScope.ioDispatcher,
+               queryProvider = userDb::selectAll
+            )
+         },
+         remoteMediator = mediator
       )
+         .flow
+         .map { pagingData ->
+            pagingData.map {
+               it.toUser()
+            }
+         }
    }
 
    override fun getUserDetails(id: Int, force: Boolean): Flow<Outcome<User>> {
@@ -58,7 +80,7 @@ class UserRepositoryImpl @Inject constructor(
                val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
                val initialUser = initialDbUser?.toUser()
 
-               if (!loadFromNetwork(force, initialDbUser, deadline, initialUser, id)) return@flow
+               if (!loadSingleUserFromNetwork(force, initialDbUser, deadline, initialUser, id)) return@flow
 
                emitAll(
                   dbQuery.asFlow().mapToOne(coroutineContext.dispatcherProvider.io).map { Outcome.Success(it.toUser()) }
@@ -67,7 +89,7 @@ class UserRepositoryImpl @Inject constructor(
          }
    }
 
-   private suspend fun FlowCollector<Outcome<User>>.loadFromNetwork(
+   private suspend fun FlowCollector<Outcome<User>>.loadSingleUserFromNetwork(
       force: Boolean,
       initialDbUser: DbUser?,
       deadline: Long,
@@ -104,11 +126,46 @@ class UserRepositoryImpl @Inject constructor(
       return true
    }
 
-   private suspend fun loadUsersFromNetwork(
-      offset: Int,
-      limit: Int,
-   ) = catchIntoOutcome {
-      Outcome.Success(usersService.getUsers(limit, offset).users.map { it.toUser() })
+   @OptIn(ExperimentalPagingApi::class)
+   private val mediator = object : RemoteMediator<Int, DbUser>() {
+      override suspend fun load(loadType: LoadType, state: PagingState<Int, DbUser>): MediatorResult {
+         return try {
+            val loadKey = when (loadType) {
+               LoadType.REFRESH -> 0
+               LoadType.PREPEND ->
+                  // Prepend is not supported
+                  return MediatorResult.Success(endOfPaginationReached = true)
+
+               // IDs are one-based, so we can just return ID of the last item to get the index of the first next item
+               LoadType.APPEND -> state.lastItemOrNull()?.id?.toInt() ?: 0
+            }
+
+            val loadSize = if (loadKey == 0) state.config.initialLoadSize else state.config.pageSize
+
+            val data = usersService.getUsers(loadSize, loadKey).users.map { it.toUser() }
+
+            withIO {
+               saveUsersToDatabase(data, replaceExisting = loadType == LoadType.REFRESH)
+            }
+
+            MediatorResult.Success(endOfPaginationReached = data.isEmpty())
+         } catch (e: Exception) {
+            MediatorResult.Error(e)
+         }
+      }
+
+      override suspend fun initialize(): InitializeAction {
+         val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
+         val oldestEntry = withIO {
+            userDb.selectOldestLastUpdate().executeAsOneOrNull()?.min
+         }
+
+         return if (oldestEntry == null || oldestEntry < deadline) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+         } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+         }
+      }
    }
 
    private fun saveUsersToDatabase(
@@ -121,29 +178,6 @@ class UserRepositoryImpl @Inject constructor(
       } else {
          userDb.insert(dbUsers)
       }
-   }
-
-   private fun loadUsersFromDatabase(
-      offset: Int,
-      limit: Int,
-      force: Boolean,
-   ): Flow<Outcome.Success<OffsetDatabaseBackedPaginatedDataStream.DatabaseResult<User>>> {
-      val deadline = timeProvider.currentTimeMillis() - CACHE_DURATION_MS
-
-      return userDb
-         .selectAll(offset = offset.toLong(), limit = limit.toLong())
-         .asFlow()
-         .map { query ->
-            val dbUsers = withIO { query.awaitAsList() }
-            val expired = dbUsers.any { it.last_update < deadline }
-
-            Outcome.Success(
-               OffsetDatabaseBackedPaginatedDataStream.DatabaseResult(
-                  dbUsers.map { it.toUser() },
-                  !expired && !force
-               )
-            )
-         }
    }
 }
 
@@ -170,3 +204,4 @@ private fun DbUser.isValidForUserDetails(cacheDeadline: Long): Boolean {
 }
 
 private val CACHE_DURATION_MS = TimeUnit.MINUTES.toMillis(10L)
+private const val DEFAULT_PAGE_SIZE = 10
