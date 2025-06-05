@@ -60,7 +60,7 @@ android {
          val appendedVersionName = buildNumberProvider.map { "$baseVersionName-$it" }
             .orElse(gitHashProvider.map { gitHash -> "$baseVersionName-local-$gitHash" })
 
-         variant.buildConfigFields.put(
+         variant.buildConfigFields?.put(
             "VERSION_NAME",
             appendedVersionName.map {
                BuildConfigField(
