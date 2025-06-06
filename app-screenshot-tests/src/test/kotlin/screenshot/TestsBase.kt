@@ -108,6 +108,14 @@ abstract class TestsBase {
       paparazzi.snapshot("small") {
          composable()
       }
+      paparazzi.unsafeUpdateConfig(
+         PIXEL_5.copy(
+            fontScale = 1.5f
+         )
+      )
+      paparazzi.snapshot("largefont") {
+         composable()
+      }
    }
 
    annotation class SplitIndex(val index: Int)
