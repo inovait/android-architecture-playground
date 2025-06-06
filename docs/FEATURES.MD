@@ -254,3 +254,7 @@ of all dependencies in the project.
 When using a remote without branch protection, one can quickly accidentally push code into main branch.
 We have a simple [pre-push](../config/hooks/pre-push) hook to prevent this
 (hook is disabled by default, enable it by removing `exit 0` at the start). 
+
+# Baseline profile generation
+
+Project has enabled baseline profile generation + docs in the [README](../README.MD) on how to generate it

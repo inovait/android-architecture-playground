@@ -7,6 +7,7 @@ plugins {
    parcelize
    showkase
    id("com.slack.keeper")
+   id("androidx.baselineprofile")
 }
 
 android {
@@ -160,4 +161,5 @@ dependencies {
 
    add("benchmarkRuntimeOnly", libs.androidx.profileInstaller)
    add("benchmarkRuntimeOnly", libs.androidx.compose.tracing)
+   add("baselineProfile", projects.appBenchmark)
 }

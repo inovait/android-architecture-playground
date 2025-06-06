@@ -124,3 +124,21 @@ To create screenshot tests for your compose screen:
 2. Add `@ShowkaseComposable(group = "Test")` annotation to the preview of the screen you want to test
 3. run `recordPaparazziDebug` gradle task to record golden screenshot
    (double check that only previews for your screen were generated)
+
+# Creating/updating a baseline profile
+
+The app has a [Baseline profile](https://developer.android.com/topic/performance/baselineprofiles/overview)
+to make app startup faster. To be effective, these profiles should be updated regularly.
+
+How do to it:
+
+1. In the [app-benchmark/build.gradle.kts](app-benchmark/build.gradle.kts), comment out the
+   `it.enable = it.buildType == "benchmark"` line
+2. Comment out `@Ignore` in
+   the [BaselineProfileGenerator](app-benchmark/src/main/java/si/inova/androidarchitectureplayground/benchmark/BaselineProfileGenerator.kt)
+3. Set the active build variant to release
+4. Start an Android 15 emulator (physical devices and Android 16 seems to have issues with the baseline profile)
+5. Click on the run button next to the `class BaselineProfileGenerator` line and select `Generate Entire App Baseline Profile`.
+   Select the app module and only run for the current variant.
+6. Commit resulting files
+7. Revert above changes
