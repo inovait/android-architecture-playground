@@ -58,4 +58,18 @@ import androidx.compose.ui.tooling.preview.Preview
    device = "spec:id=reference_phone,shape=Normal,width=600,height=300,unit=dp,dpi=420",
    name = "Small day mode landscape"
 )
+@Preview(
+   showSystemUi = true,
+   uiMode = Configuration.UI_MODE_NIGHT_NO,
+   device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
+   name = "Day mode portrait with large font",
+   fontScale = 1.5f
+)
+@Preview(
+   showSystemUi = true,
+   uiMode = Configuration.UI_MODE_NIGHT_YES,
+   device = "spec:id=reference_phone,shape=Normal,width=891,height=411,unit=dp,dpi=420",
+   name = "Night mode landscape with large font",
+   fontScale = 1.5f
+)
 annotation class FullScreenPreviews
