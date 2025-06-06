@@ -19,5 +19,7 @@ then
   git config user.name github-actions[bot]
   git config user.email 41898282+github-actions[bot]@users.noreply.github.com
   git commit -m "chore: add new screenshot tests"
+  # Pushing large amounts of screenshot something fails. Push LFS screenshots first.
+  git lfs push --all
   git push origin HEAD:$1
 fi
