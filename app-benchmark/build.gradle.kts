@@ -3,6 +3,7 @@ import si.inova.kotlinova.gradle.benchmarkupload.GoogleCloudBenchmarkUpload
 plugins {
    id("com.android.test")
    commonAndroid
+   id("androidx.baselineprofile")
 }
 
 android {
@@ -26,6 +27,10 @@ android {
 
 custom {
    enableEmulatorTests = true
+}
+
+baselineProfile {
+   useConnectedDevices = true
 }
 
 dependencies {

@@ -23,6 +23,7 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 dependencies {
    implementation(libs.androidGradleCacheFix)
    implementation(libs.android.agp)
+   implementation(libs.androidx.benchmark.baselineProfilePlugin)
    implementation(libs.composeGuard)
    implementation(libs.detekt.plugin)
    implementation(libs.dependencyAnalysis)
