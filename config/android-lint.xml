@@ -26,4 +26,7 @@ Ignore unknown issue id to allow us to configure issues in this file  that
 
     <!-- Permission checks very often happen in different place than method calls, making this more false positive than not -->
     <issue id="MissingPermission" severity="ignore" />
+
+    <!-- We regularly update AGP at our own pace -->
+    <issue id="AndroidGradlePluginVersion" severity="ignore"/>
 </lint>
