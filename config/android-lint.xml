@@ -28,5 +28,5 @@ Ignore unknown issue id to allow us to configure issues in this file  that
     <issue id="MissingPermission" severity="ignore" />
 
     <!-- We regularly update AGP at our own pace -->
-    <issue id="AndroidGradlePluginVersion" severity="ignore"/>
+    <issue id="AndroidGradlePluginVersion" severity="ignore" />
 </lint>
