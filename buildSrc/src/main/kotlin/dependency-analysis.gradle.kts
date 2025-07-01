@@ -70,6 +70,9 @@ configure<DependencyAnalysisSubExtension> {
 
          // This is fine, included with kotlinova navigation
          exclude("com.github.Zhuinden:simple-stack")
+
+         // AndroidX Annotations are auto-included with many other AndroidX libraries. It's fine to not explicitly depend on them
+         exclude("androidx.annotation:annotation")
       }
    }
 }
