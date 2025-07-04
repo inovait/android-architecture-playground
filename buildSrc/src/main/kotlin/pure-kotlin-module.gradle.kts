@@ -1,5 +1,6 @@
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+import jacoco.registerJacocoConfigurations
 
 val libs = the<LibrariesForLibs>()
 
@@ -7,7 +8,11 @@ plugins {
    id("org.jetbrains.kotlin.jvm")
 
    id("all-modules-commons")
+
+   jacoco
 }
+
+registerJacocoConfigurations()
 
 tasks.withType(KotlinCompilationTask::class.java) {
    compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
@@ -20,7 +25,14 @@ tasks.test {
    // Better test output
    systemProperty("kotest.assertions.collection.print.size", "300")
    systemProperty("kotest.assertions.collection.enumerate.size", "300")
+
+   finalizedBy("jacocoTestReport")
+}
+
+jacoco {
+   toolVersion = libs.versions.jacoco.get()
 }
 
 dependencies {
+
 }

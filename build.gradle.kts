@@ -1,3 +1,5 @@
+import jacoco.setupJacocoAndroid
+import jacoco.setupJacocoRoot
 import nl.littlerobots.vcu.plugin.resolver.ModuleVersionCandidate
 import nl.littlerobots.vcu.plugin.versionSelector
 
@@ -8,6 +10,13 @@ plugins {
    id("com.autonomousapps.dependency-analysis")
    alias(libs.plugins.versionCatalogUpdate)
    id("kotlinova")
+   jacoco
+}
+
+setupJacocoRoot()
+
+jacoco {
+   toolVersion = libs.versions.jacoco.get()
 }
 
 dependencyAnalysis {
