@@ -2,6 +2,7 @@ import com.android.build.api.dsl.LibraryBuildFeatures
 import com.android.build.gradle.tasks.asJavaVersion
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import jacoco.setupJacocoMergingAndroid
 import util.commonAndroid
 
 val libs = the<LibrariesForLibs>()
@@ -72,7 +73,20 @@ commonAndroid {
 
       targetCompatibility = javaVersion
    }
+
+   buildTypes {
+      debug {
+         testCoverage {
+            jacocoVersion = libs.versions.jacoco.get()
+         }
+
+         enableUnitTestCoverage = true
+         enableAndroidTestCoverage = true
+      }
+   }
 }
+
+project.setupJacocoMergingAndroid()
 
 kotlin {
    compilerOptions {
