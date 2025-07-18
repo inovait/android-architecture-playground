@@ -25,6 +25,8 @@ android {
 
       testInstrumentationRunner = "si.inova.androidarchitectureplayground.instrumentation.TestRunner"
       testInstrumentationRunnerArguments += "clearPackageData" to "true"
+      // Needed to enable test coverage
+      testInstrumentationRunnerArguments += "useTestStorageService" to "true"
    }
 
    testOptions {
@@ -156,6 +158,7 @@ dependencies {
    androidTestImplementation(libs.okhttp.mockWebServer)
    androidTestImplementation(libs.certificateTransparency)
    androidTestUtil(libs.androidx.test.orchestrator)
+   androidTestUtil(libs.androidx.test.services)
 
    keeperR8(libs.androidx.r8)
 

@@ -1,3 +1,4 @@
+import jacoco.setupJacocoMergingRoot
 import nl.littlerobots.vcu.plugin.resolver.ModuleVersionCandidate
 import nl.littlerobots.vcu.plugin.versionSelector
 
@@ -8,6 +9,13 @@ plugins {
    id("com.autonomousapps.dependency-analysis")
    alias(libs.plugins.versionCatalogUpdate)
    id("kotlinova")
+   jacoco
+}
+
+setupJacocoMergingRoot()
+
+jacoco {
+   toolVersion = libs.versions.jacoco.get()
 }
 
 dependencyAnalysis {
