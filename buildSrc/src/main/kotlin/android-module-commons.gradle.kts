@@ -20,7 +20,7 @@ commonAndroid {
    // Use default namespace for no resources, modules that use resources must override this
    namespace = "si.inova.androidarchitectureplayground.noresources"
 
-   compileSdk = 35
+   compileSdk = 36
 
    compileOptions {
       sourceCompatibility = JavaVersion.VERSION_17
