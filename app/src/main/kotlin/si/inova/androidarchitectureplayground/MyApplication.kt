@@ -72,19 +72,34 @@ open class MyApplication : Application() {
       StrictMode.setVmPolicy(
          VmPolicy.Builder()
             .detectActivityLeaks()
-            .detectFileUriExposure()
             .detectContentUriWithoutPermission()
+            .detectFileUriExposure()
+            .detectLeakedClosableObjects()
+            .detectLeakedRegistrationObjects()
+            .detectLeakedSqlLiteObjects()
             .run {
                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                  detectImplicitDirectBoot()
-                     .detectCredentialProtectedWhileLocked()
+                  detectCredentialProtectedWhileLocked()
+                     .detectImplicitDirectBoot()
                } else {
                   this
                }
             }
-            .detectLeakedClosableObjects()
-            .detectLeakedRegistrationObjects()
-            .detectLeakedSqlLiteObjects()
+            .run {
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                  detectUnsafeIntentLaunch()
+               } else {
+                  this
+               }
+            }
+            .run {
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA) {
+                  detectBlockedBackgroundActivityLaunch()
+               } else {
+                  this
+               }
+            }
+
             .penaltyListener(ContextCompat.getMainExecutor(this@MyApplication)) { e ->
                reportStrictModePenalty(e)
             }
