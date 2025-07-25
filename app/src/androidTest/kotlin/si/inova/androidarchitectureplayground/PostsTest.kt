@@ -20,7 +20,7 @@ class PostsTest {
       mockResponse("/posts?limit=10&skip=0", includeQueryParameters = true) {
          setJsonBodyFromResource("post_list.json")
       }
-      mockResponse("/users?limit=10&skip=0", includeQueryParameters = true) {
+      mockResponse("/users?limit=30&skip=0", includeQueryParameters = true) {
          setJsonBodyFromResource("user_list.json")
       }
 
@@ -36,7 +36,7 @@ class PostsTest {
       mockResponse("/posts?limit=10&skip=0", includeQueryParameters = true) {
          setJsonBodyFromResource("post_list.json")
       }
-      mockResponse("/users?limit=10&skip=0", includeQueryParameters = true) {
+      mockResponse("/users?limit=30&skip=0", includeQueryParameters = true) {
          setJsonBodyFromResource("user_list.json")
       }
       mockResponse("/posts/2") {
