@@ -3,6 +3,7 @@ package si.inova.androidarchitectureplayground.post.ui.list
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
@@ -37,7 +38,7 @@ class PostListScreenTest {
       repository.setPostList(
          PaginatedDataStream.PaginationResult(
             items = Outcome.Success(
-               List(10) {
+               List(20) {
                   Post(
                      id = it,
                      title = "A post $it",
@@ -76,9 +77,12 @@ class PostListScreenTest {
       rule.waitForIdle()
       repository.numTimesNextPageCalled shouldBe 0
 
-      rule.onNodeWithText("A post 4").performTouchInput {
-         swipeUp()
+      repeat(2) {
+         rule.onRoot().performTouchInput {
+            swipeUp()
+         }
       }
+
       rule.waitForIdle()
 
       repository.numTimesNextPageCalled shouldBe 1
