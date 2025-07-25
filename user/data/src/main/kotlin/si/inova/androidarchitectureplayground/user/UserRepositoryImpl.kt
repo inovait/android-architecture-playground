@@ -148,7 +148,7 @@ class UserRepositoryImpl @Inject constructor(
                saveUsersToDatabase(data, replaceExisting = loadType == LoadType.REFRESH)
             }
 
-            MediatorResult.Success(endOfPaginationReached = data.isEmpty())
+            MediatorResult.Success(endOfPaginationReached = data.isEmpty() || data.size < loadSize)
          } catch (e: Exception) {
             MediatorResult.Error(e)
          }
