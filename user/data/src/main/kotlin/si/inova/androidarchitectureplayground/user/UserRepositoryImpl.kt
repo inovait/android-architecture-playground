@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import me.tatarka.inject.annotations.Inject
+import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
 import si.inova.androidarchitectureplayground.user.exceptions.UnknownUserException
 import si.inova.androidarchitectureplayground.user.model.User
@@ -36,8 +36,8 @@ import si.inova.kotlinova.core.exceptions.UnknownCauseException
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.time.TimeProvider
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.coroutineContext
 

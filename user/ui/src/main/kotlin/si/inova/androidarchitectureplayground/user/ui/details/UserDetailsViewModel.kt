@@ -3,7 +3,7 @@ package si.inova.androidarchitectureplayground.user.ui.details
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import me.tatarka.inject.annotations.Inject
+import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.user.UserRepository
@@ -11,10 +11,10 @@ import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
-import si.inova.kotlinova.navigation.services.InjectScopedService
+import si.inova.kotlinova.navigation.services.ContributesScopedService
 import kotlin.time.Duration.Companion.seconds
 
-@InjectScopedService
+@ContributesScopedService
 class UserDetailsViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val userRepository: UserRepository,

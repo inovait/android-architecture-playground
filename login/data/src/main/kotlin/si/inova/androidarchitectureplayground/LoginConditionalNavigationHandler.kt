@@ -1,14 +1,21 @@
 package si.inova.androidarchitectureplayground
 
-import me.tatarka.inject.annotations.Inject
+import dev.zacsweers.metro.ClassKey
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.login.LoginRepository
+import si.inova.androidarchitectureplayground.navigation.conditions.UserLoggedIn
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
 import si.inova.kotlinova.navigation.conditions.ConditionalNavigationHandler
 import si.inova.kotlinova.navigation.conditions.NavigationCondition
+import si.inova.kotlinova.navigation.di.OuterNavigationScope
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 
-class LoginConditionalNavigationHandler @Inject constructor(
+@ContributesIntoMap(OuterNavigationScope::class)
+@ClassKey(UserLoggedIn::class)
+@Inject
+class LoginConditionalNavigationHandler(
    private val loginRepository: LoginRepository,
 ) : ConditionalNavigationHandler {
    override fun getNavigationRedirect(

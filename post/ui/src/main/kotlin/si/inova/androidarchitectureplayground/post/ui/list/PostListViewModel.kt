@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import me.tatarka.inject.annotations.Inject
+import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
@@ -14,9 +14,9 @@ import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.outcome.mapData
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
-import si.inova.kotlinova.navigation.services.InjectScopedService
+import si.inova.kotlinova.navigation.services.ContributesScopedService
 
-@InjectScopedService
+@ContributesScopedService
 class PostListViewModel @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val postRepository: PostsRepository,

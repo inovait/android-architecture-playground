@@ -4,16 +4,16 @@ import com.appmattus.certificatetransparency.cache.DiskCache
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import me.tatarka.inject.annotations.Provides
+import dev.zacsweers.metro.Provides
 import okhttp3.OkHttpClient
 import si.inova.kotlinova.retrofit.interceptors.BypassCacheInterceptor
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
-import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.SingleIn
 import java.time.Duration
 
 @ContributesTo(AppScope::class)
-interface NetworkComponent {
+interface NetworkProviders {
    // Uncomment when adding adapters
    // val moshiAdapters: Set<MoshiAdapter>
 
@@ -49,7 +49,7 @@ interface NetworkComponent {
       return prepareDefaultOkHttpClient(certificateTransparencyDiskCache).build()
    }
 
-   fun prepareDefaultOkHttpClient(certificateTransparencyDiskCache: DiskCache? = null): OkHttpClient.Builder {
+   private fun prepareDefaultOkHttpClient(certificateTransparencyDiskCache: DiskCache? = null): OkHttpClient.Builder {
       return OkHttpClient.Builder()
          .addInterceptor(BypassCacheInterceptor())
          .addNetworkInterceptor(

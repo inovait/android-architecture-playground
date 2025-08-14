@@ -2,7 +2,7 @@ package si.inova.androidarchitectureplayground.login.ui
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import me.tatarka.inject.annotations.Inject
+import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
@@ -14,11 +14,12 @@ import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.instructions.ReplaceBackstack
 import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
-import si.inova.kotlinova.navigation.services.InjectScopedService
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import si.inova.kotlinova.navigation.services.ContributesScopedService
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.binding
 
-@InjectScopedService
-@ContributesBinding(BackstackScope::class, ManageProfileScreenViewModel::class)
+@ContributesScopedService(ManageProfileScreenViewModel::class)
+@ContributesBinding(BackstackScope::class, binding<ManageProfileScreenViewModel>())
 class ManageProfileScreenViewModelImpl @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val navigator: Navigator,

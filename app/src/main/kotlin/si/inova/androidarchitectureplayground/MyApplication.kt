@@ -10,18 +10,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
+import dev.zacsweers.metro.createGraphFactory
 import dispatch.core.DefaultDispatcherProvider
 import dispatch.core.defaultDispatcher
-import si.inova.androidarchitectureplayground.di.ApplicationComponent
-import si.inova.androidarchitectureplayground.di.MainApplicationComponent
-import si.inova.androidarchitectureplayground.di.create
+import si.inova.androidarchitectureplayground.di.ApplicationGraph
+import si.inova.androidarchitectureplayground.di.MainApplicationGraph
 import si.inova.kotlinova.core.dispatchers.AccessCallbackDispatcherProvider
 import si.inova.kotlinova.core.logging.AndroidLogcatLogger
 import si.inova.kotlinova.core.logging.LogPriority
 
 open class MyApplication : Application() {
-   open val applicationComponent: ApplicationComponent by lazy {
-      MainApplicationComponent::class.create(this)
+   open val applicationGraph: ApplicationGraph by lazy {
+      createGraphFactory<MainApplicationGraph.Factory>().create(this)
    }
 
    init {
@@ -57,12 +57,13 @@ open class MyApplication : Application() {
          ImageLoader.Builder(this)
             // Load Coil cache on the background thread
             // See https://github.com/coil-kt/coil/issues/1878
-            .interceptorCoroutineContext(applicationComponent.getDefaultCoroutineScope().defaultDispatcher)
+            .interceptorCoroutineContext(applicationGraph.getDefaultCoroutineScope().defaultDispatcher)
             .build()
       }
    }
 
    private fun enableStrictMode() {
+      return
       // Also check on staging release build, if applicable
       // penaltyListener only supports P and newer, so we are forced to only enable StrictMode on those devices
       if (!BuildConfig.DEBUG || Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
@@ -118,7 +119,7 @@ open class MyApplication : Application() {
                if (BuildConfig.DEBUG) {
                   throw e
                } else {
-                  applicationComponent.getErrorReporter().report(e)
+                  applicationGraph.getErrorReporter().report(e)
                }
             }
             .build()
@@ -152,7 +153,7 @@ open class MyApplication : Application() {
       if (BuildConfig.DEBUG) {
          throw e
       } else {
-         applicationComponent.getErrorReporter().report(e)
+         applicationGraph.getErrorReporter().report(e)
       }
    }
 

@@ -2,7 +2,7 @@ package si.inova.androidarchitectureplayground.user.ui.list
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import me.tatarka.inject.annotations.Inject
+import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.paging.PagedList
 import si.inova.androidarchitectureplayground.paging.PagingResult
@@ -12,12 +12,13 @@ import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
-import si.inova.kotlinova.navigation.services.InjectScopedService
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
+import si.inova.kotlinova.navigation.services.ContributesScopedService
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.binding
 
-@InjectScopedService
-@ContributesBinding(AppScope::class, boundType = UserListViewModel::class)
+@ContributesScopedService(UserListViewModel::class)
+@ContributesBinding(AppScope::class, binding = binding<UserListViewModel>())
 class UserListViewModelImpl @Inject constructor(
    private val resources: CoroutineResourceManager,
    private val userRepository: UserRepository,

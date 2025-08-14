@@ -161,6 +161,7 @@ dependencies {
    implementation(libs.moshi)
    implementation(libs.okhttp)
    implementation(libs.kotlin.coroutines)
+   implementation(libs.kotlin.coroutines.jvm)
    implementation(libs.kotlinova.core)
    implementation(libs.kotlinova.navigation)
    implementation(libs.kotlinova.retrofit)
@@ -170,7 +171,7 @@ dependencies {
    implementation(libs.androidx.datastore)
    implementation(libs.androidx.datastore.preferences)
 
-   debugImplementation(libs.whatTheStack)
+   // debugImplementation(libs.whatTheStack)
 
    androidTestImplementation(libs.androidx.test.junitRules)
    androidTestImplementation(libs.androidx.test.runner)
