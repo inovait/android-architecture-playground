@@ -2,18 +2,18 @@ package si.inova.androidarchitectureplayground.di
 
 import android.app.Application
 import android.content.Context
-import me.tatarka.inject.annotations.Provides
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
 import si.inova.kotlinova.core.reporting.ErrorReporter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatterImpl
 import si.inova.kotlinova.core.time.AndroidTimeProvider
 import si.inova.kotlinova.core.time.DefaultAndroidTimeProvider
 import si.inova.kotlinova.core.time.TimeProvider
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
 
 @ContributesTo(AppScope::class)
-interface CommonInjectionsComponent {
+interface CommonInjectionsProviders {
    @Provides
    fun bindToContext(application: Application): Context = application
 

@@ -38,13 +38,12 @@ kotest = "5.9.1"
 kotlin = "2.2.0"
 kotlin-coroutines = "1.10.2"
 kotlin-immutableCollections = "0.4.0"
-kotlinInject = "0.8.0"
-kotlinInject-anvil = "0.1.6"
-kotlinova = "4.0.0-alpha05"
+kotlinova = "4.0.0-alpha06"
 ksp = "2.2.0-2.0.2"
 moduleGraphAssert = "2.7.3"
 # @keep used in kts scripts directly
 jacoco = "0.8.13"
+metro = "0.5.5"
 moshi = "1.15.2"
 moshi-ir = "0.31.0"
 okhttp = "5.1.0"
@@ -128,11 +127,6 @@ kotlin-immutableCollections = { module = "org.jetbrains.kotlinx:kotlinx-collecti
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-plugin-compose = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
-kotlinInject-anvil-annotations = { module = "software.amazon.lastmile.kotlin.inject.anvil:runtime-optional", version.ref = "kotlinInject-anvil" }
-kotlinInject-anvil-compiler = { module = "software.amazon.lastmile.kotlin.inject.anvil:compiler", version.ref = "kotlinInject-anvil" }
-kotlinInject-anvil-runtime = { module = "software.amazon.lastmile.kotlin.inject.anvil:runtime", version.ref = "kotlinInject-anvil" }
-kotlinInject-compiler = { module = "me.tatarka.inject:kotlin-inject-compiler-ksp", version.ref = "kotlinInject" }
-kotlinInject-runtime = { module = "me.tatarka.inject:kotlin-inject-runtime", version.ref = "kotlinInject" }
 kotlinova-compose = { module = "si.inova.kotlinova:compose", version.ref = "kotlinova" }
 kotlinova-compose-androidTest = { module = "si.inova.kotlinova:compose-android-test", version.ref = "kotlinova" }
 kotlinova-core = { module = "si.inova.kotlinova:core", version.ref = "kotlinova" }
@@ -145,6 +139,7 @@ kotlinova-navigation-test = { module = "si.inova.kotlinova:navigation-test", ver
 kotlinova-retrofit = { module = "si.inova.kotlinova:retrofit", version.ref = "kotlinova" }
 kotlinova-retrofit-test = { module = "si.inova.kotlinova:retrofit-test", version.ref = "kotlinova" }
 ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+metro-plugin = { module = "dev.zacsweers.metro:gradle-plugin", version.ref = "metro" }
 moduleGraphAssert = { module = "com.jraska.module.graph.assertion:plugin", version.ref = "moduleGraphAssert" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
@@ -169,5 +164,6 @@ whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTh
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }

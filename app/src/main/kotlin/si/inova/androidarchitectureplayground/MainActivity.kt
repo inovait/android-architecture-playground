@@ -42,19 +42,19 @@ class MainActivity : ComponentActivity() {
    private lateinit var mainDeepLinkHandler: MainDeepLinkHandler
    private lateinit var navigationContext: NavigationContext
    private lateinit var dateFormatter: AndroidDateTimeFormatter
-   private lateinit var mainViewModelFactory: () -> MainViewModel
+   private lateinit var mainViewModelFactory: MainViewModel.Factory
 
    private val viewModel by viewModels<MainViewModel>() { ViewModelFactory() }
    private var initComplete = false
 
    override fun onCreate(savedInstanceState: Bundle?) {
-      val navigationSubcomponent = (requireNotNull(application) as MyApplication).applicationComponent.createNavigationComponent()
+      val appGraph = (requireNotNull(application) as MyApplication).applicationGraph
 
-      navigationInjectionFactory = navigationSubcomponent.getNavigationInjectionFactory()
-      mainDeepLinkHandler = navigationSubcomponent.getMainDeepLinkHandler()
-      navigationContext = navigationSubcomponent.getNavigationContext()
-      dateFormatter = navigationSubcomponent.getDateFormatter()
-      mainViewModelFactory = navigationSubcomponent.getMainViewModelFactory()
+      navigationInjectionFactory = appGraph.getNavigationInjectionFactory()
+      mainDeepLinkHandler = appGraph.getMainDeepLinkHandler()
+      navigationContext = appGraph.getNavigationContext()
+      dateFormatter = appGraph.getDateFormatter()
+      mainViewModelFactory = appGraph.getMainViewModelFactory()
 
       super.onCreate(savedInstanceState)
       enableEdgeToEdge()
@@ -122,7 +122,7 @@ class MainActivity : ComponentActivity() {
    private inner class ViewModelFactory : ViewModelProvider.Factory {
       override fun <T : ViewModel> create(modelClass: Class<T>): T {
          @Suppress("UNCHECKED_CAST")
-         return mainViewModelFactory() as T
+         return mainViewModelFactory.create() as T
       }
    }
 }

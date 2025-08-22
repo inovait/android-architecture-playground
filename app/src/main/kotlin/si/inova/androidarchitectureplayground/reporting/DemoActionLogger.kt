@@ -1,10 +1,10 @@
 package si.inova.androidarchitectureplayground.reporting
 
-import me.tatarka.inject.annotations.Inject
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.kotlinova.core.logging.logcat
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesBinding
 
 @ContributesBinding(AppScope::class)
 class DemoActionLogger @Inject constructor() : ActionLogger {

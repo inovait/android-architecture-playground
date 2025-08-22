@@ -142,7 +142,6 @@ dependencies {
    implementation(libs.kotlin.coroutines)
    implementation(libs.kotlinova.core)
    implementation(libs.kotlinova.navigation)
-   implementation(libs.kotlinova.retrofit)
    implementation(libs.simpleStack)
 
    implementation(libs.androidx.datastore)

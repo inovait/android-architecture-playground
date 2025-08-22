@@ -1,9 +1,10 @@
 package si.inova.androidarchitectureplayground.network.services
 
 import com.squareup.moshi.Moshi
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.Provider
+import dev.zacsweers.metro.Qualifier
 import kotlinx.coroutines.CoroutineScope
-import me.tatarka.inject.annotations.Inject
-import me.tatarka.inject.annotations.Qualifier
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -14,10 +15,11 @@ import si.inova.kotlinova.retrofit.callfactory.ErrorHandlingAdapterFactory
 import si.inova.kotlinova.retrofit.callfactory.StaleWhileRevalidateCallAdapterFactory
 import si.inova.kotlinova.retrofit.converter.LazyRetrofitConverterFactory
 
-open class BaseServiceFactory @Inject constructor(
+@Inject
+open class BaseServiceFactory(
    private val coroutineScope: CoroutineScope,
-   private val moshi: () -> Moshi,
-   private val okHttpClient: () -> OkHttpClient,
+   private val moshi: Provider<Moshi>,
+   private val okHttpClient: Provider<OkHttpClient>,
    private val errorReporter: ErrorReporter,
    private val defaultErrorHandler: DefaultErrorHandler,
    @BaseUrl
