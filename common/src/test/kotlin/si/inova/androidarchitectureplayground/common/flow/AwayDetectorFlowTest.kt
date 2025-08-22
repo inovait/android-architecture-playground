@@ -3,6 +3,7 @@ package si.inova.androidarchitectureplayground.common.flow
 import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runCurrent
@@ -14,7 +15,14 @@ import kotlin.time.Duration.Companion.minutes
 
 class AwayDetectorFlowTest {
    private val isUserPresent = MutableStateFlow<Boolean>(false)
-   private val scope = TestScope(UserPresenceProvider { isUserPresent })
+
+   @Suppress("ObjectLiteralToLambda") // Can't due to https://github.com/Kotlin/kotlinx.coroutines/issues/4512
+   private val scope = TestScope(object : UserPresenceProvider {
+      override fun isUserPresentFlow(): Flow<Boolean> {
+         return isUserPresent
+      }
+   }
+   )
 
    private val awayDetectorFlow = AwayDetectorFlow(timeProvider = scope.virtualTimeProvider())
 

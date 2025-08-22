@@ -5,8 +5,8 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import si.inova.androidarchitectureplayground.network.exceptions.BackendException
+import si.inova.androidarchitectureplayground.network.services.create
 import si.inova.androidarchitectureplayground.network.test.serviceFactory
-import si.inova.androidarchitectureplayground.post.PostsDataComponent
 import si.inova.androidarchitectureplayground.post.network.model.LightPostDto
 import si.inova.androidarchitectureplayground.post.network.model.PostDto
 import si.inova.androidarchitectureplayground.post.network.model.PostsDto
@@ -22,7 +22,7 @@ class PostsServiceTest {
          }
 
          val serviceFactory = serviceFactory(this@runTest)
-         val service = object : PostsDataComponent {}.providePostsService(serviceFactory)
+         val service = serviceFactory.create<PostsService>()
 
          val expectedPosts = PostsDto(
             posts = listOf(
@@ -46,7 +46,7 @@ class PostsServiceTest {
          }
 
          val serviceFactory = serviceFactory(this@runTest)
-         val service = object : PostsDataComponent {}.providePostsService(serviceFactory)
+         val service = serviceFactory.create<PostsService>()
 
          val expectedPosts = PostsDto(
             posts = listOf(
@@ -70,7 +70,7 @@ class PostsServiceTest {
          }
 
          val serviceFactory = serviceFactory(this@runTest)
-         val service = object : PostsDataComponent {}.providePostsService(serviceFactory)
+         val service = serviceFactory.create<PostsService>()
 
          val expectedPost = PostDto(
             id = 12,
@@ -97,7 +97,7 @@ class PostsServiceTest {
          }
 
          val serviceFactory = serviceFactory(this@runTest)
-         val service = object : PostsDataComponent {}.providePostsService(serviceFactory)
+         val service = serviceFactory.create<PostsService>()
 
          shouldThrow<BackendException> {
             service.getPost(13)

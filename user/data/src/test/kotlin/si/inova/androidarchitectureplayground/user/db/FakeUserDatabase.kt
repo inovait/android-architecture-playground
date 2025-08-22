@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.user.db
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import si.inova.androidarchitectureplayground.user.UsersDataComponent
+import si.inova.androidarchitectureplayground.user.UsersDataProviders
 import si.inova.androidarchitectureplayground.user.sqldelight.generated.Database
 import si.inova.androidarchitectureplayground.user.sqldelight.generated.DbUser
 import si.inova.androidarchitectureplayground.user.sqldelight.generated.DbUserQueries
@@ -10,7 +10,7 @@ fun createTestUserQueries(): DbUserQueries {
    val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
    Database.Schema.create(driver)
 
-   return object : UsersDataComponent {}.provideUserQueries(driver)
+   return UsersDataProviders.createUserQueries(driver)
 }
 
 fun DbUserQueries.insertSampleUsers() {

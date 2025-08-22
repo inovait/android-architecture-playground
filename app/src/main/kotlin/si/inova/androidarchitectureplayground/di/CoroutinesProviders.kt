@@ -1,17 +1,17 @@
 package si.inova.androidarchitectureplayground.di
 
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
 import dispatch.core.DefaultCoroutineScope
 import dispatch.core.DispatcherProvider
 import dispatch.core.IOCoroutineScope
 import dispatch.core.MainImmediateCoroutineScope
-import me.tatarka.inject.annotations.Provides
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.reporting.ErrorReporter
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
 
 @ContributesTo(AppScope::class)
-interface CoroutinesComponent {
+interface CoroutinesProviders {
    @Provides
    fun provideMainCoroutineScope(): MainImmediateCoroutineScope {
       return MainImmediateCoroutineScope(object : DispatcherProvider {})

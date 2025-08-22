@@ -3,13 +3,14 @@ package si.inova.androidarchitectureplayground
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import me.tatarka.inject.annotations.Assisted
-import me.tatarka.inject.annotations.Inject
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
@@ -42,6 +43,11 @@ class MainViewModel @Inject constructor(
             LoginScreenKey(OpenScreen(HomeScreenKey()))
          }
       }
+   }
+
+   @AssistedFactory
+   fun interface Factory {
+      fun create(startIntent: Intent): MainViewModel
    }
 }
 

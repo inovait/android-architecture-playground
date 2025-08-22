@@ -1,25 +1,31 @@
 package si.inova.androidarchitectureplayground.post
 
 import app.cash.sqldelight.db.SqlDriver
-import me.tatarka.inject.annotations.Provides
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
+import dev.zacsweers.metro.SingleIn
 import si.inova.androidarchitectureplayground.network.services.ServiceFactory
 import si.inova.androidarchitectureplayground.network.services.create
 import si.inova.androidarchitectureplayground.post.network.PostsService
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.Database
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPostQueries
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
-import software.amazon.lastmile.kotlin.inject.anvil.SingleIn
 
 @ContributesTo(AppScope::class)
-interface PostsDataComponent {
+interface PostsDataProviders {
    @Provides
    @SingleIn(AppScope::class)
-   fun providePostsService(serviceFactory: ServiceFactory): PostsService = serviceFactory.create()
+   private fun providePostsService(serviceFactory: ServiceFactory): PostsService = serviceFactory.create()
 
    @Provides
    @SingleIn(AppScope::class)
-   fun providePostQueries(driver: SqlDriver): DbPostQueries {
-      return Database(driver).dbPostQueries
+   private fun providePostQueries(driver: SqlDriver): DbPostQueries {
+      return createPostQueries(driver)
+   }
+
+   companion object {
+      fun createPostQueries(driver: SqlDriver): DbPostQueries {
+         return Database(driver).dbPostQueries
+      }
    }
 }

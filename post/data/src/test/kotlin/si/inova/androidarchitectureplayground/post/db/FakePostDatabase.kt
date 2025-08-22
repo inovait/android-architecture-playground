@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.post.db
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import si.inova.androidarchitectureplayground.post.PostsDataComponent
+import si.inova.androidarchitectureplayground.post.PostsDataProviders
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.Database
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPost
 import si.inova.androidarchitectureplayground.post.sqldelight.generated.DbPostQueries
@@ -10,7 +10,7 @@ fun createTestPostQueries(): DbPostQueries {
    val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
    Database.Schema.create(driver)
 
-   return object : PostsDataComponent {}.providePostQueries(driver)
+   return PostsDataProviders.createPostQueries(driver)
 }
 
 fun DbPostQueries.insertSamplePosts() {
