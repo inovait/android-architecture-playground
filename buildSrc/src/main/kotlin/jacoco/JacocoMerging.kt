@@ -46,11 +46,9 @@ fun Project.setupJacocoMergingRoot() {
                   exclude("**/release/**")
 
                   // Exclude generated classes
-                  exclude("**/amazon/lastmile/**")
+                  exclude("**/*MetroFactory*/**")
+                  exclude("**/*MetroGraph*/**")
                   exclude("**/android/showkase/**")
-                  exclude("**/*Component*Final*")
-                  exclude("**/Inject*Component*")
-                  exclude("**/*Component*DefaultImpls*")
                   exclude("**/*ComposableSingletons*")
                }
             }
