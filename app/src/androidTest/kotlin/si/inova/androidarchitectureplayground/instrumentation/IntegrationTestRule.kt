@@ -25,17 +25,17 @@ class IntegrationTestRule(
    }
 
    init {
-      TestNetworkUrlComponent.url = scope.server.url("").toString()
+      TestNetworkUrlProviders.url = scope.server.url("").toString()
    }
 
    private val testEvents = object : TestWatcher() {
       override fun starting(description: Description?) {
-         TestErrorReportingComponent.caughtExceptions.clear()
+         TestErrorReportingProviders.caughtExceptions.clear()
       }
 
       override fun finished(description: Description?) {
          if (failTestForUnhandledExceptions) {
-            MultipleFailureException.assertEmpty(TestErrorReportingComponent.caughtExceptions)
+            MultipleFailureException.assertEmpty(TestErrorReportingProviders.caughtExceptions)
          }
       }
    }

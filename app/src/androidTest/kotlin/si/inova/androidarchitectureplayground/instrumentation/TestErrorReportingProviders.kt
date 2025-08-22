@@ -1,14 +1,14 @@
 package si.inova.androidarchitectureplayground.instrumentation
 
 import android.util.Log
-import me.tatarka.inject.annotations.Provides
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Provides
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.reporting.ErrorReporter
-import software.amazon.lastmile.kotlin.inject.anvil.AppScope
-import software.amazon.lastmile.kotlin.inject.anvil.ContributesTo
 
 @ContributesTo(AppScope::class)
-interface TestErrorReportingComponent {
+interface TestErrorReportingProviders {
    @Provides
    fun provideErrorReporter(): ErrorReporter {
       return ErrorReporter {
