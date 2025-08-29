@@ -258,3 +258,9 @@ We have a simple [pre-push](../config/hooks/pre-push) hook to prevent this
 # Baseline profile generation
 
 Project has enabled baseline profile generation + docs in the [README](../README.MD) on how to generate it
+
+# Custom Paging3 wrapper
+
+Experimental [PagingData.toPagingResult()](../common-paging/src/main/kotlin/si/inova/androidarchitectureplayground/paging/Transformation.kt)
+converts the output of the Google's Paging3 library into a regular flow that can then be combined with other flows
+to still allow single output flow pattern even with the Paging library.
