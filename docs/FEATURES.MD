@@ -92,10 +92,10 @@ All reusable components have `@ShowkaseComposable` annotation and there is a "Co
   Test Lab to
   detect any regressions in app performance over time
 
-# Kotlin Inject
+# Metro
 
 Project includes full setup of
-the [kotlin-inject](https://github.com/evant/kotlin-inject) + [kotlin-inject-anvil](https://github.com/amzn/kotlin-inject-anvil)
+the [Metro](https://zacsweers.github.io/metro/)
 for the Android app. This allows easy dependency injection with minimal boilerplate and it also future proofs the project
 for potential future Kotlin Multiplatform integration.
 
