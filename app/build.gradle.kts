@@ -110,8 +110,9 @@ sqldelight {
          packageName.set("si.inova.androidarchitectureplayground")
          schemaOutputDirectory.set(file("src/main/sqldelight/databases"))
 
-         dependency(projects.user.data)
-         dependency(projects.post.data)
+         // Use project() wrapper as a workaround for the https://github.com/sqldelight/sqldelight/pull/5801
+         dependency(project(projects.user.data.path))
+         dependency(project(projects.user.data.path))
       }
    }
 }
