@@ -13,7 +13,7 @@ import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.di.NavigationInjection
 import si.inova.kotlinova.navigation.di.OuterNavigationScope
 
-@DependencyGraph(AppScope::class, isExtendable = true, additionalScopes = [OuterNavigationScope::class])
+@DependencyGraph(AppScope::class, additionalScopes = [OuterNavigationScope::class])
 interface MainApplicationGraph : ApplicationGraph {
    @DependencyGraph.Factory
    interface Factory {
