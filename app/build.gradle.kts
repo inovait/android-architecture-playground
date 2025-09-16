@@ -132,6 +132,18 @@ custom {
    enableEmulatorTests.set(true)
 }
 
+abstract class ConsumingTask: DefaultTask() {
+   @TaskAction
+   fun run() {
+      val valueFromTaskInCommonModule: String = TODO()
+      println("receivedValue: $valueFromTaskInCommonModule")
+   }
+}
+
+tasks.register<ConsumingTask>("consumer") {
+}
+
+
 dependencies {
    implementation(projects.common)
    implementation(projects.commonNavigation)

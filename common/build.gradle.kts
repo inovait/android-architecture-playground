@@ -2,6 +2,17 @@ plugins {
    pureKotlinModule
 }
 
+abstract class ProducingTask: DefaultTask() {
+   @TaskAction
+   fun run() {
+      val computedValue = "Hello"
+      println("computedValue: $computedValue")
+   }
+}
+
+tasks.register<ProducingTask>("producer") {
+}
+
 dependencies {
    implementation(libs.kotlin.coroutines)
    implementation(libs.dispatch)
