@@ -132,19 +132,35 @@ custom {
    enableEmulatorTests.set(true)
 }
 
-abstract class ConsumingTask: DefaultTask() {
+val customDependency = project.configurations.dependencyScope("customDependency")
+
+val resultsConfiguration = project.configurations.resolvable("customDependencyResults") {
+   extendsFrom(customDependency.get())
+   attributes {
+      attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class.java, "custom_task"))
+   }
+}
+
+abstract class ConsumingTask : DefaultTask() {
+   @get:InputFiles
+   abstract val input: ConfigurableFileCollection
+
    @TaskAction
    fun run() {
-      val valueFromTaskInCommonModule: String = TODO()
+      val values = input.files.map { it.readText() }
+      val valueFromTaskInCommonModule: String = values.joinToString("\n") { it.trim() }
       println("receivedValue: $valueFromTaskInCommonModule")
    }
 }
 
 tasks.register<ConsumingTask>("consumer") {
+   input.from(resultsConfiguration.map { it.incoming.artifactView {  }.files })
 }
 
 
 dependencies {
+   customDependency(projects.common)
+
    implementation(projects.common)
    implementation(projects.commonNavigation)
    implementation(projects.commonRetrofit)

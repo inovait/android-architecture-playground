@@ -2,16 +2,32 @@ plugins {
    pureKotlinModule
 }
 
-abstract class ProducingTask: DefaultTask() {
+val customTasksConfiguration = project.configurations.consumable("customTasksElements") {
+   attributes {
+      attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class.java, "custom_task"))
+   }
+}
+
+abstract class ProducingTask : DefaultTask() {
+   @get:OutputFile
+   abstract val output: RegularFileProperty
+
    @TaskAction
    fun run() {
       val computedValue = "Hello"
+      output.get().asFile.writeText(computedValue)
       println("computedValue: $computedValue")
    }
 }
 
-tasks.register<ProducingTask>("producer") {
+val producer = tasks.register<ProducingTask>("producer") {
+   output = project.layout.buildDirectory.file("output.txt")
 }
+
+customTasksConfiguration.configure {
+   outgoing.artifact(producer.map { it.output })
+}
+
 
 dependencies {
    implementation(libs.kotlin.coroutines)
