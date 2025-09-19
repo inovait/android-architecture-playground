@@ -11,7 +11,6 @@ import si.inova.kotlinova.navigation.di.OuterNavigationScope
 
 @DependencyGraph(
    AppScope::class,
-   isExtendable = true,
    additionalScopes = [OuterNavigationScope::class],
    excludes = [ErrorReportingProviders::class, NetworkUrlProviders::class]
 )
