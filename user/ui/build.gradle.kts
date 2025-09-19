@@ -9,9 +9,7 @@ plugins {
 android {
    namespace = "si.inova.architectureplayground.user"
 
-   buildFeatures {
-      androidResources = true
-   }
+   androidResources.enable = true
 }
 
 custom {

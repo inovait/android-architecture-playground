@@ -1,8 +1,8 @@
-import com.android.build.api.dsl.LibraryBuildFeatures
+import com.android.build.api.dsl.LibraryAndroidResources
 import com.android.build.gradle.tasks.asJavaVersion
+import jacoco.setupJacocoMergingAndroid
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import jacoco.setupJacocoMergingAndroid
 import util.commonAndroid
 
 val libs = the<LibrariesForLibs>()
@@ -59,10 +59,11 @@ commonAndroid {
       buildConfig = false
       resValues = false
       shaders = false
+   }
 
-      if (this is LibraryBuildFeatures) {
-         androidResources = false
-      }
+   val androidResources = androidResources
+   if (androidResources is LibraryAndroidResources) {
+      androidResources.enable = false
    }
 
    compileOptions {

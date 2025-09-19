@@ -9,8 +9,8 @@ plugins {
 android {
    namespace = "si.inova.androidarchitectureplayground.login.ui"
 
+   androidResources.enable = true
    buildFeatures {
-      androidResources = true
       buildConfig = true
    }
 }

@@ -7,9 +7,7 @@ plugins {
 android {
    namespace = "si.inova.androidarchitectureplayground.screenshottests"
 
-   buildFeatures {
-      androidResources = true
-   }
+   androidResources.enable = true
 
    testOptions {
       unitTests.all {
