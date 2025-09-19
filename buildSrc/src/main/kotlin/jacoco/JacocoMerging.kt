@@ -7,21 +7,25 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 fun Project.setupJacocoMergingAndroid() {
    registerJacocoConfigurations()
 
-   artifacts {
-      add(CONFIGURATION_JACOCO_SOURCES, layout.projectDirectory.dir("src/main/kotlin"))
-      add(CONFIGURATION_JACOCO_CLASSES, layout.buildDirectory.dir("tmp/kotlin-classes/debug").map { it.asFile })
-      add(CONFIGURATION_JACOCO_EXEC, layout.buildDirectory.dir("outputs/unit_test_code_coverage").map { it.asFile })
-      add(CONFIGURATION_JACOCO_EXEC, layout.buildDirectory.dir("outputs/code_coverage").map { it.asFile })
+   if (project.name != "test") {
+      artifacts {
+         add(CONFIGURATION_JACOCO_SOURCES, layout.projectDirectory.dir("src/main/kotlin"))
+         add(CONFIGURATION_JACOCO_CLASSES, layout.buildDirectory.dir("tmp/kotlin-classes/debug").map { it.asFile })
+         add(CONFIGURATION_JACOCO_EXEC, layout.buildDirectory.dir("outputs/unit_test_code_coverage").map { it.asFile })
+         add(CONFIGURATION_JACOCO_EXEC, layout.buildDirectory.dir("outputs/code_coverage").map { it.asFile })
+      }
    }
 }
 
 fun Project.setupJacocoMergingPureKotlin() {
    registerJacocoConfigurations()
 
-   artifacts {
-      add(CONFIGURATION_JACOCO_SOURCES, layout.projectDirectory.dir("src/main/kotlin"))
-      add(CONFIGURATION_JACOCO_CLASSES, layout.buildDirectory.dir("classes/kotlin/main").map { it.asFile })
-      add(CONFIGURATION_JACOCO_EXEC, layout.buildDirectory.dir("jacoco").map { it.asFile })
+   if (project.name != "test") {
+      artifacts {
+         add(CONFIGURATION_JACOCO_SOURCES, layout.projectDirectory.dir("src/main/kotlin"))
+         add(CONFIGURATION_JACOCO_CLASSES, layout.buildDirectory.dir("classes/kotlin/main").map { it.asFile })
+         add(CONFIGURATION_JACOCO_EXEC, layout.buildDirectory.dir("jacoco").map { it.asFile })
+      }
    }
 }
 
