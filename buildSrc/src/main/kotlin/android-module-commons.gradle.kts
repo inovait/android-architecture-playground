@@ -21,7 +21,7 @@ commonAndroid {
    // Add a unique suffix to every module to stop AGP from complaining about "is used in multiple modules"
    // Workaround for the https://issuetracker.google.com/issues/332947919
    val uniqueNamespaceSuffix = path.removePrefix(":").replace(':', '.').replace("-", "")
-   namespace = "si.inova.androidarchitectureplayground.noresources.$uniqueNamespaceSuffix".also { println("resourcs $it") }
+   namespace = "si.inova.androidarchitectureplayground.noresources.$uniqueNamespaceSuffix"
 
    compileSdk = 36
 
