@@ -112,7 +112,7 @@ sqldelight {
 
          // Use project() wrapper as a workaround for the https://github.com/sqldelight/sqldelight/pull/5801
          dependency(project(projects.user.data.path))
-         dependency(project(projects.user.data.path))
+         dependency(project(projects.post.data.path))
       }
    }
 }
