@@ -15,9 +15,7 @@ android {
       minSdk = 24
    }
 
-   buildFeatures {
-      androidResources = true
-   }
+   androidResources.enable = true
 
    lint {
       abortOnError = true
