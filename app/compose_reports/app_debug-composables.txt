@@ -1,7 +1,7 @@
-restartable scheme("[androidx.compose.ui.UiComposable]") fun NavigationRoot(
+restartable skippable scheme("[androidx.compose.ui.UiComposable]") fun si.inova.androidarchitectureplayground.MainActivity.NavigationRoot(
   initialHistory: ImmutableList<ScreenKey>
   unstable <this>: MainActivity
 )
-restartable skippable fun LogCurrentScreen(
+restartable skippable fun si.inova.androidarchitectureplayground.LogCurrentScreen(
   stable backstack: Backstack
 )

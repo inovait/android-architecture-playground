@@ -18,12 +18,13 @@ To create a new Android project from that:
 10. Rename `app_name` in `app/res/values/strings.xml`
 11. Rename theme in `common-compose/src/.../ui/theme/Theme.kt`
 12. Rename `My` prefix of `MyApplication` to the name of your application
-13. Change package in the templates (`.idea/fileTemplates/*`)
-14. Generate debug and release keystore (see below)
-15. Go through all TODOs inside the project
-16. Delete `docs/FEATURES.MD`
-17. Remove `exit 0` from the beginning of the `/config/hooks/pre-push`
-17. Remove everything until `Readme for the application` from this README
+13. Rename namespace in the `app/compose_reports` files
+14. Change package in the templates (`.idea/fileTemplates/*`)
+15. Generate debug and release keystore (see below)
+16. Go through all TODOs inside the project
+17. Delete `docs/FEATURES.MD`
+18. Remove `exit 0` from the beginning of the `/config/hooks/pre-push`
+19. Remove everything until `Readme for the application` from this README
 
 ## Keystore
 
