@@ -1,4 +1,5 @@
 [versions]
+accompanist = "0.37.3"
 androidGradleCacheFix = "3.0.2"
 androidGradlePlugin = "8.13.0"
 androidx-activity-compose = "1.11.0"
@@ -64,6 +65,7 @@ versionCatalogUpdate = "1.0.1"
 whatTheStack = "1.0.0-alpha08"
 
 [libraries]
+accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
 android-agp = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 androidGradleCacheFix = { module = "org.gradle.android.cache-fix:org.gradle.android.cache-fix.gradle.plugin", version.ref = "androidGradleCacheFix" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
