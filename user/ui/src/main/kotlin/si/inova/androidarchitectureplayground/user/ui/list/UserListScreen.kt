@@ -139,7 +139,7 @@ private fun UserListContent(
          state = refreshState,
          modifier = Modifier.align(Alignment.TopCenter),
          isRefreshing = refreshing,
-         threshold = topWindowOffset + 48.dp,
+         maxDistance = topWindowOffset + 48.dp,
       )
    }
 }
