@@ -84,6 +84,11 @@ dependencyAnalysis {
          includeGroup("com.google.dagger")
          includeDependency("javax.inject:javax.inject")
       }
+
+      bundle("windowManagement") {
+         includeGroup("androidx.window")
+         includeDependency("com.google.accompanist:accompanist-adaptive")
+      }
    }
 }
 
