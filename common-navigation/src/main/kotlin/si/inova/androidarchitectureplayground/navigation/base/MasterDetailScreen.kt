@@ -43,8 +43,6 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.FoldingFeature
 import com.google.accompanist.adaptive.SplitResult
@@ -256,22 +254,21 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
       }
 
       val twoPaneStrategy = remember {
-         object : TwoPaneStrategy {
-            override fun calculateSplitResult(
-               density: Density,
-               layoutDirection: LayoutDirection,
+         TwoPaneStrategy {
+               _,
+               _,
                layoutCoordinates: LayoutCoordinates,
-            ): SplitResult {
-               return SplitResult(
-                  gapOrientation = Orientation.Vertical,
-                  gapBounds = Rect(
-                     left = offsetX,
-                     top = 0f,
-                     right = offsetX,
-                     bottom = layoutCoordinates.size.height.toFloat(),
-                  )
+            ->
+
+            SplitResult(
+               gapOrientation = Orientation.Vertical,
+               gapBounds = Rect(
+                  left = offsetX,
+                  top = 0f,
+                  right = offsetX,
+                  bottom = layoutCoordinates.size.height.toFloat(),
                )
-            }
+            )
          }
       }
 
@@ -282,16 +279,17 @@ abstract class MasterDetailScreen<K : ScreenKey, D> : Screen<K>() {
          displayFeatures = displayFeatures,
          modifier = Modifier
             .fillMaxSize()
-            .layout { measurable, constraints ->
-               val measurable = measurable.measure(constraints)
+            .layout
+            { measurable, constraints ->
+               val placeable = measurable.measure(constraints)
                if (screenWidth == 0) {
-                  offsetX = measurable.width * DEFAULT_PANE_SPLIT
+                  offsetX = placeable.width * DEFAULT_PANE_SPLIT
                }
 
-               screenWidth = measurable.width
+               screenWidth = placeable.width
 
-               layout(measurable.width, measurable.height) {
-                  measurable.place(0, 0)
+               layout(placeable.width, placeable.height) {
+                  placeable.place(0, 0)
                }
             }
       )
