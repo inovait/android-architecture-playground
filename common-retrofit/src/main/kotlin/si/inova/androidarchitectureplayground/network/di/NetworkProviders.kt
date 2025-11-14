@@ -45,11 +45,11 @@ interface NetworkProviders {
       fun prepareDefaultOkHttpClient(certificateTransparencyDiskCache: DiskCache? = null): OkHttpClient.Builder {
          return OkHttpClient.Builder()
             .addInterceptor(BypassCacheInterceptor())
-            .addNetworkInterceptor(
-               certificateTransparencyInterceptor {
-                  diskCache = certificateTransparencyDiskCache
-               }
-            )
+            // .addNetworkInterceptor(
+            //    certificateTransparencyInterceptor {
+            //       diskCache = certificateTransparencyDiskCache
+            //    }
+            // )
             .callTimeout(DEFAULT_TIMEOUT)
             .readTimeout(DEFAULT_TIMEOUT)
             .writeTimeout(DEFAULT_TIMEOUT)

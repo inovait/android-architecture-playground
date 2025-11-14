@@ -7,6 +7,7 @@ import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
+import okhttp3.Cache
 import si.inova.androidarchitectureplayground.network.services.AndroidServiceFactory
 import si.inova.androidarchitectureplayground.network.services.ServiceFactory
 import si.inova.kotlinova.core.reporting.ErrorReporter
@@ -18,11 +19,19 @@ interface AndroidNetworkProviders {
    fun bindToServiceFactory(androidServiceFactory: AndroidServiceFactory): ServiceFactory = androidServiceFactory
 
    @Provides
+   @SingleIn(AppScope::class)
    fun provideDiskCacheManager(
       context: Context,
       errorReporter: ErrorReporter,
    ): GlobalOkHttpDiskCacheManager {
       return GlobalOkHttpDiskCacheManager(context, errorReporter)
+   }
+
+   @Provides
+   fun provideDiskCache(
+      globalOkHttpDiskCacheManager: GlobalOkHttpDiskCacheManager,
+   ): Cache {
+      return globalOkHttpDiskCacheManager.cache
    }
 
    @Provides

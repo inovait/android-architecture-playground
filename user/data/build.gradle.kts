@@ -17,6 +17,7 @@ sqldelight {
 dependencies {
    api(projects.user.api)
    api(projects.commonRetrofit)
+   implementation(projects.commonPaging)
 
    api(libs.dispatch)
    api(libs.kotlin.coroutines)

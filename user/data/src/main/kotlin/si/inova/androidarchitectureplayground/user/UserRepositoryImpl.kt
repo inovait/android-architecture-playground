@@ -41,7 +41,7 @@ import si.inova.kotlinova.core.time.TimeProvider
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.coroutineContext
 
-@ContributesBinding(AppScope::class)
+// @ContributesBinding(AppScope::class)
 class UserRepositoryImpl @Inject constructor(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,
