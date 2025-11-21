@@ -42,7 +42,7 @@ open class BaseServiceFactory @Inject constructor(
       }
 
       val moshiConverter = lazy {
-         MoshiConverterFactory.create(moshi())
+         MoshiConverterFactory.create(moshi()).withStreaming()
       }
 
       return Retrofit.Builder()
