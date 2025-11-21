@@ -25,6 +25,7 @@ To create a new Android project from that:
 17. Delete `docs/FEATURES.MD`
 18. Remove `exit 0` from the beginning of the `/config/hooks/pre-push`
 19. Remove everything until `Readme for the application` from this README
+20. Remove/replace LICENSE file
 
 ## Keystore
 
