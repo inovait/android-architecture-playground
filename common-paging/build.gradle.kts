@@ -8,4 +8,5 @@ dependencies {
    implementation(libs.kotlinova.core)
 
    testImplementation(libs.kotlinova.core.test)
+   testImplementation(libs.kotlinova.retrofit.test)
 }

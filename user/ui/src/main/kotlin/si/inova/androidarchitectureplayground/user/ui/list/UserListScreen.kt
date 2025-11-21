@@ -170,28 +170,29 @@ private fun ColumnScope.UserList(
                Modifier
                   .fillMaxWidth()
                   .height(32.dp)
-                  .background(Color.Green),
+                  .animateItem(),
                Alignment.Center
-            ) {
-               CircularProgressIndicator(Modifier.size(32.dp))
-            }
-         }
+            ) {}
+         },
+         key = { index, _ -> index }
       ) {
          Text(
             stringResource(R.string.first_last_name, it.firstName, it.lastName),
             Modifier
                .clickable { openUserDetails(it.id) }
                .fillMaxWidth()
-               .padding(32.dp),
+               .padding(32.dp)
+               .animateItem(),
          )
       }
 
       if (state is Outcome.Progress && state.style == LoadingStyle.ADDITIONAL_DATA) {
-         item {
+         item(key = (state.data?.size ?: 0) + 1) {
             Box(
                Modifier
                   .fillMaxWidth()
-                  .height(32.dp),
+                  .height(32.dp)
+                  .animateItem(),
                Alignment.Center,
             ) {
                CircularProgressIndicator(Modifier.size(32.dp))
@@ -306,13 +307,13 @@ private inline fun <T> LazyListScope.itemsWithDivider(
    items: PagedList<T>,
    crossinline modifier: LazyItemScope.(T?) -> Modifier = { Modifier },
    crossinline dividerContent: @Composable () -> Unit = { HorizontalDivider() },
-   noinline key: ((item: T?) -> Any)? = null,
+   noinline key: ((index: Int, item: T?) -> Any)? = null,
    noinline contentType: (item: T?) -> Any? = { null },
    crossinline placeholderContent: @Composable LazyItemScope.() -> Unit,
    crossinline itemContent: @Composable LazyItemScope.(item: T) -> Unit,
 ) = items(
    count = items.size,
-   key = if (key != null) { index: Int -> key(items.peek(index)) } else null,
+   key = if (key != null) { index: Int -> key(index, items.peek(index)) } else null,
    contentType = { index: Int -> contentType(items.peek(index)) }
 ) {
    val item = items[it]

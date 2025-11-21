@@ -12,8 +12,6 @@ import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.paging3.QueryPagingSource
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import dispatch.core.IOCoroutineScope
 import dispatch.core.dispatcherProvider
@@ -41,7 +39,7 @@ import si.inova.kotlinova.core.time.TimeProvider
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.coroutineContext
 
-@ContributesBinding(AppScope::class)
+// @ContributesBinding(AppScope::class)
 class UserRepositoryImpl @Inject constructor(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,

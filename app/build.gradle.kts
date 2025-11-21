@@ -158,6 +158,7 @@ dependencies {
    implementation(libs.coil)
    implementation(libs.certificateTransparency)
    implementation(libs.dispatch)
+   implementation(libs.kotlinova.retrofit)
    implementation(libs.kotlin.immutableCollections)
    implementation(libs.moshi)
    implementation(libs.okhttp)

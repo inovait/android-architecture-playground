@@ -87,10 +87,10 @@ private fun <T : Any> convertLoadStatesToOutcome(
    val prepend = loadStates.prepend
    val refresh = loadStates.refresh
 
-   return if (append is LoadState.Loading) {
-      Outcome.Progress(data, style = LoadingStyle.ADDITIONAL_DATA)
-   } else if (refresh is LoadState.Loading) {
+   return if (refresh is LoadState.Loading) {
       Outcome.Progress(data, style = LoadingStyle.USER_REQUESTED_REFRESH)
+   } else if (append is LoadState.Loading) {
+      Outcome.Progress(data, style = LoadingStyle.ADDITIONAL_DATA)
    } else if (prepend is LoadState.Loading) {
       Outcome.Progress(data)
    } else if (append is LoadState.Error) {
@@ -108,6 +108,11 @@ private class PresenterPagedList<T : Any>(
    private val presenter: PagingDataPresenter<T>,
 ) : ListBackedPagedListImpl<T>(presenter.snapshot()) {
    override fun get(index: Int): T? {
+      if (index >= presenter.size) {
+         // Race condition: flow has not updated yet, so we might receive data that is not there yet.
+         // Return null for now
+         return null
+      }
       presenter[index]
       return super.get(index)
    }
