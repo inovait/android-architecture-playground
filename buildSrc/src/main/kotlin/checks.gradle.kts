@@ -1,3 +1,4 @@
+import gradle.kotlin.dsl.accessors._07db0aa9e85eff7dc1ee4aab378886c9.lintChecks
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.accessors.dm.LibrariesForLibs
 import si.inova.kotlinova.gradle.KotlinovaExtension
@@ -20,6 +21,10 @@ if (isAndroidProject()) {
          warningsAsErrors = true
          sarifReport = true
       }
+   }
+
+   dependencies {
+      lintChecks(libs.android.securityLints)
    }
 }
 
