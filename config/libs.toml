@@ -2,6 +2,7 @@
 # See https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 androidGradleCacheFix = "3.0.2"
 androidGradlePlugin = "8.13.0"
+android-securityLints = "1.0.3"
 androidx-activity-compose = "1.11.0"
 androidx-benchmark = "1.4.1"
 androidx-compose-material3 = "1.4.0"
@@ -64,6 +65,7 @@ whatTheStack = "1.0.0-alpha08"
 [libraries]
 # Dummy entry, we don't need to actually use the stdlib explicitly, but it is used for the version checker to auto update kotlin
 android-agp = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
+android-securityLints = { module = "com.android.security.lint:lint", version.ref = "android-securityLints" }
 androidGradleCacheFix = { module = "org.gradle.android.cache-fix:org.gradle.android.cache-fix.gradle.plugin", version.ref = "androidGradleCacheFix" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-benchmark-baselineProfilePlugin = { module = "androidx.baselineprofile:androidx.baselineprofile.gradle.plugin", version.ref = "androidx-benchmark" }
