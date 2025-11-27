@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
-      - uses: inovait/actions-common/android-setup@v12
+      - uses: inovait/actions-common/android-setup@v15
         with:
           java-version: 21
 
@@ -50,7 +50,7 @@ jobs:
       - name: Run Unit Tests
         run: "./gradlew test -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest$GLOBAL_FLAGS"
       - name: Run Android Emulator tests
-        uses: inovait/actions-common/android-run-with-emulator@v11
+        uses: inovait/actions-common/android-run-with-emulator@v15
         with:
           command: './gradlew connectedAndroidTest$GLOBAL_FLAGS'
       - name: "Generate new Screenshot Tests"

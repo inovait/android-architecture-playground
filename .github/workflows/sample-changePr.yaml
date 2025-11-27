@@ -31,7 +31,7 @@ jobs:
 
       - name: Transition tickets to In Review
         if: ${{ steps.get-ticket.outputs.match != '' }}
-        uses: inovait/actions-common/jira-transition@7ab5d6ff7d4868d04792f2aea1de19aabb501c0d
+        uses: inovait/actions-common/jira-transition@v15
         with:
           tickets: "${{ steps.get-ticket.outputs.match }}"
           from: 'In Progress'

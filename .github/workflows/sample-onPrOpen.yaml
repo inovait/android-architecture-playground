@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Get jira tickets
-        uses: inovait/actions-common/jira-get-tickets-from-commits@1cf434ec3089ad171163da8ff16690ad09eeacf4
+        uses: inovait/actions-common/jira-get-tickets-from-commits@v15
         id: jira-tickets
         with:
           from: ${{ github.event.pull_request.base.sha }}
