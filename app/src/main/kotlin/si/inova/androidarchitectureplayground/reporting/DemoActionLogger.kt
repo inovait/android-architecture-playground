@@ -3,8 +3,8 @@ package si.inova.androidarchitectureplayground.reporting
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
+import logcat.logcat
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
-import si.inova.kotlinova.core.logging.logcat
 
 @ContributesBinding(AppScope::class)
 class DemoActionLogger @Inject constructor() : ActionLogger {

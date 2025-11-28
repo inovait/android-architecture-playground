@@ -138,6 +138,7 @@ dependencies {
    implementation(libs.coil)
    implementation(libs.dispatch)
    implementation(libs.kotlin.immutableCollections)
+   implementation(libs.logcat)
    implementation(libs.moshi)
    implementation(libs.kotlin.coroutines)
    implementation(libs.kotlinova.core)
