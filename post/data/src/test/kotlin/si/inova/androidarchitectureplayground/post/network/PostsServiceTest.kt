@@ -10,15 +10,16 @@ import si.inova.androidarchitectureplayground.network.test.serviceFactory
 import si.inova.androidarchitectureplayground.post.network.model.LightPostDto
 import si.inova.androidarchitectureplayground.post.network.model.PostDto
 import si.inova.androidarchitectureplayground.post.network.model.PostsDto
+import si.inova.kotlinova.retrofit.createJsonMockResponseFromResource
 import si.inova.kotlinova.retrofit.mockWebServer
-import si.inova.kotlinova.retrofit.setJsonBodyFromResource
+import java.net.HttpURLConnection
 
 class PostsServiceTest {
    @Test
    fun `Load post list`() = runTest {
       mockWebServer {
          mockResponse("/posts") {
-            setJsonBodyFromResource("post_list.json")
+            createJsonMockResponseFromResource("post_list.json")
          }
 
          val serviceFactory = serviceFactory(this@runTest)
@@ -42,7 +43,7 @@ class PostsServiceTest {
    fun `Load post list with limit and skip`() = runTest {
       mockWebServer {
          mockResponse("/posts?limit=3&skip=2", includeQueryParameters = true) {
-            setJsonBodyFromResource("post_list.json")
+            createJsonMockResponseFromResource("post_list.json")
          }
 
          val serviceFactory = serviceFactory(this@runTest)
@@ -66,7 +67,7 @@ class PostsServiceTest {
    fun `Load single post`() = runTest {
       mockWebServer {
          mockResponse("/posts/12") {
-            setJsonBodyFromResource("single_post.json")
+            createJsonMockResponseFromResource("single_post.json")
          }
 
          val serviceFactory = serviceFactory(this@runTest)
@@ -92,8 +93,7 @@ class PostsServiceTest {
    fun `Report proper exception when Post does not exist`() = runTest {
       mockWebServer {
          mockResponse("/posts/13") {
-            setJsonBodyFromResource("no_post_error.json")
-            setResponseCode(404)
+            createJsonMockResponseFromResource("no_post_error.json", code = HttpURLConnection.HTTP_NOT_FOUND)
          }
 
          val serviceFactory = serviceFactory(this@runTest)

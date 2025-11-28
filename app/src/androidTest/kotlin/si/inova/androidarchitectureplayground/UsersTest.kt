@@ -6,8 +6,8 @@ import org.junit.Rule
 import org.junit.Test
 import si.inova.androidarchitectureplayground.instrumentation.IntegrationTestRule
 import si.inova.androidarchitectureplayground.util.onAwaitingNodeWithText
+import si.inova.kotlinova.retrofit.createJsonMockResponseFromResource
 import si.inova.kotlinova.retrofit.runServer
-import si.inova.kotlinova.retrofit.setJsonBodyFromResource
 
 class UsersTest {
    @get:Rule
@@ -16,10 +16,10 @@ class UsersTest {
    @Test
    fun showListOfUsers() = composeTestRule.scope.runServer {
       mockResponse("/posts?limit=10&skip=0", includeQueryParameters = true) {
-         setJsonBodyFromResource("post_list.json")
+         createJsonMockResponseFromResource("post_list.json")
       }
       mockResponse("/users?limit=30&skip=0", includeQueryParameters = true) {
-         setJsonBodyFromResource("user_list.json")
+         createJsonMockResponseFromResource("user_list.json")
       }
 
       composeTestRule.onAwaitingNodeWithText("Login").performClick()
@@ -33,14 +33,14 @@ class UsersTest {
    @Test
    fun showUserDetails() = composeTestRule.scope.runServer {
       mockResponse("/posts?limit=10&skip=0", includeQueryParameters = true) {
-         setJsonBodyFromResource("post_list.json")
+         createJsonMockResponseFromResource("post_list.json")
       }
       mockResponse("/users?limit=30&skip=0", includeQueryParameters = true) {
-         setJsonBodyFromResource("user_list.json")
+         createJsonMockResponseFromResource("user_list.json")
       }
 
       mockResponse("/users/3") {
-         setJsonBodyFromResource("single_user.json")
+         createJsonMockResponseFromResource("single_user.json")
       }
 
       composeTestRule.onAwaitingNodeWithText("Login").performClick()

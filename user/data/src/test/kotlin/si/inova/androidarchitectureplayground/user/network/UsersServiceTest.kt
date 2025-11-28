@@ -10,15 +10,15 @@ import si.inova.androidarchitectureplayground.network.test.serviceFactory
 import si.inova.androidarchitectureplayground.user.network.model.LightUserDto
 import si.inova.androidarchitectureplayground.user.network.model.UserDto
 import si.inova.androidarchitectureplayground.user.network.model.UsersDto
+import si.inova.kotlinova.retrofit.createJsonMockResponseFromResource
 import si.inova.kotlinova.retrofit.mockWebServer
-import si.inova.kotlinova.retrofit.setJsonBodyFromResource
 
 class UsersServiceTest {
    @Test
    fun `Load user list`() = runTest {
       mockWebServer {
          mockResponse("/users") {
-            setJsonBodyFromResource("user_list.json")
+            createJsonMockResponseFromResource("user_list.json")
          }
 
          val serviceFactory = serviceFactory(this@runTest)
@@ -55,7 +55,7 @@ class UsersServiceTest {
    fun `Load user list with limit and skip`() = runTest {
       mockWebServer {
          mockResponse("/users?limit=3&skip=2", includeQueryParameters = true) {
-            setJsonBodyFromResource("user_list.json")
+            createJsonMockResponseFromResource("user_list.json")
          }
 
          val serviceFactory = serviceFactory(this@runTest)
@@ -92,7 +92,7 @@ class UsersServiceTest {
    fun `Load single user`() = runTest {
       mockWebServer {
          mockResponse("/users/7") {
-            setJsonBodyFromResource("single_user.json")
+            createJsonMockResponseFromResource("single_user.json")
          }
 
          val serviceFactory = serviceFactory(this@runTest)
@@ -123,8 +123,7 @@ class UsersServiceTest {
    fun `Report proper exception when user does not exist`() = runTest {
       mockWebServer {
          mockResponse("/users/7") {
-            setJsonBodyFromResource("no_user_error.json")
-            setResponseCode(404)
+            createJsonMockResponseFromResource("no_user_error.json", code = 404)
          }
 
          val serviceFactory = serviceFactory(this@runTest)
