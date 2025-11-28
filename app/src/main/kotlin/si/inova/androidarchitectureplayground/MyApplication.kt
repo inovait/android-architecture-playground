@@ -2,10 +2,13 @@ package si.inova.androidarchitectureplayground
 
 import android.app.ActivityManager
 import android.app.Application
+import android.content.pm.ApplicationInfo
 import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.os.strictmode.Violation
+import androidx.compose.runtime.Composer
+import androidx.compose.runtime.ExperimentalComposeRuntimeApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import coil3.ImageLoader
@@ -33,6 +36,7 @@ open class MyApplication : Application() {
       }
    }
 
+   @OptIn(ExperimentalComposeRuntimeApi::class)
    override fun onCreate() {
       super.onCreate()
 
@@ -42,6 +46,7 @@ open class MyApplication : Application() {
       }
 
       AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.VERBOSE)
+      Composer.setDiagnosticStackTraceEnabled(isDebuggable())
 
       enableStrictMode()
 
@@ -61,6 +66,12 @@ open class MyApplication : Application() {
             .build()
       }
    }
+
+   /**
+    * A better way to check that application is debuggable - BuildConfig.DEBUG does not work when compiling application
+    * as profileable
+    */
+   private fun isDebuggable(): Boolean = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
 
    private fun enableStrictMode() {
       // Also check on staging release build, if applicable
