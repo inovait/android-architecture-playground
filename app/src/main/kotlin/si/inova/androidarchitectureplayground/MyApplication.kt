@@ -13,11 +13,11 @@ import coil3.SingletonImageLoader
 import dev.zacsweers.metro.createGraphFactory
 import dispatch.core.DefaultDispatcherProvider
 import dispatch.core.defaultDispatcher
+import logcat.AndroidLogcatLogger
+import logcat.LogPriority
 import si.inova.androidarchitectureplayground.di.ApplicationGraph
 import si.inova.androidarchitectureplayground.di.MainApplicationGraph
 import si.inova.kotlinova.core.dispatchers.AccessCallbackDispatcherProvider
-import si.inova.kotlinova.core.logging.AndroidLogcatLogger
-import si.inova.kotlinova.core.logging.LogPriority
 
 open class MyApplication : Application() {
    open val applicationGraph: ApplicationGraph by lazy {

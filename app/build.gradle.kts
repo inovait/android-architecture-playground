@@ -160,6 +160,7 @@ dependencies {
    implementation(libs.dispatch)
    implementation(libs.kotlinova.retrofit)
    implementation(libs.kotlin.immutableCollections)
+   implementation(libs.logcat)
    implementation(libs.moshi)
    implementation(libs.okhttp)
    implementation(libs.kotlin.coroutines)
