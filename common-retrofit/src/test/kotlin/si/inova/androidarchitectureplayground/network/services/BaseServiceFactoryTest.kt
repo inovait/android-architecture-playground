@@ -6,8 +6,8 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Test
 import retrofit2.http.GET
 import si.inova.androidarchitectureplayground.network.test.serviceFactory
+import si.inova.kotlinova.retrofit.createJsonMockResponse
 import si.inova.kotlinova.retrofit.mockWebServer
-import si.inova.kotlinova.retrofit.setJsonBody
 
 class BaseServiceFactoryTest {
    @Test
@@ -16,7 +16,7 @@ class BaseServiceFactoryTest {
          val service: TestRetrofitService = serviceFactory(this@runTest).create()
 
          mockResponse("/data") {
-            setJsonBody("\"Hello\"")
+            createJsonMockResponse("\"Hello\"")
          }
 
          service.getResult() shouldBe "Hello"
@@ -35,7 +35,7 @@ class BaseServiceFactoryTest {
          }
 
          mockResponse("/data") {
-            setJsonBody("\"Hello\"")
+            createJsonMockResponse("\"Hello\"")
          }
 
          service.getResult() shouldBe "World"
