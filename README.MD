@@ -18,7 +18,9 @@ To create a new Android project from that:
 10. Rename `app_name` in `app/res/values/strings.xml`
 11. Rename theme in `common-compose/src/.../ui/theme/Theme.kt`
 12. Rename `My` prefix of `MyApplication` to the name of your application
-13. Rename namespace in the `app/compose_reports` files
+13. Rename namespace in the `app/compose_reports`, `shared-resources/build.gradle.kts`,
+    `buildSrc/src/main/kotlin/android-module-commons.gradle.kts`,
+    `detekt/src/main/resources/META-INF/services/io.gitlab.arturbosch.detekt.api.RuleSetProvider` files
 14. Change package in the templates (`.idea/fileTemplates/*`)
 15. Generate debug and release keystore (see below)
 16. Go through all TODOs inside the project
