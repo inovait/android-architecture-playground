@@ -43,6 +43,9 @@ configure<DependencyAnalysisSubExtension> {
 
          // This is fine, included with anvil
          exclude("software.amazon.lastmile.kotlin.inject.anvil:runtime-optional")
+
+         // Only used to propagate proguard rules, so it will be falsely marked as unused
+         exclude("dev.zacsweers.moshix:moshix-runtime")
       }
 
       onIncorrectConfiguration {
