@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
+import si.inova.androidarchitectureplayground.navigation.base.navigateToOrReplace
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
 import si.inova.androidarchitectureplayground.post.model.Post
@@ -51,6 +52,7 @@ import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.instructions.navigateTo
+import si.inova.kotlinova.navigation.instructions.navigateToSingle
 import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
@@ -65,7 +67,7 @@ class PostListScreen(
    @Composable
    override fun Content(key: PostListScreenKey) {
       Content {
-         navigator.navigateTo(PostDetailsScreenKey(it))
+         navigator.navigateToOrReplace(PostDetailsScreenKey(it))
       }
    }
 

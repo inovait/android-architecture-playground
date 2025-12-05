@@ -27,6 +27,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import si.inova.androidarchitectureplayground.navigation.base.rememberMasterDetailSceneStrategy
 import si.inova.androidarchitectureplayground.navigation.scenes.rememberTabScreenSceneStrategy
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.result.LocalResultPassingStore
@@ -118,7 +119,7 @@ class MainActivity : ComponentActivity() {
                         }
                      )
                   ),
-                  sceneStrategy = rememberTabScreenSceneStrategy()
+                  sceneStrategy = rememberMasterDetailSceneStrategy() then rememberTabScreenSceneStrategy()
                )
 
                LogCurrentScreen(backstack)

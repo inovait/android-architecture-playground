@@ -16,6 +16,7 @@ import si.inova.androidarchitectureplayground.navigation.keys.HomePostsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.HomeUsersScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
 import si.inova.kotlinova.navigation.instructions.MultiNavigationInstructions
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
@@ -42,7 +43,7 @@ class MainViewModel(
          val isLogegdIn = loginRepository.isLoggedInFlow().first()
 
          _startingScreens.value = if (isLogegdIn) {
-            listOf(HomeScreenKey, HomePostsScreenKey())
+            listOf(HomeScreenKey, PostListScreenKey)
          } else {
             listOf(LoginScreenKey(MultiNavigationInstructions(OpenScreen(HomeScreenKey), OpenScreen(HomePostsScreenKey()))))
          }
