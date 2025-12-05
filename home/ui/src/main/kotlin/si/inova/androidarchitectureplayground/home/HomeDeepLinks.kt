@@ -13,22 +13,23 @@ import si.inova.kotlinova.navigation.instructions.NavigationInstruction
 @ContributesIntoSet(OuterNavigationScope::class)
 class HomeDeepLinks @Inject constructor() : DeepLinkHandler {
    override fun handleDeepLink(uri: Uri, startup: Boolean): NavigationInstruction? {
-      return handleMultipleDeepLinks(uri, startup) {
-         matchDeepLink("demoapp://posts") { _, _ ->
-            ReplaceBackstackOrOpenScreenWithLogin(startup, HomeScreenKey(HomeScreenKey.Tab.POSTS))
-         }
-         matchDeepLink("demoapp://users") { _, _ ->
-            ReplaceBackstackOrOpenScreenWithLogin(startup, HomeScreenKey(HomeScreenKey.Tab.USERS))
-         }
-         matchDeepLink("demoapp://users/{user}") { args, _ ->
-            ReplaceBackstackOrOpenScreenWithLogin(
-               startup,
-               HomeScreenKey(HomeScreenKey.Tab.USERS, userDetailsId = args.getValue("user"))
-            )
-         }
-         matchDeepLink("demoapp://settings") { _, _ ->
-            ReplaceBackstackOrOpenScreenWithLogin(startup, HomeScreenKey(HomeScreenKey.Tab.SETTINGS))
-         }
-      }
+      return null
+      // return handleMultipleDeepLinks(uri, startup) {
+      //    matchDeepLink("demoapp://posts") { _, _ ->
+      //       ReplaceBackstackOrOpenScreenWithLogin(startup, HomeScreenKey(HomeScreenKey.Tab.POSTS))
+      //    }
+      //    matchDeepLink("demoapp://users") { _, _ ->
+      //       ReplaceBackstackOrOpenScreenWithLogin(startup, HomeScreenKey(HomeScreenKey.Tab.USERS))
+      //    }
+      //    matchDeepLink("demoapp://users/{user}") { args, _ ->
+      //       ReplaceBackstackOrOpenScreenWithLogin(
+      //          startup,
+      //          HomeScreenKey(HomeScreenKey.Tab.USERS, userDetailsId = args.getValue("user"))
+      //       )
+      //    }
+      //    matchDeepLink("demoapp://settings") { _, _ ->
+      //       ReplaceBackstackOrOpenScreenWithLogin(startup, HomeScreenKey(HomeScreenKey.Tab.SETTINGS))
+      //    }
+      // }
    }
 }

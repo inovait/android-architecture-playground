@@ -27,6 +27,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import si.inova.androidarchitectureplayground.navigation.scenes.rememberTabScreenSceneStrategy
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.result.LocalResultPassingStore
 import si.inova.kotlinova.compose.result.ResultPassingStore
@@ -70,7 +71,7 @@ class MainActivity : ComponentActivity() {
 
    private fun beginInitialisation(startup: Boolean) {
       lifecycleScope.launch {
-         val initialHistory: ImmutableList<ScreenKey> = persistentListOf(viewModel.startingScreen.filterNotNull().first())
+         val initialHistory: ImmutableList<ScreenKey> = viewModel.startingScreens.filterNotNull().first().toPersistentList()
 
          val deepLinkTarget = if (startup) {
             intent?.data?.let { mainDeepLinkHandler.handleDeepLink(it, startup = true) }
@@ -116,8 +117,8 @@ class MainActivity : ComponentActivity() {
                            }
                         }
                      )
-
-                  )
+                  ),
+                  sceneStrategy = rememberTabScreenSceneStrategy()
                )
 
                LogCurrentScreen(backstack)

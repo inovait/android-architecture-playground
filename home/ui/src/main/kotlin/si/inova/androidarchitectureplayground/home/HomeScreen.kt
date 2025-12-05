@@ -15,74 +15,56 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.movableContentOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation3.runtime.NavEntry
+import com.zhuinden.simplestack.Backstack
 import si.inova.androidarchitectureplayground.navigation.keys.HomePostsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.HomeUsersScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
+import si.inova.androidarchitectureplayground.navigation.scenes.LocalTabSelection
 import si.inova.kotlinova.core.activity.requireActivity
-import si.inova.kotlinova.navigation.instructions.navigateTo
+import si.inova.kotlinova.navigation.instructions.replaceTopWith
+import si.inova.kotlinova.navigation.navigation3.key
 import si.inova.kotlinova.navigation.navigator.Navigator
+import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
 @InjectNavigationScreen
 class HomeScreen(
    private val navigator: Navigator,
-   private val usersScreen: Screen<HomeUsersScreenKey>,
-   private val postsScreen: Screen<HomePostsScreenKey>,
-   private val manageProfileScreen: Screen<ManageProfileScreenKey>,
+   private val backstack: Backstack,
+   // private val usersScreen: Screen<HomeUsersScreenKey>,
+   // private val postsScreen: Screen<HomePostsScreenKey>,
+   // private val manageProfileScreen: Screen<ManageProfileScreenKey>,
 ) : Screen<HomeScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
    @Composable
    override fun Content(key: HomeScreenKey) {
       val sizeClass = calculateWindowSizeClass(activity = LocalContext.current.requireActivity())
 
-      this.Content(key, sizeClass.widthSizeClass == WindowWidthSizeClass.Expanded)
+      this.Content(LocalTabSelection.current, sizeClass.widthSizeClass == WindowWidthSizeClass.Expanded)
    }
 
    @Composable
-   private fun Content(key: HomeScreenKey, useNavigationRail: Boolean) {
-      val keyState = rememberUpdatedState(key)
-
-      val mainContent = remember {
-         movableContentOf {
-            MainContent(keyState.value)
-         }
-      }
+   private fun Content(selectedTab: NavEntry<ScreenKey>, useNavigationRail: Boolean) {
+      val selectedKey = selectedTab.key()
 
       if (useNavigationRail) {
-         NavigationRailContent(mainContent, key)
+         NavigationRailContent(selectedTab::Content, selectedKey)
       } else {
-         NavigationBarContent(mainContent, key)
-      }
-   }
-
-   @Composable
-   private fun MainContent(key: HomeScreenKey) {
-      val tab = key.selectedTab
-      val stateHolder = rememberSaveableStateHolder()
-      // We must provide name here, not the enum, because name stays the same after process kill, while enum object is different
-      stateHolder.SaveableStateProvider(tab) {
-         when (tab) {
-            HomeScreenKey.Tab.POSTS -> postsScreen.Content(HomePostsScreenKey())
-            HomeScreenKey.Tab.USERS -> usersScreen.Content(HomeUsersScreenKey(key.userDetailsId))
-            HomeScreenKey.Tab.SETTINGS -> manageProfileScreen.Content(ManageProfileScreenKey)
-         }
+         NavigationBarContent(selectedTab::Content, selectedKey)
       }
    }
 
    @Composable
    private fun NavigationBarContent(
       mainContent: @Composable () -> Unit,
-      key: HomeScreenKey,
+      key: ScreenKey,
    ) {
       Column {
          Box(
@@ -95,22 +77,22 @@ class HomeScreen(
 
          NavigationBar {
             NavigationBarItem(
-               selected = key.selectedTab == HomeScreenKey.Tab.POSTS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.POSTS)) },
+               selected = key is HomePostsScreenKey,
+               onClick = { navigator.replaceTopWith(HomePostsScreenKey()) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_posts), contentDescription = null) },
                label = { Text(stringResource(R.string.posts)) }
             )
 
             NavigationBarItem(
-               selected = key.selectedTab == HomeScreenKey.Tab.USERS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.USERS)) },
+               selected = key is HomeUsersScreenKey,
+               onClick = { navigator.replaceTopWith(HomeUsersScreenKey()) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_users), contentDescription = null) },
                label = { Text(stringResource(R.string.users)) }
             )
 
             NavigationBarItem(
-               selected = key.selectedTab == HomeScreenKey.Tab.SETTINGS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.SETTINGS)) },
+               selected = key is ManageProfileScreenKey,
+               onClick = { navigator.replaceTopWith(ManageProfileScreenKey) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_settings), contentDescription = null) },
                label = { Text(stringResource(R.string.settings)) }
             )
@@ -121,27 +103,27 @@ class HomeScreen(
    @Composable
    private fun NavigationRailContent(
       mainContent: @Composable () -> Unit,
-      key: HomeScreenKey,
+      key: ScreenKey,
    ) {
       Row {
          NavigationRail {
             NavigationRailItem(
-               selected = key.selectedTab == HomeScreenKey.Tab.POSTS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.POSTS)) },
+               selected = key is HomePostsScreenKey,
+               onClick = { navigator.replaceTopWith(HomePostsScreenKey()) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_posts), contentDescription = null) },
                label = { Text(stringResource(R.string.posts)) }
             )
 
             NavigationRailItem(
-               selected = key.selectedTab == HomeScreenKey.Tab.USERS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.USERS)) },
+               selected = key is HomeUsersScreenKey,
+               onClick = { navigator.replaceTopWith(HomeUsersScreenKey()) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_users), contentDescription = null) },
                label = { Text(stringResource(R.string.users)) }
             )
 
             NavigationRailItem(
-               selected = key.selectedTab == HomeScreenKey.Tab.SETTINGS,
-               onClick = { navigator.navigateTo(key.copy(selectedTab = HomeScreenKey.Tab.SETTINGS)) },
+               selected = key is ManageProfileScreenKey,
+               onClick = { navigator.replaceTopWith(ManageProfileScreenKey) },
                icon = { Icon(painter = painterResource(id = R.drawable.ic_settings), contentDescription = null) },
                label = { Text(stringResource(R.string.settings)) }
             )
