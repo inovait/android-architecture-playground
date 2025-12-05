@@ -155,6 +155,8 @@ dependencies {
    implementation(libs.androidx.lifecycle.runtime)
    implementation(libs.androidx.lifecycle.viewModel)
    implementation(libs.androidx.lifecycle.viewModel.compose)
+   implementation(libs.androidx.navigation3)
+   implementation(libs.androidx.navigation3.ui)
    implementation(libs.coil)
    implementation(libs.certificateTransparency)
    implementation(libs.dispatch)
@@ -166,6 +168,7 @@ dependencies {
    implementation(libs.kotlin.coroutines)
    implementation(libs.kotlinova.core)
    implementation(libs.kotlinova.navigation)
+   implementation(libs.kotlinova.navigation.navigation3)
    implementation(libs.simpleStack)
    implementation(libs.sqldelight.android)
 
