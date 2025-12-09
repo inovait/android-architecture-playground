@@ -156,7 +156,7 @@ dependencies {
    implementation(libs.androidx.lifecycle.viewModel)
    implementation(libs.androidx.lifecycle.viewModel.compose)
    implementation(libs.androidx.navigation3)
-   implementation(libs.androidx.navigation3.ui)
+   implementation(libs.androidx.navigation3)
    implementation(libs.coil)
    implementation(libs.certificateTransparency)
    implementation(libs.dispatch)
