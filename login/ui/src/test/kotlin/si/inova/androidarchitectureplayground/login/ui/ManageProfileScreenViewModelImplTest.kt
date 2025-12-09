@@ -11,8 +11,10 @@ import org.junit.jupiter.api.Test
 import si.inova.androidarchitectureplayground.login.FakeLoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
 import si.inova.kotlinova.core.test.outcomes.shouldBeSuccessWithData
 import si.inova.kotlinova.core.test.outcomes.testCoroutineResourceManager
+import si.inova.kotlinova.navigation.instructions.MultiNavigationInstructions
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.test.FakeNavigator
@@ -57,7 +59,7 @@ class ManageProfileScreenViewModelImplTest {
       advanceTimeBy(1000)
 
       navigator.backstack.shouldContainExactly(
-         LoginScreenKey(OpenScreen(HomeScreenKey()))
+         LoginScreenKey(MultiNavigationInstructions(OpenScreen(HomeScreenKey), OpenScreen(PostListScreenKey)))
       )
    }
 

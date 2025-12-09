@@ -89,6 +89,14 @@ dependencyAnalysis {
          includeGroup("androidx.window")
          includeDependency("com.google.accompanist:accompanist-adaptive")
       }
+
+      bundle("navigation3") {
+         includeGroup("androidx.navigation3")
+      }
+
+      bundle("okhttp") {
+         includeGroup("com.squareup.okhttp3")
+      }
    }
 }
 

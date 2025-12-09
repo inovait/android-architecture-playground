@@ -4,6 +4,7 @@ plugins {
    compose
    navigation
    unmock
+   showkase
 }
 
 android {
@@ -14,6 +15,7 @@ android {
 
 dependencies {
    api(libs.kotlinova.navigation)
+   implementation(projects.commonCompose)
    implementation(libs.androidx.compose.material3.sizeClasses)
    implementation(libs.kotlinova.core)
 }

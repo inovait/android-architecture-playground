@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
+import si.inova.kotlinova.navigation.instructions.MultiNavigationInstructions
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
@@ -23,8 +25,8 @@ class MainViewModel(
    @Assisted
    private val startIntent: Intent,
 ) : ViewModel() {
-   private val _startingScreen = MutableStateFlow<ScreenKey?>(null)
-   val startingScreen: StateFlow<ScreenKey?> = _startingScreen
+   private val _startingScreens = MutableStateFlow<List<ScreenKey>?>(null)
+   val startingScreens: StateFlow<List<ScreenKey>?> = _startingScreens
 
    init {
       viewModelScope.launch {
@@ -38,10 +40,10 @@ class MainViewModel(
          // Load login via flow first to ensure non-suspending LoginRepository.isLoggedIn is initialized
          val isLogegdIn = loginRepository.isLoggedInFlow().first()
 
-         _startingScreen.value = if (isLogegdIn) {
-            HomeScreenKey()
+         _startingScreens.value = if (isLogegdIn) {
+            listOf(HomeScreenKey, PostListScreenKey)
          } else {
-            LoginScreenKey(OpenScreen(HomeScreenKey()))
+            listOf(LoginScreenKey(MultiNavigationInstructions(OpenScreen(HomeScreenKey), OpenScreen(PostListScreenKey))))
          }
       }
    }

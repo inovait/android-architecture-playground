@@ -4,8 +4,12 @@ import android.net.Uri
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import si.inova.androidarchitectureplayground.navigation.conditions.ReplaceBackstackOrOpenScreenWithLogin
+import si.inova.androidarchitectureplayground.navigation.conditions.HandleLoginAndReplaceBackstack
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
 
 class HomeDeepLinksTest {
    private val homeDeepLinks = HomeDeepLinks()
@@ -13,43 +17,40 @@ class HomeDeepLinksTest {
    @Test
    fun `handle posts link`() {
       homeDeepLinks.handleDeepLink(Uri.parse("demoapp://posts"), true) shouldBe
-         ReplaceBackstackOrOpenScreenWithLogin(true, HomeScreenKey(HomeScreenKey.Tab.POSTS))
+         HandleLoginAndReplaceBackstack(HomeScreenKey, PostListScreenKey)
 
       homeDeepLinks.handleDeepLink(Uri.parse("demoapp://posts"), false) shouldBe
-         ReplaceBackstackOrOpenScreenWithLogin(false, HomeScreenKey(HomeScreenKey.Tab.POSTS))
+         HandleLoginAndReplaceBackstack(HomeScreenKey, PostListScreenKey)
    }
 
    @Test
    fun `handle users link`() {
       homeDeepLinks.handleDeepLink(Uri.parse("demoapp://users"), true) shouldBe
-         ReplaceBackstackOrOpenScreenWithLogin(true, HomeScreenKey(HomeScreenKey.Tab.USERS))
+         HandleLoginAndReplaceBackstack(HomeScreenKey, UserListScreenKey)
 
       homeDeepLinks.handleDeepLink(Uri.parse("demoapp://users"), false) shouldBe
-         ReplaceBackstackOrOpenScreenWithLogin(false, HomeScreenKey(HomeScreenKey.Tab.USERS))
+         HandleLoginAndReplaceBackstack(HomeScreenKey, UserListScreenKey)
    }
 
    @Test
    fun `handle link to specific user`() {
       homeDeepLinks.handleDeepLink(Uri.parse("demoapp://users/2"), true) shouldBe
-         ReplaceBackstackOrOpenScreenWithLogin(
-            true,
-            HomeScreenKey(HomeScreenKey.Tab.USERS, userDetailsId = "2")
-         )
+         HandleLoginAndReplaceBackstack(HomeScreenKey, UserListScreenKey, UserDetailsScreenKey(2))
 
       homeDeepLinks.handleDeepLink(Uri.parse("demoapp://users/2"), false) shouldBe
-         ReplaceBackstackOrOpenScreenWithLogin(
-            false,
-            HomeScreenKey(HomeScreenKey.Tab.USERS, userDetailsId = "2")
-         )
+         HandleLoginAndReplaceBackstack(HomeScreenKey, UserListScreenKey, UserDetailsScreenKey(2))
+
+      homeDeepLinks.handleDeepLink(Uri.parse("demoapp://users/sdpfgkosdkfio"), false) shouldBe
+         HandleLoginAndReplaceBackstack(HomeScreenKey, UserListScreenKey)
    }
 
    @Test
    fun `handle settings`() {
       homeDeepLinks.handleDeepLink(Uri.parse("demoapp://settings"), true) shouldBe
-         ReplaceBackstackOrOpenScreenWithLogin(true, HomeScreenKey(HomeScreenKey.Tab.SETTINGS))
+         HandleLoginAndReplaceBackstack(HomeScreenKey, ManageProfileScreenKey)
 
       homeDeepLinks.handleDeepLink(Uri.parse("demoapp://settings"), false) shouldBe
-         ReplaceBackstackOrOpenScreenWithLogin(false, HomeScreenKey(HomeScreenKey.Tab.SETTINGS))
+         HandleLoginAndReplaceBackstack(HomeScreenKey, ManageProfileScreenKey)
    }
 
    @Test

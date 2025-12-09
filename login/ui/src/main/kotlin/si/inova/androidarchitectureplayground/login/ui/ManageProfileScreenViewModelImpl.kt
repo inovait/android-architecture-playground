@@ -9,9 +9,11 @@ import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.BackstackScope
+import si.inova.kotlinova.navigation.instructions.MultiNavigationInstructions
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.instructions.ReplaceBackstack
 import si.inova.kotlinova.navigation.navigator.Navigator
@@ -36,7 +38,14 @@ class ManageProfileScreenViewModelImpl @Inject constructor(
          emit(Outcome.Success(Unit))
 
          navigator.navigate(
-            ReplaceBackstack(LoginScreenKey(OpenScreen(HomeScreenKey())))
+            ReplaceBackstack(
+               LoginScreenKey(
+                  MultiNavigationInstructions(
+                     OpenScreen(HomeScreenKey),
+                     OpenScreen(PostListScreenKey)
+                  )
+               )
+            )
          )
       }
    }

@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
+import si.inova.androidarchitectureplayground.navigation.instructions.navigateToOrReplaceType
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
 import si.inova.androidarchitectureplayground.paging.PagedList
@@ -55,7 +56,6 @@ import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
-import si.inova.kotlinova.navigation.instructions.navigateTo
 import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
@@ -70,7 +70,7 @@ class UserListScreen(
    @Composable
    override fun Content(key: UserListScreenKey) {
       Content {
-         navigator.navigateTo(UserDetailsScreenKey(it))
+         navigator.navigateToOrReplaceType(UserDetailsScreenKey(it))
       }
    }
 

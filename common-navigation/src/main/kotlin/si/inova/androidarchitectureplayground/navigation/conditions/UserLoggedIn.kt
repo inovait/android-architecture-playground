@@ -1,5 +1,6 @@
 package si.inova.androidarchitectureplayground.navigation.conditions
 
+import com.zhuinden.simplestack.StateChange
 import kotlinx.parcelize.Parcelize
 import si.inova.kotlinova.navigation.conditions.NavigationCondition
 import si.inova.kotlinova.navigation.di.NavigationContext
@@ -47,6 +48,11 @@ class ReplaceBackstackOrOpenScreenWithLogin(val replaceBackstack: Boolean, varar
             conditionScreenWrapper = { ClearBackstackAnd(it) }
          )
       } else {
+         if (backstack.lastOrNull() == finalScreen) {
+            // Do Nothing
+            return NavigationResult(backstack, StateChange.REPLACE)
+         }
+
          NavigateWithConditions(
             OpenScreenOrMoveToTop(finalScreen),
             *navigationConditions.toTypedArray()
@@ -74,5 +80,49 @@ class ReplaceBackstackOrOpenScreenWithLogin(val replaceBackstack: Boolean, varar
 
    override fun toString(): String {
       return "ReplaceBackstackOrOpenScreenWithLogin(replaceBackstack=$replaceBackstack, history=${history.contentToString()})"
+   }
+}
+
+/**
+ * Replace backstack, with login condition handling. If user is not logged in, he/she will first be redirected to the login.
+ *
+ * Afterward, entire backstack will be replaced with the provided [history].
+ */
+@Parcelize
+class HandleLoginAndReplaceBackstack(vararg val history: ScreenKey) :
+   NavigationInstruction() {
+   override fun performNavigation(backstack: List<ScreenKey>, context: NavigationContext): NavigationResult {
+      require(history.isNotEmpty()) { "You should provide at least one screen to ReplaceBackstackWithLogin" }
+
+      val finalScreen = history.last()
+      val extraLoginCondition = if (finalScreen is NoLoginRedirectKey) {
+         emptyList()
+      } else {
+         listOf(UserLoggedIn)
+      }
+
+      val navigationConditions = finalScreen.navigationConditions + extraLoginCondition
+      return NavigateWithConditions(
+         ReplaceBackstack(*history),
+         *navigationConditions.toTypedArray(),
+         conditionScreenWrapper = { ClearBackstackAnd(it) }
+      ).performNavigation(backstack, context)
+   }
+
+   override fun equals(other: Any?): Boolean {
+      if (this === other) return true
+      if (other !is HandleLoginAndReplaceBackstack) return false
+
+      if (!history.contentEquals(other.history)) return false
+
+      return true
+   }
+
+   override fun hashCode(): Int {
+      return history.contentHashCode()
+   }
+
+   override fun toString(): String {
+      return "ReplaceBackstackWithLogin(history=${history.contentToString()})"
    }
 }
