@@ -79,6 +79,12 @@ Process for updating all library versions::
     * Otherwise, make a tech debt ticket and add a @Suppress with the ticket number
       (and/or discuss with the team how to address it)
 
+## Running tests / detekt efficiently
+
+To run all debug and non-Android tests, you can run `./gradlew runDebugTests`.
+
+To run all debug and non-Android detekt checks, you can run `./gradlew runDebugDetekt`.
+
 ## Creating a new module
 
 To easily add new modules, first enable project templates (you only need to do this once).

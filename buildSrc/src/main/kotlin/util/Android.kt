@@ -7,6 +7,9 @@ import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.DefaultConfig
 import com.android.build.api.dsl.Installation
 import com.android.build.api.dsl.ProductFlavor
+import com.android.build.api.variant.AndroidComponentsExtension
+import com.android.build.api.variant.Variant
+import com.android.build.api.variant.VariantBuilder
 import com.android.build.gradle.internal.utils.KOTLIN_ANDROID_PLUGIN_ID
 import org.gradle.api.Action
 import org.gradle.api.Project
@@ -27,6 +30,15 @@ fun Project.commonAndroid(
       >,
 ) {
    (this as org.gradle.api.plugins.ExtensionAware).extensions.configure("android", block)
+}
+
+/**
+ * androidComponents {} block that can be used without applying specific android plugin
+ */
+fun Project.commonAndroidComponents(
+   block: Action<AndroidComponentsExtension<Unit, VariantBuilder, Variant>>,
+) {
+   (this as org.gradle.api.plugins.ExtensionAware).extensions.configure("androidComponents", block)
 }
 
 fun Project.isAndroidProject(): Boolean {

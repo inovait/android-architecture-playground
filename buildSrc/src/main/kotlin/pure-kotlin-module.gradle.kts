@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import jacoco.setupJacocoMergingPureKotlin
 import org.gradle.accessors.dm.LibrariesForLibs
 
@@ -10,6 +11,13 @@ plugins {
 
    jacoco
 }
+
+val runDebugTestsTask = tasks.register("runDebugTests")
+runDebugTestsTask.dependsOn(tasks.test)
+
+val runDebugDetektTask = tasks.register("runDebugDetekt")
+runDebugDetektTask.dependsOn("detektMain")
+runDebugDetektTask.dependsOn("detektTest")
 
 tasks.test {
    useJUnitPlatform()
