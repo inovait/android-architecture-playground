@@ -1,6 +1,5 @@
 import jacoco.setupJacocoMergingPureKotlin
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 val libs = the<LibrariesForLibs>()
 
@@ -10,14 +9,6 @@ plugins {
    id("all-modules-commons")
 
    jacoco
-}
-
-tasks.withType(KotlinCompilationTask::class.java).configureEach {
-   compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
-   compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
-
-   // https://blog.jetbrains.com/idea/2025/09/improved-annotation-handling-in-kotlin-2-2-less-boilerplate-fewer-surprises/
-   compilerOptions.freeCompilerArgs.add("-Xannotation-default-target=param-property")
 }
 
 tasks.test {
