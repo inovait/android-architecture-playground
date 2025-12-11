@@ -92,16 +92,6 @@ commonAndroid {
 
 project.setupJacocoMergingAndroid()
 
-kotlin {
-   compilerOptions {
-      freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
-      freeCompilerArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
-
-      // https://blog.jetbrains.com/idea/2025/09/improved-annotation-handling-in-kotlin-2-2-less-boilerplate-fewer-surprises/
-      freeCompilerArgs.add("-Xannotation-default-target=param-property")
-   }
-}
-
 dependencies {
    add("coreLibraryDesugaring", libs.desugarJdkLibs)
    add("detektPlugins", project(":detekt"))
