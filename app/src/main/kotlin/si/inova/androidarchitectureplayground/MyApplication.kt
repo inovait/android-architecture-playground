@@ -126,11 +126,7 @@ open class MyApplication : Application() {
             .detectResourceMismatches()
             .detectUnbufferedIo()
             .penaltyListener(ContextCompat.getMainExecutor(this)) { e ->
-               if (BuildConfig.DEBUG) {
-                  throw e
-               } else {
-                  applicationGraph.getErrorReporter().report(e)
-               }
+               reportStrictModePenalty(e)
             }
             .build()
       )
