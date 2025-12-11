@@ -1,5 +1,6 @@
 package si.inova.androidarchitectureplayground.ui.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,17 +22,22 @@ import si.inova.kotlinova.core.outcome.Outcome
  * This can be used to add error and loading handling to simple screens.
  */
 @Composable
+@Suppress("ModifierNaming") // It's intentionally called a different way
+@SuppressLint("ModifierParameter")
 fun <T> ProgressErrorSuccessScaffold(
-   outcome: Outcome<T>?,
-   modifier: Modifier = Modifier,
+   outcomeProvider: () -> Outcome<T>?,
+   /**
+    * Modifier that is applied to the error and progress composables (but not to the called [data]).
+    */
+   errorProgressModifier: Modifier = Modifier,
    errorText: @Composable (CauseException) -> String = { it.commonUserFriendlyMessage() },
    data: @Composable (T) -> Unit,
 ) {
-   when (outcome) {
+   when (val outcome = outcomeProvider()) {
       is Outcome.Error -> {
          Text(
             text = errorText(outcome.exception),
-            modifier
+            errorProgressModifier
                .fillMaxWidth()
                .wrapContentWidth(),
             color = MaterialTheme.colorScheme.error
@@ -40,7 +46,7 @@ fun <T> ProgressErrorSuccessScaffold(
 
       is Outcome.Progress -> {
          CircularProgressIndicator(
-            modifier
+            errorProgressModifier
                .fillMaxWidth()
                .wrapContentWidth()
          )
@@ -59,7 +65,7 @@ fun <T> ProgressErrorSuccessScaffold(
 @ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold", styleName = "Error")
 internal fun ProgressErrorSuccessScaffoldErrorPreview() {
    PreviewTheme(fill = false) {
-      ProgressErrorSuccessScaffold(Outcome.Error<Unit>(UnknownCauseException())) {
+      ProgressErrorSuccessScaffold({ Outcome.Error<Unit>(UnknownCauseException()) }) {
       }
    }
 }
@@ -69,7 +75,7 @@ internal fun ProgressErrorSuccessScaffoldErrorPreview() {
 @ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold", styleName = "Progress")
 internal fun ProgressErrorSuccessScaffoldProgressPreview() {
    PreviewTheme(fill = false) {
-      ProgressErrorSuccessScaffold(Outcome.Progress<Unit>()) {
+      ProgressErrorSuccessScaffold({ Outcome.Progress<Unit>() }) {
       }
    }
 }
