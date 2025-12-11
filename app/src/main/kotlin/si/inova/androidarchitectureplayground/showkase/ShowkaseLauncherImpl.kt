@@ -9,7 +9,8 @@ import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.ui.showkase.ShowkaseLauncher
 
 @ContributesBinding(AppScope::class)
-class ShowkaseLauncherImpl @Inject constructor() : ShowkaseLauncher {
+@Inject
+class ShowkaseLauncherImpl : ShowkaseLauncher {
    override fun launch(context: Context) {
       // TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
       // context.startActivity(Showkase.getBrowserIntent(context))

@@ -10,7 +10,8 @@ import si.inova.androidarchitectureplayground.network.exceptions.DefaultErrorHan
 import si.inova.kotlinova.core.reporting.ErrorReporter
 import si.inova.kotlinova.retrofit.caching.GlobalOkHttpDiskCacheManager
 
-class AndroidServiceFactory @Inject constructor(
+@Inject
+class AndroidServiceFactory(
    moshi: Provider<Moshi>,
    errorReporter: ErrorReporter,
    okHttpClient: Provider<OkHttpClient>,
