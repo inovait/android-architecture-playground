@@ -16,7 +16,8 @@ import si.inova.kotlinova.navigation.di.OuterNavigationScope
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction
 
 @ContributesIntoSet(OuterNavigationScope::class)
-class HomeDeepLinks @Inject constructor() : DeepLinkHandler {
+@Inject
+class HomeDeepLinks : DeepLinkHandler {
    override fun handleDeepLink(uri: Uri, startup: Boolean): NavigationInstruction? {
       return handleMultipleDeepLinks(uri, startup) {
          matchDeepLink("demoapp://posts") { _, _ ->

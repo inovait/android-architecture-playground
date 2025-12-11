@@ -22,7 +22,8 @@ import si.inova.kotlinova.navigation.services.CoroutineScopedService
 
 @ContributesScopedService(ManageProfileScreenViewModel::class)
 @ContributesBinding(BackstackScope::class, binding<ManageProfileScreenViewModel>())
-class ManageProfileScreenViewModelImpl @Inject constructor(
+@Inject
+class ManageProfileScreenViewModelImpl(
    private val resources: CoroutineResourceManager,
    private val navigator: Navigator,
    private val loginRepository: LoginRepository,

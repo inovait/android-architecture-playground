@@ -19,7 +19,8 @@ import si.inova.kotlinova.navigation.services.SingleScreenViewModel
 
 @ContributesScopedService(LoginScreenViewModel::class)
 @ContributesBinding(BackstackScope::class, binding<LoginScreenViewModel>())
-class LoginScreenViewModelImpl @Inject constructor(
+@Inject
+class LoginScreenViewModelImpl(
    private val resources: CoroutineResourceManager,
    private val navigator: Navigator,
    private val loginRepository: LoginRepository,

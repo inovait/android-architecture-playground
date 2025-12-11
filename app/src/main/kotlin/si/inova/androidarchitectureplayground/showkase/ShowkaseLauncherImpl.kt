@@ -10,7 +10,8 @@ import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.ui.showkase.ShowkaseLauncher
 
 @ContributesBinding(AppScope::class)
-class ShowkaseLauncherImpl @Inject constructor() : ShowkaseLauncher {
+@Inject
+class ShowkaseLauncherImpl : ShowkaseLauncher {
    override fun launch(context: Context) {
       context.startActivity(Showkase.getBrowserIntent(context))
    }

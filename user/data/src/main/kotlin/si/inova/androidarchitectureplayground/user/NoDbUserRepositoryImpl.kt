@@ -23,7 +23,8 @@ import si.inova.kotlinova.core.outcome.mapData
  * Example of using Paging + Stale while revalidate retrofit for lists
  */
 @ContributesBinding(AppScope::class)
-class NoDbUserRepositoryImpl @Inject constructor(
+@Inject
+class NoDbUserRepositoryImpl(
    private val usersService: UsersService,
 ) : UserRepository {
    @OptIn(ExperimentalPagingApi::class)

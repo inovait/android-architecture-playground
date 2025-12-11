@@ -40,7 +40,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.coroutineContext
 
 // @ContributesBinding(AppScope::class)
-class UserRepositoryImpl @Inject constructor(
+@Inject
+class UserRepositoryImpl(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,
    private val timeProvider: TimeProvider,

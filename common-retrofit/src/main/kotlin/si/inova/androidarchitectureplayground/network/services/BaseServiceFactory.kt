@@ -15,7 +15,8 @@ import si.inova.kotlinova.retrofit.callfactory.ErrorHandlingAdapterFactory
 import si.inova.kotlinova.retrofit.callfactory.StaleWhileRevalidateCallAdapterFactory
 import si.inova.kotlinova.retrofit.converter.LazyRetrofitConverterFactory
 
-open class BaseServiceFactory @Inject constructor(
+@Inject
+open class BaseServiceFactory(
    private val coroutineScope: CoroutineScope,
    private val moshi: Provider<Moshi>,
    private val okHttpClient: Provider<OkHttpClient>,

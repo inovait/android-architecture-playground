@@ -35,7 +35,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.coroutineContext
 
 @ContributesBinding(AppScope::class)
-class PostsRepositoryImpl @Inject constructor(
+@Inject
+class PostsRepositoryImpl(
    private val postsService: PostsService,
    private val postDb: DbPostQueries,
    private val timeProvider: TimeProvider,

@@ -8,7 +8,8 @@ import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.retrofit.callfactory.ErrorHandler
 import si.inova.kotlinova.retrofit.moshi.fromJson
 
-class DefaultErrorHandler @Inject constructor(
+@Inject
+class DefaultErrorHandler(
    private val moshi: Provider<Moshi>,
 ) : ErrorHandler {
    override fun generateExceptionFromErrorBody(response: Response<*>, parentException: Exception): CauseException? {

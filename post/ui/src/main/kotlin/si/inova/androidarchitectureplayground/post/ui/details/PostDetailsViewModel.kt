@@ -14,7 +14,8 @@ import si.inova.kotlinova.navigation.services.ContributesScopedService
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
 
 @ContributesScopedService
-class PostDetailsViewModel @Inject constructor(
+@Inject
+class PostDetailsViewModel(
    private val resources: CoroutineResourceManager,
    private val postRepository: PostsRepository,
    private val actionLogger: ActionLogger,

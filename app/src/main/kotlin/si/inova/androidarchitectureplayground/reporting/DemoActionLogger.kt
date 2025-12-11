@@ -7,7 +7,8 @@ import logcat.logcat
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 
 @ContributesBinding(AppScope::class)
-class DemoActionLogger @Inject constructor() : ActionLogger {
+@Inject
+class DemoActionLogger : ActionLogger {
    override fun logAction(text: () -> String) {
       // TODO ideally here log actions somewhere where it can be useful (such as Firebase's Crashlytics)
       logcat(message = text)

@@ -19,7 +19,8 @@ import si.inova.kotlinova.navigation.services.CoroutineScopedService
 
 @ContributesScopedService(UserListViewModel::class)
 @ContributesBinding(AppScope::class, binding = binding<UserListViewModel>())
-class UserListViewModelImpl @Inject constructor(
+@Inject
+class UserListViewModelImpl(
    private val resources: CoroutineResourceManager,
    private val userRepository: UserRepository,
    private val actionLogger: ActionLogger,

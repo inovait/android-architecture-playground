@@ -15,7 +15,8 @@ import si.inova.kotlinova.navigation.services.CoroutineScopedService
 import kotlin.time.Duration.Companion.seconds
 
 @ContributesScopedService
-class UserDetailsViewModel @Inject constructor(
+@Inject
+class UserDetailsViewModel(
    private val resources: CoroutineResourceManager,
    private val userRepository: UserRepository,
    private val actionLogger: ActionLogger,
