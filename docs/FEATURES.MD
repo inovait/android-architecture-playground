@@ -3,7 +3,8 @@
 Only activity/fragment is [MainActivity](../app/src/main/kotlin/si/inova/androidarchitectureplayground/MainActivity.kt) and the
 whole app only creates one view - ComposeView.
 
-Navigation is handled by the [kotlinova-navigation](https://github.com/inovait/kotlinova/blob/master/navigation) library.
+Navigation is handled by the [kotlinova-navigation](https://github.com/inovait/kotlinova/blob/master/navigation) library as a
+backend + [Navigation3](https://developer.android.com/guide/navigation/navigation-3) library as a frontend.
 
 # Deep links to every screen
 
@@ -24,9 +25,9 @@ the [Theme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplaygr
 
 # Improved support for large screens (two-pane layout for user and post list)
 
-* [MasterDetailScreen](../common-navigation/src/main/kotlin/si/inova/androidarchitectureplayground/navigation/base/MasterDetailScreen.kt)
-  allows very easy creation of the [master-detail](https://m3.material.io/foundations/layout/canonical-layouts/list-detail)
-  pattern
+* [ListDetailScene](../common-navigation/src/main/kotlin/si/inova/androidarchitectureplayground/navigation/scenes/TabListDetailScene.kt)
+  allows very easy creation of the [list--detail](https://m3.material.io/foundations/layout/canonical-layouts/list-detail)
+  pattern. Scene also contains a dragging handle and has extra logic for better function in the "laptop-mode" foldable.
 * [HomeScreen](../home/ui/src/main/kotlin/si/inova/androidarchitectureplayground/home/HomeScreen.kt)
   includes ["navigation rail on large screens, bottom bar on smaller screens"](https://m3.material.io/components/navigation-rail/overview),
   as recommended by Google.
@@ -39,8 +40,22 @@ the [Theme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplaygr
 
 # Pagination
 
-[PaginatedDataStream](../common/src/main/kotlin/si/inova/androidarchitectureplayground/common/pagination/PaginatedDataStream.kt)
+App plays around with three modes of pagination:
+
+* [PaginatedDataStream](../common/src/main/kotlin/si/inova/androidarchitectureplayground/common/pagination/PaginatedDataStream.kt),
+  used in the [PostsRepository](../post/data/src/main/kotlin/si/inova/androidarchitectureplayground/post/PostsRepositoryImpl.kt)
 and its implementations allow easy implementation of paginated data sources
+* [UserRepository](../user/data/src/main/kotlin/si/inova/androidarchitectureplayground/user/UserRepositoryImpl.kt) uses
+  [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) + backing database to load paginated
+  data.
+* [NoDbUserRpository](../user/data/src/main/kotlin/si/inova/androidarchitectureplayground/user/NoDbUserRepositoryImpl.kt)
+  Uses Paging3 + OKHttp cache (stale-while-revalidate pattern) to load paginated data.
+
+For Paging3,
+in [UserListViewModel](../user/ui/src/main/kotlin/si/inova/androidarchitectureplayground/user/ui/list/UserListViewModelImpl.kt),
+we are experimenting with our own Paging3 compose wrapper (instead of using `paging-compose`) that wraps Paging into a
+composable flow that can be merged with another flows, using standard `Outcome` for status, instead of Paging being its own
+exposed Flow with its own custom status classes.
 
 # List of all reusable Compose components in-app (via Showkase)
 
@@ -143,6 +158,7 @@ App includes [Detekt](https://github.com/detekt/detekt/) implementation with:
 * [verifyPr.yaml](../.github/workflows/verifyPr.yaml) sample CI script will post all failures as detailed comments on the PR,
   allowing easy diagnosing on why PR build failed
   App includes CI configuration
+* App includes [Android security lints](https://github.com/google/android-security-lints)
 
 # Module Graph assert
 
@@ -180,10 +196,10 @@ You can add a following live template to the Android Studio to make creating the
 ```xml
 
 <template name="al" value="actionLogger.logAction { &quot;$content$&quot; }"
-    description="Create action logger entry with automatic parameter insertion" toReformat="false" toShortenFQNames="true">
+          description="Create action logger entry with automatic parameter insertion" toReformat="false" toShortenFQNames="true">
     <variable name="content"
-        expression="groovyScript(&quot;def params = _2.collect { it + ' = $' + it}.join(', '); return _3 + '.' + _1 + '(' + params + ')';&quot;, kotlinFunctionName(), functionParameters(), kotlinClassName()) "
-        defaultValue="" alwaysStopAt="true" />
+              expression="groovyScript(&quot;def params = _2.collect { it + ' = $' + it}.join(', '); return _3 + '.' + _1 + '(' + params + ')';&quot;, kotlinFunctionName(), functionParameters(), kotlinClassName()) "
+              defaultValue="" alwaysStopAt="true" />
     <context>
         <option name="KOTLIN_EXPRESSION" value="true" />
         <option name="KOTLIN_STATEMENT" value="true" />
@@ -253,7 +269,7 @@ of all dependencies in the project.
 
 When using a remote without branch protection, one can quickly accidentally push code into main branch.
 We have a simple [pre-push](../config/hooks/pre-push) hook to prevent this
-(hook is disabled by default, enable it by removing `exit 0` at the start). 
+(hook is disabled by default, enable it by removing `exit 0` at the start).
 
 # Baseline profile generation
 
