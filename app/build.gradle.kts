@@ -158,7 +158,6 @@ dependencies {
    implementation(libs.androidx.navigation3)
    implementation(libs.androidx.navigation3)
    implementation(libs.coil)
-   implementation(libs.certificateTransparency)
    implementation(libs.dispatch)
    implementation(libs.kotlinova.retrofit)
    implementation(libs.kotlin.immutableCollections)

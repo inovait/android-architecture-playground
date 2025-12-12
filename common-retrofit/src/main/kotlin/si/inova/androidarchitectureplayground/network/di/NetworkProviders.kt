@@ -1,7 +1,5 @@
 package si.inova.androidarchitectureplayground.network.di
 
-import com.appmattus.certificatetransparency.cache.DiskCache
-import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import dev.zacsweers.metro.AppScope
@@ -31,25 +29,18 @@ interface NetworkProviders {
 
    @Provides
    @SingleIn(AppScope::class)
-   fun provideOkHttpClient(
-      certificateTransparencyDiskCache: DiskCache,
-   ): OkHttpClient {
+   fun provideOkHttpClient(): OkHttpClient {
       if (Thread.currentThread().name == "main") {
          error("OkHttp should not be initialized on the main thread")
       }
 
-      return prepareDefaultOkHttpClient(certificateTransparencyDiskCache).build()
+      return prepareDefaultOkHttpClient().build()
    }
 
    companion object {
-      fun prepareDefaultOkHttpClient(certificateTransparencyDiskCache: DiskCache? = null): OkHttpClient.Builder {
+      fun prepareDefaultOkHttpClient(): OkHttpClient.Builder {
          return OkHttpClient.Builder()
             .addInterceptor(BypassCacheInterceptor())
-            .addNetworkInterceptor(
-               certificateTransparencyInterceptor {
-                  diskCache = certificateTransparencyDiskCache
-               }
-            )
             .callTimeout(DEFAULT_TIMEOUT)
             .readTimeout(DEFAULT_TIMEOUT)
             .writeTimeout(DEFAULT_TIMEOUT)

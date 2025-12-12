@@ -1,8 +1,6 @@
 package si.inova.androidarchitectureplayground.network.di
 
 import android.content.Context
-import com.appmattus.certificatetransparency.cache.AndroidDiskCache
-import com.appmattus.certificatetransparency.cache.DiskCache
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.Provides
@@ -32,11 +30,5 @@ interface AndroidNetworkProviders {
       globalOkHttpDiskCacheManager: GlobalOkHttpDiskCacheManager,
    ): Cache {
       return globalOkHttpDiskCacheManager.cache
-   }
-
-   @Provides
-   @SingleIn(AppScope::class)
-   fun provideCertificateTransparencyDiskCache(context: Context): DiskCache {
-      return AndroidDiskCache(context)
    }
 }
