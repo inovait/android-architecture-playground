@@ -67,7 +67,7 @@ All reusable components have `@ShowkaseComposable` annotation and there is a "Co
 * All screens have instrumented tests that verify user interaction
 * All Retrofit interfaces are tested with the MockWebServer to ensure they actually load the data and decode the JSON properly
 
-* All unit tests use JUnit5 + kotest assertions, which are auto included as a dependency in every module for convenience
+* All unit tests use JUnit + kotest assertions, which are auto included as a dependency in every module for convenience
 * kotest assertion's rules config is set up more pragmatically to allow printing larger diffs
 * Tests can include [unmock](https://github.com/bjoernQ/unmock-plugin), which allows use of utility Android classes (such as
   `Uri`) inside JVM unit tests

@@ -33,8 +33,8 @@ dispatch = "1.0.0-beta10"
 jacoco = "0.8.13"
 junit4 = "4.13.2"
 junit4-parameterinjector = "1.20"
-junit5 = "6.0.1"
-junit5-launcher = "6.0.1"
+junit = "6.0.1"
+junit-launcher = "6.0.1"
 keeperPlugin = "0.16.1"
 kotest = "6.0.7"
 kotlin = "2.2.21"
@@ -116,9 +116,9 @@ dispatch-espresso = { module = "com.rickbusarow.dispatch:dispatch-android-espres
 dispatch-test = { module = "com.rickbusarow.dispatch:dispatch-test", version.ref = "dispatch" }
 junit4 = { module = "junit:junit", version.ref = "junit4" }
 junit4-parameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "junit4-parameterinjector" }
-junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
-junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
-junit5-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit5-launcher" }
+junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-launcher" }
 keeperPlugin = { module = "com.slack.keeper:keeper", version.ref = "keeperPlugin" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
