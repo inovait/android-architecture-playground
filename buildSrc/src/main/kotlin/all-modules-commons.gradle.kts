@@ -28,12 +28,12 @@ if (name.startsWith("common-")) {
 
 dependencies {
    if (configurations.findByName("testImplementation") != null) {
-      add("testImplementation", libs.junit5.api)
+      add("testImplementation", libs.junit.api)
       add("testImplementation", libs.kotest.assertions)
       add("testImplementation", libs.kotlin.coroutines.test)
       add("testImplementation", libs.turbine)
 
-      add("testRuntimeOnly", libs.junit5.engine)
-      add("testRuntimeOnly", libs.junit5.launcher)
+      add("testRuntimeOnly", libs.junit.engine)
+      add("testRuntimeOnly", libs.junit.launcher)
    }
 }
