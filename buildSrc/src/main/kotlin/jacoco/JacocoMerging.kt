@@ -83,7 +83,7 @@ private fun Project.loadJacocoPathsFromSubprojects() {
    subprojects {
       rootProject.dependencies.add(
          CONFIGURATION_JACOCO_CLASSES,
-         this.dependencies.project(
+         rootProject.dependencies.project(
             mapOf(
                "path" to isolated.path,
                "configuration" to CONFIGURATION_JACOCO_CLASSES
@@ -93,7 +93,7 @@ private fun Project.loadJacocoPathsFromSubprojects() {
 
       rootProject.dependencies.add(
          CONFIGURATION_JACOCO_SOURCES,
-         this.dependencies.project(
+         rootProject.dependencies.project(
             mapOf(
                "path" to isolated.path,
                "configuration" to CONFIGURATION_JACOCO_SOURCES
@@ -103,7 +103,7 @@ private fun Project.loadJacocoPathsFromSubprojects() {
 
       rootProject.dependencies.add(
          CONFIGURATION_JACOCO_EXEC,
-         this.dependencies.project(
+         rootProject.dependencies.project(
             mapOf(
                "path" to isolated.path,
                "configuration" to CONFIGURATION_JACOCO_EXEC
