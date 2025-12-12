@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-   api(libs.certificateTransparency)
    api(libs.kotlinova.core)
    api(libs.kotlinova.retrofit)
    api(libs.moshi)

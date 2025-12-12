@@ -13,5 +13,4 @@ dependencies {
    implementation(libs.moshi)
    implementation(libs.okhttp)
    implementation(libs.kotlin.coroutines.test)
-   implementation(libs.certificateTransparency)
 }

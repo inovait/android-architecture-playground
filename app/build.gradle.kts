@@ -159,7 +159,6 @@ dependencies {
    androidTestImplementation(libs.kotlinova.retrofit.test)
    androidTestImplementation(libs.okhttp)
    androidTestImplementation(libs.okhttp.mockWebServer)
-   androidTestImplementation(libs.certificateTransparency)
    androidTestUtil(libs.androidx.test.orchestrator)
    androidTestUtil(libs.androidx.test.services)
 
