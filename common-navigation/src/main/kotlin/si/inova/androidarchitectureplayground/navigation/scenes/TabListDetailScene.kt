@@ -103,6 +103,8 @@ private fun ListDetail(
       it is FoldingFeature
    } as FoldingFeature?
 
+   val listKey = listEntry.key() as ListKey
+
    val canSeparatorMove = verticalFold != null &&
       !verticalFold.isSeparating &&
       verticalFold.occlusionType != FoldingFeature.OcclusionType.FULL
@@ -125,8 +127,8 @@ private fun ListDetail(
                         with(density) {
                            offsetX =
                               (offsetX + delta).coerceIn(
-                                 MIN_PANE_WIDTH.toPx(),
-                                 screenWidth - MIN_PANE_WIDTH.toPx(),
+                                 listKey.minListWidth.toPx(),
+                                 screenWidth - listKey.minDetailWidth.toPx(),
                               )
                         }
                      },
@@ -267,4 +269,3 @@ class TabListDetailSceneStrategy(val windowSizeClass: WindowSizeClass) : SceneSt
 }
 
 private const val DEFAULT_PANE_SPLIT = 0.3f
-private val MIN_PANE_WIDTH = 200.dp
