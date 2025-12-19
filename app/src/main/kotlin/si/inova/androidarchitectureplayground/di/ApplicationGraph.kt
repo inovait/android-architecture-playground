@@ -6,6 +6,7 @@ import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
 import dispatch.core.DefaultCoroutineScope
 import si.inova.androidarchitectureplayground.MainViewModel
+import si.inova.androidarchitectureplayground.navigation.scenes.TabListDetailScene
 import si.inova.kotlinova.core.reporting.ErrorReporter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
 import si.inova.kotlinova.navigation.deeplink.MainDeepLinkHandler
@@ -32,4 +33,5 @@ interface ApplicationGraph {
    fun getNavigationContext(): NavigationContext
    fun getDateFormatter(): AndroidDateTimeFormatter
    fun getMainViewModelFactory(): MainViewModel.Factory
+   fun getTabListDetailSceneFactory(): TabListDetailScene.Factory
 }

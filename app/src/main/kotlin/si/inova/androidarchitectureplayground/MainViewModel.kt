@@ -1,6 +1,8 @@
 package si.inova.androidarchitectureplayground
 
 import android.content.Intent
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.zacsweers.metro.Assisted
@@ -22,6 +24,7 @@ import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 @AssistedInject
 class MainViewModel(
    private val loginRepository: LoginRepository,
+   private val generalPreferences: DataStore<Preferences>,
    @Assisted
    private val startIntent: Intent,
 ) : ViewModel() {
@@ -30,6 +33,9 @@ class MainViewModel(
 
    init {
       viewModelScope.launch {
+         // Ensure preferences are loaded at the startup
+         generalPreferences.data.first()
+
          if (startIntent.getBooleanExtra(BENCHMARK_AUTO_LOGIN_EXTRA, false)) {
             loginRepository.setLoggedIn(true)
          } else {

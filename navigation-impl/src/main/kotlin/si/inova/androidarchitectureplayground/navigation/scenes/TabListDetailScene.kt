@@ -18,11 +18,14 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.LayoutCoordinates
@@ -30,6 +33,10 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
@@ -39,6 +46,12 @@ import com.google.accompanist.adaptive.SplitResult
 import com.google.accompanist.adaptive.TwoPane
 import com.google.accompanist.adaptive.TwoPaneStrategy
 import com.google.accompanist.adaptive.calculateDisplayFeatures
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import si.inova.androidarchitectureplayground.navigation.keys.base.DetailKey
 import si.inova.androidarchitectureplayground.navigation.keys.base.ListKey
 import si.inova.androidarchitectureplayground.navigation.keys.base.LocalSelectedTabContent
@@ -48,161 +61,205 @@ import si.inova.androidarchitectureplayground.navigation.uti.VerticalDragHandleW
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.navigation3.key
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Combined scene that handles both tab layout and list-detail
  *
  * Since Navigation3 does not support nested scenes, we were forced to merge them all into one big scene
  */
+@AssistedInject
 class TabListDetailScene(
-   override val key: Any,
-   override val previousEntries: List<NavEntry<ScreenKey>>,
-   val tabContainerEntry: NavEntry<ScreenKey>?,
-   val listEntry: NavEntry<ScreenKey>?,
-   val detailEntry: NavEntry<ScreenKey>?,
-   val showListDetail: Boolean,
+   @Assisted
+   private val input: Input,
+   private val preferences: DataStore<Preferences>,
 ) : Scene<ScreenKey> {
 
    override val content: @Composable (() -> Unit) = {
       val mainContent: @Composable (() -> Unit) = {
-         if (listEntry != null) {
-            if (showListDetail) {
-               ListDetail(listEntry, detailEntry)
+         if (input.listEntry != null) {
+            if (input.showListDetail) {
+               ListDetail(input.listEntry, input.detailEntry, preferences)
             } else {
-               listEntry.Content()
+               input.listEntry.Content()
             }
          } else {
-            detailEntry?.Content() ?: error("Detail entry should not be null when there is no list present")
+            input.detailEntry?.Content() ?: error("Detail entry should not be null when there is no list present")
          }
       }
 
-      if (tabContainerEntry != null) {
-         val selectedTabContent = SelectedTabContent(mainContent, listEntry?.key() ?: detailEntry!!.key())
+      if (input.tabContainerEntry != null) {
+         val selectedTabContent = SelectedTabContent(mainContent, input.listEntry?.key() ?: input.detailEntry!!.key())
          CompositionLocalProvider(LocalSelectedTabContent provides selectedTabContent) {
-            tabContainerEntry.Content()
+            input.tabContainerEntry.Content()
          }
       } else {
-         detailEntry?.Content() ?: error("Detail entry should not be null when there is no list present")
+         input.detailEntry?.Content() ?: error("Detail entry should not be null when there is no list present")
       }
    }
 
    override val entries: List<NavEntry<ScreenKey>>
-      get() = listOfNotNull(tabContainerEntry, listEntry, detailEntry)
+      get() = listOfNotNull(input.tabContainerEntry, input.listEntry, input.detailEntry)
+
+   override val key: Any
+      get() = input.key
+   override val previousEntries: List<NavEntry<ScreenKey>>
+      get() = input.previousEntries
+
+   @AssistedFactory
+   interface Factory {
+      fun create(
+         input: Input,
+      ): TabListDetailScene
+   }
+
+   // Hack around the fact that Metro does not support duplicate assisted parameres with the same type
+   data class Input(
+      val key: Any,
+      val previousEntries: List<NavEntry<ScreenKey>>,
+      val tabContainerEntry: NavEntry<ScreenKey>?,
+      val listEntry: NavEntry<ScreenKey>?,
+      val detailEntry: NavEntry<ScreenKey>?,
+      val showListDetail: Boolean,
+   )
 }
 
 @Composable
 private fun ListDetail(
    listEntry: NavEntry<ScreenKey>,
    detailEntry: NavEntry<ScreenKey>?,
+   preferences: DataStore<Preferences>,
 ) {
-   var offsetX by remember { mutableFloatStateOf(0f) }
+   val listPrefenceKey = remember(listEntry) { floatPreferencesKey("list-detail-position-${listEntry.key()}") }
+
+   var offsetX by remember { mutableFloatStateOf(-1f) }
    var screenWidth by remember { mutableIntStateOf(0) }
+   var ready by remember(listPrefenceKey) { mutableStateOf(false) }
    val density = LocalDensity.current
 
    val displayFeatures = calculateDisplayFeatures(LocalContext.current.requireActivity())
 
-   val foldingFeature = displayFeatures.find {
-      it is FoldingFeature
-   } as FoldingFeature?
+   LaunchedEffect(listPrefenceKey) {
+      offsetX = preferences.data.first()[listPrefenceKey] ?: -1f
+      ready = true
 
-   val listKey = listEntry.key() as ListKey
-
-   val canSeparatorMove = foldingFeature != null &&
-      !foldingFeature.isSeparating &&
-      foldingFeature.occlusionType != FoldingFeature.OcclusionType.FULL
-
-   // When fold is in the "laptop" mode, master should be at the bottom, so user can select things on the bottom
-   // and watch detail on the top
-   val flipListDetail = foldingFeature != null &&
-      foldingFeature.orientation == FoldingFeature.Orientation.HORIZONTAL &&
-      foldingFeature.state == FoldingFeature.State.HALF_OPENED
-
-   val interactionSource = remember { MutableInteractionSource() }
-
-   val detailPane: @Composable () -> Unit = {
-      Row(Modifier.fillMaxHeight()) {
-         if (canSeparatorMove) {
-            VerticalDragHandleWithoutMinimumSize(
-               interactionSource = interactionSource,
-               modifier = Modifier
-                  .width(20.dp)
-                  .fillMaxHeight()
-                  .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f))
-                  .wrapContentHeight()
-                  .draggable(
-                     orientation = Orientation.Horizontal,
-                     interactionSource = interactionSource,
-                     state = rememberDraggableState { delta ->
-                        with(density) {
-                           offsetX =
-                              (offsetX + delta).coerceIn(
-                                 listKey.minListWidth.toPx(),
-                                 screenWidth - listKey.minDetailWidth.toPx(),
-                              )
-                        }
-                     },
-                  )
-                  .systemGestureExclusion() // To avoid colliding with the back gesture
-            )
-         }
-
-         detailEntry?.Content()
-      }
-   }
-
-   val twoPaneStrategy = remember {
-      TwoPaneStrategy {
-            _,
-            _,
-            layoutCoordinates: LayoutCoordinates,
-         ->
-
-         SplitResult(
-            gapOrientation = Orientation.Vertical,
-            gapBounds = Rect(
-               left = offsetX,
-               top = 0f,
-               right = offsetX,
-               bottom = layoutCoordinates.size.height.toFloat(),
-            )
-         )
-      }
-   }
-
-   TwoPane(
-      if (flipListDetail) detailPane else listEntry::Content,
-      if (flipListDetail) listEntry::Content else detailPane,
-      twoPaneStrategy,
-      displayFeatures = displayFeatures,
-      modifier = Modifier
-         .fillMaxSize()
-         .layout
-         { measurable, constraints ->
-            val placeable = measurable.measure(constraints)
-            if (screenWidth == 0) {
-               offsetX = placeable.width * DEFAULT_PANE_SPLIT
-            }
-
-            screenWidth = placeable.width
-
-            layout(placeable.width, placeable.height) {
-               placeable.place(0, 0)
+      snapshotFlow { offsetX }
+         .debounce(1.seconds)
+         .filter { it >= 0 }
+         .collect { offset ->
+            preferences.edit {
+               it[listPrefenceKey] = offset
             }
          }
-   )
+   }
+
+   if (ready) {
+      val foldingFeature = displayFeatures.find {
+         it is FoldingFeature
+      } as FoldingFeature?
+
+      val listKey = listEntry.key() as ListKey
+
+      val canSeparatorMove = foldingFeature != null &&
+         !foldingFeature.isSeparating &&
+         foldingFeature.occlusionType != FoldingFeature.OcclusionType.FULL
+
+      // When fold is in the "laptop" mode, master should be at the bottom, so user can select things on the bottom
+      // and watch detail on the top
+      val flipListDetail = foldingFeature != null &&
+         foldingFeature.orientation == FoldingFeature.Orientation.HORIZONTAL &&
+         foldingFeature.state == FoldingFeature.State.HALF_OPENED
+
+      val interactionSource = remember { MutableInteractionSource() }
+
+      val detailPane: @Composable () -> Unit = {
+         Row(Modifier.fillMaxHeight()) {
+            if (canSeparatorMove) {
+               VerticalDragHandleWithoutMinimumSize(
+                  interactionSource = interactionSource,
+                  modifier = Modifier
+                     .width(20.dp)
+                     .fillMaxHeight()
+                     .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f))
+                     .wrapContentHeight()
+                     .draggable(
+                        orientation = Orientation.Horizontal,
+                        interactionSource = interactionSource,
+                        state = rememberDraggableState { delta ->
+                           with(density) {
+                              offsetX =
+                                 (offsetX + delta).coerceIn(
+                                    listKey.minListWidth.toPx(),
+                                    screenWidth - listKey.minDetailWidth.toPx(),
+                                 )
+                           }
+                        },
+                     )
+                     .systemGestureExclusion() // To avoid colliding with the back gesture
+               )
+            }
+
+            detailEntry?.Content()
+         }
+      }
+
+      val twoPaneStrategy = remember {
+         TwoPaneStrategy {
+               _,
+               _,
+               layoutCoordinates: LayoutCoordinates,
+            ->
+
+            SplitResult(
+               gapOrientation = Orientation.Vertical,
+               gapBounds = Rect(
+                  left = offsetX,
+                  top = 0f,
+                  right = offsetX,
+                  bottom = layoutCoordinates.size.height.toFloat(),
+               )
+            )
+         }
+      }
+
+      TwoPane(
+         if (flipListDetail) detailPane else listEntry::Content,
+         if (flipListDetail) listEntry::Content else detailPane,
+         twoPaneStrategy,
+         displayFeatures = displayFeatures,
+         modifier = Modifier
+            .fillMaxSize()
+            .layout
+            { measurable, constraints ->
+               val placeable = measurable.measure(constraints)
+               if (offsetX < 0) {
+                  offsetX = placeable.width * DEFAULT_PANE_SPLIT
+               }
+
+               screenWidth = placeable.width
+
+               layout(placeable.width, placeable.height) {
+                  placeable.place(0, 0)
+               }
+            }
+      )
+   }
 }
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun rememberTabListDetailSceneStrategy(): TabListDetailSceneStrategy {
+fun rememberTabListDetailSceneStrategy(sceneFactory: TabListDetailScene.Factory): TabListDetailSceneStrategy {
    val windowSizeClass = calculateWindowSizeClass(LocalContext.current.requireActivity())
 
    return remember(windowSizeClass) {
-      TabListDetailSceneStrategy(windowSizeClass)
+      TabListDetailSceneStrategy(windowSizeClass, sceneFactory)
    }
 }
 
-class TabListDetailSceneStrategy(val windowSizeClass: WindowSizeClass) : SceneStrategy<ScreenKey> {
+class TabListDetailSceneStrategy(
+   private val windowSizeClass: WindowSizeClass,
+   private val sceneFactory: TabListDetailScene.Factory,
+) : SceneStrategy<ScreenKey> {
 
    @Suppress("CyclomaticComplexMethod") // Splitting up would make things even worse. Method is commented to compensate.
    override fun SceneStrategyScope<ScreenKey>.calculateScene(entries: List<NavEntry<ScreenKey>>): Scene<ScreenKey>? {
@@ -252,14 +309,16 @@ class TabListDetailSceneStrategy(val windowSizeClass: WindowSizeClass) : SceneSt
       val tabContainerEntry = filteredTabContainerScreenEntryIndex?.let { entries.elementAt(it) }
       val listEntry = listEntryIndex?.let { entries.elementAt(it) }
 
-      return TabListDetailScene(
-         key = "tab-list-detail",
-         previousEntries = entries.takeWhile { it != tabContainerEntry && it != listEntry },
-         tabContainerEntry = tabContainerEntry,
-         listEntry = listEntry,
-         // Detail can be null only when there is a list shown, but user has not selected any detail yet
-         detailEntry = detailEntry.takeIf { listAndDetailsPresent },
-         showListDetail = largeDevice,
+      return sceneFactory.create(
+         TabListDetailScene.Input(
+            key = "tab-list-detail",
+            previousEntries = entries.takeWhile { it != tabContainerEntry && it != listEntry },
+            tabContainerEntry = tabContainerEntry,
+            listEntry = listEntry,
+            // Detail can be null only when there is a list shown, but user has not selected any detail yet
+            detailEntry = detailEntry.takeIf { listAndDetailsPresent },
+            showListDetail = largeDevice,
+         )
       )
    }
 }

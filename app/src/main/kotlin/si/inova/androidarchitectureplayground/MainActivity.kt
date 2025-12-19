@@ -26,6 +26,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import si.inova.androidarchitectureplayground.navigation.scenes.TabListDetailScene
 import si.inova.androidarchitectureplayground.navigation.scenes.rememberTabListDetailSceneStrategy
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.result.LocalResultPassingStore
@@ -47,6 +48,8 @@ class MainActivity : ComponentActivity() {
    private lateinit var dateFormatter: AndroidDateTimeFormatter
    private lateinit var mainViewModelFactory: MainViewModel.Factory
 
+   private lateinit var tabListDetailSceneFactory: TabListDetailScene.Factory
+
    private val viewModel by viewModels<MainViewModel>() { ViewModelFactory(intent) }
    private var initComplete = false
 
@@ -58,6 +61,7 @@ class MainActivity : ComponentActivity() {
       navigationContext = appGraph.getNavigationContext()
       dateFormatter = appGraph.getDateFormatter()
       mainViewModelFactory = appGraph.getMainViewModelFactory()
+      tabListDetailSceneFactory = appGraph.getTabListDetailSceneFactory()
 
       super.onCreate(savedInstanceState)
       enableEdgeToEdge()
@@ -117,7 +121,7 @@ class MainActivity : ComponentActivity() {
                         }
                      )
                   ),
-                  sceneStrategy = rememberTabListDetailSceneStrategy()
+                  sceneStrategy = rememberTabListDetailSceneStrategy(tabListDetailSceneFactory)
                )
 
                LogCurrentScreen(backstack)
