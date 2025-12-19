@@ -99,19 +99,21 @@ private fun ListDetail(
 
    val displayFeatures = calculateDisplayFeatures(LocalContext.current.requireActivity())
 
-   val verticalFold = displayFeatures.find {
+   val foldingFeature = displayFeatures.find {
       it is FoldingFeature
    } as FoldingFeature?
 
    val listKey = listEntry.key() as ListKey
 
-   val canSeparatorMove = verticalFold != null &&
-      !verticalFold.isSeparating &&
-      verticalFold.occlusionType != FoldingFeature.OcclusionType.FULL
+   val canSeparatorMove = foldingFeature != null &&
+      !foldingFeature.isSeparating &&
+      foldingFeature.occlusionType != FoldingFeature.OcclusionType.FULL
 
-   // When fold is in half opened mode, master should be at the bottom, so user can select things on the bottom
+   // When fold is in the "laptop" mode, master should be at the bottom, so user can select things on the bottom
    // and watch detail on the top
-   val flipListDetail = verticalFold != null && verticalFold.state == FoldingFeature.State.HALF_OPENED
+   val flipListDetail = foldingFeature != null &&
+      foldingFeature.orientation == FoldingFeature.Orientation.HORIZONTAL &&
+      foldingFeature.state == FoldingFeature.State.HALF_OPENED
 
    val interactionSource = remember { MutableInteractionSource() }
 
