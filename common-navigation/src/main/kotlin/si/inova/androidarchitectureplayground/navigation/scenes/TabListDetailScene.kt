@@ -3,6 +3,7 @@ package si.inova.androidarchitectureplayground.navigation.scenes
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -111,16 +112,20 @@ private fun ListDetail(
    // and watch detail on the top
    val flipListDetail = verticalFold != null && verticalFold.state == FoldingFeature.State.HALF_OPENED
 
+   val interactionSource = remember { MutableInteractionSource() }
+
    val detailPane: @Composable () -> Unit = {
       Row(Modifier.fillMaxHeight()) {
          if (canSeparatorMove) {
             VerticalDragHandle(
-               Modifier
+               interactionSource = interactionSource,
+               modifier = Modifier
                   .fillMaxHeight()
                   .wrapContentHeight()
                   .padding(16.dp)
                   .draggable(
                      orientation = Orientation.Horizontal,
+                     interactionSource = interactionSource,
                      state = rememberDraggableState { delta ->
                         with(density) {
                            offsetX =
