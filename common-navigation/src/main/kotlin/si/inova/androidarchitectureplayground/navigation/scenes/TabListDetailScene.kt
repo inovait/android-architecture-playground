@@ -1,5 +1,6 @@
 package si.inova.androidarchitectureplayground.navigation.scenes
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -7,10 +8,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.systemGestureExclusion
-import androidx.compose.material3.VerticalDragHandle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -117,12 +118,13 @@ private fun ListDetail(
    val detailPane: @Composable () -> Unit = {
       Row(Modifier.fillMaxHeight()) {
          if (canSeparatorMove) {
-            VerticalDragHandle(
+            VerticalDragHandleWithoutMinimumSize(
                interactionSource = interactionSource,
                modifier = Modifier
+                  .width(20.dp)
                   .fillMaxHeight()
+                  .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f))
                   .wrapContentHeight()
-                  .padding(16.dp)
                   .draggable(
                      orientation = Orientation.Horizontal,
                      interactionSource = interactionSource,
