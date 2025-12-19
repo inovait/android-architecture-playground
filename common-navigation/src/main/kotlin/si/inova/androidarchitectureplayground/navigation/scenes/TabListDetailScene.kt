@@ -1,10 +1,8 @@
 package si.inova.androidarchitectureplayground.navigation.scenes
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -137,16 +135,7 @@ private fun ListDetail(
             )
          }
 
-         Crossfade(
-            detailEntry,
-            Modifier
-               .fillMaxHeight(),
-            label = "List Detail"
-         ) { value ->
-            Box(Modifier.fillMaxSize()) {
-               value?.Content()
-            }
-         }
+         detailEntry?.Content()
       }
    }
 
