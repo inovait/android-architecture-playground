@@ -141,6 +141,7 @@ dependencies {
    implementation(projects.login.api)
    implementation(projects.login.data)
    implementation(projects.login.ui)
+   implementation(projects.navigationImpl)
    implementation(projects.home.ui)
    implementation(projects.user.api)
    implementation(projects.user.data)

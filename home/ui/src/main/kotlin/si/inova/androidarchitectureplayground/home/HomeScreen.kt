@@ -30,8 +30,8 @@ import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
-import si.inova.androidarchitectureplayground.navigation.scenes.LocalSelectedTabContent
-import si.inova.androidarchitectureplayground.navigation.scenes.SelectedTabContent
+import si.inova.androidarchitectureplayground.navigation.keys.base.LocalSelectedTabContent
+import si.inova.androidarchitectureplayground.navigation.keys.base.SelectedTabContent
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction

@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.navigation.scenes
+package si.inova.androidarchitectureplayground.navigation.uti
 
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -61,7 +61,7 @@ internal fun VerticalDragHandleWithoutMinimumSize(
             // set constraints here to be the size needed
             val placeable =
                measurable.measure(
-                  Constraints.Companion.fixed(
+                  Constraints.fixed(
                      dragHandleSize.width.fastRoundToInt(),
                      dragHandleSize.height.fastRoundToInt(),
                   )

@@ -23,7 +23,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.LayoutCoordinates
@@ -42,7 +41,10 @@ import com.google.accompanist.adaptive.TwoPaneStrategy
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import si.inova.androidarchitectureplayground.navigation.keys.base.DetailKey
 import si.inova.androidarchitectureplayground.navigation.keys.base.ListKey
+import si.inova.androidarchitectureplayground.navigation.keys.base.LocalSelectedTabContent
+import si.inova.androidarchitectureplayground.navigation.keys.base.SelectedTabContent
 import si.inova.androidarchitectureplayground.navigation.keys.base.TabContainerKey
+import si.inova.androidarchitectureplayground.navigation.uti.VerticalDragHandleWithoutMinimumSize
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.navigation3.key
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
@@ -189,10 +191,6 @@ private fun ListDetail(
          }
    )
 }
-
-val LocalSelectedTabContent = staticCompositionLocalOf<SelectedTabContent> { error("SelectedTabContent not provided") }
-
-data class SelectedTabContent(val content: @Composable () -> Unit, val key: ScreenKey)
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
