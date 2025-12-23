@@ -82,7 +82,7 @@ jobs:
             **/build/*-results/**/*.xml
       - name: Post SARIF findings as comments in the pull request
         if: always()
-        uses: inovait/sarif-to-comment-action/composite@v1
+        uses: inovait/sarif-to-comment-action/composite@3425482905e63c93788e2015ba8f4fea30071121
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
