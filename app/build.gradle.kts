@@ -34,7 +34,7 @@ android {
       execution = "ANDROIDX_TEST_ORCHESTRATOR"
    }
 
-   if (hasProperty("testAppWithProguard")) {
+   if (providers.gradleProperty("testAppWithProguard").isPresent) {
       testBuildType = "proguardedDebug"
    }
 
@@ -110,9 +110,8 @@ sqldelight {
          packageName.set("si.inova.androidarchitectureplayground")
          schemaOutputDirectory.set(file("src/main/sqldelight/databases"))
 
-         // Use project() wrapper as a workaround for the https://github.com/sqldelight/sqldelight/pull/5801
-         dependency(project(projects.user.data.path))
-         dependency(project(projects.post.data.path))
+         dependency(projects.user.data)
+         dependency(projects.post.data)
       }
    }
 }
