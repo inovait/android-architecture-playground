@@ -9,6 +9,7 @@ import android.os.StrictMode.VmPolicy
 import android.os.strictmode.Violation
 import androidx.compose.runtime.Composer
 import androidx.compose.runtime.ExperimentalComposeRuntimeApi
+import androidx.compose.runtime.tooling.ComposeStackTraceMode
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import coil3.ImageLoader
@@ -46,7 +47,13 @@ open class MyApplication : Application() {
       }
 
       AndroidLogcatLogger.installOnDebuggableApp(this, minPriority = LogPriority.VERBOSE)
-      Composer.setDiagnosticStackTraceEnabled(isDebuggable())
+      Composer.setDiagnosticStackTraceMode(
+         if (isDebuggable()) {
+            ComposeStackTraceMode.SourceInformation
+         } else {
+            ComposeStackTraceMode.GroupKeys
+         }
+      )
 
       enableStrictMode()
 

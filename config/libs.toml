@@ -1,13 +1,13 @@
 [versions]
 accompanist = "0.37.3"
-android-securityLints = "1.0.3"
+android-securityLints = "1.0.4"
 androidGradleCacheFix = "3.0.2"
 androidGradlePlugin = "8.13.2"
-androidx-activity-compose = "1.12.0"
+androidx-activity-compose = "1.12.2"
 androidx-benchmark = "1.4.1"
 androidx-compose-material3 = "1.4.0"
-androidx-compose-runtime = "1.9.5"
-androidx-compose-tracing = "1.9.5"
+androidx-compose-runtime = "1.10.0"
+androidx-compose-tracing = "1.10.0"
 androidx-core = "1.17.0"
 androidx-core-splashscreen = "1.2.0"
 androidx-datastore = "1.2.0"
@@ -29,20 +29,22 @@ dependencyAnalysis = "3.5.1"
 desugarJdkLibs = "2.1.5"
 detekt = "1.23.8"
 detekt-compilerWarnings = "0.0.4"
-detekt-compose = "0.4.28"
+detekt-compose = "0.5.3"
 dispatch = "1.0.0-beta10"
 # @keep used in kts scripts directly
 jacoco = "0.8.14"
-junit4 = "4.13.2"
-junit4-parameterinjector = "1.20"
 junit = "6.0.1"
 junit-launcher = "6.0.1"
+junit4 = "4.13.2"
+junit4-parameterinjector = "1.20"
 keeperPlugin = "0.16.1"
 kotest = "6.0.7"
-kotlin = "2.3.0"
+# @pin until detekt is updated to 2.0
+# https://github.com/detekt/detekt/issues/8865
+kotlin = "2.2.21"
 kotlin-coroutines = "1.10.2"
 kotlin-immutableCollections = "0.4.0"
-kotlinova = "4.0.0-alpha09"
+kotlinova = "4.0.0-alpha10"
 ksp = "2.3.4"
 logcat = "0.4"
 metro = "0.9.2"
@@ -51,12 +53,12 @@ moshi = "1.15.2"
 moshi-ir = "0.34.1"
 okhttp = "5.3.2"
 okio = "3.16.4"
-orgJson = "20250517"
+orgJson = "20251224"
 paparazzi = "2.0.0-alpha02"
 rebugger = "1.0.1"
 retrofit = "3.0.0"
 showkase = "1.0.5"
-simpleStack = "2.9.0"
+simpleStack = "2.9.1"
 sqldelight = "2.2.1"
 turbine = "1.2.1"
 unmock-androidJar = "16-robolectric-13921718"
@@ -120,11 +122,11 @@ detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", v
 dispatch = { module = "com.rickbusarow.dispatch:dispatch-core", version.ref = "dispatch" }
 dispatch-espresso = { module = "com.rickbusarow.dispatch:dispatch-android-espresso", version.ref = "dispatch" }
 dispatch-test = { module = "com.rickbusarow.dispatch:dispatch-test", version.ref = "dispatch" }
-junit4 = { module = "junit:junit", version.ref = "junit4" }
-junit4-parameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "junit4-parameterinjector" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-launcher" }
+junit4 = { module = "junit:junit", version.ref = "junit4" }
+junit4-parameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "junit4-parameterinjector" }
 keeperPlugin = { module = "com.slack.keeper:keeper", version.ref = "keeperPlugin" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
@@ -166,7 +168,7 @@ showkase-processor = { module = "com.airbnb.android:showkase-processor", version
 simpleStack = { module = "com.github.Zhuinden:simple-stack", version.ref = "simpleStack" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-async = { module = "app.cash.sqldelight:async-extensions", version.ref = "sqldelight" }
-sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions-jvm", version.ref = "sqldelight" }
 sqldelight-gradle = { module = "app.cash.sqldelight:gradle-plugin", version.ref = "sqldelight" }
 sqldelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 sqldelight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions", version.ref = "sqldelight" }
