@@ -19,6 +19,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -107,6 +108,7 @@ class TabListDetailScene(
       get() = input.previousEntries
 
    @AssistedFactory
+   @Stable
    interface Factory {
       fun create(
          input: Input,

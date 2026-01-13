@@ -1,6 +1,7 @@
 package si.inova.androidarchitectureplayground.navigation.keys.base
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
@@ -11,4 +12,5 @@ interface TabContainerKey
 
 val LocalSelectedTabContent = staticCompositionLocalOf<SelectedTabContent> { error("SelectedTabContent not provided") }
 
+@Stable
 data class SelectedTabContent(val content: @Composable () -> Unit, val key: ScreenKey)
