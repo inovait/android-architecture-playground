@@ -6,12 +6,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.zhuinden.simplestack.Backstack
-import com.zhuinden.simplestack.History
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
 @Composable
-fun Backstack.historyAsState(): State<History<ScreenKey>> {
-   val historyState = remember { mutableStateOf(getHistory<ScreenKey>()) }
+fun Backstack.historyAsState(): State<List<ScreenKey>> {
+   val historyState = remember { mutableStateOf<List<ScreenKey>>(getHistory<ScreenKey>()) }
 
    DisposableEffect(this) {
       val listener = Backstack.CompletionListener {
