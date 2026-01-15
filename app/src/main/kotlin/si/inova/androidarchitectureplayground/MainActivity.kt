@@ -21,8 +21,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import com.zhuinden.simplestack.Backstack
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -74,7 +72,7 @@ class MainActivity : ComponentActivity() {
 
    private fun beginInitialisation(startup: Boolean) {
       lifecycleScope.launch {
-         val initialHistory: ImmutableList<ScreenKey> = viewModel.startingScreens.filterNotNull().first().toPersistentList()
+         val initialHistory: List<ScreenKey> = viewModel.startingScreens.filterNotNull().first()
 
          val deepLinkTarget = if (startup) {
             intent?.data?.let { mainDeepLinkHandler.handleDeepLink(it, startup = true) }
@@ -83,7 +81,7 @@ class MainActivity : ComponentActivity() {
          }
 
          val overridenInitialHistoryFromDeepLink = if (deepLinkTarget != null) {
-            deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack.toPersistentList()
+            deepLinkTarget.performNavigation(initialHistory, navigationContext).newBackstack
          } else {
             initialHistory
          }
@@ -97,7 +95,7 @@ class MainActivity : ComponentActivity() {
    }
 
    @Composable
-   private fun NavigationRoot(initialHistory: ImmutableList<ScreenKey>) {
+   private fun NavigationRoot(initialHistory: List<ScreenKey>) {
       AndroidArchitecturePlaygroundTheme {
          // A surface container using the 'background' color from the theme
          Surface(

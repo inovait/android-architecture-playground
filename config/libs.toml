@@ -43,7 +43,6 @@ kotest = "6.0.7"
 # https://github.com/detekt/detekt/issues/8865
 kotlin = "2.2.21"
 kotlin-coroutines = "1.10.2"
-kotlin-immutableCollections = "0.4.0"
 # @pin until we can update metro
 kotlinova = "4.0.0-alpha10"
 ksp = "2.3.4"
@@ -133,7 +132,6 @@ keeperPlugin = { module = "com.slack.keeper:keeper", version.ref = "keeperPlugin
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
-kotlin-immutableCollections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutableCollections" }
 # Dummy entry, we don't need to actually use the stdlib explicitly, but it is used for the version checker to auto update kotlin
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-plugin-compose = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
