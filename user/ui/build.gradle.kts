@@ -31,6 +31,7 @@ dependencies {
    testImplementation(libs.kotlinova.core.test)
 
    androidTestImplementation(projects.user.test)
+   androidTestImplementation(libs.androidx.test.core)
    androidTestImplementation(libs.junit4)
    androidTestImplementation(libs.kotlin.coroutines)
 }

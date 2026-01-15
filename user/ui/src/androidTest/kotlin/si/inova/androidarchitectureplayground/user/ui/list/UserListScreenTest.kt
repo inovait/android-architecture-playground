@@ -7,6 +7,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
+import androidx.test.platform.app.InstrumentationRegistry
+import com.zhuinden.simplestack.Backstack
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.Before
 import org.junit.Rule
@@ -25,10 +27,15 @@ class UserListScreenTest {
 
    private val viewModel = FakeUserListViewModel()
    private val navigator = FakeNavigator(UserListScreenKey)
-   private val screen = UserListScreen(viewModel, navigator)
+   private lateinit var screen: UserListScreen
 
    @Before
    fun setUp() {
+      InstrumentationRegistry.getInstrumentation().runOnMainSync {
+         // Backstack must be created on the main thread
+         screen = UserListScreen(viewModel, navigator, Backstack().apply { setup(listOf(UserListScreenKey)) })
+      }
+
       viewModel.userList.value = Outcome.Success(
          pagedListOf(
             List(10) {

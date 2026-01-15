@@ -8,6 +8,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.test.swipeUp
+import androidx.test.platform.app.InstrumentationRegistry
+import com.zhuinden.simplestack.Backstack
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.MainScope
@@ -31,10 +33,15 @@ class PostListScreenTest {
    private val repository = FakePostsRepository()
    private val viewModel = PostListViewModel(CoroutineResourceManager(MainScope(), { throw it }), repository, {})
    private val navigator = FakeNavigator(PostListScreenKey)
-   private val screen = PostListScreen(viewModel, navigator)
+   private lateinit var screen: PostListScreen
 
    @Before
    fun setUp() {
+      InstrumentationRegistry.getInstrumentation().runOnMainSync {
+         // Backstack must be created on the main thread
+         screen = PostListScreen(viewModel, navigator, Backstack().apply { setup(listOf(PostListScreenKey)) })
+      }
+
       repository.setPostList(
          PaginatedDataStream.PaginationResult(
             items = Outcome.Success(
