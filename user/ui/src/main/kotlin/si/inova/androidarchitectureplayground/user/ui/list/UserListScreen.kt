@@ -27,22 +27,30 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
+import com.zhuinden.simplestack.Backstack
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateToOrReplaceType
 import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
+import si.inova.androidarchitectureplayground.navigation.util.historyAsState
 import si.inova.androidarchitectureplayground.paging.PagedList
 import si.inova.androidarchitectureplayground.paging.pagedListOf
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
@@ -52,6 +60,7 @@ import si.inova.androidarchitectureplayground.ui.lists.DetectScrolledToBottom
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.architectureplayground.user.R
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
+import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
@@ -66,16 +75,25 @@ import si.inova.kotlinova.navigation.screens.Screen
 class UserListScreen(
    private val viewModel: UserListViewModel,
    private val navigator: Navigator,
+   private val backstack: Backstack,
 ) : Screen<UserListScreenKey>() {
+   @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
    @Composable
    override fun Content(key: UserListScreenKey) {
-      Content {
+      val lastDetailsKey = backstack.historyAsState().value.filterIsInstance<UserDetailsScreenKey>().lastOrNull()
+      val windowSizeClass = calculateWindowSizeClass(LocalContext.current.requireActivity())
+      // Do not highlight selected item in the phone mode
+      val selectedId = lastDetailsKey?.id.takeIf {
+         windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+      }
+
+      Content(selectedId) {
          navigator.navigateToOrReplaceType(UserDetailsScreenKey(it))
       }
    }
 
    @Composable
-   fun Content(navigate: (id: Int) -> Unit) {
+   fun Content(selectedItem: Int?, navigate: (id: Int) -> Unit) {
       val data = viewModel.userList.collectAsStateWithLifecycleAndBlinkingPrevention(
          doNotWaitForInterimLoadings = true
       ).value
@@ -83,6 +101,7 @@ class UserListScreen(
       if (data != null) {
          UserListContent(
             data,
+            selectedItem,
             {},
             viewModel::refresh,
             navigate
@@ -95,6 +114,7 @@ class UserListScreen(
 @Composable
 private fun UserListContent(
    state: Outcome<PagedList<User>>,
+   selectedItem: Int?,
    loadMore: () -> Unit,
    refresh: () -> Unit,
    openUserDetails: (id: Int) -> Unit,
@@ -132,7 +152,7 @@ private fun UserListContent(
             )
          }
 
-         UserList(lazyListState, state, openUserDetails)
+         UserList(lazyListState, state, selectedItem, openUserDetails)
       }
 
       PullToRefreshDefaults.Indicator(
@@ -149,6 +169,7 @@ private fun UserListContent(
 private fun ColumnScope.UserList(
    lazyListState: LazyListState,
    state: Outcome<PagedList<User>>,
+   selectedItem: Int?,
    openUserDetails: (id: Int) -> Unit,
 ) {
    val consumedWindowInsets = remember { MutableWindowInsets() }
@@ -180,9 +201,17 @@ private fun ColumnScope.UserList(
             stringResource(R.string.first_last_name, it.firstName, it.lastName),
             Modifier
                .clickable { openUserDetails(it.id) }
+               .run {
+                  if (it.id == selectedItem) {
+                     background(MaterialTheme.colorScheme.primary)
+                  } else {
+                     this
+                  }
+               }
                .fillMaxWidth()
                .padding(32.dp)
                .animateItem(),
+            color = if (it.id == selectedItem) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
          )
       }
 
@@ -215,6 +244,28 @@ internal fun UserListContentSuccessPreview() {
                }
             )
          ),
+         selectedItem = null,
+         loadMore = { },
+         refresh = { },
+         openUserDetails = {}
+      )
+   }
+}
+
+@Preview
+@ShowkaseComposable(group = "Test")
+@Composable
+internal fun UserListContentSuccessSelectedPreview() {
+   PreviewTheme {
+      UserListContent(
+         state = Outcome.Success(
+            pagedListOf(
+               List<User>(20) {
+                  User(it, "First $it", "Last $it")
+               }
+            )
+         ),
+         selectedItem = 1,
          loadMore = { },
          refresh = { },
          openUserDetails = {}
@@ -235,6 +286,7 @@ internal fun UserListContentLoadingPreview() {
                }
             )
          ),
+         selectedItem = null,
          loadMore = { },
          refresh = { },
          openUserDetails = {}
@@ -256,6 +308,7 @@ internal fun UserListContentErrorPreview() {
                }
             )
          ),
+         selectedItem = null,
          loadMore = { },
          refresh = { },
          openUserDetails = {}
@@ -277,6 +330,7 @@ internal fun UserListContentLoadingMorePreview() {
             ),
             style = LoadingStyle.ADDITIONAL_DATA
          ),
+         selectedItem = null,
          loadMore = { },
          refresh = { },
          openUserDetails = {}

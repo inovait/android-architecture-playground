@@ -25,21 +25,28 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
+import com.zhuinden.simplestack.Backstack
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateToOrReplaceType
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
+import si.inova.androidarchitectureplayground.navigation.util.historyAsState
 import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
@@ -47,6 +54,7 @@ import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessag
 import si.inova.androidarchitectureplayground.ui.lists.DetectScrolledToBottom
 import si.inova.kotlinova.compose.components.itemsWithDivider
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
+import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.core.exceptions.NoNetworkException
 import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
@@ -61,16 +69,25 @@ import si.inova.kotlinova.navigation.screens.Screen
 class PostListScreen(
    private val viewModel: PostListViewModel,
    private val navigator: Navigator,
+   private val backstack: Backstack,
 ) : Screen<PostListScreenKey>() {
+   @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
    @Composable
    override fun Content(key: PostListScreenKey) {
-      Content {
+      val lastDetailsKey = backstack.historyAsState().value.filterIsInstance<PostDetailsScreenKey>().lastOrNull()
+      val windowSizeClass = calculateWindowSizeClass(LocalContext.current.requireActivity())
+      // Do not highlight selected item in the phone mode
+      val selectedId = lastDetailsKey?.id.takeIf {
+         windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+      }
+
+      Content(selectedId) {
          navigator.navigateToOrReplaceType(PostDetailsScreenKey(it))
       }
    }
 
    @Composable
-   fun Content(navigate: (id: Int) -> Unit) {
+   fun Content(selectedItem: Int?, navigate: (id: Int) -> Unit) {
       val data = viewModel.postList.collectAsStateWithLifecycleAndBlinkingPrevention(
          doNotWaitForInterimLoadings = true
       ).value
@@ -80,6 +97,7 @@ class PostListScreen(
       if (data != null) {
          PostListContent(
             data,
+            selectedItem,
             viewModel::nextPage,
             viewModel::refresh,
             navigate
@@ -92,6 +110,7 @@ class PostListScreen(
 @Composable
 private fun PostListContent(
    state: Outcome<PostListState>,
+   selectedItem: Int?,
    loadMore: () -> Unit,
    refresh: () -> Unit,
    openPostDetails: (id: Int) -> Unit,
@@ -128,7 +147,7 @@ private fun PostListContent(
             )
          }
 
-         PostList(lazyListState, state, openPostDetails)
+         PostList(lazyListState, state, selectedItem, openPostDetails)
       }
 
       PullToRefreshDefaults.Indicator(
@@ -145,6 +164,7 @@ private fun PostListContent(
 private fun ColumnScope.PostList(
    lazyListState: LazyListState,
    state: Outcome<PostListState>,
+   selectedItem: Int?,
    openPostDetails: (id: Int) -> Unit,
 ) {
    val consumedWindowInsets = remember { MutableWindowInsets() }
@@ -164,8 +184,16 @@ private fun ColumnScope.PostList(
             it.title,
             Modifier
                .clickable { openPostDetails(it.id) }
+               .run {
+                  if (it.id == selectedItem) {
+                     background(MaterialTheme.colorScheme.primary)
+                  } else {
+                     this
+                  }
+               }
                .fillMaxWidth()
                .padding(32.dp),
+            color = if (it.id == selectedItem) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
          )
       }
 
@@ -199,6 +227,28 @@ internal fun PostListContentSuccessPreview() {
                }
             )
          ),
+         selectedItem = null,
+         loadMore = { },
+         refresh = { },
+         openPostDetails = {}
+      )
+   }
+}
+
+@FullScreenPreviews
+@ShowkaseComposable(group = "Test")
+@Composable
+internal fun PostListContentSuccessSelectedPreview() {
+   PreviewTheme {
+      PostListContent(
+         state = Outcome.Success(
+            PostListState(
+               List<Post>(20) {
+                  Post(it, "Post $it")
+               }
+            )
+         ),
+         selectedItem = 2,
          loadMore = { },
          refresh = { },
          openPostDetails = {}
@@ -219,6 +269,7 @@ internal fun PostListContentLoadingPreview() {
                }
             )
          ),
+         selectedItem = null,
          loadMore = { },
          refresh = { },
          openPostDetails = {}
@@ -240,6 +291,7 @@ internal fun PostListContentErrorPreview() {
                }
             )
          ),
+         selectedItem = null,
          loadMore = { },
          refresh = { },
          openPostDetails = {}
@@ -262,6 +314,7 @@ internal fun PostListContentLoadingMorePreview() {
             ),
             style = LoadingStyle.ADDITIONAL_DATA
          ),
+         selectedItem = null,
          loadMore = { },
          refresh = { },
          openPostDetails = {}
