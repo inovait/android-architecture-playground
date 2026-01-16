@@ -1,18 +1,17 @@
 package si.inova.androidarchitectureplayground.detekt
 
-import io.gitlab.arturbosch.detekt.api.Config
-import io.gitlab.arturbosch.detekt.api.RuleSet
-import io.gitlab.arturbosch.detekt.api.RuleSetProvider
+import dev.detekt.api.Config
+import dev.detekt.api.RuleSet
+import dev.detekt.api.RuleSetProvider
 
 class CustomRuleProvider : RuleSetProvider {
-   override val ruleSetId: String
-      get() = "custom"
+   override val ruleSetId = RuleSet.Id("custom")
 
-   override fun instance(config: Config): RuleSet {
+   override fun instance(): RuleSet {
       return RuleSet(
          ruleSetId,
          listOf(
-            UseActionLoggerInViewModels(config)
+            ::UseActionLoggerInViewModels
          )
       )
    }

@@ -27,7 +27,7 @@ coil = "3.3.0"
 composeGuard = "2.4.0"
 dependencyAnalysis = "3.5.1"
 desugarJdkLibs = "2.1.5"
-detekt = "1.23.8"
+detekt = "2.0.0-alpha.1"
 detekt-compilerWarnings = "0.0.4"
 detekt-compose = "0.5.3"
 dispatch = "1.0.0-beta10"
@@ -44,11 +44,11 @@ kotest = "6.0.7"
 kotlin = "2.2.21"
 kotlin-coroutines = "1.10.2"
 # @pin until we can update metro
-kotlinova = "4.0.0-alpha10"
+kotlinova = "4.0.0-alpha12"
 ksp = "2.3.4"
 logcat = "0.4"
 # @pin until we can update kotlin
-metro = "0.9.2"
+metro = "0.9.3"
 moduleGraphAssert = "2.9.0"
 moshi = "1.15.2"
 moshi-ir = "0.34.1"
@@ -112,11 +112,11 @@ coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "
 composeGuard = { module = "com.joetr.compose.guard:com.joetr.compose.guard.gradle.plugin", version.ref = "composeGuard" }
 dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
 desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
-detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
+detekt-api = { module = "dev.detekt:detekt-api", version.ref = "detekt" }
 detekt-compilerWarnings = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "detekt-compilerWarnings" }
 detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt-compose" }
-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+detekt-ktlint = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
+detekt-plugin = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 dispatch = { module = "com.rickbusarow.dispatch:dispatch-core", version.ref = "dispatch" }
 dispatch-test = { module = "com.rickbusarow.dispatch:dispatch-test", version.ref = "dispatch" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
@@ -169,7 +169,7 @@ unmock-plugin = { module = "com.github.bjoernq:unmockplugin", version.ref = "unm
 whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTheStack" }
 
 [plugins]
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+detekt = { id = "dev.detekt", version.ref = "detekt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }
