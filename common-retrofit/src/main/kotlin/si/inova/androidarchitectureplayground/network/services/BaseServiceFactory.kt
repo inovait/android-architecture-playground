@@ -33,6 +33,7 @@ open class BaseServiceFactory(
          okHttpClient().newBuilder()
             .apply {
                if (scope.cache) {
+                  @Suppress("MissingUseCall") // Expected in this case, cache is managed by the OKHttp
                   createCache()?.let { cache(it) }
                }
             }
