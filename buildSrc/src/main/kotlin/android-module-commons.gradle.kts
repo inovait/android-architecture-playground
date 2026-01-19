@@ -1,8 +1,11 @@
 import com.android.build.api.dsl.LibraryAndroidResources
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.android.build.gradle.tasks.asJavaVersion
+import dev.detekt.gradle.extensions.DetektExtension
 import jacoco.setupJacocoMergingAndroid
 import org.gradle.accessors.dm.LibrariesForLibs
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import util.commonAndroid
 import util.commonAndroidComponents
@@ -103,7 +106,7 @@ dependencies {
    }
 }
 
-detekt {
+configure<DetektExtension> {
    config.from("$rootDir/config/detekt-android.yml")
 }
 
