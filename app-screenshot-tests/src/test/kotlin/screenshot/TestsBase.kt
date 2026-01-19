@@ -20,7 +20,7 @@ import si.inova.androidarchitectureplayground.showkase.getMetadata
 
 @Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
-abstract class TestsBase {
+open class TestsBase {
    @get:Rule
    val paparazzi = Paparazzi(
       deviceConfig = DeviceConfig.PIXEL_5,

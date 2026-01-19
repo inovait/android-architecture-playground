@@ -32,6 +32,7 @@ import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.outcome.catchIntoOutcome
 import si.inova.kotlinova.core.time.TimeProvider
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.coroutineContext
 
 @ContributesBinding(AppScope::class)
@@ -68,6 +69,7 @@ class PostsRepositoryImpl(
          }
    }
 
+   @Suppress("CognitiveComplexMethod") // Lots of catches, but otherwise it's okay
    private suspend fun FlowCollector<Outcome<Post>>.loadFromNetwork(
       force: Boolean,
       initialDbPost: DbPost?,
@@ -94,6 +96,8 @@ class PostsRepositoryImpl(
 
             emit(Outcome.Error(error, initialPost))
             return false
+         } catch (e: CancellationException) {
+            throw e
          } catch (e: CauseException) {
             emit(Outcome.Error(e, initialPost))
             return false

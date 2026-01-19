@@ -21,7 +21,7 @@ fun runTestWithDispatchers(
    testBody: suspend TestScope.() -> Unit,
 ) {
    runTest(context, timeout = dispatchTimeoutMs.milliseconds) {
-      val dispatcher = requireNotNull(coroutineContext[CoroutineDispatcher]) { "Dispatcher is not set" }
+      val dispatcher = requireNotNull(coroutineContext[CoroutineDispatcher.Key]) { "Dispatcher is not set" }
 
       val newContext = TestDispatcherProvider(dispatcher)
 

@@ -37,6 +37,7 @@ import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.time.TimeProvider
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.coroutineContext
 
 // @ContributesBinding(AppScope::class)
@@ -88,6 +89,7 @@ class UserRepositoryImpl(
          }
    }
 
+   @Suppress("CognitiveComplexMethod") // Lots of catches, but otherwise it's okay
    private suspend fun FlowCollector<Outcome<User>>.loadSingleUserFromNetwork(
       force: Boolean,
       initialDbUser: DbUser?,
@@ -114,6 +116,8 @@ class UserRepositoryImpl(
 
             emit(Outcome.Error(error, initialUser))
             return false
+         } catch (e: CancellationException) {
+            throw e
          } catch (e: CauseException) {
             emit(Outcome.Error(e, initialUser))
             return false
@@ -148,6 +152,8 @@ class UserRepositoryImpl(
             }
 
             MediatorResult.Success(endOfPaginationReached = data.isEmpty() || data.size < loadSize)
+         } catch (e: CancellationException) {
+            throw e
          } catch (e: Exception) {
             MediatorResult.Error(e)
          }
