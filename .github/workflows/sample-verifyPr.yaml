@@ -5,7 +5,7 @@ on:
     types: [ 'opened', 'reopened', 'synchronize' ]
 jobs:
   build-app:
-    runs-on: "ubuntu-latest"
+    runs-on: "android"
     concurrency:
       group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
@@ -15,7 +15,7 @@ jobs:
       - name: Install screenshot test dependencies
         run: "sudo apt-get install -y libfreetype6 fontconfig fonts-dejavu"
       - name: Globally enable build cache and parallel execution
-        run: "mkdir -p ~/.gradle && echo -e 'org.gradle.caching=true\norg.gradle.parallel=true' >> ~/.gradle/gradle.properties"
+        run: "echo -e 'org.gradle.caching=true\norg.gradle.parallel=true' >> ~/.gradle/gradle.properties"
       - name: Force all tasks to be rerun when debug mode is on
         # This allows us to force rerun the build if cache has gotten corrupted
         run: 'if [[ "${{ runner.debug }}" == "1" ]]; then
@@ -35,7 +35,7 @@ jobs:
       # Build
 
       - name: Compile app
-        run: "./gradlew compileReleaseKotlin assembleDebug$GLOBAL_FLAGS"
+        run: "./gradlew compileReleaseotlin assembleDebug$GLOBAL_FLAGS"
         env:
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
@@ -50,6 +50,10 @@ jobs:
         run: "./gradlew :app:generateDebugDatabaseSchema :app:verifyDebugDatabaseMigration"
       - name: Run Unit Tests
         run: "./gradlew runDebugTests -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest --continue$GLOBAL_FLAGS"
+      - name: Run Android Emulator tests
+        uses: inovait/actions-common/android-run-with-emulator@v15
+        with:
+          command: './gradlew connectedAndroidTest --continue$GLOBAL_FLAGS'
       - name: "Generate new Screenshot Tests"
         run: "config/generate-screenshots.sh ${{ github.event.pull_request.head.ref }}"
       - name: "Run Screenshot Tests"
