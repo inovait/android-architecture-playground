@@ -1,10 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "semanticCommitScopeDisabled"
   ],
   "minimumReleaseAge": "7 days",
-  "minimumReleaseAgeBehaviour": "timestamp-optional",
-  "semanticCommits": "disabled",
-  "semanticCommitScope": ""
+  "minimumReleaseAgeBehaviour": "timestamp-optional"
 }
