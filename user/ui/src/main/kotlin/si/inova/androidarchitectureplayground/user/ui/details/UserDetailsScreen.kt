@@ -61,8 +61,8 @@ private fun UserDetailsContent(userOutcome: Outcome<User>, refresh: () -> Unit) 
 
    Box(
       Modifier.pullToRefresh(
-         refreshing,
-         refreshState,
+         isRefreshing = refreshing,
+         state = refreshState,
          onRefresh = refresh,
          threshold = topWindowOffset + 48.dp
       )

@@ -37,10 +37,10 @@ class UserRepositoryImplTest {
    private val scope = TestScopeWithDispatcherProvider()
 
    private val repository = UserRepositoryImpl(
-      userService,
-      userQueries,
-      scope.virtualTimeProvider(),
-      IOCoroutineScope(scope.coroutineContext)
+      usersService = userService,
+      userDb = userQueries,
+      timeProvider = scope.virtualTimeProvider(),
+      ioScope = IOCoroutineScope(scope.coroutineContext)
    )
 
    @BeforeEach
@@ -467,21 +467,21 @@ class UserRepositoryImplTest {
       }
 
    private fun createFakeUsersDto(from: Int, to: Int): List<LightUserDto> {
-      return List(to - from) {
+      return List(to - from) { index ->
          LightUserDto(
-            it + 1,
-            "First $it",
-            "Second $it"
+            index + 1,
+            "First $index",
+            "Second $index"
          )
       }
    }
 
    private fun createFakeUsers(from: Int, to: Int): List<User> {
-      return List(to - from) {
+      return List(to - from) { index ->
          User(
-            id = it + 1,
-            firstName = "First $it",
-            lastName = "Second $it"
+            id = index + 1,
+            firstName = "First $index",
+            lastName = "Second $index"
          )
       }
    }

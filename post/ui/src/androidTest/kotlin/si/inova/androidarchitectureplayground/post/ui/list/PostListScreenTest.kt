@@ -45,10 +45,10 @@ class PostListScreenTest {
       repository.setPostList(
          PaginatedDataStream.PaginationResult(
             items = Outcome.Success(
-               List(20) {
+               List(20) { index ->
                   Post(
-                     id = it,
-                     title = "A post $it",
+                     id = index,
+                     title = "A post $index",
                   )
                }
             ),

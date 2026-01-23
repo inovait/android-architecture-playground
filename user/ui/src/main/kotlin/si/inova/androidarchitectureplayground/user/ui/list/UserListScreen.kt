@@ -100,11 +100,11 @@ class UserListScreen(
 
       if (data != null) {
          UserListContent(
-            data,
-            selectedItem,
-            {},
-            viewModel::refresh,
-            navigate
+            state = data,
+            selectedItem = selectedItem,
+            loadMore = {},
+            refresh = viewModel::refresh,
+            openUserDetails = navigate
          )
       }
    }
@@ -129,8 +129,8 @@ private fun UserListContent(
 
    Box(
       Modifier.pullToRefresh(
-         refreshing,
-         refreshState,
+         isRefreshing = refreshing,
+         state = refreshState,
          onRefresh = refresh,
          threshold = topWindowOffset + 48.dp
       )
@@ -196,13 +196,13 @@ private fun ColumnScope.UserList(
             ) {}
          },
          key = { index, _ -> index }
-      ) {
+      ) { user ->
          Text(
-            stringResource(R.string.first_last_name, it.firstName, it.lastName),
+            stringResource(R.string.first_last_name, user.firstName, user.lastName),
             Modifier
-               .clickable { openUserDetails(it.id) }
+               .clickable { openUserDetails(user.id) }
                .run {
-                  if (it.id == selectedItem) {
+                  if (user.id == selectedItem) {
                      background(MaterialTheme.colorScheme.primary)
                   } else {
                      this
@@ -211,7 +211,7 @@ private fun ColumnScope.UserList(
                .fillMaxWidth()
                .padding(32.dp)
                .animateItem(),
-            color = if (it.id == selectedItem) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+            color = if (user.id == selectedItem) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
          )
       }
 
@@ -239,8 +239,8 @@ internal fun UserListContentSuccessPreview() {
       UserListContent(
          state = Outcome.Success(
             pagedListOf(
-               List<User>(20) {
-                  User(it, "First $it", "Last $it")
+               List<User>(20) { index ->
+                  User(index, "First $index", "Last $index")
                }
             )
          ),
@@ -260,8 +260,8 @@ internal fun UserListContentSuccessSelectedPreview() {
       UserListContent(
          state = Outcome.Success(
             pagedListOf(
-               List<User>(20) {
-                  User(it, "First $it", "Last $it")
+               List<User>(20) { index ->
+                  User(index, "First $index", "Last $index")
                }
             )
          ),
@@ -369,15 +369,15 @@ private inline fun <T> LazyListScope.itemsWithDivider(
    count = items.size,
    key = if (key != null) { index: Int -> key(index, items.peek(index)) } else null,
    contentType = { index: Int -> contentType(items.peek(index)) }
-) {
-   val item = items[it]
+) { index ->
+   val item = items[index]
    Column(modifier(item)) {
       if (item != null) {
          itemContent(item)
       } else {
          placeholderContent()
       }
-      if (it < items.size - 1) {
+      if (index < items.size - 1) {
          dividerContent()
       }
    }

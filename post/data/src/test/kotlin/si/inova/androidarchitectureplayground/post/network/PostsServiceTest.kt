@@ -79,7 +79,7 @@ class PostsServiceTest {
             body = "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
             userId = 26,
             tags = listOf("love", "english"),
-            reactions = PostDto.Reactions(7, 0),
+            reactions = PostDto.Reactions(likes = 7, dislikes = 0),
             image = "https://i.dummyjson.com/data/products/12/1.jpg"
          )
 

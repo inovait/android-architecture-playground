@@ -13,7 +13,7 @@ interface PagedList<T> {
     * @param index Index of the presented item to return, including placeholders.
     * @return The presented item at position [index], `null` if it is a placeholder.
     */
-   public operator fun get(
+   operator fun get(
       index: Int,
    ): T?
 
@@ -24,7 +24,7 @@ interface PagedList<T> {
     * @param index Index of the presented item to return, including placeholders.
     * @return The presented item at position [index], `null` if it is a placeholder
     */
-   public fun peek(
+   fun peek(
       index: Int,
    ): T?
 
@@ -41,11 +41,11 @@ open class ListBackedPagedListImpl<T : Any>(
       get() = snapshot.size
 
    open override fun get(index: Int): T? {
-      return snapshot.get(index)
+      return snapshot[index]
    }
 
    override fun peek(index: Int): T? {
-      return snapshot.get(index)
+      return snapshot[index]
    }
 
    override fun hashCode(): Int {

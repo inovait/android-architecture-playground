@@ -125,8 +125,8 @@ class StaleWhileRevalidateInputPagingWrapper<Value : Any>(
                // When pages is not empty and REFRESH is called, it means user requested pull to refresh
                val force = state.pages.isNotEmpty()
 
-               getFirstPage(force, state.config.initialLoadSize).collect {
-                  val newData = it.data.orEmpty()
+               getFirstPage(force, state.config.initialLoadSize).collect { dataOutcome ->
+                  val newData = dataOutcome.data.orEmpty()
                   if (newData != data) {
                      data = newData
                      currentPagingSource?.invalidate()

@@ -114,7 +114,7 @@ private class PresenterPagedList<T : Any>(
          return null
       }
       presenter[index]
-      return super.get(index)
+      return super[index]
    }
 }
 

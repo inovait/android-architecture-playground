@@ -11,12 +11,12 @@ import si.inova.kotlinova.core.reporting.ErrorReporter
 interface TestErrorReportingProviders {
    @Provides
    fun provideErrorReporter(): ErrorReporter {
-      return ErrorReporter {
-         if (it !is CauseException || it.shouldReport) {
-            Log.e("Testing", "Got unhandled exception", it)
-            caughtExceptions += it
+      return ErrorReporter { e ->
+         if (e !is CauseException || e.shouldReport) {
+            Log.e("Testing", "Got unhandled exception", e)
+            caughtExceptions += e
          } else {
-            Log.w("Testing", "Got an exception", it)
+            Log.w("Testing", "Got an exception", e)
          }
       }
    }

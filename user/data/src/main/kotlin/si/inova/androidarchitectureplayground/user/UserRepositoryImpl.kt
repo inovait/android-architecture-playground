@@ -145,7 +145,7 @@ class UserRepositoryImpl(
 
             val loadSize = if (loadKey == 0) state.config.initialLoadSize else state.config.pageSize
 
-            val data = usersService.getUsers(loadSize, loadKey).users.map { it.toUser() }
+            val data = usersService.getUsers(limit = loadSize, skip = loadKey).users.map { it.toUser() }
 
             withIO {
                saveUsersToDatabase(data, replaceExisting = loadType == LoadType.REFRESH)

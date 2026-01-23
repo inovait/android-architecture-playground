@@ -33,7 +33,7 @@ class PostsRepositoryImplTest {
 
    @BeforeEach
    fun setUp() {
-      postService.providedPosts = createFakePostsDto(0, 30)
+      postService.providedPosts = createFakePostsDto(from = 0, to = 30)
    }
 
    @Test
@@ -384,19 +384,19 @@ class PostsRepositoryImplTest {
 }
 
 private fun createFakePostsDto(from: Int, to: Int): List<LightPostDto> {
-   return List(to - from) {
+   return List(to - from) { index ->
       LightPostDto(
-         it,
-         "Title $it"
+         index,
+         "Title $index"
       )
    }
 }
 
 private fun createFakePosts(from: Int, to: Int): List<Post> {
-   return List(to - from) {
+   return List(to - from) { index ->
       Post(
-         id = it,
-         title = "Title $it"
+         id = index,
+         title = "Title $index"
       )
    }
 }

@@ -48,7 +48,7 @@ fun UserDto.toDb(lastUpdate: Long): DbUser {
 
 fun DbUser.toUser(): User {
    val hair = if (hair_color != null && hair_type != null) {
-      User.Hair(hair_color, hair_type)
+      User.Hair(color = hair_color, type = hair_type)
    } else {
       null
    }

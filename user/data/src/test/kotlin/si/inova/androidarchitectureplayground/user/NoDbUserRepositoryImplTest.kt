@@ -91,22 +91,22 @@ class NoDbUserRepositoryImplTest {
    }
 
    private fun createFakeUsers(from: Int, to: Int): List<User> {
-      return List(to - from) {
+      return List(to - from) { index ->
          User(
-            id = it + 1,
-            firstName = "First $it",
-            lastName = "Second $it"
+            id = index + 1,
+            firstName = "First $index",
+            lastName = "Second $index"
          )
       }
    }
 }
 
 private fun createFakeUsersDto(from: Int, to: Int): List<LightUserDto> {
-   return List(to - from) {
+   return List(to - from) { index ->
       LightUserDto(
-         it + 1,
-         "First $it",
-         "Second $it"
+         index + 1,
+         "First $index",
+         "Second $index"
       )
    }
 }

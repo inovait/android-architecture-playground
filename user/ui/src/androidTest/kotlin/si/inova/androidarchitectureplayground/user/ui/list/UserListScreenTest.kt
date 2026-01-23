@@ -38,11 +38,11 @@ class UserListScreenTest {
 
       viewModel.userList.value = Outcome.Success(
          pagedListOf(
-            List(10) {
+            List(10) { index ->
                User(
-                  id = it,
+                  id = index,
                   firstName = "John",
-                  lastName = "Smith $it",
+                  lastName = "Smith $index",
                )
             }
          )

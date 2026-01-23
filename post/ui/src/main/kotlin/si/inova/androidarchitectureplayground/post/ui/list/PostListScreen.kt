@@ -96,11 +96,11 @@ class PostListScreen(
 
       if (data != null) {
          PostListContent(
-            data,
-            selectedItem,
-            viewModel::nextPage,
-            viewModel::refresh,
-            navigate
+            state = data,
+            selectedItem = selectedItem,
+            loadMore = viewModel::nextPage,
+            refresh = viewModel::refresh,
+            openPostDetails = navigate
          )
       }
    }
@@ -124,8 +124,8 @@ private fun PostListContent(
 
    Box(
       Modifier.pullToRefresh(
-         refreshing,
-         refreshState,
+         isRefreshing = refreshing,
+         state = refreshState,
          onRefresh = refresh,
          threshold = topWindowOffset + 48.dp
       )
@@ -179,13 +179,13 @@ private fun ColumnScope.PostList(
       lazyListState,
       contentPadding = WindowInsets.safeDrawing.exclude(consumedWindowInsets).asPaddingValues()
    ) {
-      itemsWithDivider(state.data?.posts.orEmpty()) {
+      itemsWithDivider(state.data?.posts.orEmpty()) { post ->
          Text(
-            it.title,
+            post.title,
             Modifier
-               .clickable { openPostDetails(it.id) }
+               .clickable { openPostDetails(post.id) }
                .run {
-                  if (it.id == selectedItem) {
+                  if (post.id == selectedItem) {
                      background(MaterialTheme.colorScheme.primary)
                   } else {
                      this
@@ -193,7 +193,7 @@ private fun ColumnScope.PostList(
                }
                .fillMaxWidth()
                .padding(32.dp),
-            color = if (it.id == selectedItem) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+            color = if (post.id == selectedItem) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
          )
       }
 
@@ -222,8 +222,8 @@ internal fun PostListContentSuccessPreview() {
       PostListContent(
          state = Outcome.Success(
             PostListState(
-               List<Post>(20) {
-                  Post(it, "Post $it")
+               List<Post>(20) { index ->
+                  Post(index, "Post $index")
                }
             )
          ),
@@ -243,8 +243,8 @@ internal fun PostListContentSuccessSelectedPreview() {
       PostListContent(
          state = Outcome.Success(
             PostListState(
-               List<Post>(20) {
-                  Post(it, "Post $it")
+               List<Post>(20) { index ->
+                  Post(index, "Post $index")
                }
             )
          ),

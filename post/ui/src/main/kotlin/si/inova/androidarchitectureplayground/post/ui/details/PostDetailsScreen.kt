@@ -76,8 +76,8 @@ private fun PostDetailsContent(
 
    Box(
       Modifier.pullToRefresh(
-         refreshing,
-         refreshState,
+         isRefreshing = refreshing,
+         state = refreshState,
          onRefresh = refresh,
          threshold = topWindowOffset + 48.dp
       )
@@ -123,9 +123,9 @@ private fun ShowPost(post: Post, navigateToUserDetails: (Int) -> Unit) {
          .fillMaxSize()
          .verticalScroll(rememberScrollState())
    ) {
-      post.image?.let {
+      post.image?.let { url ->
          AsyncImage(
-            it,
+            url,
             contentDescription = null,
             modifier = Modifier
                .size(256.dp)
