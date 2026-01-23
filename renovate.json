@@ -5,5 +5,11 @@
     ":semanticCommitScopeDisabled"
   ],
   "minimumReleaseAge": "7 days",
-  "minimumReleaseAgeBehaviour": "timestamp-optional"
+  "minimumReleaseAgeBehaviour": "timestamp-optional",
+  "gradle": {
+    "enabled": true,
+    "versionCatalogs": [
+      "config/libs.toml"
+    ]
+  }
 }
