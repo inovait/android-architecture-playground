@@ -7,6 +7,7 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.user.FakeUserRepository
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.Outcome
@@ -22,11 +23,12 @@ class UserDetailsViewModelTest {
    @BeforeEach
    fun setUp() {
       userRepository.setUserDetails(17, Outcome.Success(TEST_USER))
+      viewModel.key = UserDetailsScreenKey(17)
    }
 
    @Test
    fun `Load data`() = scope.runTest {
-      viewModel.startLoading(17)
+      viewModel.onServiceRegistered()
 
       viewModel.userDetails.test {
          runCurrent()
@@ -38,7 +40,6 @@ class UserDetailsViewModelTest {
 
    @Test
    fun `Refresh data`() = scope.runTest {
-      viewModel.startLoading(17)
       viewModel.onServiceRegistered()
       viewModel.refresh()
 

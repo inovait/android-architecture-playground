@@ -7,6 +7,7 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.post.FakePostsRepository
 import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.kotlinova.core.outcome.Outcome
@@ -22,11 +23,12 @@ class PostDetailsViewModelTest {
    @BeforeEach
    fun setUp() {
       postRepository.setPostDetails(17, Outcome.Success(TEST_POST))
+      viewModel.key = PostDetailsScreenKey(17)
    }
 
    @Test
    fun `Load data`() = scope.runTest {
-      viewModel.startLoading(17)
+      viewModel.onServiceRegistered()
 
       viewModel.postDetails.test {
          runCurrent()
@@ -38,7 +40,6 @@ class PostDetailsViewModelTest {
 
    @Test
    fun `Refresh data`() = scope.runTest {
-      viewModel.startLoading(17)
       viewModel.onServiceRegistered()
       viewModel.refresh()
 

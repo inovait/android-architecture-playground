@@ -21,7 +21,6 @@ import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -54,10 +53,6 @@ class PostDetailsScreen(
 ) : Screen<PostDetailsScreenKey>() {
    @Composable
    override fun Content(key: PostDetailsScreenKey) {
-      remember(key.id) {
-         viewModel.startLoading(key.id)
-         true
-      }
       val postOutcome = viewModel.postDetails.collectAsStateWithLifecycleAndBlinkingPrevention().value
       if (postOutcome != null) {
          PostDetailsContent(postOutcome, viewModel::refresh) {
