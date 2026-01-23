@@ -1011,6 +1011,8 @@ style:
   AbstractClassCanBeConcreteClass:
     active: true
     ignoreAnnotated: [ 'Module', 'Component' ]
+    # Sometimes, classes must be abstract in tests to avoid executing them via JUnit
+    excludes: *testFolders
   AbstractClassCanBeInterface:
     active: true
   UnnecessaryAnnotationUseSiteTarget:
