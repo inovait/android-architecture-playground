@@ -28,7 +28,7 @@ comments:
   CommentOverPrivateProperty:
     active: false
   DeprecatedBlockTag:
-    active: false
+    active: true
   EndOfSentenceFormat:
     active: false
     endOfSentenceFormat: '([.?!][ \t\n\r\f<])|([.?!:]$)'
@@ -116,14 +116,14 @@ complexity:
     ignoreDataClasses: true
     ignoreAnnotated: [ 'Inject', 'Provides', 'AssistedInject', 'Delete', 'Insert', 'Query', 'RawQuery', 'Update', 'Transaction', 'Composable' ]
   MethodOverloading:
-    active: false
+    active: true
     allowedOverloads: 6
   NamedArguments:
     active: false
     allowedArguments: 3
-    ignoreArgumentsMatchingNames: false
+    ignoreArgumentsMatchingNames: true
   NestedBlockDepth:
-    active: false
+    active: true
     allowedDepth: 4
     ignoreAnnotated: [ 'Composable' ]
   NestedScopeFunctions:
@@ -142,7 +142,7 @@ complexity:
     excludes: *testFolders
     allowedDuplications: 3
     ignoreAnnotation: true
-    allowedWithLengthLessThan: true
+    allowedWithLengthLessThan: 4
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
@@ -159,7 +159,7 @@ complexity:
 coroutines:
   active: true
   GlobalCoroutineUsage:
-    active: false
+    active: true
   InjectDispatcher:
     active: true
     excludes: *testFolders
@@ -229,12 +229,12 @@ exceptions:
       - 'hashCode'
       - 'toString'
   InstanceOfCheckForException:
-    active: false
+    active: true
     excludes: *testFolders
   NotImplementedDeclaration:
     active: true
   ObjectExtendsThrowable:
-    active: false
+    active: true
   PrintStackTrace:
     active: true
   RethrowCaughtException:
@@ -439,7 +439,7 @@ ktlint:
   NoSemicolons:
     active: true
     autoCorrect: false
-  NoSingleLineBlockComment:
+  NoceBlockComment:
     active: false
     autoCorrect: false
     indentSize: 3
@@ -526,7 +526,7 @@ ktlint:
     active: true
     autoCorrect: false
   StringTemplateIndent:
-    active: true
+    active: false
     autoCorrect: false
     indentSize: 3
   TrailingCommaOnCallSite:
@@ -606,7 +606,7 @@ naming:
     active: false
     parameterPattern: '[a-z][A-Za-z0-9]*|_'
   MatchingDeclarationName:
-    active: false
+    active: true
     mustBeFirst: true
   MemberNameEqualsClassName:
     active: true
@@ -614,7 +614,7 @@ naming:
   NoNameShadowing:
     active: true
   NonBooleanPropertyPrefixedWithIs:
-    active: false
+    active: true
     excludes: *testFolders
   ObjectPropertyNaming:
     active: true
@@ -673,7 +673,8 @@ potential-bugs:
   CastToNullableType:
     active: false
   Deprecation:
-    active: false
+    active: true
+    excludeImportStatements: true
   DontDowncastCollectionTypes:
     active: true
   DoubleMutabilityForCollection:
@@ -695,7 +696,7 @@ potential-bugs:
   EqualsWithHashCodeExist:
     active: true
   ExitOutsideMain:
-    active: false
+    active: true
   ExplicitGarbageCollectionCall:
     active: true
   HasPlatformType:
@@ -734,18 +735,18 @@ potential-bugs:
     excludes: *testFolders
     ignoreOnClassesPattern: ''
   MapGetWithNotNullAssertionOperator:
-    active: false
+    active: true
   MissingPackageDeclaration:
     active: true
     excludes: [ '**/*.kts' ]
   NullCheckOnMutableProperty:
-    active: false
+    active: true
   NullableToStringCall:
     active: true
   PropertyUsedBeforeDeclaration:
     active: false
   UnconditionalJumpStatementInLoop:
-    active: false
+    active: true
   UnnecessaryNotNullCheck:
     active: true
   UnnecessaryNotNullOperator:
@@ -778,7 +779,23 @@ potential-bugs:
     active: true
     excludes: *testFolders
   UnnamedParameterUse:
-    active: false
+    active: true
+    ignoreFunctionCall:
+      - kotlin.comparisons.maxOf
+      - kotlin.comparisons.minOf
+      - kotlin.collections.maxOf
+      - kotlin.collections.minOf
+      - kotlin.math.max
+      - kotlin.math.min
+      - kotlin.collections.List.subList
+      - kotlin.ranges.coerceIn
+      # Order of the Width/height are generally well known, it's more noise to make it explicit
+      - androidx.compose.ui.layout.MeasureScope.layout
+      - androidx.compose.ui.unit.Constraints.Companion.fixed
+    excludes: *testFolders
+    ignoreAnnotated:
+      - "Preview"
+      - "FullScreenPreviews"
 
 style:
   active: true
@@ -795,7 +812,7 @@ style:
   CanBeNonNullable:
     active: true
   CascadingCallWrapping:
-    active: false
+    active: true
     includeElvis: true
   ClassOrdering:
     active: false
@@ -826,7 +843,7 @@ style:
   EqualsNullCall:
     active: true
   EqualsOnSignatureLine:
-    active: false
+    active: true
   ExplicitCollectionElementAccessMethod:
     active: false
   ExplicitItLambdaParameter:
@@ -945,7 +962,7 @@ style:
   ModifierOrder:
     active: true
   MultilineLambdaItParameter:
-    active: false
+    active: true
   MultilineRawStringIndentation:
     active: true
     indentSize: 3
@@ -965,7 +982,7 @@ style:
   OptionalAbstractKeyword:
     active: true
   OptionalUnit:
-    active: false
+    active: true
   ProtectedMemberInFinalClass:
     active: true
   RedundantConstructorKeyword:
@@ -975,7 +992,7 @@ style:
   RedundantHigherOrderMapUsage:
     active: true
   RedundantVisibilityModifier:
-    active: false
+    active: true
   ReturnCount:
     active: false # This rule prevents us from using guard clauses after mapping data in the method
     max: 3
@@ -1059,7 +1076,7 @@ style:
   UseAnyOrNoneInsteadOfFind:
     active: true
   UseArrayLiteralsInAnnotations:
-    active: false
+    active: true
   UseCheckNotNull:
     active: true
   UseCheckOrError:
