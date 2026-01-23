@@ -12,7 +12,7 @@ import kotlin.time.Duration.Companion.milliseconds
 /**
  * runTest variant that automatically injects test dispatchers as all Dispatch dispatchers.
  *
- * @see kotlinx.coroutines.test.runTest
+ * @see runTest
  */
 @OptIn(ExperimentalStdlibApi::class)
 fun runTestWithDispatchers(
@@ -34,7 +34,7 @@ fun runTestWithDispatchers(
 /**
  * runTest variant that automatically injects test dispatchers as all Dispatch dispatchers.
  *
- * @see kotlinx.coroutines.test.runTest
+ * @see runTest
  */
 @OptIn(ExperimentalStdlibApi::class)
 fun TestScope.runTestWithDispatchers(

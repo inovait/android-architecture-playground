@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
 
    private fun beginInitialisation(startup: Boolean) {
       lifecycleScope.launch {
-         val initialHistory: List<ScreenKey> = viewModel.startingScreens.filterNotNull().first()
+         val initialHistory: List<ScreenKey> = listOf(viewModel.startingScreen.filterNotNull().first())
 
          val deepLinkTarget = if (startup) {
             intent?.data?.let { mainDeepLinkHandler.handleDeepLink(it, startup = true) }
