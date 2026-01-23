@@ -34,7 +34,7 @@ jobs:
                   echo "GLOBAL_FLAGS=" >> "$GITHUB_ENV";
               fi
             '
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           lfs: true
