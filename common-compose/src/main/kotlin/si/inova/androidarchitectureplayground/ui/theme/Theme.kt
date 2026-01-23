@@ -70,7 +70,7 @@ fun AndroidArchitecturePlaygroundTheme(
                   draggedAlpha,
                   focusedAlpha,
                   hoveredAlpha,
-                  pressedAlpha.coerceAtLeast(MIN_RIPPLE_ALPHA_ON_TIRAMISU)
+                  pressedAlpha = pressedAlpha.coerceAtLeast(MIN_RIPPLE_ALPHA_ON_TIRAMISU)
                )
             }
 

@@ -76,7 +76,7 @@ open class MyApplication : Application() {
 
    /**
     * A better way to check that application is debuggable - BuildConfig.DEBUG does not work when compiling application
-    * as profileable
+    * as profileable.
     */
    private fun isDebuggable(): Boolean = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
 

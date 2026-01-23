@@ -18,14 +18,14 @@ class IntegrationTestRule(
 ) : TestRule, ComposeTestRule by composeTestRule {
    val scope = MockWebServerScope()
 
+   init {
+      TestNetworkUrlProviders.url = scope.server.url("").toString()
+   }
+
    var failTestForUnhandledExceptions: Boolean = true
 
    override fun apply(base: Statement?, description: Description?): Statement {
       return RuleChain.outerRule(testEvents).around(composeTestRule).apply(base, description)
-   }
-
-   init {
-      TestNetworkUrlProviders.url = scope.server.url("").toString()
    }
 
    private val testEvents = object : TestWatcher() {
