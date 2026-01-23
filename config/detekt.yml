@@ -1171,15 +1171,6 @@ Compose:
   ViewModelInjection:
     active: true
 
-compiler:
-  CompilerInfo:
-    active: false
-    ignoreDiagnostic: [ ]
-  CompilerWarning:
-    active: true
-    ignoreDiagnostic:
-      - OPT_IN_USAGE
-
 kotlinovanavigation:
   NavigationKeyNoEnums:
     active: true

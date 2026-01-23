@@ -50,7 +50,6 @@ dependencies {
    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
    detektPlugins(libs.detekt.ktlint)
-   detektPlugins(libs.detekt.compilerWarnings)
    detektPlugins(libs.detekt.compose)
 }
 
