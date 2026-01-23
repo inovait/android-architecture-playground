@@ -27,8 +27,8 @@ dependencies {
    implementation(libs.kotlinova.retrofit)
    implementation(libs.sqldelight.paging)
 
-   testImplementation(projects.common.test)
-   testImplementation(projects.commonRetrofit.test)
+   testImplementation(testFixtures(projects.common))
+   testImplementation(testFixtures(projects.commonRetrofit))
    testImplementation(libs.androidx.paging.testing)
    testImplementation(libs.kotlinova.core.test)
    testImplementation(libs.kotlinova.retrofit.test)

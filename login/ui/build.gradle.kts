@@ -23,6 +23,6 @@ dependencies {
    api(libs.kotlinova.core)
    api(libs.kotlinova.navigation)
 
-   testImplementation(projects.login.test)
+   testImplementation(testFixtures(projects.login.api))
    testImplementation(libs.kotlinova.core.test)
 }

@@ -4,6 +4,7 @@ plugins {
    compose
    navigation
    showkase
+   testFixtures
 }
 
 android {
@@ -28,10 +29,10 @@ dependencies {
    implementation(libs.androidx.compose.material3.sizeClasses)
    implementation(libs.coil)
 
-   testImplementation(projects.post.test)
+   testImplementation(testFixtures(projects.post.api))
    testImplementation(libs.kotlinova.core.test)
 
-   androidTestImplementation(projects.post.test)
+   androidTestImplementation(testFixtures(projects.post.api))
    androidTestImplementation(libs.androidx.test.core)
    androidTestImplementation(libs.junit4)
 }

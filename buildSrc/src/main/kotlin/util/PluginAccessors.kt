@@ -33,3 +33,6 @@ inline val PluginDependenciesSpec.testHelpers: PluginDependencySpec
 
 inline val PluginDependenciesSpec.sqldelight: PluginDependencySpec
    get() = id("sqldelight")
+
+inline val PluginDependenciesSpec.testFixtures: PluginDependencySpec
+   get() = id("test-fixtures")

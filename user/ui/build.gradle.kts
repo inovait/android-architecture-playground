@@ -27,10 +27,10 @@ dependencies {
    implementation(libs.androidx.paging.common)
    implementation(libs.kotlinova.core)
 
-   testImplementation(projects.user.test)
+   testImplementation(testFixtures(projects.user.api))
    testImplementation(libs.kotlinova.core.test)
 
-   androidTestImplementation(projects.user.test)
+   androidTestImplementation(testFixtures(projects.user.api))
    androidTestImplementation(libs.androidx.test.core)
    androidTestImplementation(libs.junit4)
    androidTestImplementation(libs.kotlin.coroutines)

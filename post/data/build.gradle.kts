@@ -24,8 +24,8 @@ dependencies {
 
    implementation(libs.dispatch)
 
-   testImplementation(projects.common.test)
-   testImplementation(projects.commonRetrofit.test)
+   testImplementation(testFixtures(projects.common))
+   testImplementation(testFixtures(projects.commonRetrofit))
    testImplementation(libs.kotlinova.core.test)
    testImplementation(libs.kotlinova.retrofit.test)
    testImplementation(libs.okhttp.mockWebServer)
