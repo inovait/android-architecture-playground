@@ -11,7 +11,7 @@ jobs:
       OWNER_NAME: ${{github.actor}}
       OWNER_MESSAGE: ${{github.event.ref}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 

@@ -30,7 +30,7 @@ jobs:
                   echo "GLOBAL_FLAGS=" >> "$GITHUB_ENV";
               fi
             '
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           lfs: true
           ref: ${{ github.event.pull_request.head.sha }}
