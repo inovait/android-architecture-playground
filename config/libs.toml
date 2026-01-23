@@ -26,7 +26,6 @@ composeGuard = "2.4.0"
 dependencyAnalysis = "3.5.1"
 desugarJdkLibs = "2.1.5"
 detekt = "2.0.0-alpha.1"
-detekt-compilerWarnings = "0.0.4"
 detekt-compose = "0.5.3"
 dispatch = "1.0.0-beta10"
 # @keep used in kts scripts directly
@@ -104,7 +103,6 @@ composeGuard = { module = "com.joetr.compose.guard:com.joetr.compose.guard.gradl
 dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
 desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 detekt-api = { module = "dev.detekt:detekt-api", version.ref = "detekt" }
-detekt-compilerWarnings = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "detekt-compilerWarnings" }
 detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt-compose" }
 detekt-ktlint = { module = "dev.detekt:detekt-rules-ktlint-wrapper", version.ref = "detekt" }
 detekt-plugin = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt" }
