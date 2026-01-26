@@ -3,6 +3,7 @@
   "extends": [
     "config:recommended",
     ":semanticPrefixChore",
+    ":semanticCommitType(chore)",
     ":semanticCommitScopeDisabled"
   ],
   "minimumReleaseAge": "7 days",
