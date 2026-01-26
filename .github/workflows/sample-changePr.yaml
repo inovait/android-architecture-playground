@@ -1,6 +1,8 @@
 # Sample Github Actions workflow that will detect PR being moved from draft (with "Draft:" prefix) to a ready-for-review.
 # When this happens, it will automatically move its corresponding Jira ticket to In Review.
 
+# This sample action only works on Inova company self-hosted-runners
+
 name: Change PR
 on:
   pull_request:

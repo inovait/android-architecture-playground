@@ -1,3 +1,5 @@
+# This sample action only works on Inova company self-hosted-runners (see non-sample develop.yaml for public variant)
+
 name: sample-develop-build
 run-name: Sample develop build that could be run on Inova runners
 on:

@@ -1,6 +1,8 @@
 # Sample Github action that will create a new PR whenever someone pushes a new branch.
 # If branch also contains a jira ticket, it will transition that ticket to progress
 
+# This sample action only works on Inova company self-hosted-runners
+
 name: Create new PR
 on: create
 jobs:

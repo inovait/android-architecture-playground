@@ -1,3 +1,5 @@
+# This sample action only works on Inova company self-hosted-runners (see non-sample verifyPr.yaml for public variant)
+
 name: pull-request-build
 run-name: "#${{ github.event.pull_request.number}} ${{ github.event.pull_request.title}}"
 on:

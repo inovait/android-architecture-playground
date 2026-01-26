@@ -1,6 +1,7 @@
 # Sample Github Actions workflow that will detect when a non-draft PR is opened or when PR is transitioned from draft to non-draft.
 # When this happens, it will check whether PR has a jira ticket defined. If not, it will warn the developer, that PR is not linked to anything.
 
+# This sample action only works on Inova company self-hosted-runners
 
 name: Verify PR on Open
 on:
