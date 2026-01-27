@@ -72,7 +72,7 @@ jobs:
         #     and then sarif-comment.yaml workflow will run, which will post the comment
       - name: Upload Results
         if: (!cancelled())
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Results
           path: |
