@@ -31,7 +31,6 @@ dispatch = "1.0.0-beta10"
 # @keep used in kts scripts directly
 jacoco = "0.8.14"
 junit = "6.0.2"
-junit-launcher = "6.0.2"
 junit4 = "4.13.2"
 junit4-parameterinjector = "1.20"
 keeperPlugin = "0.16.1"
@@ -110,7 +109,7 @@ dispatch = { module = "com.rickbusarow.dispatch:dispatch-core", version.ref = "d
 dispatch-test = { module = "com.rickbusarow.dispatch:dispatch-test", version.ref = "dispatch" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-junit-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-launcher" }
+junit-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 junit4 = { module = "junit:junit", version.ref = "junit4" }
 junit4-parameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "junit4-parameterinjector" }
 keeperPlugin = { module = "com.slack.keeper:keeper", version.ref = "keeperPlugin" }
