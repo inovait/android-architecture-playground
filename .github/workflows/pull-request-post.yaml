@@ -26,7 +26,7 @@ jobs:
         if: steps.download.outcome == 'success'
         id: pr-meta
         run: |
-          pr=$(cat artifacts/Results/pr_number.txt)
+          pr=$(cat artifacts/results/pr_number.txt)
           echo "pr_num=$pr" > $GITHUB_OUTPUT
           echo "pr_ref=refs/pull/$pr/merge" >> $GITHUB_OUTPUT
           mkdir -p repo
@@ -58,7 +58,7 @@ jobs:
           simple: true
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
-        if: always()
+        if: steps.download.outcome == 'success'
         with:
           comment_mode: failures
           junit_files: |
@@ -66,13 +66,14 @@ jobs:
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@50d3aff4548aa991e6753342d9ba291084e63848
+        if: steps.download.outcome == 'success'
         with:
           paths: |
-            artifacts/Results/aggregatedJacocoReport.xml,
+            artifacts/results/aggregatedJacocoReport.xml,
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
           title: Code Coverage
           min-coverage-overall: 50
           min-coverage-changed-files: 30
-          event_file: artifacts/Results/event.json
+          event_file: artifacts/results/event.json
           pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
