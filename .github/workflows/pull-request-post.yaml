@@ -21,7 +21,6 @@ jobs:
         with:
           run_id: ${{ github.event.workflow_run.id }}
           path: artifacts
-          use_unzip: true
           allow_forks: true
       - run: find
       - name: Set the PR_NUM
