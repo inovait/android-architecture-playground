@@ -25,7 +25,7 @@ jobs:
         if: steps.download.outcome == 'success'
         id: pr-meta
         run: |
-          pr=$(cat pr_number.txt)
+          pr=$(cat Results/pr_number.txt)
           echo "pr_num=$pr" > $GITHUB_OUTPUT
           echo "pr_ref=refs/pull/$pr/merge" >> $GITHUB_OUTPUT
           mkdir -p repo
