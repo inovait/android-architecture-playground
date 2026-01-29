@@ -27,7 +27,7 @@ jobs:
         if: steps.download.outcome == 'success'
         id: pr-meta
         run: |
-          pr=$(cat artifacts/results/pr_number.txt)
+          pr=$(cat artifacts/results/android-architecture-playground/android-architecture-playground/pr_number.txt)
           echo "pr_num=$pr" > $GITHUB_OUTPUT
           echo "pr_ref=refs/pull/$pr/merge" >> $GITHUB_OUTPUT
           mkdir -p repo
@@ -70,11 +70,11 @@ jobs:
         if: steps.download.outcome == 'success'
         with:
           paths: |
-            artifacts/results/aggregatedJacocoReport.xml,
+            artifacts/results/android-architecture-playground/android-architecture-playground/aggregatedJacocoReport.xml,
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
           title: Code Coverage
           min-coverage-overall: 50
           min-coverage-changed-files: 30
-          event_file: artifacts/results/event.json
+          event_file: artifacts/results/android-architecture-playground/android-architecture-playground/event.json
           pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
