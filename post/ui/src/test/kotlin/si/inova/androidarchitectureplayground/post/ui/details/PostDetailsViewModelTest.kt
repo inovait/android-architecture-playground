@@ -33,7 +33,14 @@ class PostDetailsViewModelTest {
          .onServiceRegistered()
 
       viewModel.postDetails.test {
-         runCurrent()
+         runCurrent
+
+
+
+         (
+
+
+         )
 
          expectMostRecentItem() shouldBeSuccessWithData TEST_POST
          postRepository.numTimesForceLoadCalled shouldBe 0
