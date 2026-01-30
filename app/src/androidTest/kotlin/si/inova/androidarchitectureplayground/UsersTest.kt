@@ -21,6 +21,12 @@ class UsersTest {
       mockResponse("/users?limit=30&skip=0", includeQueryParameters = true) {
          createJsonMockResponseFromResource("user_list.json")
       }
+      mockResponse("/users?limit=30", includeQueryParameters = true) {
+         createJsonMockResponseFromResource("user_list.json")
+      }
+      mockResponse("/users?limit=10&skip=3", includeQueryParameters = true) {
+         createJsonMockResponseFromResource("user_list_empty.json")
+      }
 
       composeTestRule.onAwaitingNodeWithText("Login").performClick()
       composeTestRule.onAwaitingNodeWithText("Users").performClick()
@@ -38,6 +44,13 @@ class UsersTest {
       mockResponse("/users?limit=30&skip=0", includeQueryParameters = true) {
          createJsonMockResponseFromResource("user_list.json")
       }
+      mockResponse("/users?limit=30", includeQueryParameters = true) {
+         createJsonMockResponseFromResource("user_list.json")
+      }
+      mockResponse("/users?limit=10&skip=3", includeQueryParameters = true) {
+         createJsonMockResponseFromResource("user_list_empty.json")
+      }
+
 
       mockResponse("/users/3") {
          createJsonMockResponseFromResource("single_user.json")
