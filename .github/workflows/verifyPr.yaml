@@ -70,11 +70,14 @@ jobs:
         #     GitHub Actions does not allow PR actions triggered from external contributors
         #     to post comments. As a workaround, we upload metadata artifacts
         #     and then sarif-comment.yaml workflow will run, which will post the comment
+
+      - run: echo ${{ github.event.number }} > pr_number.txt
+        if: (!cancelled())
       - name: Upload Results
         if: (!cancelled())
         uses: actions/upload-artifact@v4
         with:
-          name: Results
+          name: results
           path: |
             **/build/outputs/*-results/**/*.xml
             **/build/*-results/**/*.xml

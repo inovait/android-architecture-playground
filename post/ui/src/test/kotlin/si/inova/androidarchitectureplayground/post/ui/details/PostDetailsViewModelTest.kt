@@ -28,10 +28,19 @@ class PostDetailsViewModelTest {
 
    @Test
    fun `Load data`() = scope.runTest {
-      viewModel.onServiceRegistered()
+      viewModel
 
-      viewModel.postDetails.test {
-         runCurrent()
+         .onServiceRegistered()
+
+      viewModel.
+
+
+
+      postDetails.test {
+         runCurrent(
+
+
+         )
 
          expectMostRecentItem() shouldBeSuccessWithData TEST_POST
          postRepository.numTimesForceLoadCalled shouldBe 0
