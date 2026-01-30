@@ -3,6 +3,7 @@ import com.slack.keeper.optInToKeeper
 plugins {
    androidAppModule
    compose
+   instrumentedTests
    navigation
    parcelize
    sqldelight
@@ -125,10 +126,6 @@ afterEvaluate {
 
 keeper {
    automaticR8RepoManagement = false
-}
-
-custom {
-   enableEmulatorTests.set(true)
 }
 
 dependencies {

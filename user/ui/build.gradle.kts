@@ -2,6 +2,7 @@ plugins {
    androidLibraryModule
    di
    compose
+   instrumentedTests
    navigation
    showkase
 }
@@ -10,10 +11,6 @@ android {
    namespace = "si.inova.architectureplayground.user"
 
    androidResources.enable = true
-}
-
-custom {
-   enableEmulatorTests.set(true)
 }
 
 dependencies {

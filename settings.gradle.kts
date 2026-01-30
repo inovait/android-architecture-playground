@@ -29,6 +29,7 @@ rootProject.name = "AndroidArchitecturePlayground"
 
 include(":app")
 include(":app-benchmark")
+include(":app-merged-instrumented-tests")
 include(":app-screenshot-tests")
 include(":common")
 include(":common-android")
