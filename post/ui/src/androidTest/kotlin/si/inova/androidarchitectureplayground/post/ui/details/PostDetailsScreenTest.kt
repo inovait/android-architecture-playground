@@ -1,5 +1,6 @@
 package si.inova.androidarchitectureplayground.post.ui.details
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
@@ -40,6 +41,8 @@ class PostDetailsScreenTest {
    fun setUp() {
       SingletonImageLoader.setUnsafe(FakeCoilLoader())
 
+      viewModel.key = PostDetailsScreenKey(77)
+
       postRepository.setPostDetails(
          77,
          Outcome.Success(
@@ -70,6 +73,7 @@ class PostDetailsScreenTest {
             screen.Content(PostDetailsScreenKey(77))
          }
       }
+      viewModel.onServiceRegistered()
 
       rule.onNodeWithText("In fact, she had trained her entire life in anticipation that", substring = true).assertIsDisplayed()
    }
@@ -81,6 +85,7 @@ class PostDetailsScreenTest {
             screen.Content(PostDetailsScreenKey(77))
          }
       }
+      viewModel.onServiceRegistered()
 
       rule.waitForIdle()
       postRepository.numTimesForceLoadCalled shouldBe 0
@@ -100,6 +105,7 @@ class PostDetailsScreenTest {
             screen.Content(PostDetailsScreenKey(77))
          }
       }
+      viewModel.onServiceRegistered()
 
       rule.onNodeWithText("Open author").performClick()
 

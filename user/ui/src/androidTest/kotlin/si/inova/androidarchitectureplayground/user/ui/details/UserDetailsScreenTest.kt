@@ -47,6 +47,8 @@ class UserDetailsScreenTest {
             )
          )
       )
+
+      viewModel.key = UserDetailsScreenKey(77)
    }
 
    @Test
@@ -56,6 +58,7 @@ class UserDetailsScreenTest {
             screen.Content(UserDetailsScreenKey(77))
          }
       }
+      viewModel.onServiceRegistered()
 
       rule.onNodeWithText("John Smith Doe", substring = true).assertIsDisplayed()
    }
@@ -67,6 +70,7 @@ class UserDetailsScreenTest {
             screen.Content(UserDetailsScreenKey(77))
          }
       }
+      viewModel.onServiceRegistered()
 
       rule.waitForIdle()
       userRepository.numTimesForceLoadCalled shouldBe 0
