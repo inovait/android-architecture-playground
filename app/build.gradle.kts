@@ -173,6 +173,8 @@ dependencies {
 
    debugImplementation(libs.whatTheStack)
 
+   // We don't need espresso directly, but we need to force a higher version to work on the Android 16 QPR2
+   androidTestImplementation(libs.androidx.test.espresso)
    androidTestImplementation(libs.androidx.test.junitRules)
    androidTestImplementation(libs.androidx.test.runner)
    androidTestImplementation(libs.junit4)

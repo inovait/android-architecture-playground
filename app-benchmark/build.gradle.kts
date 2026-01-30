@@ -36,6 +36,8 @@ baselineProfile {
 dependencies {
    implementation(libs.junit4)
    implementation(libs.androidx.test.core)
+   // We don't need espresso directly, but we need to force a higher version to work on the Android 16 QPR2
+   implementation(libs.androidx.test.espresso)
    implementation(libs.androidx.test.uiautomator)
    implementation(libs.androidx.benchmark.macro.junit4)
    runtimeOnly(libs.androidx.profileInstaller)
