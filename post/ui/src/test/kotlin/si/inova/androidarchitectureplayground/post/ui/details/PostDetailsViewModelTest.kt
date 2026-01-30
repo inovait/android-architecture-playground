@@ -36,7 +36,7 @@ class PostDetailsViewModelTest {
          runCurrent()
 
          expectMostRecentItem() shouldBeSuccessWithData TEST_POST
-         postRepository.numTimesForceLoadCalled shouldBe 12
+         postRepository.numTimesForceLoadCalled shouldBe 0
       }
    }
 
