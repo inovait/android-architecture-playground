@@ -32,12 +32,12 @@ class PostDetailsViewModelTest {
 
          .onServiceRegistered()
 
-      viewModel.postDetails.test {
-         runCurrent
+      viewModel.
 
 
 
-         (
+      postDetails.test {
+         runCurrent(
 
 
          )
