@@ -55,7 +55,7 @@ jobs:
           pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
           title: Lint report
           show-rule-details: false
-          sarif-file: 'artifacts/merge.sarif'
+          sarif-file: 'artifacts/results/android-architecture-playground/android-architecture-playground/merge.sarif'
           simple: true
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
@@ -71,10 +71,10 @@ jobs:
         with:
           paths: |
             artifacts/results/android-architecture-playground/android-architecture-playground/aggregatedJacocoReport.xml,
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOartifactsKEN }}
           update-comment: true
           title: Code Coverage
           min-coverage-overall: 50
           min-coverage-changed-files: 30
-          event_file: artifacts/results/android-architecture-playground/android-architecture-playground/event.json
+          event_file: artifacts/results/_temp/_github_workflow/event.json
           pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
