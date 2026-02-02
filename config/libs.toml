@@ -29,7 +29,7 @@ composeGuard = "2.4.0"
 dependencyAnalysis = "3.5.1"
 desugarJdkLibs = "2.1.5"
 detekt = "2.0.0-alpha.1"
-detekt-compose = "0.5.3"
+detekt-compose = "0.5.5"
 dispatch = "1.0.0-beta10"
 # @keep used in kts scripts directly
 jacoco = "0.8.14"
