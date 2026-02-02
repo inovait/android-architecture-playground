@@ -77,7 +77,7 @@ jobs:
         with:
           paths: |
             artifacts/results/android-architecture-playground/android-architecture-playground/aggregatedJacocoReport.xml,
-          token: ${{ secrets.GITHUB_TOartifactsKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
           title: Code Coverage
           min-coverage-overall: 50
