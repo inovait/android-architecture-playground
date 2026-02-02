@@ -63,7 +63,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: steps.download.outcome == 'success'
         with:
-          comment_mode: failures
+          comment_mode: always
           files: |
             artifacts/**/TEST-*.xml
           commit: ${{ github.event.workflow_run.head_sha }}
