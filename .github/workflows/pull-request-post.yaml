@@ -67,7 +67,7 @@ jobs:
           comment_mode: failures
           files: |
             artifacts/**/TEST-*.xml
-          commit: ${{ steps.git-hash.outputs.git_hash }}
+          commit: ${{ github.event.workflow_run.head_sha }}
           event_file: artifacts/results/_temp/_github_workflow/event.json
           event_name: ${{ github.event.workflow_run.event }}
       - name: Add coverage to PR
