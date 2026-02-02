@@ -1,9 +1,10 @@
 plugins {
    pureKotlinModule
-   testHelpers
+   di
 }
 
 dependencies {
     api(projects.${NAME}.api)
-    implementation(projects.common.test)    
+    
+    testImplementation(testFixtures(projects.common))    
 }
