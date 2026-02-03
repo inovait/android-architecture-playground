@@ -178,12 +178,6 @@ no dependencies are being used unnecessarily (+ set up in CI scripts)
 Experiment: [DetectTooManyKotlinFilesTask](../buildSrc/src/main/kotlin/tasks/DetectTooManyKotlinFilesTask.kt) prevents from
 `app` module and `common` modules from growing too large, impacting build speeds.
 
-# Compose stability checks
-
-[ComposeGuard](https://github.com/j-roskopf/ComposeGuard) ensures all commited Composables are always stable to prevent
-performance issues with Compose. App includes optimized configuration of that plugin with proper support for incremental builds
-and Gradle build cache.
-
 # Extra logging for crash debugging
 
 Experiment: All user actions on the ViewModel are first logged to the ActionLogger. This would then be sent to the Firebase in
