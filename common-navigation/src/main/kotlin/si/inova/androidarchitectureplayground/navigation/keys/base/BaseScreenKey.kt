@@ -17,19 +17,19 @@ abstract class BaseScreenKey : ScreenKey() {
       scope: AnimatedContentTransitionScope<*>,
       backSwipeEdge: @BackEventCompat.SwipeEdge Int?,
    ): ContentTransform {
-      // Animation spec that attempts to mimic Google's back preview guidelines as close as possible
-      // https://developer.android.com/design/ui/mobile/guides/patterns/predictive-back#back-preview
-
-      // See https://issuetracker.google.com/issues/347047848 for feature request to be able
-      // to implement the guidelines fully
-
       val scaleTransformOrigin = when (backSwipeEdge) {
          BackEventCompat.EDGE_LEFT -> TransformOrigin(pivotFractionX = 1f, pivotFractionY = 0.5f)
          BackEventCompat.EDGE_RIGHT -> TransformOrigin(pivotFractionX = 0f, pivotFractionY = 0.5f)
          else -> TransformOrigin.Center
       }
 
-      return (fadeIn() + scaleIn(initialScale = 1.1f, transformOrigin = scaleTransformOrigin)) togetherWith
-         (fadeOut() + scaleOut(targetScale = 0.9f, transformOrigin = scaleTransformOrigin))
+      return (
+         fadeIn(PredictiveBackFadeAnimationSpec()) +
+            scaleIn(initialScale = 1.1f, transformOrigin = scaleTransformOrigin)
+         ) togetherWith
+         (
+            fadeOut(PredictiveBackFadeAnimationSpec()) +
+               scaleOut(targetScale = 0.9f, transformOrigin = scaleTransformOrigin)
+            )
    }
 }
