@@ -2,9 +2,7 @@ package si.inova.androidarchitectureplayground.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,21 +27,27 @@ import si.inova.kotlinova.core.outcome.Outcome
 fun <T> ProgressErrorSuccessScaffold(
    outcomeProvider: () -> Outcome<T>?,
    /**
-    * Modifier that is applied to the error and progress composables (but not to the called [data]).
+    * Modifier that is applied to the error and progress composables (but not to the called [content]).
     */
    errorProgressModifier: Modifier = Modifier,
    errorText: @Composable (CauseException) -> String = { it.commonUserFriendlyMessage() },
-   data: @Composable (T) -> Unit,
+   content: @Composable (T) -> Unit,
 ) {
    when (val outcome = outcomeProvider()) {
       is Outcome.Error -> {
-         Text(
-            text = errorText(outcome.exception),
-            errorProgressModifier
-               .fillMaxSize()
-               .wrapContentSize(),
-            color = MaterialTheme.colorScheme.error
-         )
+         val data = outcome.data
+         if (data != null) {
+            ErrorAlertDialog(outcome)
+            content(data)
+         } else {
+            Text(
+               text = errorText(outcome.exception),
+               errorProgressModifier
+                  .fillMaxSize()
+                  .wrapContentSize(),
+               color = MaterialTheme.colorScheme.error
+            )
+         }
       }
 
       is Outcome.Progress -> {
@@ -55,7 +59,7 @@ fun <T> ProgressErrorSuccessScaffold(
       }
 
       is Outcome.Success -> {
-         data(outcome.data)
+         content(outcome.data)
       }
 
       null -> {}
@@ -68,6 +72,17 @@ fun <T> ProgressErrorSuccessScaffold(
 internal fun ProgressErrorSuccessScaffoldErrorPreview() {
    PreviewTheme(fill = false) {
       ProgressErrorSuccessScaffold({ Outcome.Error<Unit>(UnknownCauseException()) }) {
+      }
+   }
+}
+
+@Preview
+@Composable
+@ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold", styleName = "DialogError")
+internal fun ProgressErrorSuccessScaffoldDialogErrorPreview() {
+   PreviewTheme(fill = false) {
+      ProgressErrorSuccessScaffold({ Outcome.Error<Unit>(UnknownCauseException(), Unit) }) {
+         Text("Content!", Modifier.fillMaxSize())
       }
    }
 }
