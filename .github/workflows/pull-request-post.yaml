@@ -33,7 +33,7 @@ jobs:
           echo "pr_num=$pr" > $GITHUB_OUTPUT
           echo "pr_ref=refs/pull/$pr/merge" >> $GITHUB_OUTPUT
           mkdir -p repo
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: steps.download.outcome == 'success'
         with:
           lfs: true
