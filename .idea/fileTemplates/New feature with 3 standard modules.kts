@@ -7,9 +7,7 @@ plugins {
 android {
     namespace = "si.inova.androidarchitectureplayground.${NAME}.ui"
     
-    buildFeatures {
-        androidResources = true
-    }
+    androidResources.enable = true
 }
 
 dependencies {
