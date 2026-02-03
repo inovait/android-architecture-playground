@@ -49,7 +49,7 @@ jobs:
         working-directory: repo
       - name: Post SARIF findings as comments in the pull request
         if: steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/merge.sarif') != ''
-        uses: sett-and-hive/sarif-to-comment-action/composite@77c0eda9c886e978d3d914364ce8610a09b66907
+        uses: sett-and-hive/sarif-to-comment-action/composite@d6808eaef0d23c26905ca02ea3dd44e1e22c1dae
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
