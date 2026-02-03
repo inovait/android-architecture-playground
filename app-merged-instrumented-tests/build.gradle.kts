@@ -39,6 +39,20 @@ android {
    }
 }
 
+dependencyAnalysis {
+   issues {
+      onUnusedDependencies {
+         severity("ignore")
+      }
+
+      onUsedTransitiveDependencies {
+         // Disable, this project should auto-inherit dependencies
+         severity("ignore")
+      }
+   }
+}
+
+
 custom {
    enableEmulatorTests = true
 }

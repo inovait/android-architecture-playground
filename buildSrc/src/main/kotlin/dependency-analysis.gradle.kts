@@ -46,6 +46,9 @@ configure<DependencyAnalysisSubExtension> {
 
          // Only used to propagate proguard rules, so it will be falsely marked as unused
          exclude("dev.zacsweers.moshix:moshix-runtime")
+
+         // We don't need espresso directly, but we need to force a higher version to work on the Android 16 QPR2
+         exclude("androidx.test.espresso:espresso-core")
       }
 
       onIncorrectConfiguration {
