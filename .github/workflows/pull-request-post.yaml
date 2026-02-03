@@ -17,7 +17,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Download and Extract Artifacts
-        uses: dawidd6/action-download-artifact@eb385fa3ecd444fcbf065d5cfcac5adb953e3798
+        uses: dawidd6/action-download-artifact@9dde25e7413c6123b6062d4c9fc954d6ff005cfc
         continue-on-error: true
         id: download
         with:
