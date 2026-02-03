@@ -51,7 +51,6 @@ class UsersTest {
          createJsonMockResponseFromResource("user_list_empty.json")
       }
 
-
       mockResponse("/users/3") {
          createJsonMockResponseFromResource("single_user.json")
       }

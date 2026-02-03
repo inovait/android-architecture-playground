@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.post.ui.details
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
