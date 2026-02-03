@@ -1,7 +1,9 @@
 package si.inova.androidarchitectureplayground.ui.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -38,8 +40,8 @@ fun <T> ProgressErrorSuccessScaffold(
          Text(
             text = errorText(outcome.exception),
             errorProgressModifier
-               .fillMaxWidth()
-               .wrapContentWidth(),
+               .fillMaxSize()
+               .wrapContentSize(),
             color = MaterialTheme.colorScheme.error
          )
       }
@@ -47,8 +49,8 @@ fun <T> ProgressErrorSuccessScaffold(
       is Outcome.Progress -> {
          CircularProgressIndicator(
             errorProgressModifier
-               .fillMaxWidth()
-               .wrapContentWidth()
+               .fillMaxSize()
+               .wrapContentSize()
          )
       }
 
