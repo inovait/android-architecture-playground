@@ -26,7 +26,7 @@ class PostDetailsViewModel(
       get() = _postDetails
 
    override fun onServiceRegistered() {
-      actionLogger.logAction { "onServiceRegistered" }
+      actionLogger.logAction { "onServiceRegistered2" }
       loadPost()
    }
 
