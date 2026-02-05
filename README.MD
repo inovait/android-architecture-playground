@@ -106,12 +106,21 @@ To create screenshot tests for your compose screen:
 
 # Updating screenshot tests
 
+## Public projects
+
+To update screenshot tests:
+
+1. Run `./gradlew recordPaparazziDebug`
+
+## Private projects
+
 To update screenshot tests:
 
 1. Delete the outdatd screenshot from
    the [app-screenshot-tests/src/test/snapshots/images](app-screenshot-tests/src/test/snapshots/images)
    folder
-2. Missing screenshot will be re-generated automatically on the CI
+2. Missing screenshot will be re-generated automatically on the CI to alleviate developer machine differences in rendering screenshots.
+
 
 # Creating/updating a baseline profile
 

@@ -59,8 +59,6 @@ jobs:
         run: "./gradlew :app:generateDebugDatabaseSchema :app:verifyDebugDatabaseMigration"
       - name: Run Unit Tests
         run: "./gradlew runDebugTests -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest --continue$GLOBAL_FLAGS"
-      - name: "Generate new Screenshot Tests"
-        run: "config/generate-screenshots.sh ${{ github.event.pull_request.head.ref }}"
       - name: "Run Screenshot Tests"
         run: "./gradlew --continue verifyPaparazziDebug$GLOBAL_FLAGS"
       - name: "Remove unused Screenshot Tests"
