@@ -23,7 +23,6 @@ jobs:
           run_id: ${{ github.event.workflow_run.id }}
           path: artifacts
           allow_forks: true
-      - run: find
       - name: Set the PR_NUM
         if: steps.download.outcome == 'success'
         id: pr-meta
@@ -82,4 +81,3 @@ jobs:
           min-coverage-overall: 50
           min-coverage-changed-files: 30
           pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
-          debug-mode: true
