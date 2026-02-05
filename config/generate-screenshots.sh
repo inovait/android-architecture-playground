@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 # Copy current snapshots to a temp folder (ignore if there is no existing folder)
 cp -R app-screenshot-tests/src/test/snapshots/ tmpSnapshots || mkdir tmpSnapshots
 
