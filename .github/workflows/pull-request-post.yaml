@@ -67,7 +67,7 @@ jobs:
           commit: ${{ github.event.workflow_run.head_sha }}
           event_file: artifacts/results/_temp/_github_workflow/event.json
           event_name: ${{ github.event.workflow_run.event }}
-          check_run: 'false'
+          check_run: 'true'
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@50d3aff4548aa991e6753342d9ba291084e63848
