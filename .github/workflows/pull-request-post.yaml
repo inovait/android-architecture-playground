@@ -7,7 +7,9 @@ on:
     workflows: [ "pull-request-build" ]
     types: [ completed ]
 
-permissions: write-all
+permissions:
+  pull-requests: write
+  checks: write
 
 jobs:
   comment:
@@ -61,7 +63,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/linux@27d65e188ec43221b20d26de30f4892fad91df2f
         if: steps.download.outcome == 'success'
         with:
-          comment_mode: always
+          comment_mode: failures
           files: |
             artifacts/**/TEST-*.xml
           commit: ${{ github.event.workflow_run.head_sha }}
