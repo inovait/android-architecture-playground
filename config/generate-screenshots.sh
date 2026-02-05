@@ -21,6 +21,7 @@ then
   git config user.email 41898282+github-actions[bot]@users.noreply.github.com
   git commit -m "chore: add new screenshot tests"
   # Pushing large amounts of screenshot something fails. Push LFS screenshots first.
-  git lfs push origin HEAD
+  # This does not work on forks, so we just ignore if it fails
+  git lfs push --all origin || true
   git push origin HEAD:$1
 fi
