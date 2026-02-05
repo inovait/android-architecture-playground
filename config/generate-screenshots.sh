@@ -23,5 +23,5 @@ then
   # Pushing large amounts of screenshot something fails. Push LFS screenshots first.
   # This does not work on forks, so we just ignore if it fails
   git lfs push --all origin || true
-  git push origin HEAD:$1
+  git push
 fi
