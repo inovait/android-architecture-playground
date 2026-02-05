@@ -11,5 +11,6 @@
     "managerFilePatterns": [
       "config/libs.toml"
     ]
-  }
+  },
+  "schedule": ["0 20 * * 4"]
 }
