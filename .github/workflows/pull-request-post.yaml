@@ -75,7 +75,7 @@ jobs:
         if: steps.download.outcome == 'success'
         with:
           paths: |
-            artifacts/results/android-architecture-playground/android-architecture-playground/build/reports/jacoco/aggregatedJacocoReport.xml,
+            artifacts/results/android-architecture-playground/android-architecture-playground/build/reports/jacoco/aggregatedJacocoReport/aggregatedJacocoReport.xml,
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
           title: Code Coverage
