@@ -12,5 +12,7 @@
       "config/libs.toml"
     ]
   },
-  "schedule": ["0 20 * * 4"]
+  "schedule": ["0 20 * * 4"],
+  "updateNotScheduled": true,
+  "timezone": "Europe/Ljubljana"
 }
