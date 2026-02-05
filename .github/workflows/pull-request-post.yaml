@@ -82,3 +82,4 @@ jobs:
           min-coverage-overall: 50
           min-coverage-changed-files: 30
           pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
+          debug-mode: true
