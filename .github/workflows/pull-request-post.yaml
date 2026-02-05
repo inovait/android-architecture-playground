@@ -13,8 +13,6 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'failure'
-    permissions:
-      pull-requests: write
     steps:
       - name: Download and Extract Artifacts
         uses: dawidd6/action-download-artifact@9dde25e7413c6123b6062d4c9fc954d6ff005cfc
