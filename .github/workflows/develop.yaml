@@ -81,7 +81,7 @@ jobs:
       - name: "Run instrumented tests on Firebase test lab"
         run: |
           gcloud auth login --cred-file=test-lab-key.json
-          gcloud config set project android-architecture-playground
+          gcloud config set project androidarchitectureplayground
           
           tmp_file=$(mktemp)
           gcloud firebase test android run \
