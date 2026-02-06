@@ -80,6 +80,9 @@ jobs:
         run: "config/remove-unused-screenshots.sh main"
       - name: "Run instrumented tests on Firebase test lab"
         run: |
+          gcloud auth login --cred-file=test-lab-key.json
+          gcloud config set project android-architecture-playground
+          
           tmp_file=$(mktemp)
           gcloud firebase test android run \
           --type instrumentation \
