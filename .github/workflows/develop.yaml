@@ -122,12 +122,19 @@ jobs:
         with:
           name: failed-screenshot-tests
           path: app-screenshot-tests/build/paparazzi/failures
+      - name: "Zip Instrumented tests results"
+        run: |
+          shopt -s globstar
+          zip -r instrumented-test-results.zip instrumented_tests_results/**/*.xml
+        with:
+          name: instrumented-test-results
+          path:
       - name: "Upload Instrumented tests results"
         uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: instrumented-test-results
-          path: instrumented_tests_results/**/*.xml
+          path: instrumented-test-results.zip
 
       # Release
 
