@@ -25,8 +25,8 @@ the [Theme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplaygr
 
 # Improved support for large screens (two-pane layout for user and post list)
 
-* [ListDetailScene](../common-navigation/src/main/kotlin/si/inova/androidarchitectureplayground/navigation/scenes/TabListDetailScene.kt)
-  allows very easy creation of the [list--detail](https://m3.material.io/foundations/layout/canonical-layouts/list-detail)
+* [ListDetailScene](../navigation-impl/src/main/kotlin/si/inova/androidarchitectureplayground/navigation/scenes/TabListDetailScene.kt)
+  allows very easy creation of the [list-detail](https://m3.material.io/foundations/layout/canonical-layouts/list-detail)
   pattern. Scene also contains a dragging handle and has extra logic for better function in the "laptop-mode" foldable.
 * [HomeScreen](../home/ui/src/main/kotlin/si/inova/androidarchitectureplayground/home/HomeScreen.kt)
   includes ["navigation rail on large screens, bottom bar on smaller screens"](https://m3.material.io/components/navigation-rail/overview),
@@ -144,8 +144,6 @@ App includes [Detekt](https://github.com/detekt/detekt/) implementation with:
 * Pragmatic rule configuration
 * Sample CI scripts
 * Automatic pre-commit hook configuration
-* [detekt-compiler-rules](https://github.com/BraisGabin/detekt-compiler-rules) plugin brings all compiler warnings into detekt,
-  allowing detection on CI
 * Extra [compose-rules](https://mrmans0n.github.io/compose-rules/) for less Compose code smells
 * Pre-commit hook generates `merged.sarif` file in the root of the project. This file can be opened by
   the [Qodana IDE plugin](https://plugins.jetbrains.com/plugin/16938-qodana) to easily find out why commit failed.
@@ -283,3 +281,9 @@ non-Android modules.
 
 Gradle config of this project introduces `runDebugTests` and `runDebugDetekt` tasks that only run those checks from debug and
 non-Android flavors
+
+# Instrumented tests merging
+
+[app-merged-instrumented-tests](../app-merged-instrumented-tests) module merges `androidTest` tests from all modules into
+one single APK. This APK can then be sent to a remote service (such as a Firebase Test Lab) for easier instrumented test running
+on the CI
