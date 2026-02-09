@@ -11,5 +11,10 @@
     "managerFilePatterns": [
       "config/libs.toml"
     ]
-  }
+  },
+  "schedule": [
+    "* 20-23 * * 4"
+  ],
+  "updateNotScheduled": true,
+  "timezone": "Europe/Ljubljana"
 }

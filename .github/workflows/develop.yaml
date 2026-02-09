@@ -44,12 +44,18 @@ jobs:
           java-version: '21'
           distribution: temurin
           cache: gradle
+
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v3.0.1'
+      - name: 'Save Service account'
+        run: 'echo "${{ secrets.TEST_GCLOUD_ACCOUNT }}" | base64 -d > test-lab-key.json'
+
 
       # Build app
 
       - name: Compile app
-        run: "./gradlew compileProguardedDebugKotlin compileDebugKotlin assembleRelease$GLOBAL_FLAGS"
+        run: "./gradlew assembleDebug assembleRelease$GLOBAL_FLAGS"
         env:
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
@@ -72,6 +78,32 @@ jobs:
         run: "./gradlew --continue verifyPaparazziDebug$GLOBAL_FLAGS"
       - name: "Remove unused Screenshot Tests"
         run: "config/remove-unused-screenshots.sh main"
+      - name: "Run instrumented tests on Firebase test lab"
+        run: |
+          gcloud auth login --cred-file=test-lab-key.json
+          gcloud config set project androidarchitectureplayground
+          
+          tmp_file=$(mktemp)
+          gcloud firebase test android run \
+          --type instrumentation \
+          --app app/build/outputs/apk/debug/app-debug.apk \
+          --test app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk \
+          --device model=MediumPhone.arm \
+          --use-orchestrator \
+          --environment-variables clearPackageData=true \
+          |& tee tmp_file
+          
+          TEST_EXIT_CODE=${PIPESTATUS[0]}
+          RESULTS=$(cat tmp_file)
+          rm tmp_file
+          
+          BUCKET=$(echo $RESULTS | grep -oP "browser/\K[^/]+")
+          mkdir -p instrumented_tests_results
+          gcloud storage cp -r gs://$BUCKET/ instrumented_tests_results/
+          
+          if [[ TEST_EXIT_CODE -ne 0 ]] then
+            exit 1
+          fi
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: always()
@@ -80,12 +112,19 @@ jobs:
           junit_files: |
             **/build/outputs/*-results/**/*.xml
             **/build/*-results/**/*.xml
+            instrumented_tests_results/**/*.xml
       - name: "Upload Screenshot test failures"
         uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: failed-screenshot-tests
           path: app-screenshot-tests/build/paparazzi/failures
+      - name: "Upload Instrumented tests results"
+        uses: actions/upload-artifact@v6
+        if: failure()
+        with:
+          name: instrumented-test-results
+          path: instrumented_tests_results/**/*.xml
 
       # Release
 
