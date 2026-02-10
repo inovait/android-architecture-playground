@@ -70,7 +70,7 @@ class PostListScreenTest {
       rule.onNodeWithText("A post 1").assertIsDisplayed()
       rule.onNodeWithText("A post 2").assertIsDisplayed()
       rule.onNodeWithText("A post 3").assertIsDisplayed()
-      rule.onNodeWithText("A post sdgjdisfjgid").assertIsDisplayed()
+      rule.onNodeWithText("A post 4").assertIsDisplayed()
    }
 
    @Test
