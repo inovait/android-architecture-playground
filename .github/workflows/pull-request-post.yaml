@@ -79,7 +79,7 @@ jobs:
             exit 1
           fi
       - name: Post SARIF findings as comments in the pull request
-        if: steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/merge.sarif') != ''
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/merge.sarif') != ''
         uses: sett-and-hive/sarif-to-comment-action/composite@d6808eaef0d23c26905ca02ea3dd44e1e22c1dae
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -92,7 +92,7 @@ jobs:
           simple: true
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@27d65e188ec43221b20d26de30f4892fad91df2f
-        if: steps.download.outcome == 'success'
+        if: always() && steps.download.outcome == 'success'
         with:
           comment_mode: failures
           files: |
@@ -105,7 +105,7 @@ jobs:
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@50d3aff4548aa991e6753342d9ba291084e63848
-        if: steps.download.outcome == 'success'
+        if: always() && steps.download.outcome == 'success'
         with:
           paths: |
             artifacts/results/android-architecture-playground/android-architecture-playground/build/reports/jacoco/aggregatedJacocoReport/aggregatedJacocoReport.xml,
