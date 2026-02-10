@@ -45,6 +45,33 @@ jobs:
         run:
           ref=$(git rev-parse HEAD);echo "git_hash=$ref" > $GITHUB_OUTPUT
         working-directory: repo
+      - name: "Run instrumented tests on Firebase test lab"
+        if: steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk') != ''
+        run: |
+          gcloud auth login --cred-file=test-lab-key.json
+          gcloud config set project androidarchitectureplayground
+          
+          tmp_file=$(mktemp)
+          gcloud firebase test android run \
+          --type instrumentation \
+          --app artifacts/results/android-architecture-playground/android-architecture-playground/app/build/outputs/apk/debug/app-debug.apk \
+          --test artifacts/results/android-architecture-playground/android-architecture-playground/app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk \
+          --device model=MediumPhone.arm,version=26 \
+          --use-orchestrator \
+          --environment-variables clearPackageData=true \
+          |& tee tmp_file
+          
+          TEST_EXIT_CODE=${PIPESTATUS[0]}
+          RESULTS=$(cat tmp_file)
+          rm tmp_file
+          
+          BUCKET=$(echo $RESULTS | grep -oP "browser/\K[^]]+")
+          mkdir -p instrumented_tests_results
+          gcloud storage cp -r gs://$BUCKET instrumented_tests_results/
+          
+          if [[ TEST_EXIT_CODE -ne 0 ]] then
+            exit 1
+          fi
       - name: Post SARIF findings as comments in the pull request
         if: steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/merge.sarif') != ''
         uses: sett-and-hive/sarif-to-comment-action/composite@d6808eaef0d23c26905ca02ea3dd44e1e22c1dae
@@ -64,6 +91,7 @@ jobs:
           comment_mode: failures
           files: |
             artifacts/**/TEST-*.xml
+            instrumented_tests_results/**/*.xml
           commit: ${{ github.event.workflow_run.head_sha }}
           event_file: artifacts/results/_temp/_github_workflow/event.json
           event_name: ${{ github.event.workflow_run.event }}

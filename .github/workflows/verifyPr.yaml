@@ -83,6 +83,8 @@ jobs:
             ${{ github.event_path }}
             merge.sarif
             build/reports/jacoco/aggregatedJacocoReport/html
+            app/build/outputs/apk/debug/app-debug.apk
+            app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk
       - name: "Upload Screenshot test failures"
         uses: actions/upload-artifact@v6
         if: failure()
