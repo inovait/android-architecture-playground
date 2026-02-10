@@ -92,7 +92,7 @@ jobs:
           --app app/build/outputs/apk/debug/app-debug.apk \
           --test app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk \
           --device model=MediumPhone.arm,version=34 \
-          --device model=MediumPhone.arm,version=26\
+          --device model=MediumPhone.arm,version=26 \
           --use-orchestrator \
           --environment-variables clearPackageData=true \
           |& tee tmp_file
@@ -124,6 +124,7 @@ jobs:
           name: failed-screenshot-tests
           path: app-screenshot-tests/build/paparazzi/failures
       - name: "Zip Instrumented tests results"
+        continue-on-error: true
         if: failure()
         run: |
           shopt -s globstar
