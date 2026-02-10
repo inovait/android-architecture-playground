@@ -100,9 +100,9 @@ jobs:
           RESULTS=$(cat tmp_file)
           rm tmp_file
           
-          BUCKET=$(echo $RESULTS | grep -oP "browser/\K[^/]+")
+          BUCKET=$(echo $RESULTS | grep -oP "browser/\K[^]]+")
           mkdir -p instrumented_tests_results
-          gcloud storage cp -r gs://$BUCKET/ instrumented_tests_results/
+          gcloud storage cp -r gs://$BUCKET instrumented_tests_results/
           
           if [[ TEST_EXIT_CODE -ne 0 ]] then
             exit 1
