@@ -38,7 +38,11 @@ jobs:
         with:
           java-version: '21'
           distribution: temurin
-          cache: gradle
+      - uses: burrunan/gradle-cache-action@663fbad34e03c8f12b27f4999ac46e3d90f87eca
+        with:
+          debug: false
+          concurrent: true
+          read-only: true
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
 
       # Build
