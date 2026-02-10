@@ -123,6 +123,7 @@ jobs:
           name: failed-screenshot-tests
           path: app-screenshot-tests/build/paparazzi/failures
       - name: "Zip Instrumented tests results"
+        if: failure()
         run: |
           shopt -s globstar
           zip -r instrumented-test-results.zip instrumented_tests_results/**/*.xml
