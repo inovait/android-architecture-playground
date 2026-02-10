@@ -61,8 +61,6 @@ jobs:
         run: "./gradlew runDebugTests -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest --continue$GLOBAL_FLAGS"
       - name: "Run Screenshot Tests"
         run: "./gradlew --continue verifyPaparazziDebug$GLOBAL_FLAGS"
-      - name: "Remove unused Screenshot Tests"
-        run: "config/remove-unused-screenshots.sh ${{ github.event.pull_request.head.ref }}"
       - name: "Create jacoco aggregate"
         run: "./gradlew aggregatedJacocoReport"
         #     GitHub Actions does not allow PR actions triggered from external contributors
