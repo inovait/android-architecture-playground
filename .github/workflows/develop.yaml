@@ -91,7 +91,8 @@ jobs:
           --type instrumentation \
           --app app/build/outputs/apk/debug/app-debug.apk \
           --test app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk \
-          --device model=MediumPhone.arm \
+          --device model=MediumPhone.arm,version=34 \
+          --device model=MediumPhone.arm,version=26\
           --use-orchestrator \
           --environment-variables clearPackageData=true \
           |& tee tmp_file
