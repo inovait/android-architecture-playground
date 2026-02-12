@@ -98,7 +98,7 @@ class UseActionLoggerInViewModelsTest {
    fun `Do not warn when class is a fake view model`() {
       @Language("kotlin")
       val code = """
-         class MyFakeViewModel(actionLogger: ActionLogger) {
+         class MyViewModelFake(actionLogger: ActionLogger) {
             fun loadData() {
                
             }
