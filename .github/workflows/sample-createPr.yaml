@@ -5,6 +5,8 @@
 
 name: Create new PR
 on: create
+permissions:
+  pull-requests: write
 jobs:
   createNewPr:
     name: Create new PR
@@ -13,13 +15,14 @@ jobs:
       OWNER_NAME: ${{github.actor}}
       OWNER_MESSAGE: ${{github.event.ref}}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: pull-request
         id: open-pr
-        uses: inovait/pull-request@master
+        uses: inovait/pull-request@bfc7ca74d921994018f2b54c0334737de38ddad7
         with:
           github_token: ${{ github.token }}
           destination_branch: "main"
@@ -27,7 +30,7 @@ jobs:
           pr_body: "Owner ${{env.OWNER_NAME}}"
 
       - name: Get ticket
-        uses: actions-ecosystem/action-regex-match@v2
+        uses: actions-ecosystem/action-regex-match@9e6c4fb3d5e898f505be7a1fb6e7b0a278f6665b #v2
         id: get-ticket
         with:
           text: ${{ env.OWNER_MESSAGE }}
@@ -43,7 +46,7 @@ jobs:
 
       - name: Make a jira comment about a new release
         if: ${{ steps.get-ticket.outputs.match != '' }}
-        uses: inovait/actions-common/jira-comment@v15
+        uses: inovait/actions-common/jira-comment@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
         with:
           tickets: "${{ steps.get-ticket.outputs.match }}"
           comment: |
@@ -65,7 +68,7 @@ jobs:
 
       - name: Transition tickets to In Progress
         if: ${{ steps.get-ticket.outputs.match != '' }}
-        uses: inovait/actions-common/jira-transition@v15
+        uses: inovait/actions-common/jira-transition@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
         with:
           tickets: "${{ steps.get-ticket.outputs.match }}"
           from: 'SELECTED FOR DEVELOPMENT'

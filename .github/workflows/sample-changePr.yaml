@@ -7,18 +7,20 @@ name: Change PR
 on:
   pull_request:
     types: [ edited ]
+permissions:
 jobs:
   changePrBuild:
     if: github.event.action == 'edited' && !contains(github.event.pull_request.title, 'Draft:') && startsWith(github.event.pull_request.title, 'JIRA-TICKET-PREFIX-HERE')
     name: PR ready for review
     runs-on: "node"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Get ticket
-        uses: actions-ecosystem/action-regex-match@v2
+        uses: actions-ecosystem/action-regex-match@9e6c4fb3d5e898f505be7a1fb6e7b0a278f6665b #v2
         id: get-ticket
         with:
           text: ${{ github.event.pull_request.title }}
@@ -33,7 +35,7 @@ jobs:
 
       - name: Transition tickets to In Review
         if: ${{ steps.get-ticket.outputs.match != '' }}
-        uses: inovait/actions-common/jira-transition@v15
+        uses: inovait/actions-common/jira-transition@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
         with:
           tickets: "${{ steps.get-ticket.outputs.match }}"
           from: 'In Progress'

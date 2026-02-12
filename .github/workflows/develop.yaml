@@ -7,6 +7,8 @@ on:
   workflow_dispatch:
 env:
   BUILD_NUMBER: ${{ github.run_number }}
+permissions:
+  checks: write
 jobs:
   build-app:
     concurrency:
@@ -34,12 +36,12 @@ jobs:
                   echo "GLOBAL_FLAGS=" >> "$GITHUB_ENV";
               fi
             '
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6
         with:
           fetch-depth: 0
           lfs: true
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 #v5
         with:
           java-version: '21'
           distribution: temurin
@@ -50,7 +52,7 @@ jobs:
           read-only: ${{ github.ref != 'refs/heads/main' }}
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v3.0.1'
+        uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db #v3.0.1
       - name: 'Save Service account'
         run: 'echo "${{ secrets.TEST_GCLOUD_ACCOUNT }}" | base64 -d > test-lab-key.json'
 
@@ -109,16 +111,16 @@ jobs:
             exit 1
           fi
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        uses: EnricoMi/publish-unit-test-result-action/linux@27d65e188ec43221b20d26de30f4892fad91df2f #v2.22.0
         if: always()
         with:
           comment_mode: failures
-          junit_files: |
+          files: |
             **/build/outputs/*-results/**/*.xml
             **/build/*-results/**/*.xml
             instrumented_tests_results/**/*.xml
       - name: "Upload Screenshot test failures"
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6
         if: failure()
         with:
           name: failed-screenshot-tests
@@ -130,7 +132,7 @@ jobs:
           shopt -s globstar
           zip -r instrumented-test-results.zip instrumented_tests_results/**/*.xml
       - name: "Upload Instrumented tests results"
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6
         if: failure()
         with:
           name: instrumented-test-results
@@ -140,7 +142,7 @@ jobs:
 
       # This project has no actual release, but is kept in as an example
       #      - name: Generate Changelog
-      #        uses: inovait/actions-common/changelog-since-last-build@v15
+      #        uses: inovait/actions-common/changelog-since-last-build@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
       #        with:
       #          git_commit_url_prefix: 'https://github.com/inovait/test-genie-android/commit/'
       #          target_file: "CHANGELOG.MD"
@@ -151,7 +153,7 @@ jobs:
       #          git tag ${{env.TAG_BUILD}}
       #          git push origin ${{env.TAG_BUILD}}
       #      - name: Publish to spotlight
-      #        uses: inovait/actions-common/spotlight-publish@v15
+      #        uses: inovait/actions-common/spotlight-publish@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
       #        with:
       #          api_key: ${{secrets.SPOTLIGHT_KEY}}
       #          destination: 'release'
@@ -161,7 +163,7 @@ jobs:
       #            app/build/outputs/**/*-release.apk
       #            CHANGELOG.MD
       - name: "Upload proguard mappings"
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6
         with:
           name: mapping-app-release.txt
           path: app/build/outputs/mapping/release/mapping.txt

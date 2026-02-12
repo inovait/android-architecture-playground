@@ -3,7 +3,8 @@
   "extends": [
     "config:recommended",
     ":semanticCommitTypeAll(chore)",
-    ":semanticCommitScopeDisabled"
+    ":semanticCommitScopeDisabled",
+    "helpers:pinGitHubActionDigests"
   ],
   "minimumReleaseAge": "7 days",
   "minimumReleaseAgeBehaviour": "timestamp-optional",
