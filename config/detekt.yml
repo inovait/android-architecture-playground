@@ -167,6 +167,10 @@ coroutines:
       - 'IO'
       - 'Default'
       - 'Unconfined'
+    ignoreAnnotated:
+      # withContext(Dispatchers.Default) is fine in Compose, as generally we don't fake it in tests
+      # (UI tests alwyays wait for things to actually show up)
+      - Composable
   RedundantSuspendModifier:
     active: true
   SleepInsteadOfDelay:
