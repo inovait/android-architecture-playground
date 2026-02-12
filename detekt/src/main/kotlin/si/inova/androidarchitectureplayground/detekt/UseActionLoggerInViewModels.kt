@@ -51,7 +51,8 @@ class UseActionLoggerInViewModels(ruleSetConfig: Config) :
             report(
                Finding(
                   Entity.atName(checkForNextCallFunction),
-                  "Public ViewModel function ${checkForNextCallFunction.name}() does not start with a logAction() call"
+                  "Public ViewModel function ${checkForNextCallFunction.name ?: "UNKNOWN"}() " +
+                     "does not start with a logAction() call"
                )
             )
          }
@@ -62,7 +63,7 @@ class UseActionLoggerInViewModels(ruleSetConfig: Config) :
       report(
          Finding(
             Entity.atName(function),
-            "Function ${function.name} does not start with a logAction() call"
+            "Function ${function.name ?: "UNKNOWN"} does not start with a logAction() call"
          )
       )
    }
