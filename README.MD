@@ -1,5 +1,7 @@
 # Kotlinova architecture demo
 
+aaa
+
 Playground / demo app for using Kotlinova architecture. It is simple app that loads data from https://dummyjson.com.
 Features include:
 
