@@ -4,7 +4,7 @@
     "config:recommended",
     ":semanticCommitTypeAll(chore)",
     ":semanticCommitScopeDisabled",
-    "helpers:pinGitHubActionDigests"
+    "helpers:pinGitHubActionDigestsToSemver"
   ],
   "minimumReleaseAge": "7 days",
   "minimumReleaseAgeBehaviour": "timestamp-optional",
