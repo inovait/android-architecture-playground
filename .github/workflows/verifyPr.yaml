@@ -82,7 +82,7 @@ jobs:
             pr_number.txt
             ${{ github.event_path }}
             merge.sarif
-            build/reports/jacoco/aggregatedJacocoReport/html
+            build/reports/jacoco/aggregatedJacocoReport/aggregatedJacocoReport.xml
             app/build/outputs/apk/debug/app-debug.apk
             app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk
       - name: "Upload Screenshot test failures"
