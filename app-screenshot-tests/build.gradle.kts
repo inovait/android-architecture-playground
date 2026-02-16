@@ -14,6 +14,7 @@ android {
          it.useJUnit()
 
          it.maxParallelForks = minOf(Runtime.getRuntime().availableProcessors(), 2)
+         it.systemProperty("maxParallelForks", it.maxParallelForks)
       }
    }
 }
