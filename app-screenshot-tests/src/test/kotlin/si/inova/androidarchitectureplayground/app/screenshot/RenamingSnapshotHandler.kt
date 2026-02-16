@@ -1,4 +1,4 @@
-package screenshot
+package si.inova.androidarchitectureplayground.app.screenshot
 
 import app.cash.paparazzi.HtmlReportWriter
 import app.cash.paparazzi.Snapshot
@@ -6,6 +6,7 @@ import app.cash.paparazzi.SnapshotHandler
 import app.cash.paparazzi.SnapshotVerifier
 import app.cash.paparazzi.detectMaxPercentDifferenceDefault
 
+// Hack to work around https://github.com/cashapp/paparazzi/issues/549
 class RenamingSnapshotHandler(private val original: SnapshotHandler) : SnapshotHandler by original {
    override fun newFrameHandler(
       snapshot: Snapshot,

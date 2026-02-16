@@ -1,13 +1,13 @@
-package screenshot
+package si.inova.androidarchitectureplayground.app.screenshot
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import org.junit.Test
 
-class Tests2 : TestsBase() {
+class Tests1 : TestsBase() {
    @Test
    public override fun test(
       @TestParameter(valuesProvider = PreviewProvider::class)
-      @SplitIndex(1)
+      @SplitIndex(0)
       testKey: TestKey,
    ) {
       super.test(testKey)

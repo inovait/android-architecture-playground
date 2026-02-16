@@ -1,4 +1,4 @@
-package screenshot
+package si.inova.androidarchitectureplayground.app.screenshot
 
 object Splits {
    val paparazziSplits = listOf(
