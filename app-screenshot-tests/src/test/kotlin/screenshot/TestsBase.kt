@@ -23,9 +23,9 @@ open class TestsBase {
    val paparazzi = Paparazzi(
       deviceConfig = DeviceConfig.PIXEL_5,
       theme = "android:Theme.Material.Light.NoActionBar",
-      maxPercentDifference = 0.0,
       showSystemUi = false,
-      renderingMode = SessionParams.RenderingMode.SHRINK
+      renderingMode = SessionParams.RenderingMode.SHRINK,
+      snapshotHandler = determinedHandlerWithRenaming(maxPercentDifference = 0.0)
    )
 
    object PreviewProvider : TestParameterValuesProvider() {
@@ -85,7 +85,10 @@ open class TestsBase {
          }
       }
 
-      paparazzi.snapshot {
+      val previewName = testKey.toString()
+      require(previewName.isNotBlank()) { "Test name should not be blank for ${testKey.key}" }
+
+      paparazzi.snapshot(previewName) {
          composable()
       }
       paparazzi.unsafeUpdateConfig(
@@ -93,7 +96,7 @@ open class TestsBase {
             nightMode = NightMode.NIGHT
          )
       )
-      paparazzi.snapshot("night") {
+      paparazzi.snapshot("${previewName}_night") {
          composable()
       }
       paparazzi.unsafeUpdateConfig(
@@ -105,7 +108,7 @@ open class TestsBase {
             nightMode = NightMode.NOTNIGHT
          )
       )
-      paparazzi.snapshot("small") {
+      paparazzi.snapshot("${previewName}_small") {
          composable()
       }
       paparazzi.unsafeUpdateConfig(
@@ -113,7 +116,7 @@ open class TestsBase {
             fontScale = 1.5f
          )
       )
-      paparazzi.snapshot("largefont") {
+      paparazzi.snapshot("${previewName}_largefont") {
          composable()
       }
    }
