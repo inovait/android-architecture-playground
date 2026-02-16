@@ -1,4 +1,4 @@
-package screenshot
+package si.inova.androidarchitectureplayground.app.screenshot
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import org.junit.Test

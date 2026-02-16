@@ -1,5 +1,4 @@
-// Package is intentionally short to reduce image file name
-package screenshot
+package si.inova.androidarchitectureplayground.app.screenshot
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
