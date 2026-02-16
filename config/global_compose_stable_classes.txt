@@ -8,7 +8,9 @@ com.zhuinden.simplestack.Backstack
 si.inova.kotlinova.core.time.AndroidDateTimeFormatter
 si.inova.kotlinova.core.time.FakeAndroidDateTimeFormatter
 si.inova.kotlinova.core.outcome.CauseException
-androidx.datastore.core.DataStore
+// Technically, only the androidx.datastore.core.DataStore is stable, but it seems it only works with this wildcard
+androidx.datastore.core.DataStore<_>
+si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
 // Suspend lamdas
 kotlin.coroutines.SuspendFunction2
