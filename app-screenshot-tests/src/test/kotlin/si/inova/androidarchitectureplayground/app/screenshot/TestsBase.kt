@@ -2,6 +2,7 @@ package si.inova.androidarchitectureplayground.app.screenshot
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalInspectionMode
 import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
@@ -88,17 +89,37 @@ abstract class TestsBase {
       val previewName = testKey.toString()
       require(previewName.isNotBlank()) { "Test name should not be blank for ${testKey.key}" }
 
-      paparazzi.snapshot(previewName) {
-         composable()
+      fun snapshot(name: String) {
+         val tags = testKey.showkaseBrowserComponent.tags
+         if (tags.contains("animated")) {
+            val duration = tags.firstOrNull { it.startsWith("duration-") }?.removePrefix("duration-")?.toInt() ?: 1000
+
+            paparazzi.gif(
+               name = name,
+               view = ComposeView(paparazzi.context).apply {
+                  setContent {
+                     composable()
+                  }
+               },
+               end = duration.toLong(),
+               fps = 20
+            )
+         } else {
+            paparazzi.snapshot(name = name) {
+               composable()
+            }
+         }
       }
+
+      snapshot(previewName)
+
       paparazzi.unsafeUpdateConfig(
          PIXEL_5.copy(
             nightMode = NightMode.NIGHT
          )
       )
-      paparazzi.snapshot("${previewName}_night") {
-         composable()
-      }
+      snapshot("${previewName}_night")
+
       paparazzi.unsafeUpdateConfig(
          PIXEL_5.copy(
             ydpi = 600,
@@ -108,18 +129,17 @@ abstract class TestsBase {
             nightMode = NightMode.NOTNIGHT
          )
       )
-      paparazzi.snapshot("${previewName}_small") {
-         composable()
-      }
+      snapshot("${previewName}_small")
+
       paparazzi.unsafeUpdateConfig(
          PIXEL_5.copy(
             fontScale = 1.5f
          )
       )
-      paparazzi.snapshot("${previewName}_largefont") {
-         composable()
-      }
+      snapshot("${previewName}_largefont")
    }
 
    annotation class SplitIndex(val index: Int)
 }
+
+private const val DEFAULT_DURATION_MS = 1000
