@@ -92,7 +92,8 @@ open class TestsBase {
       fun snapshot(name: String) {
          val tags = testKey.showkaseBrowserComponent.tags
          if (tags.contains("animated")) {
-            val duration = tags.firstOrNull { it.startsWith("duration-") }?.removePrefix("duration-")?.toInt() ?: 1000
+            val duration = tags.firstOrNull { it.startsWith("duration-") }?.removePrefix("duration-")?.toInt()
+               ?: DEFAULT_DURATION_MS
 
             paparazzi.gif(
                name = name,
