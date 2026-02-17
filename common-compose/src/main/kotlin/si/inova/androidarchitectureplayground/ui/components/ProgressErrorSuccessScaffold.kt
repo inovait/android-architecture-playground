@@ -89,7 +89,7 @@ internal fun ProgressErrorSuccessScaffoldDialogErrorPreview() {
 
 @Preview
 @Composable
-@ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold", styleName = "Progress")
+@ShowkaseComposable(group = "Components", name = "ProgressErrorSuccessScaffold", styleName = "Progress", tags = ["animated"])
 internal fun ProgressErrorSuccessScaffoldProgressPreview() {
    PreviewTheme(fill = false) {
       ProgressErrorSuccessScaffold({ Outcome.Progress<Unit>() }) {

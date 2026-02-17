@@ -167,7 +167,7 @@ internal fun PostDetailsScreenSuccesPreview() {
 }
 
 @FullScreenPreviews
-@ShowkaseComposable(group = "Test")
+@ShowkaseComposable(group = "Test", tags = ["animated"])
 @Composable
 internal fun PostDetailsScreenProgressPreview() {
    val testPost = Post(
