@@ -134,6 +134,10 @@ To create screenshot tests for your compose screen:
 1. Make the preview functions public
 2. Add `showkase` plugin to the module of the screen you want to test
 3. Add `@ShowkaseComposable(group = "Test")` annotation to the preview of the screen you want to test
+    * If you want to create an animated screenshot, you can add an `animated` tag:
+      `@ShowkaseComposable(group = "Test", tags = ["animated"])`
+    * If you want to control the duration of the recorded animation you can add `duration-[MS]` tag, for example `duration-2000`
+      will record for 2 000 milliseconds.
 4. That's it. Screenshots will be generated automatically on the CI
 
 # Updating screenshot tests
@@ -149,7 +153,7 @@ To update screenshot tests:
 To update screenshot tests:
 
 1. Delete the outdatd screenshot from
-   the [app-screenshot-tests/src/test/snapshots/images](app-screenshot-tests/src/test/snapshots/images)
+   the [app-screenshot-tests/src/test/snapshots](app-screenshot-tests/src/test/snapshots)
    folder
 2. Missing screenshot will be re-generated automatically on the CI to alleviate developer machine differences in rendering screenshots.
 
