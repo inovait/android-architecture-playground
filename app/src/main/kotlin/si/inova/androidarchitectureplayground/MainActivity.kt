@@ -18,14 +18,18 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavEntryDecorator
+import androidx.navigation3.runtime.rememberDecoratedNavEntries
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import com.zhuinden.simplestack.Backstack
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import si.inova.androidarchitectureplayground.navigation.scenes.TabListDetailScene
-import si.inova.androidarchitectureplayground.navigation.scenes.rememberTabListDetailSceneStrategy
+import si.inova.androidarchitectureplayground.navigation.scenes.ListDetailScene
+import si.inova.androidarchitectureplayground.navigation.scenes.rememberListDetailSceneStrategy
+import si.inova.androidarchitectureplayground.navigation.scenes.rememberTabListSceneDecoratorStrategy
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.result.LocalResultPassingStore
 import si.inova.kotlinova.compose.result.ResultPassingStore
@@ -36,8 +40,10 @@ import si.inova.kotlinova.navigation.deeplink.HandleNewIntentDeepLinks
 import si.inova.kotlinova.navigation.deeplink.MainDeepLinkHandler
 import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.di.NavigationInjection
-import si.inova.kotlinova.navigation.navigation3.NavDisplay
+import si.inova.kotlinova.navigation.navigation3.key
+import si.inova.kotlinova.navigation.navigation3.rememberNavigation3EntryProvider
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
+import si.inova.kotlinova.navigation.simplestack.BackstackProvider
 
 class MainActivity : ComponentActivity() {
    private lateinit var navigationInjectionFactory: NavigationInjection.Factory
@@ -46,7 +52,7 @@ class MainActivity : ComponentActivity() {
    private lateinit var dateFormatter: AndroidDateTimeFormatter
    private lateinit var mainViewModelFactory: MainViewModel.Factory
 
-   private lateinit var tabListDetailSceneFactory: TabListDetailScene.Factory
+   private lateinit var listDetailSceneFactory: ListDetailScene.Factory
 
    private val viewModel by viewModels<MainViewModel>() { ViewModelFactory(intent) }
    private var initComplete = false
@@ -59,7 +65,7 @@ class MainActivity : ComponentActivity() {
       navigationContext = appGraph.getNavigationContext()
       dateFormatter = appGraph.getDateFormatter()
       mainViewModelFactory = appGraph.getMainViewModelFactory()
-      tabListDetailSceneFactory = appGraph.getTabListDetailSceneFactory()
+      listDetailSceneFactory = appGraph.getTabListDetailSceneFactory()
 
       super.onCreate(savedInstanceState)
       enableEdgeToEdge()
@@ -107,24 +113,44 @@ class MainActivity : ComponentActivity() {
                LocalDateFormatter provides ComposeAndroidDateTimeFormatter(dateFormatter),
                LocalResultPassingStore provides resultPassingStore
             ) {
-               val backstack = navigationInjectionFactory.NavDisplay(
-                  initialHistory = { initialHistory },
-                  entryDecorators = listOf(
-                     rememberSaveableStateHolderNavEntryDecorator(),
-                     NavEntryDecorator<ScreenKey>(
-                        decorate = { targetNavEntry ->
-                           Surface {
-                              targetNavEntry.Content()
-                           }
-                        }
+               val entryProvider = navigationInjectionFactory.rememberNavigation3EntryProvider({ initialHistory })
+
+               BackstackProvider(entryProvider.simpleStackBackstack) {
+                  val decoratedNavEntries =
+                     rememberDecoratedNavEntries<ScreenKey>(
+                        entryProvider.backstackEntries,
+                        listOf(
+                           rememberSaveableStateHolderNavEntryDecorator(),
+                           NavEntryDecorator<ScreenKey>(
+                              decorate = { targetNavEntry ->
+                                 Surface {
+                                    targetNavEntry.Content()
+                                 }
+                              },
+                           )
+                        ) + entryProvider.completionListenerDecorator
                      )
-                  ),
-                  sceneStrategy = rememberTabListDetailSceneStrategy(tabListDetailSceneFactory)
-               )
 
-               LogCurrentScreen(backstack)
+                  NavDisplay<ScreenKey>(
+                     entries = decoratedNavEntries,
+                     sceneStrategy = rememberListDetailSceneStrategy(listDetailSceneFactory),
+                     sceneDecoratorStrategies = listOf(rememberTabListSceneDecoratorStrategy()),
+                     transitionSpec = {
+                        this.targetState.entries.last<NavEntry<ScreenKey>>().key().forwardAnimation(this)
+                     },
+                     popTransitionSpec = {
+                        this.initialState.entries.last<NavEntry<ScreenKey>>().key().backAnimation(this, null)
+                     },
+                     predictivePopTransitionSpec = {
+                        this.initialState.entries.last<NavEntry<ScreenKey>>().key().backAnimation(this, it)
+                     },
+                     onBack = { entryProvider.simpleStackBackstack.goBack() },
+                  )
+               }
 
-               mainDeepLinkHandler.HandleNewIntentDeepLinks(this@MainActivity, backstack)
+               LogCurrentScreen(entryProvider.simpleStackBackstack)
+
+               mainDeepLinkHandler.HandleNewIntentDeepLinks(this@MainActivity, entryProvider.simpleStackBackstack)
             }
          }
       }

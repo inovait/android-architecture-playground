@@ -1,5 +1,9 @@
 package si.inova.androidarchitectureplayground.home
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,10 +63,20 @@ class HomeScreen(
 
 @Composable
 private fun Content(selectedTab: SelectedTabContent, useNavigationRail: Boolean, navigate: (NavigationInstruction) -> Unit) {
+   val animatedMainContent: @Composable () -> Unit = {
+      AnimatedContent(
+         selectedTab,
+         contentKey = { entry -> entry.key },
+         transitionSpec = { fadeIn() togetherWith fadeOut() }
+      ) {
+         it.content()
+      }
+   }
+
    if (useNavigationRail) {
-      NavigationRailContent(selectedTab.key, navigate, selectedTab.content)
+      NavigationRailContent(selectedTab.key, navigate, animatedMainContent)
    } else {
-      NavigationBarContent(selectedTab.key, navigate, selectedTab.content)
+      NavigationBarContent(selectedTab.key, navigate, animatedMainContent)
    }
 }
 
