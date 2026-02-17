@@ -138,7 +138,7 @@ internal fun UserDetailsScreenSuccesPreview() {
 }
 
 @FullScreenPreviews
-@ShowkaseComposable(group = "Test")
+@ShowkaseComposable(group = "Test", tags = ["animated"])
 @Composable
 internal fun UserDetailsScreenProgressPreview() {
    val testUser = User(
