@@ -21,7 +21,7 @@ jobs:
         run: 'echo "${{ secrets.TEST_GCLOUD_ACCOUNT }}" | base64 -d > test-lab-key.json'
 
       - name: Download and Extract Artifacts
-        uses: dawidd6/action-download-artifact@9dde25e7413c6123b6062d4c9fc954d6ff005cfc
+        uses: dawidd6/action-download-artifact@fe9d59ce33ce92db8a6ac90b2c8be6b6d90417c8
         continue-on-error: true
         id: download
         with:
