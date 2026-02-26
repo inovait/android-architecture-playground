@@ -1,6 +1,6 @@
 package si.inova.androidarchitectureplayground.navigation.instructions
 
-import com.zhuinden.simplestack.StateChange
+import com.ugzhuinden.simplestack.StateChange
 import kotlinx.serialization.Serializable
 import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction
