@@ -4,6 +4,7 @@ val libs = the<LibrariesForLibs>()
 
 plugins {
    id("com.google.devtools.ksp")
+   id("serialization")
 }
 
 dependencies {

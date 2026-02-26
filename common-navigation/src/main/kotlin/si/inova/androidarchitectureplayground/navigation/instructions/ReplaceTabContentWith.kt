@@ -1,13 +1,13 @@
 package si.inova.androidarchitectureplayground.navigation.instructions
 
 import com.zhuinden.simplestack.StateChange
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import si.inova.androidarchitectureplayground.navigation.keys.base.TabContainerKey
 import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
-@Parcelize
+@Serializable
 data class ReplaceTabContentWith(val key: ScreenKey) : NavigationInstruction() {
    override fun performNavigation(
       backstack: List<ScreenKey>,

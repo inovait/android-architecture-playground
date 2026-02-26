@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Test
 import si.inova.androidarchitectureplayground.login.FakeLoginRepository
 import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
@@ -85,6 +85,6 @@ class LoginScreenViewModelImplTest {
       viewModel.onServiceRegistered()
    }
 
-   @Parcelize
+   @Serializable
    private data class AnotherScreenKey(val number: Int = 0) : ScreenKey()
 }
