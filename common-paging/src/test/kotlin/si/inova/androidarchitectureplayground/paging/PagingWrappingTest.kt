@@ -151,7 +151,7 @@ class PagingWrappingTest {
 
          expectMostRecentItem().shouldBeErrorWith(
             expectedData = pagedListOf(listOf(1, 2, 3)),
-            exceptionType = NoNetworkException::class.java
+            exceptionType = NoNetworkException::class
          )
       }
    }
@@ -175,7 +175,7 @@ class PagingWrappingTest {
 
          expectMostRecentItem().shouldBeErrorWith(
             expectedData = pagedListOf(listOf(1, 2, 3)),
-            exceptionType = NoNetworkException::class.java
+            exceptionType = NoNetworkException::class
          )
       }
    }
@@ -199,7 +199,7 @@ class PagingWrappingTest {
 
          expectMostRecentItem().shouldBeErrorWith(
             expectedData = pagedListOf(listOf(1, 2, 3)),
-            exceptionType = NoNetworkException::class.java
+            exceptionType = NoNetworkException::class
          )
       }
    }

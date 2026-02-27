@@ -4,6 +4,7 @@ plugins {
    compose
    navigation
    parcelize
+   serialization
 }
 
 android {

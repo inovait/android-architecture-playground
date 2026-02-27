@@ -255,7 +255,7 @@ class OffsetDatabaseBackedPaginatedDataStreamTest {
       dataStream.data.test {
          runCurrent()
          expectMostRecentItem().apply {
-            items.shouldBeErrorWith(exceptionType = NoNetworkException::class.java)
+            items.shouldBeErrorWith(exceptionType = NoNetworkException::class)
             hasAnyDataLeft.shouldBeFalse()
          }
 
@@ -278,7 +278,7 @@ class OffsetDatabaseBackedPaginatedDataStreamTest {
          runCurrent()
 
          expectMostRecentItem().apply {
-            items.shouldBeErrorWith(exceptionType = NoNetworkException::class.java, expectedData = createNumbers(0, 10))
+            items.shouldBeErrorWith(exceptionType = NoNetworkException::class, expectedData = createNumbers(0, 10))
             hasAnyDataLeft.shouldBeFalse()
          }
 

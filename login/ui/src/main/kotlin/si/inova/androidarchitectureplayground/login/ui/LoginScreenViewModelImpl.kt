@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.login.ui
 
-import com.zhuinden.simplestack.StateChange
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
@@ -37,7 +36,7 @@ class LoginScreenViewModelImpl(
          emit(Outcome.Success(Unit))
 
          navigator.navigate(
-            ReplaceTop(key.target, direction = StateChange.FORWARD)
+            ReplaceTop(key.target)
          )
       }
    }

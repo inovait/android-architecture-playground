@@ -151,7 +151,7 @@ class UserRepositoryImplTest {
 
       val user = repository.getUserDetails(1)
       user.test {
-         awaitItem().shouldBeErrorWith(exceptionType = UnknownUserException::class.java)
+         awaitItem().shouldBeErrorWith(exceptionType = UnknownUserException::class)
 
          cancelAndConsumeRemainingEvents()
       }
@@ -459,7 +459,7 @@ class UserRepositoryImplTest {
 
             awaitItem().shouldBeErrorWith(
                expectedData = expectedUserError,
-               exceptionType = NoNetworkException::class.java
+               exceptionType = NoNetworkException::class
             )
 
             awaitComplete()

@@ -124,7 +124,7 @@ class PostsRepositoryImplTest {
 
       val post = repository.getPostDetails(1)
       post.test {
-         awaitItem().shouldBeErrorWith(exceptionType = UnknownPostException::class.java)
+         awaitItem().shouldBeErrorWith(exceptionType = UnknownPostException::class)
 
          cancelAndConsumeRemainingEvents()
       }
@@ -375,7 +375,7 @@ class PostsRepositoryImplTest {
 
             awaitItem().shouldBeErrorWith(
                expectedData = expectedPostError,
-               exceptionType = NoNetworkException::class.java
+               exceptionType = NoNetworkException::class
             )
 
             awaitComplete()
