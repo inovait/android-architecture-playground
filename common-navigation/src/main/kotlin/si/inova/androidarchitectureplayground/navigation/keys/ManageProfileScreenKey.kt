@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.navigation.keys
 
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import si.inova.androidarchitectureplayground.navigation.keys.base.BaseScreenKey
 
-@Parcelize
+@Serializable
 data object ManageProfileScreenKey : BaseScreenKey()

@@ -41,12 +41,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
-import com.zhuinden.simplestack.Backstack
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateToOrReplaceType
 import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
-import si.inova.androidarchitectureplayground.navigation.util.historyAsState
 import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
@@ -60,6 +61,7 @@ import si.inova.kotlinova.core.outcome.LoadingStyle
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
 import si.inova.kotlinova.navigation.navigator.Navigator
+import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
@@ -69,12 +71,17 @@ import si.inova.kotlinova.navigation.screens.Screen
 class PostListScreen(
    private val viewModel: PostListViewModel,
    private val navigator: Navigator,
-   private val backstack: Backstack,
+   private val backstack: StateFlow<List<ScreenKey>>,
 ) : Screen<PostListScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
    @Composable
    override fun Content(key: PostListScreenKey) {
-      val lastDetailsKey = backstack.historyAsState().value.filterIsInstance<PostDetailsScreenKey>().lastOrNull()
+      val lastDetailsFlow = remember {
+         backstack
+            .map { list -> list.filterIsInstance<PostDetailsScreenKey>().lastOrNull() }
+      }
+      val lastDetailsKey = lastDetailsFlow.collectAsStateWithLifecycle(null).value
+
       val windowSizeClass = calculateWindowSizeClass(LocalContext.current.requireActivity())
       // Do not highlight selected item in the phone mode
       val selectedId = lastDetailsKey?.id.takeIf {

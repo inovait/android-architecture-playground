@@ -1182,3 +1182,5 @@ Compose:
 kotlinovanavigation:
   NavigationKeyNoEnums:
     active: true
+  NavigationSerializable:
+    active: true

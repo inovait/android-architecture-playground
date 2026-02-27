@@ -8,8 +8,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import androidx.test.platform.app.InstrumentationRegistry
-import com.zhuinden.simplestack.Backstack
 import io.kotest.matchers.collections.shouldContainExactly
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,7 +33,7 @@ class UserListScreenTest {
    fun setUp() {
       InstrumentationRegistry.getInstrumentation().runOnMainSync {
          // Backstack must be created on the main thread
-         screen = UserListScreen(viewModel, navigator, Backstack().apply { setup(listOf(UserListScreenKey)) })
+         screen = UserListScreen(viewModel, navigator, MutableStateFlow(listOf(UserListScreenKey)))
       }
 
       viewModel.userList.value = Outcome.Success(

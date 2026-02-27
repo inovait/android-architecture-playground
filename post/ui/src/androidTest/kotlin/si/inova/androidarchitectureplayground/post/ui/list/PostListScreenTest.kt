@@ -9,10 +9,10 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.test.swipeUp
 import androidx.test.platform.app.InstrumentationRegistry
-import com.zhuinden.simplestack.Backstack
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -39,7 +39,7 @@ class PostListScreenTest {
    fun setUp() {
       InstrumentationRegistry.getInstrumentation().runOnMainSync {
          // Backstack must be created on the main thread
-         screen = PostListScreen(viewModel, navigator, Backstack().apply { setup(listOf(PostListScreenKey)) })
+         screen = PostListScreen(viewModel, navigator, MutableStateFlow(listOf(PostListScreenKey)))
       }
 
       repository.setPostList(

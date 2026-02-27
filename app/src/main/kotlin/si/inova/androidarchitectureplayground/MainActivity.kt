@@ -11,18 +11,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation3.runtime.NavEntryDecorator
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
-import com.zhuinden.simplestack.Backstack
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import si.inova.androidarchitectureplayground.navigation.scenes.TabListDetailScene
 import si.inova.androidarchitectureplayground.navigation.scenes.rememberTabListDetailSceneStrategy
@@ -32,6 +34,7 @@ import si.inova.kotlinova.compose.result.ResultPassingStore
 import si.inova.kotlinova.compose.time.ComposeAndroidDateTimeFormatter
 import si.inova.kotlinova.compose.time.LocalDateFormatter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter
+import si.inova.kotlinova.navigation.backstack.Backstack
 import si.inova.kotlinova.navigation.deeplink.HandleNewIntentDeepLinks
 import si.inova.kotlinova.navigation.deeplink.MainDeepLinkHandler
 import si.inova.kotlinova.navigation.di.NavigationContext
@@ -140,17 +143,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun LogCurrentScreen(backstack: Backstack) {
-   DisposableEffect(backstack) {
-      val listener = Backstack.CompletionListener { stateChange ->
-         @Suppress("UNUSED_VARIABLE") // TODO use it
-         val newTopKey = stateChange.topNewKey<ScreenKey>()
+   val topScreenFlow = remember(backstack) {
+      backstack.backstack
+         .map { list -> list.lastOrNull() }
+   }
+   val newTopKey = topScreenFlow.collectAsStateWithLifecycle(null).value
 
-         // TODO log new top key here to the crash reporting service, such as Firebase
-         //  (and ideally set a Key) to make debugging crashes / error reports easier
-      }
-
-      backstack.addStateChangeCompletionListener(listener)
-
-      onDispose { backstack.removeStateChangeCompletionListener(listener) }
+   SideEffect {
+      // TODO log new top key here to the crash reporting service, such as Firebase
+      //  (and ideally set a Key) to make debugging crashes / error reports easier
    }
 }

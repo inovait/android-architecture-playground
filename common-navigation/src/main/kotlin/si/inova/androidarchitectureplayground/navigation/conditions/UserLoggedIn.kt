@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.navigation.conditions
 
-import com.zhuinden.simplestack.StateChange
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import si.inova.kotlinova.navigation.conditions.NavigationCondition
 import si.inova.kotlinova.navigation.di.NavigationContext
 import si.inova.kotlinova.navigation.instructions.ClearBackstackAnd
@@ -11,7 +11,7 @@ import si.inova.kotlinova.navigation.instructions.OpenScreenOrMoveToTop
 import si.inova.kotlinova.navigation.instructions.ReplaceBackstack
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 
-@Parcelize
+@Serializable
 object UserLoggedIn : NavigationCondition
 
 interface NoLoginRedirectKey
@@ -27,8 +27,8 @@ interface NoLoginRedirectKey
  *
  * This is a copy of the [ReplaceBackstackOrOpenScreenWithLogin].
  */
-@Parcelize
-class ReplaceBackstackOrOpenScreenWithLogin(val replaceBackstack: Boolean, vararg val history: ScreenKey) :
+@Serializable
+class ReplaceBackstackOrOpenScreenWithLogin(val replaceBackstack: Boolean, vararg val history: @Contextual ScreenKey) :
    NavigationInstruction() {
    override fun performNavigation(backstack: List<ScreenKey>, context: NavigationContext): NavigationResult {
       require(history.isNotEmpty()) { "You should provide at least one screen to ReplaceBackstackOrOpenScreen" }
@@ -50,7 +50,7 @@ class ReplaceBackstackOrOpenScreenWithLogin(val replaceBackstack: Boolean, varar
       } else {
          if (backstack.lastOrNull() == finalScreen) {
             // Do Nothing
-            return NavigationResult(backstack, StateChange.REPLACE)
+            return NavigationResult(backstack)
          }
 
          NavigateWithConditions(
@@ -88,8 +88,8 @@ class ReplaceBackstackOrOpenScreenWithLogin(val replaceBackstack: Boolean, varar
  *
  * Afterward, entire backstack will be replaced with the provided [history].
  */
-@Parcelize
-class HandleLoginAndReplaceBackstack(vararg val history: ScreenKey) :
+@Serializable
+class HandleLoginAndReplaceBackstack(vararg val history: @Contextual ScreenKey) :
    NavigationInstruction() {
    override fun performNavigation(backstack: List<ScreenKey>, context: NavigationContext): NavigationResult {
       require(history.isNotEmpty()) { "You should provide at least one screen to ReplaceBackstackWithLogin" }
