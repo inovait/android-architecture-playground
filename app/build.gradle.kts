@@ -5,6 +5,7 @@ plugins {
    compose
    navigation
    parcelize
+   serialization
    showkase
    id("com.slack.keeper")
    id("androidx.baselineprofile")
@@ -145,7 +146,6 @@ dependencies {
    implementation(libs.kotlinova.core)
    implementation(libs.kotlinova.navigation)
    implementation(libs.kotlinova.navigation.navigation3)
-   implementation(libs.simpleStack)
 
    implementation(libs.androidx.datastore)
    implementation(libs.androidx.datastore.preferences)
