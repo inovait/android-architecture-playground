@@ -92,7 +92,7 @@ jobs:
           sarif-file: 'artifacts/results/android-architecture-playground/android-architecture-playground/merge.sarif'
           simple: true
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/linux@27d65e188ec43221b20d26de30f4892fad91df2f
+        uses: EnricoMi/publish-unit-test-result-action/linux@c950f6fb443cb5af20a377fd0dfaa78838901040
         if: always() && steps.download.outcome == 'success'
         with:
           comment_mode: failures
