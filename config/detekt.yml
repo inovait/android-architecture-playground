@@ -749,6 +749,7 @@ potential-bugs:
     active: true
   NullableToStringCall:
     active: true
+    excludes: *testFolders
   PropertyUsedBeforeDeclaration:
     active: false
   UnconditionalJumpStatementInLoop:
@@ -1181,4 +1182,6 @@ Compose:
 
 kotlinovanavigation:
   NavigationKeyNoEnums:
+    active: true
+  NavigationSerializable:
     active: true
