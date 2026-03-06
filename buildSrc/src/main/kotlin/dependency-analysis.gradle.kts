@@ -77,9 +77,6 @@ configure<DependencyAnalysisSubExtension> {
          exclude("com.android.tools.layoutlib:layoutlib")
          exclude("app.cash.paparazzi:layoutlib-native-jdk11")
 
-         // This is fine, included with parcelize plugin
-         exclude("org.jetbrains.kotlin:kotlin-parcelize-runtime")
-
          // This is fine, included with detekt API
          exclude("org.jetbrains.kotlin:kotlin-compiler-embeddable")
 

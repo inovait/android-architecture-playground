@@ -5,7 +5,6 @@ plugins {
    compose
    instrumentedTests
    navigation
-   parcelize
    sqldelight
    serialization
    showkase

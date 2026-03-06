@@ -3,7 +3,6 @@ plugins {
    di
    compose
    navigation
-   parcelize
    serialization
 }
 
