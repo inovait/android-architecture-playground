@@ -1,6 +1,5 @@
 package si.inova.androidarchitectureplayground.navigation.keys.base
 
-import androidx.activity.BackEventCompat
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.fadeIn
@@ -15,11 +14,11 @@ abstract class BaseSingleTopScreenKey : SingleTopKey() {
    @Suppress("MagicNumber") // Magic numbers are the whole point of this function
    override fun backAnimation(
       scope: AnimatedContentTransitionScope<*>,
-      backSwipeEdge: @BackEventCompat.SwipeEdge Int?,
+      backSwipeEdge: Int?,
    ): ContentTransform {
       val scaleTransformOrigin = when (backSwipeEdge) {
-         BackEventCompat.EDGE_LEFT -> TransformOrigin(pivotFractionX = 1f, pivotFractionY = 0.5f)
-         BackEventCompat.EDGE_RIGHT -> TransformOrigin(pivotFractionX = 0f, pivotFractionY = 0.5f)
+         EDGE_LEFT -> TransformOrigin(pivotFractionX = 1f, pivotFractionY = 0.5f)
+         EDGE_RIGHT -> TransformOrigin(pivotFractionX = 0f, pivotFractionY = 0.5f)
          else -> TransformOrigin.Center
       }
 
