@@ -4,7 +4,6 @@ plugins {
    androidAppModule
    compose
    navigation
-   parcelize
    serialization
    showkase
    id("com.slack.keeper")
