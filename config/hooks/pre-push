@@ -1,3 +1,5 @@
+git lfs pre-push "$@"
+
 # Remove following line to enable hook
 exit 0
 
@@ -9,4 +11,3 @@ do
     fi
 done
 
-git lfs pre-push "$@"
