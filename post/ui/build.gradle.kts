@@ -19,6 +19,7 @@ dependencies {
    api(projects.common)
    api(projects.post.api)
    implementation(projects.commonCompose)
+   implementation(projects.user.api)
 
    api(libs.kotlin.coroutines)
    api(libs.kotlinova.navigation)

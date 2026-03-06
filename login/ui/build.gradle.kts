@@ -22,6 +22,8 @@ dependencies {
    api(libs.kotlin.coroutines)
    api(libs.kotlinova.core)
    api(libs.kotlinova.navigation)
+   implementation(projects.home.api)
+   implementation(projects.post.api)
 
    testImplementation(testFixtures(projects.login.api))
    testImplementation(libs.kotlinova.core.test)

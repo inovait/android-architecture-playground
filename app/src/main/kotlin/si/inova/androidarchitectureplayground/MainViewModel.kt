@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import si.inova.androidarchitectureplayground.home.HomeScreenKey
 import si.inova.androidarchitectureplayground.login.LoginRepository
-import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
+import si.inova.androidarchitectureplayground.login.LoginScreenKey
+import si.inova.androidarchitectureplayground.post.PostListScreenKey
 import si.inova.kotlinova.navigation.instructions.MultiNavigationInstructions
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.screenkeys.ScreenKey

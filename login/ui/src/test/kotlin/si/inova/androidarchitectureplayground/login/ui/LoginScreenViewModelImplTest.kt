@@ -9,7 +9,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Test
 import si.inova.androidarchitectureplayground.login.FakeLoginRepository
-import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.androidarchitectureplayground.login.LoginScreenKey
 import si.inova.kotlinova.core.test.outcomes.shouldBeSuccessWithData
 import si.inova.kotlinova.core.test.outcomes.testCoroutineResourceManager
 import si.inova.kotlinova.navigation.instructions.GoBack

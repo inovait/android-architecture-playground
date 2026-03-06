@@ -50,15 +50,14 @@ import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateToOrReplaceType
-import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
 import si.inova.androidarchitectureplayground.paging.PagedList
 import si.inova.androidarchitectureplayground.paging.pagedListOf
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
 import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
 import si.inova.androidarchitectureplayground.ui.lists.DetectScrolledToBottom
+import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
+import si.inova.androidarchitectureplayground.user.UserListScreenKey
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.architectureplayground.user.R
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
@@ -84,7 +83,7 @@ class UserListScreen(
    @Composable
    override fun Content(key: UserListScreenKey) {
       val lastDetailsFlow = remember {
-         backstack.map { list -> list.filterIsInstance<PostDetailsScreenKey>().lastOrNull() }
+         backstack.map { list -> list.filterIsInstance<UserDetailsScreenKey>().lastOrNull() }
       }
       val lastDetailsKey = lastDetailsFlow.collectAsStateWithLifecycle(null).value
 

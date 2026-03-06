@@ -46,8 +46,8 @@ import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateToOrReplaceType
-import si.inova.androidarchitectureplayground.navigation.keys.PostDetailsScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
+import si.inova.androidarchitectureplayground.post.PostDetailsScreenKey
+import si.inova.androidarchitectureplayground.post.PostListScreenKey
 import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
 import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme

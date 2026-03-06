@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
-import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
+import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.user.UserRepository
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager

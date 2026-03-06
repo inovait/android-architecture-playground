@@ -1,5 +1,7 @@
 plugins {
    pureKotlinModule
+
+   navigationApi
    testFixtures
 }
 

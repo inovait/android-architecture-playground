@@ -4,12 +4,11 @@ import android.net.Uri
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import si.inova.androidarchitectureplayground.login.ManageProfileScreenKey
 import si.inova.androidarchitectureplayground.navigation.conditions.HandleLoginAndReplaceBackstack
-import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
+import si.inova.androidarchitectureplayground.post.PostListScreenKey
+import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
+import si.inova.androidarchitectureplayground.user.UserListScreenKey
 
 class HomeDeepLinksTest {
    private val homeDeepLinks = HomeDeepLinks()

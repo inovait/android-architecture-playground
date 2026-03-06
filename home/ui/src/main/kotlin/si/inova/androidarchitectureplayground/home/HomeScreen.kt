@@ -25,14 +25,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
+import si.inova.androidarchitectureplayground.login.ManageProfileScreenKey
 import si.inova.androidarchitectureplayground.navigation.instructions.ReplaceTabContentWith
-import si.inova.androidarchitectureplayground.navigation.keys.HomeScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.ManageProfileScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.PostListScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
 import si.inova.androidarchitectureplayground.navigation.keys.base.LocalSelectedTabContent
 import si.inova.androidarchitectureplayground.navigation.keys.base.SelectedTabContent
+import si.inova.androidarchitectureplayground.post.PostListScreenKey
 import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
+import si.inova.androidarchitectureplayground.user.UserListScreenKey
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.instructions.NavigationInstruction
 import si.inova.kotlinova.navigation.navigator.Navigator

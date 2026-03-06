@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
-import si.inova.androidarchitectureplayground.navigation.keys.UserListScreenKey
 import si.inova.androidarchitectureplayground.paging.pagedListOf
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
+import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
+import si.inova.androidarchitectureplayground.user.UserListScreenKey
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.test.FakeNavigator

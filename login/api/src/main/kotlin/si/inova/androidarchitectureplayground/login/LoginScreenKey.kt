@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.navigation.keys
+package si.inova.androidarchitectureplayground.login
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable

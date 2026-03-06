@@ -7,7 +7,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.login.LoginRepository
-import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
+import si.inova.androidarchitectureplayground.login.LoginScreenKey
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.BackstackScope

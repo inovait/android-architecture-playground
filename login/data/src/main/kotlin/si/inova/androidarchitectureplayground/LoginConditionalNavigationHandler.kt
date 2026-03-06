@@ -4,8 +4,8 @@ import dev.zacsweers.metro.ClassKey
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import si.inova.androidarchitectureplayground.login.LoginRepository
+import si.inova.androidarchitectureplayground.login.LoginScreenKey
 import si.inova.androidarchitectureplayground.navigation.conditions.UserLoggedIn
-import si.inova.androidarchitectureplayground.navigation.keys.LoginScreenKey
 import si.inova.kotlinova.navigation.conditions.ConditionalNavigationHandler
 import si.inova.kotlinova.navigation.conditions.NavigationCondition
 import si.inova.kotlinova.navigation.di.OuterNavigationScope

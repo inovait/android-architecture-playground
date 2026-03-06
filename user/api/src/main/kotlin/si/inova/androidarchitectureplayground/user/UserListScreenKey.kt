@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.navigation.keys
+package si.inova.androidarchitectureplayground.user
 
 import kotlinx.serialization.Serializable
 import si.inova.androidarchitectureplayground.navigation.keys.base.BaseScreenKey

@@ -7,8 +7,8 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import si.inova.androidarchitectureplayground.navigation.keys.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.user.FakeUserRepository
+import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.test.outcomes.shouldBeSuccessWithData
