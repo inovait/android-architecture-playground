@@ -81,7 +81,7 @@ jobs:
           fi
       - name: Post SARIF findings as comments in the pull request
         if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/merge.sarif') != ''
-        uses: sett-and-hive/sarif-to-comment-action/composite@7e69cd5f511daf8e8804487150df819f8380018e
+        uses: sett-and-hive/sarif-to-comment-action/composite@04469e3444f43e7555a5972860bab97bf7e1fb33
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
