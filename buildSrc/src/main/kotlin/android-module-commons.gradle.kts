@@ -118,7 +118,10 @@ commonAndroidComponents {
       if (variant.buildType == "debug") {
 
          if (!pluginManager.hasPlugin("com.android.test")) {
-            runDebugTestsTask.dependsOn(variant.computeTaskName("test", "UnitTest"))
+            if (!project.name.endsWith("-screenshot-tests")) {
+               // runDebugTests should not run Paparazzi tests. They are separate category.
+               runDebugTestsTask.dependsOn(variant.computeTaskName("test", "UnitTest"))
+            }
 
             runDebugDetektTask.dependsOn(variant.computeTaskName("detekt", "UnitTest"))
             runDebugDetektTask.dependsOn(variant.computeTaskName("detekt", "AndroidTest"))
