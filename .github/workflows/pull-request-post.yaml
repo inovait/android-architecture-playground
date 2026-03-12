@@ -111,12 +111,6 @@ jobs:
         with:
           java-version: '21'
           distribution: temurin
-      - uses: burrunan/gradle-cache-action@663fbad34e03c8f12b27f4999ac46e3d90f87eca
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-        with:
-          debug: false
-          concurrent: true
-          read-only: ${{ github.ref != 'refs/heads/main' }}
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
         if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
       - name: Compile classes
