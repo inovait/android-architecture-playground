@@ -131,6 +131,7 @@ jobs:
       - name: "Create jacoco aggregate"
         if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
         run: "./gradlew aggregatedJacocoReport"
+        working-directory: repo
 
 
       - name: Add coverage to PR
