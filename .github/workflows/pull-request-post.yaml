@@ -127,7 +127,7 @@ jobs:
           shopt -s globstar
           
           mkdir repo/coverage-data
-          cp artifacts/results/android-architecture-playground/android-architecture-playground/**/*.exec repo/coverage-data/
+          cp --backup=numbered artifacts/results/android-architecture-playground/android-architecture-playground/**/*.exec repo/coverage-data/
       - name: "Create jacoco aggregate"
         if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
         run: "./gradlew aggregatedJacocoReport"
