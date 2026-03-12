@@ -70,7 +70,12 @@ fun Project.setupJacocoMergingRoot() {
                      include("**/*.exec")
                      include("**/*.ec")
                   }
-               }
+               },
+            // Merge results from Firebase Test Lab instrumented tests
+            project.layout.settingsDirectory.file(
+               "instrumented_tests_results"
+            )
+               .let { fileTree(it) { include("*/*/artifacts/sdcard/Download/*.ec") } }
          )
          sourceDirectories.from(
             configurations.getByName(CONFIGURATION_JACOCO_SOURCES).incoming.artifactView { isLenient = true }.files

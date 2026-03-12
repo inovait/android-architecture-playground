@@ -65,7 +65,8 @@ jobs:
           --test artifacts/results/android-architecture-playground/android-architecture-playground/app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk \
           --device model=MediumPhone.arm,version=26 \
           --use-orchestrator \
-          --environment-variables clearPackageData=true \
+          --environment-variables clearPackageData=true,coverage=true,coverageFilePath=/sdcard/Download/ \
+          --directories-to-pull /sdcard/Download \
           |& tee tmp_file
           
           TEST_EXIT_CODE=${PIPESTATUS[0]}
@@ -116,3 +117,8 @@ jobs:
           min-coverage-overall: 50
           min-coverage-changed-files: 30
           pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
+      - name: "Upload jacoco coverage report"
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6
+        with:
+          name: test-coverage
+          path: ${{ github.workspace }}/repo/build/reports/jacoco/aggregatedJacocoReport/html
