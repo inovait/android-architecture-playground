@@ -108,9 +108,9 @@ versionCatalogUpdate {
    }
 }
 
-// Always update to the ALL distribution when updating Gradle
+// Always update to the BIN distribution when updating Gradle
 tasks.wrapper {
-   distributionType = Wrapper.DistributionType.ALL
+   distributionType = Wrapper.DistributionType.BIN
 }
 
 // Workaround for the https://youtrack.jetbrains.com/issue/QD-13913
