@@ -18,5 +18,16 @@
   ],
   "prHourlyLimit": 5,
   "updateNotScheduled": true,
-  "timezone": "Europe/Ljubljana"
+  "timezone": "Europe/Ljubljana",
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "action"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "enabled": false
+    }
+  ]
 }
