@@ -123,6 +123,7 @@ jobs:
           concurrent: true
           read-only: true
       - name: "Copy coverage data from PR"
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
         run: |
           shopt -s globstar
           
