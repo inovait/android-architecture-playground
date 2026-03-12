@@ -63,7 +63,7 @@ jobs:
           --type instrumentation \
           --app artifacts/results/android-architecture-playground/android-architecture-playground/app/build/outputs/apk/debug/app-debug.apk \
           --test artifacts/results/android-architecture-playground/android-architecture-playground/app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk \
-          --device model=MediumPhone.arm,version=26 \
+          --device model=MediumPhone.arm,version=34 \
           --use-orchestrator \
           --environment-variables clearPackageData=true,coverage=true,coverageFilePath=/sdcard/Download/ \
           --directories-to-pull /sdcard/Download \
