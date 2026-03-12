@@ -74,8 +74,8 @@ jobs:
           rm tmp_file
           
           BUCKET=$(echo $RESULTS | grep -oP "browser/\K[^]]+")
-          mkdir -p instrumented_tests_results
-          gcloud storage cp -r gs://$BUCKET instrumented_tests_results/
+          mkdir -p repo/instrumented_tests_results
+          gcloud storage cp -r gs://$BUCKET repo/instrumented_tests_results/
           
           if [[ TEST_EXIT_CODE -ne 0 ]] then
             exit 1
@@ -99,18 +99,54 @@ jobs:
           comment_mode: failures
           files: |
             artifacts/**/TEST-*.xml
-            instrumented_tests_results/**/*.xml
+            repo/instrumented_tests_results/**/*.xml
           commit: ${{ github.event.workflow_run.head_sha }}
           event_file: artifacts/results/_temp/_github_workflow/event.json
           event_name: ${{ github.event.workflow_run.event }}
           check_run: 'true'
+
+      # Compile the project if jacoco test exec is present, to generate classes for jacoco report
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 #v5
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
+        with:
+          java-version: '21'
+          distribution: temurin
+      - uses: burrunan/gradle-cache-action@663fbad34e03c8f12b27f4999ac46e3d90f87eca
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
+        with:
+          debug: false
+          concurrent: true
+          read-only: ${{ github.ref != 'refs/heads/main' }}
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
+      - name: Compile classes
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
+        uses: burrunan/gradle-cache-action@v3.0.1
+        with:
+          arguments: "compileDebugKotlin"
+          build-root-directory: repo
+          debug: false
+          concurrent: true
+          read-only: true
+      - name: "Copy coverage data from PR"
+        run: |
+          shopt -s globstar
+          
+          mkdir repo/coverage-data
+          cp artifacts/results/android-architecture-playground/android-architecture-playground/**/*.ec repo/coverage-data/
+          cp artifacts/results/android-architecture-playground/android-architecture-playground/**/*.exec repo/coverage-data/
+      - name: "Create jacoco aggregate"
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
+        run: "./gradlew aggregatedJacocoReport"
+
+
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@50d3aff4548aa991e6753342d9ba291084e63848
-        if: always() && steps.download.outcome == 'success'
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
         with:
           paths: |
-            artifacts/results/android-architecture-playground/android-architecture-playground/build/reports/jacoco/aggregatedJacocoReport/aggregatedJacocoReport.xml,
+            repo/build/reports/jacoco/aggregatedJacocoReport/aggregatedJacocoReport.xml,
           token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
           title: Code Coverage
@@ -119,6 +155,7 @@ jobs:
           pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
       - name: "Upload jacoco coverage report"
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
         with:
           name: test-coverage
           path: ${{ github.workspace }}/repo/build/reports/jacoco/aggregatedJacocoReport/html

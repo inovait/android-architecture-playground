@@ -69,8 +69,6 @@ jobs:
         run: "./gradlew runDebugTests -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest --continue$GLOBAL_FLAGS"
       - name: "Run Screenshot Tests"
         run: "./gradlew --continue verifyPaparazziDebug$GLOBAL_FLAGS"
-      - name: "Create jacoco aggregate"
-        run: "./gradlew aggregatedJacocoReport"
         #     GitHub Actions does not allow PR actions triggered from external contributors
         #     to post comments. As a workaround, we upload metadata artifacts
         #     and then sarif-comment.yaml workflow will run, which will post the comment
@@ -88,7 +86,9 @@ jobs:
             pr_number.txt
             ${{ github.event_path }}
             merge.sarif
-            build/reports/jacoco/aggregatedJacocoReport/aggregatedJacocoReport.xml
+            **/build/jacoco/**/*.*
+            **/build/outputs/unit_test_code_coverage/**/*.*
+            **/build/outputs/code_coverage/**/*.*
             app/build/outputs/apk/debug/app-debug.apk
             app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk
       - name: "Upload Screenshot test failures"

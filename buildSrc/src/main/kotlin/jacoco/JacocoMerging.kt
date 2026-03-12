@@ -75,7 +75,17 @@ fun Project.setupJacocoMergingRoot() {
             project.layout.settingsDirectory.file(
                "instrumented_tests_results"
             )
-               .let { fileTree(it) { include("*/*/artifacts/sdcard/Download/*.ec") } }
+               .let { fileTree(it) { include("*/*/artifacts/sdcard/Download/*.ec") } },
+            // Merge results from Pull request
+            project.layout.settingsDirectory.file(
+               "coverage-data"
+            )
+               .let {
+                  fileTree(it) {
+                     include("**/*.ec")
+                     include("**/*.exec")
+                  }
+               }
          )
          sourceDirectories.from(
             configurations.getByName(CONFIGURATION_JACOCO_SOURCES).incoming.artifactView { isLenient = true }.files
