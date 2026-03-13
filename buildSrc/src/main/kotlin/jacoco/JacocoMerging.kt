@@ -70,6 +70,20 @@ fun Project.setupJacocoMergingRoot() {
                      include("**/*.exec")
                      include("**/*.ec")
                   }
+               },
+            // Merge results from Firebase Test Lab instrumented tests
+            project.layout.settingsDirectory.file(
+               "instrumented_tests_results"
+            )
+               .let { fileTree(it) { include("*/*/artifacts/sdcard/Download/*.ec") } },
+            // Merge results from Pull request
+            project.layout.settingsDirectory.file(
+               "coverage-data"
+            )
+               .let {
+                  fileTree(it) {
+                     include("*.*")
+                  }
                }
          )
          sourceDirectories.from(
