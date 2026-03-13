@@ -21,7 +21,7 @@ jobs:
         run: 'echo "${{ secrets.TEST_GCLOUD_ACCOUNT }}" | base64 -d > test-lab-key.json'
 
       - name: Download and Extract Artifacts
-        uses: dawidd6/action-download-artifact@3fe16e87952bd761ad5fb4274bceb971b63f772f
+        uses: dawidd6/action-download-artifact@980d668e73c8252f062c5b3356914db466ba5d8e
         continue-on-error: true
         id: download
         with:
@@ -63,7 +63,7 @@ jobs:
           --type instrumentation \
           --app artifacts/results/android-architecture-playground/android-architecture-playground/app/build/outputs/apk/debug/app-debug.apk \
           --test artifacts/results/android-architecture-playground/android-architecture-playground/app-merged-instrumented-tests/build/outputs/apk/debug/app-merged-instrumented-tests-debug.apk \
-          --device model=MediumPhone.arm,version=26 \
+          --device model=MediumPhone.arm,version=34 \
           --use-orchestrator \
           --environment-variables clearPackageData=true,coverage=true,coverageFilePath=/sdcard/Download/ \
           --directories-to-pull /sdcard/Download \
@@ -111,12 +111,6 @@ jobs:
         with:
           java-version: '21'
           distribution: temurin
-      - uses: burrunan/gradle-cache-action@663fbad34e03c8f12b27f4999ac46e3d90f87eca
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-        with:
-          debug: false
-          concurrent: true
-          read-only: ${{ github.ref != 'refs/heads/main' }}
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
         if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
       - name: Compile classes
@@ -129,15 +123,19 @@ jobs:
           concurrent: true
           read-only: true
       - name: "Copy coverage data from PR"
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
         run: |
           shopt -s globstar
           
           mkdir repo/coverage-data
-          cp artifacts/results/android-architecture-playground/android-architecture-playground/**/*.ec repo/coverage-data/
-          cp artifacts/results/android-architecture-playground/android-architecture-playground/**/*.exec repo/coverage-data/
+          cp --backup=numbered artifacts/results/android-architecture-playground/android-architecture-playground/**/*.exec repo/coverage-data/
+          cd repo/coverage-data
+          for file in $(ls -1); do mv "$file" "$file".exec; done
+          find .
       - name: "Create jacoco aggregate"
         if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
         run: "./gradlew aggregatedJacocoReport"
+        working-directory: repo
 
 
       - name: Add coverage to PR
