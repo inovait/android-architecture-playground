@@ -82,7 +82,8 @@ fun Project.setupJacocoMergingRoot() {
             )
                .let {
                   fileTree(it) {
-                     include("*.*")
+                     include("**/*.ec")
+                     include("**/*.exec")
                   }
                }
          )
