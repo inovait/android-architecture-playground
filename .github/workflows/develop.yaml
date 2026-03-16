@@ -97,11 +97,11 @@ jobs:
           --device model=MediumPhone.arm,version=26 \
           --use-orchestrator \
           --environment-variables clearPackageData=true \
-          |& tee tmp_file
+          |& tee "$tmp_file"
           
           TEST_EXIT_CODE=${PIPESTATUS[0]}
-          RESULTS=$(cat tmp_file)
-          rm tmp_file
+          RESULTS=$(cat "$tmp_file")
+          rm "$tmp_file"
           
           BUCKET=$(echo $RESULTS | grep -oP "browser/\K[^]]+")
           mkdir -p instrumented_tests_results

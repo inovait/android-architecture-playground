@@ -70,8 +70,8 @@ jobs:
           |& tee tmp_file
           
           TEST_EXIT_CODE=${PIPESTATUS[0]}
-          RESULTS=$(cat tmp_file)
-          rm tmp_file
+          RESULTS=$(cat "$tmp_file")
+          rm "$tmp_file"
           
           BUCKET=$(echo $RESULTS | grep -oP "browser/\K[^]]+")
           mkdir -p repo/instrumented_tests_results
