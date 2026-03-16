@@ -808,6 +808,14 @@ potential-bugs:
       - androidx.compose.runtime.produceState
       # Order of the Width/height are generally well known, it's more noise to make it explicit
       - androidx.compose.ui.layout.MeasureScope.layout
+      - androidx.compose.foundation.layout.requiredSize
+      - androidx.compose.foundation.layout.size
+      - androidx.compose.ui.geometry.Offset.<init>
+      - androidx.compose.ui.geometry.IntSize.<init>
+      - androidx.compose.ui.geometry.Size.<init>
+      - androidx.compose.ui.geometry.Rect.<init>
+      - androidx.compose.ui.unit.DpSize
+      - androidx.compose.ui.unit.DpSize.<init>
       - androidx.compose.ui.unit.Constraints.Companion.fixed
       - androidx.compose.ui.text.TextRange.<init>
       - androidx.compose.ui.text.TextRange
