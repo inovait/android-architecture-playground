@@ -41,9 +41,6 @@ configure<DependencyAnalysisSubExtension> {
          exclude("androidx.lifecycle:lifecycle-runtime-compose")
          exclude("si.inova.kotlinova:compose")
 
-         // This is fine, included with anvil
-         exclude("software.amazon.lastmile.kotlin.inject.anvil:runtime-optional")
-
          // Only used to propagate proguard rules, so it will be falsely marked as unused
          exclude("dev.zacsweers.moshix:moshix-runtime")
 
@@ -79,9 +76,6 @@ configure<DependencyAnalysisSubExtension> {
 
          // This is fine, included with detekt API
          exclude("org.jetbrains.kotlin:kotlin-compiler-embeddable")
-
-         // This is fine, included with kotlinova navigation
-         exclude("com.github.Zhuinden:simple-stack")
 
          // AndroidX Annotations are auto-included with many other AndroidX libraries. It's fine to not explicitly depend on them
          exclude("androidx.annotation:annotation")

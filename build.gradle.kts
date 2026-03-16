@@ -62,11 +62,6 @@ dependencyAnalysis {
          includeGroup("androidx.test")
       }
 
-      bundle("inject") {
-         includeGroup("me.tatarka.inject")
-         includeGroup("software.amazon.lastmile.kotlin.inject.anvil")
-      }
-
       bundle("datastore") {
          includeGroup("androidx.datastore")
       }
@@ -81,11 +76,6 @@ dependencyAnalysis {
 
       bundle("sqlDelight") {
          includeGroup("app.cash.sqldelight")
-      }
-
-      bundle("dagger") {
-         includeGroup("com.google.dagger")
-         includeDependency("javax.inject:javax.inject")
       }
 
       bundle("windowManagement") {
