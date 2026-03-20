@@ -121,11 +121,14 @@ tasks.wrapper {
 tasks.named("reportMerge", SarifMergeTask::class.java).configure {
    @Suppress("UNCHECKED_CAST")
    doLast {
-      val sarifJson = JsonSlurper().parse(output.get().asFile) as Map<String, Any>
-      val runs = sarifJson.get("runs") as List<Map<String, Any>>
+      val sarifFile = output.get().asFile
+      if (sarifFile.exists()) {
+         val sarifJson = JsonSlurper().parse(sarifFile) as Map<String, Any>
+         val runs = sarifJson.get("runs") as List<Map<String, Any>>
 
-      val runsWithoutSrcRoot = runs.map { run -> run.filterKeys { it -> it != "originalUriBaseIds" } }
-      val newSarifJson = sarifJson + mapOf("runs" to runsWithoutSrcRoot)
-      output.get().asFile.writeText(JsonBuilder(newSarifJson).toPrettyString())
+         val runsWithoutSrcRoot = runs.map { run -> run.filterKeys { it -> it != "originalUriBaseIds" } }
+         val newSarifJson = sarifJson + mapOf("runs" to runsWithoutSrcRoot)
+         sarifFile.writeText(JsonBuilder(newSarifJson).toPrettyString())
+      }
    }
 }
