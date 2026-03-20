@@ -6,22 +6,22 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
+import si.inova.androidarchitectureplayground.navigation.services.BaseViewModel
 import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.user.UserRepository
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.ContributesScopedService
-import si.inova.kotlinova.navigation.services.SingleScreenViewModel
 import kotlin.time.Duration.Companion.seconds
 
 @ContributesScopedService
 @Inject
 class UserDetailsViewModel(
-   private val resources: CoroutineResourceManager,
+   resourcesFactory: CoroutineResourceManager.Factory,
    private val userRepository: UserRepository,
    private val actionLogger: ActionLogger,
-) : SingleScreenViewModel<UserDetailsScreenKey>(resources.scope) {
+) : BaseViewModel<UserDetailsScreenKey>(resourcesFactory) {
    private val _userDetails = MutableStateFlow<Outcome<User>>(Outcome.Progress())
    val userDetails: StateFlow<Outcome<User>>
       get() = _userDetails

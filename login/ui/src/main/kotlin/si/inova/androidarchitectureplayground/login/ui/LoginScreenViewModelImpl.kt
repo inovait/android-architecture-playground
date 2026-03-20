@@ -8,23 +8,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.login.LoginScreenKey
+import si.inova.androidarchitectureplayground.navigation.services.BaseViewModel
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.BackstackScope
 import si.inova.kotlinova.navigation.instructions.ReplaceTop
 import si.inova.kotlinova.navigation.navigator.Navigator
 import si.inova.kotlinova.navigation.services.ContributesScopedService
-import si.inova.kotlinova.navigation.services.SingleScreenViewModel
 
 @ContributesScopedService(LoginScreenViewModel::class)
 @ContributesBinding(BackstackScope::class, binding<LoginScreenViewModel>())
 @Inject
 class LoginScreenViewModelImpl(
-   private val resources: CoroutineResourceManager,
+   resourcesFactory: CoroutineResourceManager.Factory,
    private val navigator: Navigator,
    private val loginRepository: LoginRepository,
    private val actionLogger: ActionLogger,
-) : LoginScreenViewModel, SingleScreenViewModel<LoginScreenKey>(resources.scope) {
+) : LoginScreenViewModel, BaseViewModel<LoginScreenKey>(resourcesFactory) {
    override val loginStatus = MutableStateFlow<Outcome<Unit>>(Outcome.Success(Unit))
 
    override fun login() {

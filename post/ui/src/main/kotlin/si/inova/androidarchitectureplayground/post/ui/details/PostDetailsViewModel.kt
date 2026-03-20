@@ -6,21 +6,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
+import si.inova.androidarchitectureplayground.navigation.services.BaseViewModel
 import si.inova.androidarchitectureplayground.post.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.post.PostsRepository
 import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.ContributesScopedService
-import si.inova.kotlinova.navigation.services.SingleScreenViewModel
 
 @ContributesScopedService
 @Inject
 class PostDetailsViewModel(
-   private val resources: CoroutineResourceManager,
+   resourcesFactory: CoroutineResourceManager.Factory,
    private val postRepository: PostsRepository,
    private val actionLogger: ActionLogger,
-) : SingleScreenViewModel<PostDetailsScreenKey>(resources.scope) {
+) : BaseViewModel<PostDetailsScreenKey>(resourcesFactory) {
    private val _postDetails = MutableStateFlow<Outcome<Post>>(Outcome.Progress())
    val postDetails: StateFlow<Outcome<Post>>
       get() = _postDetails

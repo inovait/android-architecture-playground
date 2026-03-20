@@ -8,21 +8,22 @@ import kotlinx.coroutines.flow.map
 import si.inova.androidarchitectureplayground.common.flow.AwayDetectorFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
+import si.inova.androidarchitectureplayground.navigation.services.BaseViewModel
+import si.inova.androidarchitectureplayground.post.PostListScreenKey
 import si.inova.androidarchitectureplayground.post.PostsRepository
 import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.core.outcome.mapData
 import si.inova.kotlinova.navigation.services.ContributesScopedService
-import si.inova.kotlinova.navigation.services.CoroutineScopedService
 
 @ContributesScopedService
 @Inject
 class PostListViewModel(
-   private val resources: CoroutineResourceManager,
+   resourcesFactory: CoroutineResourceManager.Factory,
    private val postRepository: PostsRepository,
    private val actionLogger: ActionLogger,
-) : CoroutineScopedService(resources.scope) {
+) : BaseViewModel<PostListScreenKey>(resourcesFactory) {
    private val _postList = MutableStateFlow<Outcome<PostListState>>(Outcome.Progress(PostListState()))
    val postList: StateFlow<Outcome<PostListState>>
       get() = _postList

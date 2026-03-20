@@ -14,6 +14,7 @@ dependencies {
 
    implementation(libs.okio)
    implementation(libs.retrofit.moshi)
+   implementation(libs.kotlinova.retrofit.moshi)
    implementation(libs.kotlin.coroutines)
 
    testImplementation(testFixtures(projects.commonRetrofit))

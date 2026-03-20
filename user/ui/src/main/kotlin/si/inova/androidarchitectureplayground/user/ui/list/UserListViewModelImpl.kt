@@ -7,24 +7,25 @@ import dev.zacsweers.metro.binding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import si.inova.androidarchitectureplayground.common.logging.ActionLogger
+import si.inova.androidarchitectureplayground.navigation.services.BaseViewModel
 import si.inova.androidarchitectureplayground.paging.PagedList
 import si.inova.androidarchitectureplayground.paging.PagingResult
 import si.inova.androidarchitectureplayground.paging.toPagingResult
+import si.inova.androidarchitectureplayground.user.UserListScreenKey
 import si.inova.androidarchitectureplayground.user.UserRepository
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.services.ContributesScopedService
-import si.inova.kotlinova.navigation.services.CoroutineScopedService
 
 @ContributesScopedService(UserListViewModel::class)
 @ContributesBinding(AppScope::class, binding = binding<UserListViewModel>())
 @Inject
 class UserListViewModelImpl(
-   private val resources: CoroutineResourceManager,
+   resourcesFactory: CoroutineResourceManager.Factory,
    private val userRepository: UserRepository,
    private val actionLogger: ActionLogger,
-) : CoroutineScopedService(resources.scope), UserListViewModel {
+) : BaseViewModel<UserListScreenKey>(resourcesFactory), UserListViewModel {
    private val _userList = MutableStateFlow<Outcome<PagedList<User>>>(Outcome.Progress())
    override val userList: StateFlow<Outcome<PagedList<User>>>
       get() = _userList

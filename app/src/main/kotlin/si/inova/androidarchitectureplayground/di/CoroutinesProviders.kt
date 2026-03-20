@@ -28,10 +28,12 @@ interface CoroutinesProviders {
    }
 
    @Provides
-   fun provideDefaultCoroutineResourceManager(
+   fun provideDefaultCoroutineResourceManagerFactory(
       mainCoroutineScope: MainImmediateCoroutineScope,
       errorReporter: ErrorReporter,
-   ): CoroutineResourceManager {
-      return CoroutineResourceManager(mainCoroutineScope, errorReporter)
+   ): CoroutineResourceManager.Factory {
+      return CoroutineResourceManager.Factory { tag ->
+         CoroutineResourceManager(mainCoroutineScope, errorReporter, tag)
+      }
    }
 }
