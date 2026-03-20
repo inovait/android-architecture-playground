@@ -36,14 +36,16 @@ if (isAndroidProject()) {
       // Workaround for the https://github.com/detekt/sarif4k/issues/220
       doLast {
          val sarifFile = sarifReportOutputFile.get().asFile
-         val sarifFileText = sarifFile.readText()
+         if (sarifFile.exists()) {
+            val sarifFileText = sarifFile.readText()
 
-         val fixedSarifText = sarifFileText.replace(
-            "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
-            "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json"
-         )
+            val fixedSarifText = sarifFileText.replace(
+               "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+               "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json"
+            )
 
-         sarifFile.writeText(fixedSarifText)
+            sarifFile.writeText(fixedSarifText)
+         }
       }
    }
 
