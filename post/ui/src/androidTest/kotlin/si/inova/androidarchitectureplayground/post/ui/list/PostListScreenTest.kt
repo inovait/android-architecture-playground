@@ -31,7 +31,11 @@ class PostListScreenTest {
    val rule = createComposeRule()
 
    private val repository = FakePostsRepository()
-   private val viewModel = PostListViewModel(CoroutineResourceManager(MainScope(), { throw it }), repository, {})
+   private val viewModel = PostListViewModel(
+      { _ -> CoroutineResourceManager(MainScope(), { throw it }) },
+      repository,
+      {}
+   )
    private val navigator = FakeNavigator(PostListScreenKey)
    private lateinit var screen: PostListScreen
 

@@ -24,7 +24,7 @@ class LoginScreenViewModelImplTest {
    private val loginRepository = FakeLoginRepository()
 
    private val viewModel = LoginScreenViewModelImpl(
-      scope.testCoroutineResourceManager(),
+      { scope.testCoroutineResourceManager() },
       navigator,
       loginRepository,
       actionLogger = {}

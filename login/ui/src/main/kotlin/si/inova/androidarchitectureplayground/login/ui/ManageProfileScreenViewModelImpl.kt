@@ -9,6 +9,8 @@ import si.inova.androidarchitectureplayground.common.logging.ActionLogger
 import si.inova.androidarchitectureplayground.home.HomeScreenKey
 import si.inova.androidarchitectureplayground.login.LoginRepository
 import si.inova.androidarchitectureplayground.login.LoginScreenKey
+import si.inova.androidarchitectureplayground.login.ManageProfileScreenKey
+import si.inova.androidarchitectureplayground.navigation.services.BaseViewModel
 import si.inova.androidarchitectureplayground.post.PostListScreenKey
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
@@ -17,17 +19,16 @@ import si.inova.kotlinova.navigation.instructions.MultiNavigationInstructions
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.instructions.ReplaceBackstack
 import si.inova.kotlinova.navigation.navigator.Navigator
-import si.inova.kotlinova.navigation.services.CoroutineScopedService
 import si.inova.kotlinova.navigation.services.ScopedService
 
 @ContributesIntoMap(BackstackScope::class, binding = binding<ScopedService>())
 @ClassKey(ManageProfileScreenViewModel::class)
 internal class ManageProfileScreenViewModelImpl(
-   private val resources: CoroutineResourceManager,
+   resourcesFactory: CoroutineResourceManager.Factory,
    private val navigator: Navigator,
    private val loginRepository: LoginRepository,
    private val actionLogger: ActionLogger,
-) : CoroutineScopedService(resources.scope), ManageProfileScreenViewModel {
+) : BaseViewModel<ManageProfileScreenKey>(resourcesFactory), ManageProfileScreenViewModel {
    override val logoutStatus = MutableStateFlow<Outcome<Unit>>(Outcome.Success(Unit))
    override fun logout() {
       actionLogger.logAction { "logout" }

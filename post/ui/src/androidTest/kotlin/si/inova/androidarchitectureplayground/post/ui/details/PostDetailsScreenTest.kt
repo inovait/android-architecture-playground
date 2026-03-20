@@ -32,7 +32,11 @@ class PostDetailsScreenTest {
    private val postRepository = FakePostsRepository()
    private val navigator = FakeNavigator(PostDetailsScreenKey(77))
 
-   private val viewModel = PostDetailsViewModel(CoroutineResourceManager(MainScope(), { throw it }), postRepository, {})
+   private val viewModel = PostDetailsViewModel(
+      { _ -> CoroutineResourceManager(MainScope(), { throw it }) },
+      postRepository,
+      {}
+   )
    private val screen = PostDetailsScreen(viewModel, navigator)
 
    @OptIn(DelicateCoilApi::class)
@@ -48,8 +52,8 @@ class PostDetailsScreenTest {
             Post(
                id = 11,
                title = "She was aware that things could go wrong.",
-               body =
-               "She was aware that things could go wrong. In fact, she had trained her entire life in anticipation that...",
+               body = "She was aware that things could go wrong. In fact, " +
+                  "she had trained her entire life in anticipation that...",
                userId = 26,
                tags = listOf("love", "english"),
                numReactions = 7,

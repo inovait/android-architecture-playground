@@ -4,7 +4,6 @@ plugins {
    compose
    instrumentedTests
    navigation
-   serialization
    showkase
    testFixtures
 }
