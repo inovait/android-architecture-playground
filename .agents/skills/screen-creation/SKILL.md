@@ -15,11 +15,12 @@ Then:
 
 ```kotlin
 @Stable
-@Inject
-@ContributesScopedService
-class NAMEViewModel(
-   private val resources: CoroutineResourceManager
-) : SingleScreenViewModel<NAMEScreenKey>(resources.scope) {
+@ContributesIntoMap(BackstackScope::class, binding = binding<ScopedService>())
+@ClassKey
+internal class NAMEViewModel(
+   resourcesFactory: CoroutineResourceManager.Factory,
+   private val actionLogger: ActionLogger,
+) : BaseViewModel<NAMEScreenKey>(resourcesFactory) {
 
 }
 ```
