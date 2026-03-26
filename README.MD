@@ -65,21 +65,13 @@ Afterwards:
 
 ## Updating versions
 
-Process for updating all library versions::
+We are using [Mend Renovate](https://github.com/renovatebot/renovate) to automatically update
+dependencies in this project. It will periodically create PRs for dependency updates.
 
-1. Update Gradle version
-    1. Find latest version and the checksum for -all version from https://gradle.org/release-checksums/
-       (We use SHA to secure against wrapper attack, see https://blog.gradle.org/wrapper-attack-report)
-    2. Run `./gradlew wrapper --gradle-version VERSION --gradle-distribution-sha256-sum SHA`, where you
-       substitute `VERSION` and `SHA` with the info found in the previous step.
-2. Open `libs.toml` file and check if any versions marked with `@pin` have been unblocked and can now be updated
-3. Run `./gradlew versionCatalogUpdate`.
-4. Sync the project, build the app and run all tests to make sure everything still works.
-5. Run `detektDebug` gradle task to find any new deprecated code
-6. For any new deprecated code found by the search:
-    * If the fix is trivial, fix it immediately as part of the update commit
-    * Otherwise, make a tech debt ticket and add a @Suppress with the ticket number
-      (and/or discuss with the team how to address it)
+To [reduce supply chain attack surface](https://blog.yossarian.net/2025/11/21/We-should-all-be-using-dependency-cooldowns),
+we are using dependency cooldowns in renovate. However, this does not work for all dependencies: If a PR is open with Age
+stating "Unknown", DO NOT MERGE until the PR is at least 7 days old. This ensures that we honor dependency cooldowns even when
+release date is not available.
 
 ## Running tests / detekt efficiently
 
