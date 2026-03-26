@@ -77,5 +77,17 @@ configure<DependencyAnalysisSubExtension> {
          // AndroidX Annotations are auto-included with many other AndroidX libraries. It's fine to not explicitly depend on them
          exclude("androidx.annotation:annotation")
       }
+
+      onDuplicateClassWarnings {
+         severity("fail")
+
+         // Caused by detekt shading analysis API
+         // This is unavoidable until https://youtrack.jetbrains.com/issue/KT-56203 is solved
+         excludeRegex("kotlin/.*")
+
+         // Duplicates between the androidx compose and compose multiplatform. One of those are only stubs,
+         // so it should work out fine in the end
+         excludeRegex("androidx/compose/.*")
+      }
    }
 }
