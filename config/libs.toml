@@ -58,7 +58,6 @@ sqldelight = "2.2.1"
 turbine = "1.2.1"
 unmock-androidJar = "16-robolectric-13921718"
 unmock-plugin = "0.9.0"
-versionCatalogUpdate = "1.0.1"
 whatTheStack = "1.0.0-alpha08"
 
 [libraries]
@@ -171,4 +170,3 @@ whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTh
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
-versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }
