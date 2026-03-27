@@ -105,6 +105,16 @@ jobs:
           event_name: ${{ github.event.workflow_run.event }}
           check_run: 'true'
 
+      - name: Globally enable build cache and parallel execution
+        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
+        run: |
+          mkdir -p ~/.gradle
+          
+          cat >> ~/.gradle/gradle.properties<< EOF
+          org.gradle.caching=true
+          org.gradle.parallel=true
+          org.gradle.jvmargs=-Xmx6G
+          EOF
       # Compile the project if jacoco test exec is present, to generate classes for jacoco report
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 #v5
         if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
