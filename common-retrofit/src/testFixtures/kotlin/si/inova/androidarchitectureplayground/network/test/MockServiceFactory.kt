@@ -8,11 +8,11 @@ import si.inova.kotlinova.core.test.outcomes.ThrowingErrorReporter
 import si.inova.kotlinova.retrofit.MockWebServerScope
 
 fun MockWebServerScope.serviceFactory(testScope: TestScope): BaseServiceFactory {
-   val moshi = NetworkProviders.createMoshi(emptySet())
+   val json = NetworkProviders.createJson(emptyMap())
 
    return BaseServiceFactory(
       testScope,
-      { moshi },
+      { json },
       { NetworkProviders.prepareDefaultOkHttpClient().build() },
       ThrowingErrorReporter(testScope),
       DefaultErrorHandler(),

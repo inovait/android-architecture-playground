@@ -1,30 +1,34 @@
 package si.inova.androidarchitectureplayground.network.di
 
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesTo
+import dev.zacsweers.metro.Multibinds
 import dev.zacsweers.metro.Provides
 import dev.zacsweers.metro.SingleIn
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
 import okhttp3.OkHttpClient
 import si.inova.kotlinova.retrofit.interceptors.BypassCacheInterceptor
 import java.time.Duration
+import kotlin.reflect.KClass
 
 @ContributesTo(AppScope::class)
 interface NetworkProviders {
    // Uncomment when adding adapters
-   // val moshiAdapters: Set<MoshiAdapter>
+   @Multibinds(allowEmpty = true)
+   val moshiAdapters: Map<KClass<*>, KSerializer<*>>
 
    @Provides
    @SingleIn(AppScope::class)
-   fun provideMoshi(
-      adapters: Set<@JvmSuppressWildcards MoshiAdapter> = emptySet(), // Remove empty set when adding adapters
-   ): Moshi {
+   fun provideJson(
+      adapters: Map<KClass<*>, KSerializer<*>>,
+   ): Json {
       if (Thread.currentThread().name == "main") {
-         error("Moshi should not be initialized on the main thread")
+         error("Kotlinx serialization should not be initialized on the main thread")
       }
 
-      return createMoshi(adapters)
+      return createJson(adapters)
    }
 
    @Provides
@@ -47,26 +51,25 @@ interface NetworkProviders {
             .connectTimeout(DEFAULT_TIMEOUT)
       }
 
-      fun createMoshi(
-         adapters: Set<@JvmSuppressWildcards MoshiAdapter> = emptySet(), // Remove empty set when adding adapters
-      ): Moshi {
+      fun createJson(
+         adapters: Map<KClass<*>, KSerializer<*>>,
+      ): Json {
          if (Thread.currentThread().name == "main") {
-            error("Moshi should not be initialized on the main thread")
+            error("Kotlinx serialization should not be initialized on the main thread")
          }
 
-         return Moshi.Builder().also { builder ->
-            for (adapter in adapters) {
-               if (adapter is JsonAdapter.Factory) {
-                  builder.addLast(adapter)
-               } else {
-                  builder.addLast(adapter)
+         return Json {
+            serializersModule = SerializersModule {
+               for ((klas, adapter) in adapters) {
+                  @Suppress("UNCHECKED_CAST")
+                  contextual(klas as KClass<Any>, adapter as KSerializer<Any>)
                }
             }
-         }.build()
+
+            ignoreUnknownKeys = true
+         }
       }
    }
 }
-
-interface MoshiAdapter
 
 private val DEFAULT_TIMEOUT = Duration.ofSeconds(10)

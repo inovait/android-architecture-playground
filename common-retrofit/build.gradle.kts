@@ -7,12 +7,12 @@ plugins {
 dependencies {
    api(libs.kotlinova.core)
    api(libs.kotlinova.retrofit)
-   api(libs.moshi)
    api(libs.okhttp)
    api(libs.retrofit)
 
-   implementation(libs.retrofit.moshi)
+   implementation(libs.retrofit.serialization)
    implementation(libs.kotlin.coroutines)
+   implementation(libs.kotlin.serialization.json)
 
    testImplementation(testFixtures(projects.commonRetrofit))
    testImplementation(libs.kotlinova.retrofit.test)
@@ -21,9 +21,9 @@ dependencies {
 
    testFixturesApi(libs.kotlinova.retrofit.test)
    testFixturesImplementation(libs.kotlin.coroutines)
+   testFixturesImplementation(libs.kotlin.serialization.json)
    testFixturesImplementation(libs.kotlinova.core)
    testFixturesImplementation(libs.kotlinova.core.test)
-   testFixturesImplementation(libs.moshi)
    testFixturesImplementation(libs.okhttp)
    testFixturesImplementation(libs.kotlin.coroutines.test)
 }
