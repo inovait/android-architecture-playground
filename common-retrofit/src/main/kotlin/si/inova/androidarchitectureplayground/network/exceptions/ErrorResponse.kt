@@ -1,6 +1,6 @@
 package si.inova.androidarchitectureplayground.network.exceptions
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ErrorResponse(val message: String)

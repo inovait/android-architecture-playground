@@ -1,8 +1,8 @@
 package si.inova.androidarchitectureplayground.post.network.model
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class PostDto(
    val id: Int,
    val title: String,
@@ -12,6 +12,6 @@ data class PostDto(
    val reactions: Reactions,
    val image: String = "https://i.dummyjson.com/data/products/$id/1.jpg",
 ) {
-   @JsonClass(generateAdapter = true)
+   @Serializable
    data class Reactions(val likes: Int, val dislikes: Int)
 }

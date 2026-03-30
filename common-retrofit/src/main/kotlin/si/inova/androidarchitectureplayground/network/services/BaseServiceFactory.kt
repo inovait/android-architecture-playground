@@ -1,14 +1,15 @@
 package si.inova.androidarchitectureplayground.network.services
 
-import com.squareup.moshi.Moshi
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.Provider
 import dev.zacsweers.metro.Qualifier
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.json.Json
 import okhttp3.Cache
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import si.inova.androidarchitectureplayground.network.exceptions.DefaultErrorHandler
 import si.inova.kotlinova.core.reporting.ErrorReporter
 import si.inova.kotlinova.retrofit.callfactory.ErrorHandlingAdapterFactory
@@ -18,7 +19,7 @@ import si.inova.kotlinova.retrofit.converter.LazyRetrofitConverterFactory
 @Inject
 open class BaseServiceFactory(
    private val coroutineScope: CoroutineScope,
-   private val moshi: Provider<Moshi>,
+   private val json: Provider<Json>,
    private val okHttpClient: Provider<OkHttpClient>,
    private val errorReporter: ErrorReporter,
    private val defaultErrorHandler: DefaultErrorHandler,
@@ -44,7 +45,9 @@ open class BaseServiceFactory(
       }
 
       val moshiConverter = lazy {
-         MoshiConverterFactory.create(moshi()).withStreaming()
+         json().asConverterFactory(
+            "application/json; charset=utf-8".toMediaType()
+         )
       }
 
       return Retrofit.Builder()

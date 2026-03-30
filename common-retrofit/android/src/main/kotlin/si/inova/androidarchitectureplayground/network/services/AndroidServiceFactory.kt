@@ -1,9 +1,9 @@
 package si.inova.androidarchitectureplayground.network.services
 
-import com.squareup.moshi.Moshi
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.Provider
 import dispatch.core.DefaultCoroutineScope
+import kotlinx.serialization.json.Json
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import si.inova.androidarchitectureplayground.network.exceptions.DefaultErrorHandler
@@ -12,7 +12,7 @@ import si.inova.kotlinova.retrofit.caching.GlobalOkHttpDiskCacheManager
 
 @Inject
 class AndroidServiceFactory(
-   moshi: Provider<Moshi>,
+   moshi: Provider<Json>,
    errorReporter: ErrorReporter,
    okHttpClient: Provider<OkHttpClient>,
    defaultCoroutineScope: DefaultCoroutineScope,

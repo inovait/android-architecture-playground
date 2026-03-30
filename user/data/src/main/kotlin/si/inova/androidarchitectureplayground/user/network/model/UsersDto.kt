@@ -1,8 +1,8 @@
 package si.inova.androidarchitectureplayground.user.network.model
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class UsersDto(
    val users: List<LightUserDto>,
    val total: Int,

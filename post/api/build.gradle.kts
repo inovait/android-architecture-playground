@@ -13,4 +13,5 @@ dependencies {
 
    testFixturesApi(projects.common)
    testFixturesImplementation(libs.kotlin.coroutines)
+   testFixturesImplementation(libs.kotlinova.core)
 }

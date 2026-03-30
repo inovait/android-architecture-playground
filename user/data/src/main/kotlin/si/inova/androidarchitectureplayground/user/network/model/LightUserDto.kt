@@ -1,8 +1,8 @@
 package si.inova.androidarchitectureplayground.user.network.model
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class LightUserDto(
    val id: Int,
    val firstName: String,

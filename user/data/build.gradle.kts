@@ -1,7 +1,7 @@
 plugins {
    pureKotlinModule
    di
-   moshi
+   serialization
    sqldelight
 }
 

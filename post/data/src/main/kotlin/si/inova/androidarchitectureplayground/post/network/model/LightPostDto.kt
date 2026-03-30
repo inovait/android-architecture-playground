@@ -1,8 +1,8 @@
 package si.inova.androidarchitectureplayground.post.network.model
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class LightPostDto(
    val id: Int,
    val title: String,

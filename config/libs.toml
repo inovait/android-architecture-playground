@@ -44,8 +44,6 @@ ksp = "2.3.6"
 logcat = "0.4"
 metro = "0.10.2"
 moduleGraphAssert = "2.9.0"
-moshi = "1.15.2"
-moshi-ir = "0.35.0"
 okhttp = "5.3.2"
 okio = "3.16.4"
 orgJson = "20251224"
@@ -129,6 +127,7 @@ kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 kotlin-plugin-compose = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-plugin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlin-serializationRuntime" }
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serializationRuntime" }
 kotlinova-compose = { module = "si.inova.kotlinova:compose", version.ref = "kotlinova" }
 kotlinova-core = { module = "si.inova.kotlinova:core", version.ref = "kotlinova" }
 kotlinova-core-test = { module = "si.inova.kotlinova:core-test", version.ref = "kotlinova" }
@@ -144,15 +143,13 @@ ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin"
 logcat = { module = "com.squareup.logcat:logcat", version.ref = "logcat" }
 metro-plugin = { module = "dev.zacsweers.metro:gradle-plugin", version.ref = "metro" }
 moduleGraphAssert = { module = "com.jraska.module.graph.assertion:plugin", version.ref = "moduleGraphAssert" }
-moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
-moshi-ir = { module = "dev.zacsweers.moshix:dev.zacsweers.moshix.gradle.plugin", version.ref = "moshi-ir" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-mockWebServer = { module = "com.squareup.okhttp3:mockwebserver3", version.ref = "okhttp" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 orgJson = { module = "org.json:json", version.ref = "orgJson" }
 rebugger = { module = "io.github.theapache64:rebugger", version.ref = "rebugger" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
+retrofit-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 showkase = { module = "com.airbnb.android:showkase", version.ref = "showkase" }
 showkase-processor = { module = "com.airbnb.android:showkase-processor", version.ref = "showkase" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }

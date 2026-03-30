@@ -26,7 +26,7 @@ dependencies {
    implementation(libs.kotlinova.core)
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.compose.material3.sizeClasses)
-   implementation(libs.coil)
+   api(libs.coil)
 
    testImplementation(testFixtures(projects.post.api))
    testImplementation(libs.kotlinova.core.test)

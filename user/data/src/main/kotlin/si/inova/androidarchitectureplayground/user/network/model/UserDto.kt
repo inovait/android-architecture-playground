@@ -1,8 +1,8 @@
 package si.inova.androidarchitectureplayground.user.network.model
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class UserDto(
    val id: Int,
    val firstName: String,
@@ -14,7 +14,7 @@ data class UserDto(
    val phone: String,
    val hair: Hair,
 ) {
-   @JsonClass(generateAdapter = true)
+   @Serializable
    data class Hair(
       val color: String,
       val type: String,
