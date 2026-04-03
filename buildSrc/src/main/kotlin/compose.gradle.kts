@@ -1,7 +1,5 @@
 import com.skydoves.compose.stability.gradle.StabilityAnalyzerExtension
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.api.internal.configuration.DefaultBuildFeatures
-import org.gradle.kotlin.dsl.the
 import util.isAndroidProject
 
 val libs = the<LibrariesForLibs>()
@@ -27,6 +25,14 @@ if (!isolatedProjects) {
          allowMissingBaseline = true
          quietCheck = true
          stabilityConfigurationFiles.add(stableClassesFile)
+      }
+   }
+
+   plugins.withId("com.android.base") {
+      afterEvaluate {
+         tasks.named { it == "androidTestJar" }.configureEach {
+            shouldRunAfter("compileReleaseKotlin")
+         }
       }
    }
 } else if (
