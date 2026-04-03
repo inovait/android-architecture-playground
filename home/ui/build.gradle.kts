@@ -16,6 +16,7 @@ android {
 dependencies {
    api(projects.home.api)
    api(libs.kotlinova.navigation)
+   api(libs.kotlinova.navigation.deeplink)
    implementation(projects.commonCompose)
    implementation(projects.login.api)
    implementation(projects.post.api)
