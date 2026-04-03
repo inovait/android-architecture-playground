@@ -87,6 +87,10 @@ dependencyAnalysis {
       bundle("okhttp") {
          includeGroup("com.squareup.okhttp3")
       }
+
+      bundle("paging") {
+         includeGroup("androidx.paging")
+      }
    }
 }
 
