@@ -164,6 +164,7 @@ dependencies {
    implementation(libs.kotlin.serialization.json)
    implementation(libs.kotlinova.core)
    implementation(libs.kotlinova.navigation)
+   implementation(libs.kotlinova.navigation.deeplink)
    implementation(libs.kotlinova.navigation.navigation3)
    implementation(libs.sqldelight.android)
 
