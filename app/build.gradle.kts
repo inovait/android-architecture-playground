@@ -128,6 +128,15 @@ keeper {
    automaticR8RepoManagement = false
 }
 
+dependencyAnalysis {
+   issues {
+      onUnusedDependencies {
+         // Needed to declare to force newer version to avoid mismatched dependencies error
+         exclude("androidx.concurrent:concurrent-futures")
+      }
+   }
+}
+
 dependencies {
    implementation(projects.common)
    implementation(projects.commonNavigation)
@@ -173,6 +182,7 @@ dependencies {
    debugImplementation(libs.whatTheStack)
 
    // We don't need espresso directly, but we need to force a higher version to work on the Android 16 QPR2
+   implementation(libs.androidx.concurrent.futures)
    androidTestImplementation(libs.androidx.test.espresso)
    androidTestImplementation(libs.androidx.test.junitRules)
    androidTestImplementation(libs.androidx.test.runner)
