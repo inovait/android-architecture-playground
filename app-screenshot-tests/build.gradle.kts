@@ -12,6 +12,7 @@ android {
    testOptions {
       unitTests.all {
          it.useJUnit()
+         it.reports.html.required = false
 
          it.maxParallelForks = minOf(Runtime.getRuntime().availableProcessors(), 2)
          it.systemProperty("maxParallelForks", it.maxParallelForks)
