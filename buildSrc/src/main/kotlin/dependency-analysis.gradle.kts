@@ -46,6 +46,9 @@ configure<DependencyAnalysisSubExtension> {
 
          // We don't need espresso directly, but we need to force a higher version to work on the Android 16 QPR2
          exclude("androidx.test.espresso:espresso-core")
+
+         // Auto added by the stability analyzer
+         exclude("com.github.skydoves:compose-stability-runtime")
       }
 
       onIncorrectConfiguration {

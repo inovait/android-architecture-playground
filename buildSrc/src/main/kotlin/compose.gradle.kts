@@ -1,5 +1,7 @@
+import com.skydoves.compose.stability.gradle.StabilityAnalyzerExtension
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.api.internal.configuration.DefaultBuildFeatures
+import org.gradle.kotlin.dsl.the
 import util.isAndroidProject
 
 val libs = the<LibrariesForLibs>()
@@ -11,6 +13,27 @@ plugins {
 val stableClassesFile = project.layout.settingsDirectory.file("config/global_compose_stable_classes.txt")
 composeCompiler {
    stabilityConfigurationFiles.add(stableClassesFile)
+}
+
+// Due to the https://github.com/skydoves/compose-stability-analyzer/issues/107, only enable stability analyzer
+// when isolated projects are disabled
+val isolatedProjects = objects.newInstance<BuildFeaturesAccessors>().buildFeatures.isolatedProjects.active.get()
+if (!isolatedProjects) {
+   apply(plugin = "com.github.skydoves.compose.stability.analyzer")
+
+   configure<StabilityAnalyzerExtension> {
+      stabilityValidation {
+         ignoreNonRegressiveChanges = true
+         allowMissingBaseline = true
+         quietCheck = true
+         stabilityConfigurationFiles.add(stableClassesFile)
+      }
+   }
+} else if (
+   gradle.startParameter.taskNames.any { it.contains("stabilityCheck", ignoreCase = true) } ||
+   gradle.startParameter.taskNames.any { it.contains("stabilityDump", ignoreCase = true) }
+) {
+   error("Stability analyzer is not supported with isolated projects enabled.")
 }
 
 dependencies {
@@ -29,3 +52,5 @@ dependencies {
       add("androidTestImplementation", libs.androidx.compose.ui.test.junit4)
    }
 }
+
+open class BuildFeaturesAccessors @Inject constructor(val buildFeatures: BuildFeatures)
