@@ -31,6 +31,7 @@ dependencies {
    implementation(libs.androidGradleCacheFix)
    implementation(libs.android.agp)
    implementation(libs.androidx.benchmark.baselineProfilePlugin)
+   implementation(libs.composeStabilityAnalyzer)
    implementation(libs.detekt.plugin)
    implementation(libs.dependencyAnalysis)
    implementation(libs.keeperPlugin)

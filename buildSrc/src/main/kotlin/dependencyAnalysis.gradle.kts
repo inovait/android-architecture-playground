@@ -37,6 +37,9 @@ configure<DependencyAnalysisSubExtension> {
          exclude("androidx.compose.ui:ui-tooling-preview")
          exclude("androidx.lifecycle:lifecycle-runtime-compose")
          exclude("si.inova.kotlinova:compose")
+
+         // Auto added by the stability analyzer
+         exclude("com.github.skydoves:compose-stability-runtime")
       }
 
       onIncorrectConfiguration {
