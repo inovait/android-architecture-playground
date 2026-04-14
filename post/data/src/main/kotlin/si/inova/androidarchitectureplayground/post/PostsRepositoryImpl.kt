@@ -37,7 +37,7 @@ import kotlin.coroutines.coroutineContext
 
 @ContributesBinding(AppScope::class)
 @Inject
-class PostsRepositoryImpl(
+internal class PostsRepositoryImpl(
    private val postsService: PostsService,
    private val postDb: DbPostQueries,
    private val timeProvider: TimeProvider,

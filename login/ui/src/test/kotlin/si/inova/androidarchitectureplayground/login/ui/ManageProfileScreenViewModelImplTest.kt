@@ -20,11 +20,11 @@ import si.inova.kotlinova.navigation.screenkeys.ScreenKey
 import si.inova.kotlinova.navigation.test.FakeNavigator
 
 class ManageProfileScreenViewModelImplTest {
-   val scope = TestScope()
-   val navigator = FakeNavigator(LoginScreenKey(OpenScreen(AnotherScreenKey())))
-   val loginRepository = FakeLoginRepository()
+   private val scope = TestScope()
+   private val navigator = FakeNavigator(LoginScreenKey(OpenScreen(AnotherScreenKey())))
+   private val loginRepository = FakeLoginRepository()
 
-   val viewModel = ManageProfileScreenViewModelImpl(
+   private val viewModel = ManageProfileScreenViewModelImpl(
       scope.testCoroutineResourceManager(),
       navigator,
       loginRepository,

@@ -40,7 +40,7 @@ import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
 @InjectNavigationScreen
-class HomeScreen(
+internal class HomeScreen(
    private val navigator: Navigator,
 ) : Screen<HomeScreenKey>() {
    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)

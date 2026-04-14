@@ -1,6 +1,8 @@
 package si.inova.androidarchitectureplayground.post.ui.details
 
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.ClassKey
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.binding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -11,12 +13,13 @@ import si.inova.androidarchitectureplayground.post.PostsRepository
 import si.inova.androidarchitectureplayground.post.model.Post
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
-import si.inova.kotlinova.navigation.services.ContributesScopedService
+import si.inova.kotlinova.navigation.di.BackstackScope
+import si.inova.kotlinova.navigation.services.ScopedService
 import si.inova.kotlinova.navigation.services.SingleScreenViewModel
 
-@ContributesScopedService
-@Inject
-class PostDetailsViewModel(
+@ContributesIntoMap(BackstackScope::class, binding = binding<ScopedService>())
+@ClassKey(PostDetailsViewModel::class)
+internal class PostDetailsViewModel(
    private val resources: CoroutineResourceManager,
    private val postRepository: PostsRepository,
    private val actionLogger: ActionLogger,

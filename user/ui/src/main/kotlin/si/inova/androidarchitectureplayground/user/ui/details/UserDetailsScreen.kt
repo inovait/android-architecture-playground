@@ -39,7 +39,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 @ContributesScreenBinding
 @Stable
 @InjectNavigationScreen
-class UserDetailsScreen(
+internal class UserDetailsScreen(
    private val viewModel: UserDetailsViewModel,
 ) : Screen<UserDetailsScreenKey>() {
    @Composable

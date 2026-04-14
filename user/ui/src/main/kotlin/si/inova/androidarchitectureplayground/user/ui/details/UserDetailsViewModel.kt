@@ -1,6 +1,8 @@
 package si.inova.androidarchitectureplayground.user.ui.details
 
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.ClassKey
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.binding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -11,13 +13,14 @@ import si.inova.androidarchitectureplayground.user.UserRepository
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
-import si.inova.kotlinova.navigation.services.ContributesScopedService
+import si.inova.kotlinova.navigation.di.BackstackScope
+import si.inova.kotlinova.navigation.services.ScopedService
 import si.inova.kotlinova.navigation.services.SingleScreenViewModel
 import kotlin.time.Duration.Companion.seconds
 
-@ContributesScopedService
-@Inject
-class UserDetailsViewModel(
+@ContributesIntoMap(BackstackScope::class, binding = binding<ScopedService>())
+@ClassKey(UserDetailsViewModel::class)
+internal class UserDetailsViewModel(
    private val resources: CoroutineResourceManager,
    private val userRepository: UserRepository,
    private val actionLogger: ActionLogger,

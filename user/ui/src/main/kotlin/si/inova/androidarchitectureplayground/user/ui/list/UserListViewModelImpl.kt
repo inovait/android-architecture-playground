@@ -1,8 +1,7 @@
 package si.inova.androidarchitectureplayground.user.ui.list
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.ClassKey
+import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.binding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,13 +13,13 @@ import si.inova.androidarchitectureplayground.user.UserRepository
 import si.inova.androidarchitectureplayground.user.model.User
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
-import si.inova.kotlinova.navigation.services.ContributesScopedService
+import si.inova.kotlinova.navigation.di.BackstackScope
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
+import si.inova.kotlinova.navigation.services.ScopedService
 
-@ContributesScopedService(UserListViewModel::class)
-@ContributesBinding(AppScope::class, binding = binding<UserListViewModel>())
-@Inject
-class UserListViewModelImpl(
+@ContributesIntoMap(BackstackScope::class, binding = binding<ScopedService>())
+@ClassKey(UserListViewModel::class)
+internal class UserListViewModelImpl(
    private val resources: CoroutineResourceManager,
    private val userRepository: UserRepository,
    private val actionLogger: ActionLogger,

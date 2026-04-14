@@ -16,7 +16,7 @@ import si.inova.kotlinova.navigation.screens.InjectNavigationScreen
 import si.inova.kotlinova.navigation.screens.Screen
 
 @InjectNavigationScreen
-class LoginScreen(
+internal class LoginScreen(
    private val viewModel: LoginScreenViewModel,
 ) : Screen<LoginScreenKey>() {
    @Composable

@@ -19,11 +19,11 @@ dependencies {
    api(projects.commonRetrofit)
    implementation(projects.commonPaging)
 
-   api(libs.dispatch)
    api(libs.kotlin.coroutines)
    api(libs.kotlinova.core)
    api(libs.retrofit)
    implementation(libs.androidx.paging.common)
+   implementation(libs.dispatch)
    implementation(libs.kotlinova.retrofit)
    implementation(libs.sqldelight.paging)
 

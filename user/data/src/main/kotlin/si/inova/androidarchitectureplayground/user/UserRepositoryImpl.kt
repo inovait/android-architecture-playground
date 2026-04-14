@@ -42,7 +42,7 @@ import kotlin.coroutines.coroutineContext
 
 // @ContributesBinding(AppScope::class)
 @Inject
-class UserRepositoryImpl(
+internal class UserRepositoryImpl(
    private val usersService: UsersService,
    private val userDb: DbUserQueries,
    private val timeProvider: TimeProvider,

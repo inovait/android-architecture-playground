@@ -24,7 +24,7 @@ import si.inova.kotlinova.core.outcome.mapData
  */
 @ContributesBinding(AppScope::class)
 @Inject
-class NoDbUserRepositoryImpl(
+internal class NoDbUserRepositoryImpl(
    private val usersService: UsersService,
 ) : UserRepository {
    @OptIn(ExperimentalPagingApi::class)

@@ -11,7 +11,7 @@ import si.inova.androidarchitectureplayground.common.test.datastore.InMemoryData
 class LoginRepositoryImplTest {
    private val preferences = InMemoryDataStore(emptyPreferences())
 
-   val repository = LoginRepositoryImpl(preferences)
+   private val repository = LoginRepositoryImpl(preferences)
 
    @Test
    fun `User should be logged out by default`() = runTest {

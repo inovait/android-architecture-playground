@@ -17,7 +17,7 @@ import si.inova.androidarchitectureplayground.login.LoginRepository
 @SingleIn(AppScope::class)
 @ContributesBinding(AppScope::class)
 @Inject
-class LoginRepositoryImpl(
+internal class LoginRepositoryImpl(
    @LoginDataStore
    private val preferences: DataStore<Preferences>,
 ) : LoginRepository {

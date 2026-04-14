@@ -68,7 +68,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 @ContributesScreenBinding
 @Stable
 @InjectNavigationScreen
-class PostListScreen(
+internal class PostListScreen(
    private val viewModel: PostListViewModel,
    private val navigator: Navigator,
    private val backstack: StateFlow<List<ScreenKey>>,

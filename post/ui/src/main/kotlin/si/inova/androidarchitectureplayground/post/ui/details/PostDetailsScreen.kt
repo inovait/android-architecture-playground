@@ -47,7 +47,7 @@ import si.inova.kotlinova.navigation.screens.Screen
 @ContributesScreenBinding
 @Stable
 @InjectNavigationScreen
-class PostDetailsScreen(
+internal class PostDetailsScreen(
    private val viewModel: PostDetailsViewModel,
    private val navigator: Navigator,
 ) : Screen<PostDetailsScreenKey>() {

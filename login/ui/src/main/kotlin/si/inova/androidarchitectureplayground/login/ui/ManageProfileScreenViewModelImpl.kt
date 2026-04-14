@@ -1,7 +1,7 @@
 package si.inova.androidarchitectureplayground.login.ui
 
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.ClassKey
+import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.binding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,13 +17,12 @@ import si.inova.kotlinova.navigation.instructions.MultiNavigationInstructions
 import si.inova.kotlinova.navigation.instructions.OpenScreen
 import si.inova.kotlinova.navigation.instructions.ReplaceBackstack
 import si.inova.kotlinova.navigation.navigator.Navigator
-import si.inova.kotlinova.navigation.services.ContributesScopedService
 import si.inova.kotlinova.navigation.services.CoroutineScopedService
+import si.inova.kotlinova.navigation.services.ScopedService
 
-@ContributesScopedService(ManageProfileScreenViewModel::class)
-@ContributesBinding(BackstackScope::class, binding<ManageProfileScreenViewModel>())
-@Inject
-class ManageProfileScreenViewModelImpl(
+@ContributesIntoMap(BackstackScope::class, binding = binding<ScopedService>())
+@ClassKey(ManageProfileScreenViewModel::class)
+internal class ManageProfileScreenViewModelImpl(
    private val resources: CoroutineResourceManager,
    private val navigator: Navigator,
    private val loginRepository: LoginRepository,
