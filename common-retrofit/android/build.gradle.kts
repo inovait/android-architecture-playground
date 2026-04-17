@@ -5,11 +5,11 @@ plugins {
 
 dependencies {
    api(projects.commonRetrofit)
-   api(libs.dispatch)
-   api(libs.kotlinova.core)
-   api(libs.kotlinova.retrofit)
-   api(libs.okhttp)
-   api(libs.kotlin.serialization.json)
 
    implementation(libs.kotlin.coroutines)
+   implementation(libs.dispatch)
+   implementation(libs.kotlinova.core)
+   implementation(libs.kotlinova.retrofit)
+   implementation(libs.okhttp)
+   implementation(libs.kotlin.serialization.json)
 }
