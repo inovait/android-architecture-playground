@@ -4,9 +4,9 @@ plugins {
 }
 
 dependencies {
-   implementation(libs.kotlin.coroutines)
    implementation(libs.dispatch)
-   api(libs.kotlinova.core)
+   implementation(libs.kotlin.coroutines)
+   implementation(libs.kotlinova.core)
 
    testImplementation(testFixtures(projects.common))
    testImplementation(libs.kotlinova.core.test)

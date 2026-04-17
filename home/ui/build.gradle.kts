@@ -15,12 +15,13 @@ android {
 
 dependencies {
    api(projects.home.api)
-   api(libs.kotlinova.navigation)
-   api(libs.kotlinova.navigation.deeplink)
+
    implementation(projects.commonCompose)
    implementation(projects.login.api)
    implementation(projects.post.api)
    implementation(projects.user.api)
    implementation(libs.androidx.compose.material3.sizeClasses)
    implementation(libs.kotlinova.core)
+   implementation(libs.kotlinova.navigation)
+   implementation(libs.kotlinova.navigation.deeplink)
 }

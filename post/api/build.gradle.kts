@@ -5,13 +5,12 @@ plugins {
 }
 
 dependencies {
-   api(projects.common)
-
+   implementation(projects.common)
    implementation(libs.kotlin.coroutines)
    implementation(libs.kotlinova.core)
    compileOnly(libs.androidx.compose.runtime)
 
-   testFixturesApi(projects.common)
+   testFixturesImplementation(projects.common)
    testFixturesImplementation(libs.kotlin.coroutines)
    testFixturesImplementation(libs.kotlinova.core)
 }

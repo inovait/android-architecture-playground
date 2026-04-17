@@ -16,17 +16,17 @@ android {
 }
 
 dependencies {
-   api(projects.common)
-   api(projects.post.api)
-   implementation(projects.commonCompose)
-   implementation(projects.user.api)
+   api(projects.user.api)
 
-   api(libs.kotlin.coroutines)
-   api(libs.kotlinova.navigation)
-   implementation(libs.kotlinova.core)
+   implementation(projects.common)
+   implementation(projects.commonCompose)
+   implementation(projects.post.api)
    implementation(libs.androidx.activity.compose)
    implementation(libs.androidx.compose.material3.sizeClasses)
-   api(libs.coil)
+   implementation(libs.coil)
+   implementation(libs.kotlin.coroutines)
+   implementation(libs.kotlinova.core)
+   implementation(libs.kotlinova.navigation)
 
    testImplementation(testFixtures(projects.post.api))
    testImplementation(libs.kotlinova.core.test)

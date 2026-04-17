@@ -15,14 +15,14 @@ sqldelight {
 }
 
 dependencies {
-   api(projects.commonRetrofit)
    api(projects.post.api)
-   api(libs.kotlin.coroutines)
-   api(libs.kotlinova.core)
-   api(libs.retrofit)
 
-   implementation(libs.dispatch)
    implementation(projects.common)
+   implementation(projects.commonRetrofit)
+   implementation(libs.dispatch)
+   implementation(libs.kotlin.coroutines)
+   implementation(libs.kotlinova.core)
+   implementation(libs.retrofit)
 
    testImplementation(testFixtures(projects.common))
    testImplementation(testFixtures(projects.commonRetrofit))

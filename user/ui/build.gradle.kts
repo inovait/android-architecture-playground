@@ -16,13 +16,13 @@ android {
 
 dependencies {
    api(projects.common)
-   api(projects.user.api)
+   implementation(projects.user.api)
 
    implementation(projects.commonCompose)
    implementation(projects.commonPaging)
-   api(libs.kotlinova.navigation)
    implementation(libs.androidx.compose.material3.sizeClasses)
    implementation(libs.androidx.paging.common)
+   implementation(libs.kotlinova.navigation)
    implementation(libs.kotlinova.core)
 
    testImplementation(testFixtures(projects.user.api))

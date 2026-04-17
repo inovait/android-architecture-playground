@@ -42,11 +42,6 @@ plugins.withId("app.cash.paparazzi") {
 
 dependencyAnalysis {
    issues {
-      onIncorrectConfiguration {
-         // screenshot tests need to include app as implementation, otherwise resources do not work properly
-         exclude(":app")
-      }
-
       onModuleStructure {
          // False positive
          severity("ignore")

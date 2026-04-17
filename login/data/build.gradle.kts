@@ -5,11 +5,11 @@ plugins {
 
 dependencies {
    api(projects.login.api)
-   api(libs.dispatch)
-   api(libs.kotlin.coroutines)
 
    implementation(libs.androidx.datastore)
    implementation(libs.androidx.datastore.preferences)
+   implementation(libs.dispatch)
+   implementation(libs.kotlin.coroutines)
 
    testImplementation(testFixtures(projects.common))
 }

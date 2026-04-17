@@ -16,15 +16,16 @@ sqldelight {
 
 dependencies {
    api(projects.user.api)
-   api(projects.commonRetrofit)
-   implementation(projects.commonPaging)
 
-   api(libs.kotlin.coroutines)
-   api(libs.kotlinova.core)
-   api(libs.retrofit)
+   implementation(projects.commonPaging)
+   implementation(projects.commonRetrofit)
+
    implementation(libs.androidx.paging.common)
    implementation(libs.dispatch)
+   implementation(libs.kotlin.coroutines)
+   implementation(libs.kotlinova.core)
    implementation(libs.kotlinova.retrofit)
+   implementation(libs.retrofit)
    implementation(libs.sqldelight.paging)
 
    testImplementation(testFixtures(projects.common))

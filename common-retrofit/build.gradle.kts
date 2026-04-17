@@ -6,15 +6,15 @@ plugins {
 }
 
 dependencies {
-   api(libs.kotlinova.core)
    api(libs.kotlinova.retrofit)
-   api(libs.okhttp)
-   api(libs.retrofit)
 
-   implementation(libs.okio)
-   implementation(libs.retrofit.serialization)
    implementation(libs.kotlin.coroutines)
    implementation(libs.kotlin.serialization.json)
+   implementation(libs.kotlinova.core)
+   implementation(libs.okhttp)
+   implementation(libs.okio)
+   implementation(libs.retrofit)
+   implementation(libs.retrofit.serialization)
 
    testImplementation(testFixtures(projects.commonRetrofit))
    testImplementation(libs.kotlinova.retrofit.test)
