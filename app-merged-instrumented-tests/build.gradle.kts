@@ -1,6 +1,6 @@
 plugins {
    id("com.android.test")
-   commonAndroid
+   androidCommon
 }
 
 // HACK alert:

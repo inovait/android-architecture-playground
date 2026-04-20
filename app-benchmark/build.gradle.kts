@@ -2,7 +2,7 @@ import si.inova.kotlinova.gradle.benchmarkupload.GoogleCloudBenchmarkUpload
 
 plugins {
    id("com.android.test")
-   commonAndroid
+   androidCommon
    id("androidx.baselineprofile")
 }
 
