@@ -22,6 +22,7 @@ To create a new Android project from that:
     `buildSrc/src/main/kotlin/android-module-commons.gradle.kts`,
     `detekt/src/main/resources/META-INF/services/io.gitlab.arturbosch.detekt.api.RuleSetProvider` files
 14. Change package in the templates (`.idea/fileTemplates/*`)
+15. If you plan to use agents in this project, change package in agent skills (`.agents` folder). Delete the folder otherwise.
 15. Generate debug and release keystore (see below)
 16. Go through all TODOs inside the project
 17. Delete `docs/FEATURES.MD`
