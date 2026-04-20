@@ -13,7 +13,7 @@ val libs = the<LibrariesForLibs>()
 plugins {
    id("org.jetbrains.kotlin.android")
 
-   id("all-modules-commons")
+   id("allModulesCommons")
    id("org.gradle.android.cache-fix")
 }
 
