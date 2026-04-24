@@ -26,8 +26,9 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import si.inova.androidarchitectureplayground.navigation.scenes.TabListDetailScene
-import si.inova.androidarchitectureplayground.navigation.scenes.rememberTabListDetailSceneStrategy
+import si.inova.androidarchitectureplayground.navigation.scenes.ListDetailScene
+import si.inova.androidarchitectureplayground.navigation.scenes.rememberListDetailSceneStrategy
+import si.inova.androidarchitectureplayground.navigation.scenes.rememberTabListSceneDecoratorStrategy
 import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.result.LocalResultPassingStore
 import si.inova.kotlinova.compose.result.ResultPassingStore
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
    private lateinit var dateFormatter: AndroidDateTimeFormatter
    private lateinit var mainViewModelFactory: MainViewModel.Factory
 
-   private lateinit var tabListDetailSceneFactory: TabListDetailScene.Factory
+   private lateinit var listDetailSceneFactory: ListDetailScene.Factory
 
    private val viewModel by viewModels<MainViewModel>() { ViewModelFactory(intent) }
    private var initComplete = false
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
       navigationContext = appGraph.getNavigationContext()
       dateFormatter = appGraph.getDateFormatter()
       mainViewModelFactory = appGraph.getMainViewModelFactory()
-      tabListDetailSceneFactory = appGraph.getTabListDetailSceneFactory()
+      listDetailSceneFactory = appGraph.getTabListDetailSceneFactory()
 
       super.onCreate(savedInstanceState)
       enableEdgeToEdge()
@@ -122,7 +123,8 @@ class MainActivity : ComponentActivity() {
                         }
                      )
                   ),
-                  sceneStrategy = rememberTabListDetailSceneStrategy(tabListDetailSceneFactory)
+                  sceneStrategies = listOf(rememberListDetailSceneStrategy(listDetailSceneFactory)),
+                  sceneDecoratorStrategies = listOf(rememberTabListSceneDecoratorStrategy())
                )
 
                LogCurrentScreen(backstack)
