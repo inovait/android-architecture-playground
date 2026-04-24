@@ -71,10 +71,6 @@ configure<DependencyAnalysisSubExtension> {
       onDuplicateClassWarnings {
          severity("fail")
 
-         // Caused by detekt shading analysis API
-         // This is unavoidable until https://youtrack.jetbrains.com/issue/KT-56203 is solved
-         excludeRegex("kotlin/.*")
-
          // Duplicates between the androidx compose and compose multiplatform. One of those are only stubs,
          // so it should work out fine in the end
          excludeRegex("androidx/compose/.*")
