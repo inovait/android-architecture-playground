@@ -21,7 +21,6 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -58,9 +57,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import si.inova.androidarchitectureplayground.navigation.keys.base.DetailKey
 import si.inova.androidarchitectureplayground.navigation.keys.base.ListKey
-import si.inova.androidarchitectureplayground.navigation.keys.base.LocalSelectedTabContent
-import si.inova.androidarchitectureplayground.navigation.keys.base.SelectedTabContent
-import si.inova.androidarchitectureplayground.navigation.keys.base.TabContainerKey
 import si.inova.androidarchitectureplayground.navigation.uti.VerticalDragHandleWithoutMinimumSize
 import si.inova.kotlinova.core.activity.requireActivity
 import si.inova.kotlinova.navigation.navigation3.key
@@ -73,40 +69,22 @@ import kotlin.time.Duration.Companion.seconds
  * Since Navigation3 does not support nested scenes, we were forced to merge them all into one big scene
  */
 @AssistedInject
-class TabListDetailScene(
+class ListDetailScene(
    @Assisted
    private val input: Input,
    private val preferences: DataStore<Preferences>,
 ) : Scene<ScreenKey> {
 
    override val content: @Composable (() -> Unit) = {
-      val mainContent: @Composable (() -> Unit) = {
-         if (input.listEntry != null) {
-            if (input.showListDetail) {
-               ListDetail(listEntry = input.listEntry, detailEntry = input.detailEntry, preferences = preferences)
-            } else {
-               input.listEntry.Content()
-            }
-         } else {
-            input.detailEntry?.Content() ?: error("Detail entry should not be null when there is no list present")
-         }
-      }
-
-      if (input.tabContainerEntry != null) {
-         val selectedTabContent = SelectedTabContent(mainContent, input.listEntry?.key() ?: input.detailEntry!!.key())
-         CompositionLocalProvider(LocalSelectedTabContent provides selectedTabContent) {
-            input.tabContainerEntry.Content()
-         }
-      } else {
-         input.detailEntry?.Content() ?: error("Detail entry should not be null when there is no list present")
-      }
+      ListDetail(listEntry = input.listEntry, detailEntry = input.detailEntry, preferences = preferences)
    }
 
    override val entries: List<NavEntry<ScreenKey>>
-      get() = listOfNotNull(input.tabContainerEntry, input.listEntry, input.detailEntry)
+      get() = listOfNotNull(input.listEntry, input.detailEntry)
 
    override val key: Any
       get() = input.key
+
    override val previousEntries: List<NavEntry<ScreenKey>>
       get() = input.previousEntries
 
@@ -114,17 +92,15 @@ class TabListDetailScene(
    interface Factory {
       fun create(
          input: Input,
-      ): TabListDetailScene
+      ): ListDetailScene
    }
 
    // Hack around the fact that Metro does not support duplicate assisted parameres with the same type
    data class Input(
       val key: Any,
       val previousEntries: List<NavEntry<ScreenKey>>,
-      val tabContainerEntry: NavEntry<ScreenKey>?,
-      val listEntry: NavEntry<ScreenKey>?,
+      val listEntry: NavEntry<ScreenKey>,
       val detailEntry: NavEntry<ScreenKey>?,
-      val showListDetail: Boolean,
    )
 }
 
@@ -260,76 +236,46 @@ private fun ListDetail(
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun rememberTabListDetailSceneStrategy(sceneFactory: TabListDetailScene.Factory): TabListDetailSceneStrategy {
+fun rememberListDetailSceneStrategy(sceneFactory: ListDetailScene.Factory): ListDetailSceneStrategy {
    val windowSizeClass = calculateWindowSizeClass(LocalContext.current.requireActivity())
 
    return remember(windowSizeClass) {
-      TabListDetailSceneStrategy(windowSizeClass, sceneFactory)
+      ListDetailSceneStrategy(windowSizeClass, sceneFactory)
    }
 }
 
-class TabListDetailSceneStrategy(
+class ListDetailSceneStrategy(
    private val windowSizeClass: WindowSizeClass,
-   private val sceneFactory: TabListDetailScene.Factory,
+   private val sceneFactory: ListDetailScene.Factory,
 ) : SceneStrategy<ScreenKey> {
 
-   @Suppress("CyclomaticComplexMethod") // Splitting up would make things even worse. Method is commented to compensate.
    override fun SceneStrategyScope<ScreenKey>.calculateScene(entries: List<NavEntry<ScreenKey>>): Scene<ScreenKey>? {
       val largeDevice: Boolean = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Companion.Compact
+      if (!largeDevice) {
+         return null
+      }
 
-      // Possible configurations (when those items are at the top of the backstack):
-      // Phone + [TabContainer, List] => We should show both
-      // Tablet + [TabContainer, List] => We should show both
-      // Phone + [TabContainer, Non-List] => We should show both
-      // Tablet + [TabContainer, Non-List] => We should show both
-      // Phone + [TabContainer, List, Detail] => We should only show Detail
-      // Tablet + [TabContainer, List, Detail] => We should show all three
-      // Phone + [List, Detail] => We should only show Detail
-      // Tablet + [List, Detail] => We should show both
-      // Phone + [List, Non-Detail] => We should only show Detail
-      // Tablet + [List, Non-Detail] => We should only show Detail
-      // No list or TabContainer => Ignore (return null)
-
-      val tabContainerEntryIndex = entries.indexOfLast { it.key() is TabContainerKey }.takeIf { it >= 0 }
       // List is only relevant to us if it is at the top or the second top item of the backstack
       val listEntryIndex = entries.indexOfLast { it.key() is ListKey }.takeIf { it >= 0 && it >= entries.lastIndex - 1 }
+         ?: return null
       val detailEntry = entries.lastOrNull() ?: return null
 
       val listAndDetailsPresent = listEntryIndex != entries.lastIndex
 
-      if (!largeDevice && listEntryIndex != null && listAndDetailsPresent) {
-         // Phone + Details cases. Disable this scene strategy, we must show details on the phone
-         return null
-      }
-
-      if (listEntryIndex != null && listAndDetailsPresent && detailEntry.key() !is DetailKey) {
+      if (listAndDetailsPresent && detailEntry.key() !is DetailKey) {
          // We have a list, but the top entry on the backstack is not a details entry. Show it fullscreen.
          return null
       }
 
-      // Tab is only relevant to us if it's either at the top of the backstack, behind the list or second to top (without list)
-      val filteredTabContainerScreenEntryIndex = tabContainerEntryIndex.takeIf {
-         (listEntryIndex == null && tabContainerEntryIndex == entries.lastIndex - 1) ||
-            (listEntryIndex != null && tabContainerEntryIndex == listEntryIndex - 1)
-      }
-
-      if (filteredTabContainerScreenEntryIndex == null && (listEntryIndex == null || !largeDevice)) {
-         // No tabs - only enable when we are on a tablet AND there is a list present
-         return null
-      }
-
-      val tabContainerEntry = filteredTabContainerScreenEntryIndex?.let { entries.elementAt(it) }
-      val listEntry = listEntryIndex?.let { entries.elementAt(it) }
+      val listEntry = entries.elementAt(listEntryIndex)
 
       return sceneFactory.create(
-         TabListDetailScene.Input(
+         ListDetailScene.Input(
             key = "tab-list-detail",
-            previousEntries = entries.takeWhile { it != tabContainerEntry && it != listEntry },
-            tabContainerEntry = tabContainerEntry,
+            previousEntries = entries.takeWhile { it != listEntry },
             listEntry = listEntry,
             // Detail can be null only when there is a list shown, but user has not selected any detail yet
             detailEntry = detailEntry.takeIf { listAndDetailsPresent },
-            showListDetail = largeDevice,
          )
       )
    }
