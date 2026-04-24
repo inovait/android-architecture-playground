@@ -10,6 +10,13 @@ dependencyAnalysis {
          exclude("org.jetbrains.kotlin:kotlin-compiler")
          exclude("dev.detekt:detekt-kotlin-analysis-api")
       }
+
+      onDuplicateClassWarnings {
+         // Caused by detekt shading analysis API
+         // This is unavoidable until https://youtrack.jetbrains.com/issue/KT-56203 is solved
+         excludeRegex("kotlin/.*")
+         excludeRegex("org/jetbrains/.*")
+      }
    }
 }
 
