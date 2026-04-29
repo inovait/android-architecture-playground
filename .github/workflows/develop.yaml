@@ -121,7 +121,7 @@ jobs:
             **/build/*-results/**/*.xml
             instrumented_tests_results/**/*.xml
       - name: "Upload Screenshot test failures"
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure()
         with:
           name: failed-screenshot-tests
@@ -133,7 +133,7 @@ jobs:
           shopt -s globstar
           zip -r instrumented-test-results.zip instrumented_tests_results/**/*.xml
       - name: "Upload Instrumented tests results"
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure()
         with:
           name: instrumented-test-results
@@ -164,7 +164,7 @@ jobs:
       #            app/build/outputs/**/*-release.apk
       #            CHANGELOG.MD
       - name: "Upload proguard mappings"
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: mapping-app-release.txt
           path: app/build/outputs/mapping/release/mapping.txt
