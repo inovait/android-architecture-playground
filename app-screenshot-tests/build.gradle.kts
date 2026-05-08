@@ -14,8 +14,9 @@ android {
          it.useJUnit()
          it.reports.html.required = false
 
-         it.maxParallelForks = minOf(Runtime.getRuntime().availableProcessors(), 2)
-         it.systemProperty("maxParallelForks", it.maxParallelForks)
+         val numSplits = 2 // How many TestsX classes are there
+         it.maxParallelForks = minOf(Runtime.getRuntime().availableProcessors(), numSplits)
+         it.systemProperty("numSplits", numSplits)
       }
    }
 }

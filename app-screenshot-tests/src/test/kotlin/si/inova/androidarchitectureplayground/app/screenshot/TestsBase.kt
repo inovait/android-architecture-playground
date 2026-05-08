@@ -31,7 +31,7 @@ open class TestsBase {
       override fun provideValues(context: Context): List<*> {
          //         TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
          // val splitIndex = context.getOtherAnnotation(SplitIndex::class.java).index
-         // val totalSplits = System.getProperty("maxParallelForks")?.toInt() ?: error("Missing maxParallelForks property")
+         // val totalSplits = System.getProperty("numSplits")?.toInt() ?: error("Missing numSplits property")
          //
          // val allComponents = Showkase.getMetadata().componentList
          // val perSplit = allComponents.size / totalSplits
