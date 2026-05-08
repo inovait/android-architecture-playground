@@ -71,8 +71,8 @@ dependencyAnalysis {
          includeGroup("com.airbnb.android")
       }
 
-      bundle("sqlDelight") {
-         includeGroup("app.cash.sqldelight")
+      bundle("navigation3") {
+         includeGroup("androidx.navigation3")
       }
    }
 }
