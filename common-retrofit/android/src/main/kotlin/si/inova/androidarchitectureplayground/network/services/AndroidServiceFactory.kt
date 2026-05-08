@@ -12,7 +12,7 @@ import si.inova.kotlinova.retrofit.caching.GlobalOkHttpDiskCacheManager
 
 @Inject
 class AndroidServiceFactory(
-   moshi: Provider<Json>,
+   serialization: Provider<Json>,
    errorReporter: ErrorReporter,
    okHttpClient: Provider<OkHttpClient>,
    defaultCoroutineScope: DefaultCoroutineScope,
@@ -20,7 +20,7 @@ class AndroidServiceFactory(
    @BaseUrl
    baseUrl: String,
    private val cacheManager: GlobalOkHttpDiskCacheManager,
-) : BaseServiceFactory(defaultCoroutineScope, moshi, okHttpClient, errorReporter, defaultErrorHandler, baseUrl) {
+) : BaseServiceFactory(defaultCoroutineScope, serialization, okHttpClient, errorReporter, defaultErrorHandler, baseUrl) {
    override fun createCache(): Cache {
       return cacheManager.cache
    }

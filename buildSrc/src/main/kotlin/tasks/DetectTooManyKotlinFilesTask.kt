@@ -54,7 +54,7 @@ private fun Project.setupTooManyKotlinFilesTask(threshold: Int, message: (fileCo
             kotlinExtension.sourceSets
                .flatMap { sourceSet ->
                   sourceSet.kotlin.srcDirs.filter {
-                     // Filter out generated sources, such as KSP or Moshi sources and tests
+                     // Filter out generated sources, such as KSP sources and tests
                      val relativeFile = it.relativeTo(projectDir)
                      relativeFile.startsWith("src") &&
                         !it.path.contains("test", ignoreCase = true)

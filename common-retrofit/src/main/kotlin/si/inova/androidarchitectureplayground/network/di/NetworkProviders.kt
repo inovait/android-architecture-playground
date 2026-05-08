@@ -17,7 +17,7 @@ import kotlin.reflect.KClass
 interface NetworkProviders {
    // Uncomment when adding adapters
    @Multibinds(allowEmpty = true)
-   val moshiAdapters: Map<KClass<*>, KSerializer<*>>
+   val serializationAdapters: Map<KClass<*>, KSerializer<*>>
 
    @Provides
    @SingleIn(AppScope::class)
