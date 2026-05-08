@@ -44,7 +44,7 @@ open class BaseServiceFactory(
             .build()
       }
 
-      val moshiConverter = lazy {
+      val serializationConverter = lazy {
          json().asConverterFactory(
             "application/json; charset=utf-8".toMediaType()
          )
@@ -53,7 +53,7 @@ open class BaseServiceFactory(
       return Retrofit.Builder()
          .callFactory { updatedClient.value.newCall(it) }
          .baseUrl(baseUrl)
-         .addConverterFactory(LazyRetrofitConverterFactory(moshiConverter))
+         .addConverterFactory(LazyRetrofitConverterFactory(serializationConverter))
          .addCallAdapterFactory(StaleWhileRevalidateCallAdapterFactory(scope.errorHandler, errorReporter))
          .addCallAdapterFactory(ErrorHandlingAdapterFactory(coroutineScope, scope.errorHandler))
          .build()
