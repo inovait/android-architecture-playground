@@ -9,23 +9,22 @@ To create a new Android project from that:
 3. Rename si.inova.androidarchitectureplayground folder (package)    
    ![Image](docs/rename-package.png)    
    When asked, select "All Directories". This should rename all of those packages in the project
-4. Rename default no resources namespace in `buildSrc/src/main/kotlin/android-module-commons.gradle.kts`
-5. Rename theme in `app/res/values/themes.xml`
-6. Rename `namespace`, `applicatonId` and `testInstrumentationRunner` in `app/build.gradle.kts`
-7. Rename `namespace` in `app-screenshot-tests/build.gradle.kts`
-8. Rename `namespace` in `common-compose/build.gradle.kts`
-9. Rename `rootProject.name` in `settings.gradle.kts`
-10. Rename `app_name` in `app/res/values/strings.xml`
-11. Rename theme in `common-compose/src/.../ui/theme/Theme.kt`
-12. Rename `My` prefix of `MyApplication` to the name of your application
-13. Rename namespace in the `app/compose_reports`, `shared-resources/build.gradle.kts`,
-    `buildSrc/src/main/kotlin/android-module-commons.gradle.kts`,
+4. Rename theme in `app/res/values/themes.xml`
+5. Rename `namespace`, `applicatonId` and `testInstrumentationRunner` in `app/build.gradle.kts`
+6. Rename `namespace` in `app-screenshot-tests/build.gradle.kts`
+7. Rename `namespace` in `common-compose/build.gradle.kts`
+8. Rename `rootProject.name` in `settings.gradle.kts`
+9. Rename `app_name` in `app/res/values/strings.xml`
+10. Rename theme in `common-compose/src/.../ui/theme/Theme.kt`
+11. Rename `My` prefix of `MyApplication` to the name of your application and update the manifest with the new name
+12. Rename namespace in the `app/compose_reports`, `shared-resources/build.gradle.kts`,
+    `buildSrc/src/main/kotlin/androidCommon.gradle.kts`,
     `detekt/src/main/resources/META-INF/services/io.gitlab.arturbosch.detekt.api.RuleSetProvider` files
-14. Change package in the templates (`.idea/fileTemplates/*`)
-15. If you plan to use agents in this project, change package in agent skills (`.agents` folder). Delete the folder otherwise.
+13. Change package in the templates (`.idea/fileTemplates/*`)
+14. If you plan to use agents in this project, change package in agent skills (`.agents` folder). Delete the folder otherwise.
 15. Generate debug and release keystore (see below)
 16. Go through all TODOs inside the project
-17. Delete `docs/FEATURES.MD`
+17. Delete `docs/FEATURES.MD`, `docs/rename-package.png`
 18. Remove `exit 0` from the beginning of the `/config/hooks/pre-push`
 19. Remove everything until `Readme for the application` from this README
 20. Remove/replace LICENSE file
