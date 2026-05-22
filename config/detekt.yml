@@ -1030,7 +1030,7 @@ style:
     active: true
   SerialVersionUIDInSerializableClass:
     active: true
-  SpacingAfterPackageDeclaration:
+  SpacingAfterPackageAndImports:
     active: false
   StringShouldBeRawString:
     active: true
@@ -1052,7 +1052,7 @@ style:
     acceptableLength: 5
     allowNonStandardGrouping: false
   AbstractClassCanBeConcreteClass:
-    active: true
+    active: false # Sometimes we want abstract classes to prevent them from being accidentally created
     ignoreAnnotated: [ 'Module', 'Component' ]
   AbstractClassCanBeInterface:
     active: true
