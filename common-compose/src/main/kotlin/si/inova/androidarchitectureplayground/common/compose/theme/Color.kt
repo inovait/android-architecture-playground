@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.theme
+package si.inova.androidarchitectureplayground.common.compose.theme
 
 import androidx.compose.ui.graphics.Color
 

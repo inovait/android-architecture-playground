@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.debugging
+package si.inova.androidarchitectureplayground.common.compose.debugging
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview

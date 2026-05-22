@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-   namespace = "si.inova.androidarchitectureplayground.ui"
+   namespace = "si.inova.androidarchitectureplayground.common.compose"
 
    androidResources.enable = true
 }

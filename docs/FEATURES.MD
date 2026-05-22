@@ -21,7 +21,7 @@ to save state inside ViewModel](https://github.com/inovait/kotlinova/tree/master
 # Dark mode and Material You support
 
 Mostly handled by Google's material libraries, but enabled in
-the [Theme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplayground/ui/theme/Theme.kt) file.
+the [Theme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplayground/common/compose/theme/Theme.kt) file.
 
 # Improved support for large screens (two-pane layout for user and post list)
 
@@ -237,13 +237,13 @@ easy implementation of automatic reloads when user re-opens the app after a long
 
 # Multi-preview
 
-Included [FullScreenPreviews](../common-compose/src/main/kotlin/si/inova/androidarchitectureplayground/ui/debugging/FullScreenPreviews.kt)
+Included [FullScreenPreviews](../common-compose/src/main/kotlin/si/inova/androidarchitectureplayground/compose/debugging/FullScreenPreviews.kt)
 allows easily creating Compose previews that render in many different sizes/styles, to easily verify that your screen works on
 different devices.
 
 # Coil preview substitution
 
-[PreviewTheme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplayground/ui/debugging/PreviewTheme.kt) includes a
+[PreviewTheme](../common-compose/src/main/kotlin/si/inova/androidarchitectureplayground/compose/debugging/PreviewTheme.kt) includes a
 fake Coil loader that will display different color rectangles instead of images, allowing previewing and screenshot testing
 of Composables that would ordinarily have to load images from the internet.
 

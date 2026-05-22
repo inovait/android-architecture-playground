@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.components
+package si.inova.androidarchitectureplayground.common.compose.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
-import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
-import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
+import si.inova.androidarchitectureplayground.common.compose.debugging.PreviewTheme
+import si.inova.androidarchitectureplayground.common.compose.errors.commonUserFriendlyMessage
 import si.inova.kotlinova.core.exceptions.UnknownCauseException
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.outcome.Outcome

@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.debugging
+package si.inova.androidarchitectureplayground.common.compose.debugging
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
@@ -18,7 +18,7 @@ import coil3.compose.asPainter
 import coil3.request.ImageRequest
 import coil3.request.SuccessResult
 import coil3.size.pxOrElse
-import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
+import si.inova.androidarchitectureplayground.common.compose.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.compose.time.ComposeAndroidDateTimeFormatter
 import si.inova.kotlinova.compose.time.LocalDateFormatter
 import si.inova.kotlinova.core.time.AndroidDateTimeFormatter

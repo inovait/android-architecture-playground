@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.showkase
+package si.inova.androidarchitectureplayground.common.compose.showkase
 
 import android.content.Context
 
