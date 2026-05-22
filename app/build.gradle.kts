@@ -184,12 +184,12 @@ dependencies {
 
    // We don't need espresso directly, but we need to force a higher version to work on the Android 16 QPR2
    implementation(libs.androidx.concurrent.futures)
-   androidTestImplementation(libs.androidx.test.espresso)
    androidTestImplementation(libs.androidx.test.junitRules)
    androidTestImplementation(libs.androidx.test.runner)
    androidTestImplementation(libs.junit4)
    androidTestImplementation(libs.kotlinova.retrofit.test)
    androidTestImplementation(libs.okhttp.mockWebServer)
+   androidTestRuntimeOnly(libs.androidx.test.espresso)
    androidTestUtil(libs.androidx.test.orchestrator)
    androidTestUtil(libs.androidx.test.services)
 
