@@ -1,7 +1,6 @@
 package si.inova.androidarchitectureplayground.network.services
 
 import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.Provider
 import dev.zacsweers.metro.Qualifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
@@ -19,8 +18,8 @@ import si.inova.kotlinova.retrofit.converter.LazyRetrofitConverterFactory
 @Inject
 open class BaseServiceFactory(
    private val coroutineScope: CoroutineScope,
-   private val json: Provider<Json>,
-   private val okHttpClient: Provider<OkHttpClient>,
+   private val json: () -> Json,
+   private val okHttpClient: () -> OkHttpClient,
    private val errorReporter: ErrorReporter,
    private val defaultErrorHandler: DefaultErrorHandler,
    @BaseUrl
