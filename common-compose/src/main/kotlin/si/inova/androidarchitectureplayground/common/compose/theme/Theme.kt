@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.theme
+package si.inova.androidarchitectureplayground.common.compose.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

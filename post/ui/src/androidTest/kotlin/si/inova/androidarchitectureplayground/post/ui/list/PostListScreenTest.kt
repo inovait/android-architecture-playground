@@ -16,12 +16,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import si.inova.androidarchitectureplayground.common.compose.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.androidarchitectureplayground.common.pagination.PaginatedDataStream
 import si.inova.androidarchitectureplayground.post.FakePostsRepository
 import si.inova.androidarchitectureplayground.post.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.post.PostListScreenKey
 import si.inova.androidarchitectureplayground.post.model.Post
-import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.kotlinova.core.outcome.CoroutineResourceManager
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.test.FakeNavigator

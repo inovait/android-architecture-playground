@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.lists
+package si.inova.androidarchitectureplayground.common.compose.lists
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable

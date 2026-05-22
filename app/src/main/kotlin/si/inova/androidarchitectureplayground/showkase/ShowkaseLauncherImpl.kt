@@ -7,7 +7,7 @@ import com.airbnb.android.showkase.models.Showkase
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
-import si.inova.androidarchitectureplayground.ui.showkase.ShowkaseLauncher
+import si.inova.androidarchitectureplayground.common.compose.showkase.ShowkaseLauncher
 
 @ContributesBinding(AppScope::class)
 @Inject

@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import si.inova.androidarchitectureplayground.common.compose.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.androidarchitectureplayground.paging.pagedListOf
-import si.inova.androidarchitectureplayground.ui.theme.AndroidArchitecturePlaygroundTheme
 import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.user.UserListScreenKey
 import si.inova.androidarchitectureplayground.user.model.User

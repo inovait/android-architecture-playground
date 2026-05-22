@@ -1,4 +1,4 @@
-package si.inova.androidarchitectureplayground.ui.components
+package si.inova.androidarchitectureplayground.common.compose.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -12,8 +12,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import si.inova.androidarchitectureplayground.ui.R
-import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
+import si.inova.androidarchitectureplayground.common.compose.R
+import si.inova.androidarchitectureplayground.common.compose.errors.commonUserFriendlyMessage
 import si.inova.kotlinova.core.outcome.CauseException
 import si.inova.kotlinova.core.outcome.Outcome
 

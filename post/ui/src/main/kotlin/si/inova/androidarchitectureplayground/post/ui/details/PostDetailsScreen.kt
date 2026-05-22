@@ -28,11 +28,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
+import si.inova.androidarchitectureplayground.common.compose.debugging.FullScreenPreviews
+import si.inova.androidarchitectureplayground.common.compose.debugging.PreviewTheme
+import si.inova.androidarchitectureplayground.common.compose.errors.commonUserFriendlyMessage
 import si.inova.androidarchitectureplayground.post.PostDetailsScreenKey
 import si.inova.androidarchitectureplayground.post.model.Post
-import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
-import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
-import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
 import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
 import si.inova.architectureplayground.post.R
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention

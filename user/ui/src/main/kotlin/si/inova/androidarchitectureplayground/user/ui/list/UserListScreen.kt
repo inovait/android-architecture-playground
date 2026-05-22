@@ -49,13 +49,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import si.inova.androidarchitectureplayground.common.compose.debugging.FullScreenPreviews
+import si.inova.androidarchitectureplayground.common.compose.debugging.PreviewTheme
+import si.inova.androidarchitectureplayground.common.compose.errors.commonUserFriendlyMessage
+import si.inova.androidarchitectureplayground.common.compose.lists.DetectScrolledToBottom
 import si.inova.androidarchitectureplayground.navigation.instructions.navigateToOrReplaceType
 import si.inova.androidarchitectureplayground.paging.PagedList
 import si.inova.androidarchitectureplayground.paging.pagedListOf
-import si.inova.androidarchitectureplayground.ui.debugging.FullScreenPreviews
-import si.inova.androidarchitectureplayground.ui.debugging.PreviewTheme
-import si.inova.androidarchitectureplayground.ui.errors.commonUserFriendlyMessage
-import si.inova.androidarchitectureplayground.ui.lists.DetectScrolledToBottom
 import si.inova.androidarchitectureplayground.user.UserDetailsScreenKey
 import si.inova.androidarchitectureplayground.user.UserListScreenKey
 import si.inova.androidarchitectureplayground.user.model.User

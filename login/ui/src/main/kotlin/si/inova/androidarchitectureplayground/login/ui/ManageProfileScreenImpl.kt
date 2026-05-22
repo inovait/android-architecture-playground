@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import si.inova.androidarchitectureplayground.common.compose.showkase.ShowkaseLauncher
 import si.inova.androidarchitectureplayground.login.ManageProfileScreenKey
-import si.inova.androidarchitectureplayground.ui.showkase.ShowkaseLauncher
 import si.inova.kotlinova.compose.flow.collectAsStateWithLifecycleAndBlinkingPrevention
 import si.inova.kotlinova.core.outcome.Outcome
 import si.inova.kotlinova.navigation.di.ContributesScreenBinding
