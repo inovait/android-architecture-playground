@@ -1,7 +1,6 @@
 package si.inova.androidarchitectureplayground.network.services
 
 import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.Provider
 import dispatch.core.DefaultCoroutineScope
 import kotlinx.serialization.json.Json
 import okhttp3.Cache
@@ -12,9 +11,9 @@ import si.inova.kotlinova.retrofit.caching.GlobalOkHttpDiskCacheManager
 
 @Inject
 class AndroidServiceFactory(
-   serialization: Provider<Json>,
+   serialization: () -> Json,
    errorReporter: ErrorReporter,
-   okHttpClient: Provider<OkHttpClient>,
+   okHttpClient: () -> OkHttpClient,
    defaultCoroutineScope: DefaultCoroutineScope,
    defaultErrorHandler: DefaultErrorHandler,
    @BaseUrl
