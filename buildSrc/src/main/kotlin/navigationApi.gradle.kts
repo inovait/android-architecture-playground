@@ -16,7 +16,7 @@ dependencies {
 
    add("compileOnly", libs.androidx.compose.runtime)
 
-   plugins.withId("test-fixtures") {
+   plugins.withId("java-test-fixtures") {
       add("testFixturesCompileOnly", libs.androidx.compose.runtime)
    }
 }
