@@ -6,27 +6,18 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalInspectionMode
 import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
+import app.cash.paparazzi.TestName
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import com.android.ide.common.rendering.api.SessionParams
 import com.android.resources.NightMode
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
 import org.junit.Before
-import org.junit.Rule
 import org.junit.runner.RunWith
 
 @Suppress("JUnitMalformedDeclaration")
 @RunWith(TestParameterInjector::class)
 open class TestsBase {
-   @get:Rule
-   val paparazzi = Paparazzi(
-      deviceConfig = PIXEL_5,
-      theme = "android:Theme.Material.Light.NoActionBar",
-      showSystemUi = false,
-      renderingMode = SessionParams.RenderingMode.SHRINK,
-      snapshotHandler = determinedHandlerWithRenaming(maxPercentDifference = 0.0)
-   )
-
    object PreviewProvider : TestParameterValuesProvider() {
       override fun provideValues(context: Context): List<*> {
          //         TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
@@ -80,64 +71,79 @@ open class TestsBase {
 
       testKey: TestKey,
    ) {
-      val composable = @Composable {
-         CompositionLocalProvider(LocalInspectionMode provides true) {
-            testKey.showkaseBrowserComponent.component()
-         }
-      }
+      val paparazzi = Paparazzi(
+         deviceConfig = PIXEL_5,
+         theme = "android:Theme.Material.Light.NoActionBar",
+         showSystemUi = false,
+         renderingMode = SessionParams.RenderingMode.SHRINK,
+      )
 
-      val previewName = testKey.toString()
-      require(previewName.isNotBlank()) { "Test name should not be blank for ${testKey.key}" }
-
-      fun snapshot(name: String) {
-         val tags = testKey.showkaseBrowserComponent.tags
-         if (tags.contains("animated")) {
-            val duration = tags.firstOrNull { it.startsWith("duration-") }?.removePrefix("duration-")?.toInt()
-               ?: DEFAULT_DURATION_MS
-
-            paparazzi.gif(
-               name = name,
-               view = ComposeView(paparazzi.context).apply {
-                  setContent {
-                     composable()
-                  }
-               },
-               end = duration.toLong(),
-               fps = 20
+      try {
+         paparazzi.setup(
+            testName = TestName(
+               packageName = "",
+               className = "",
+               methodName = testKey.toString().substringBefore("(")
             )
-         } else {
-            paparazzi.snapshot(name = name) {
-               composable()
+         )
+         val composable = @Composable {
+            CompositionLocalProvider(LocalInspectionMode provides true) {
+               testKey.showkaseBrowserComponent.component()
             }
          }
+
+         fun snapshot(suffix: String? = null) {
+            val tags = testKey.showkaseBrowserComponent.tags
+            if (tags.contains("animated")) {
+               val duration = tags.firstOrNull { it.startsWith("duration-") }?.removePrefix("duration-")?.toInt()
+                  ?: DEFAULT_DURATION_MS
+
+               paparazzi.gif(
+                  name = suffix,
+                  view = ComposeView(paparazzi.context).apply {
+                     setContent {
+                        composable()
+                     }
+                  },
+                  end = duration.toLong(),
+                  fps = 20
+               )
+            } else {
+               paparazzi.snapshot(name = suffix) {
+                  composable()
+               }
+            }
+         }
+
+         snapshot()
+
+         paparazzi.unsafeUpdateConfig(
+            PIXEL_5.copy(
+               nightMode = NightMode.NIGHT
+            )
+         )
+         snapshot("night")
+
+         paparazzi.unsafeUpdateConfig(
+            PIXEL_5.copy(
+               ydpi = 600,
+               xdpi = 300,
+               screenWidth = 300 * 440 / 160,
+               screenHeight = 600 * 440 / 160,
+               nightMode = NightMode.NOTNIGHT
+            )
+         )
+         snapshot("small")
+
+         paparazzi.unsafeUpdateConfig(
+            PIXEL_5.copy(
+               fontScale = 1.5f
+            )
+         )
+         snapshot("largefont")
+      } finally {
+         paparazzi.teardown()
       }
-
-      snapshot(previewName)
-
-      paparazzi.unsafeUpdateConfig(
-         PIXEL_5.copy(
-            nightMode = NightMode.NIGHT
-         )
-      )
-      snapshot("${previewName}_night")
-
-      paparazzi.unsafeUpdateConfig(
-         PIXEL_5.copy(
-            ydpi = 600,
-            xdpi = 300,
-            screenWidth = 300 * 440 / 160,
-            screenHeight = 600 * 440 / 160,
-            nightMode = NightMode.NOTNIGHT
-         )
-      )
-      snapshot("${previewName}_small")
-
-      paparazzi.unsafeUpdateConfig(
-         PIXEL_5.copy(
-            fontScale = 1.5f
-         )
-      )
-      snapshot("${previewName}_largefont")
    }
 
    annotation class SplitIndex(val index: Int)
