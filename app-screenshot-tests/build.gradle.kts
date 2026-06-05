@@ -11,7 +11,7 @@ android {
 
    testOptions {
       unitTests.all {
-         it.useJUnit()
+         it.useJUnitPlatform()
 
          val numSplits = 2 // How many TestsX classes are there
          it.maxParallelForks = minOf(Runtime.getRuntime().availableProcessors(), numSplits)
@@ -39,7 +39,6 @@ dependencies {
       //         )
       //      }
    }
-   testImplementation(libs.junit4)
-   testImplementation(libs.junit4.parameterinjector)
    testImplementation(libs.showkase)
+   testImplementation(libs.junit.params)
 }
