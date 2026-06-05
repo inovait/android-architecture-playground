@@ -28,6 +28,7 @@ To create a new Android project from that:
 18. Remove `exit 0` from the beginning of the `/config/hooks/pre-push`
 19. Remove everything until `Readme for the application` from this README
 20. Remove/replace LICENSE file
+21. Replace `ic_launcher` and `splash_icon` icons
 21. Below, under `Updating screenshot tests` either remove public or private part,
     depending, on what project you are working on
 
