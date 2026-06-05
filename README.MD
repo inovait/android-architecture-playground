@@ -29,7 +29,7 @@ To create a new Android project from that:
 19. Remove everything until `Readme for the application` from this README
 20. Remove/replace LICENSE file
 21. Replace `ic_launcher` and `splash_icon` icons
-21. Below, under `Updating screenshot tests` either remove public or private part,
+21. Below, under `Creating/Updating screenshot tests` either remove public or private part,
     depending, on what project you are working on
 
 ## Keystore
@@ -131,7 +131,8 @@ To create screenshot tests for your compose screen:
       `@ShowkaseComposable(group = "Test", tags = ["animated"])`
     * If you want to control the duration of the recorded animation you can add `duration-[MS]` tag, for example `duration-2000`
       will record for 2 000 milliseconds.
-4. That's it. Screenshots will be generated automatically on the CI
+4. Public projects: Run `./gradlew recordPaparazziDebug` 
+5. Private projects: That's it. Screenshots will be generated automatically on the CI
 
 # Updating screenshot tests
 
