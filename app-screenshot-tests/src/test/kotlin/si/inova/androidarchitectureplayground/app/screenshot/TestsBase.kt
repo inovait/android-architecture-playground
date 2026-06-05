@@ -10,47 +10,14 @@ import app.cash.paparazzi.TestName
 import com.airbnb.android.showkase.models.ShowkaseBrowserComponent
 import com.android.ide.common.rendering.api.SessionParams
 import com.android.resources.NightMode
-import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import com.google.testing.junit.testparameterinjector.TestParameterValuesProvider
-import org.junit.Before
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 
-@Suppress("JUnitMalformedDeclaration")
-@RunWith(TestParameterInjector::class)
-open class TestsBase {
-   object PreviewProvider : TestParameterValuesProvider() {
-      override fun provideValues(context: Context): List<*> {
-         //         TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
-         // val splitIndex = context.getOtherAnnotation(SplitIndex::class.java).index
-         // val totalSplits = System.getProperty("numSplits")?.toInt() ?: error("Missing numSplits property")
-         //
-         // val allComponents = Showkase.getMetadata().componentList
-         // val perSplit = allComponents.size / totalSplits
-         //
-         // val start = splitIndex * perSplit
-         // val end = if (splitIndex == totalSplits - 1) {
-         //    allComponents.size
-         // } else {
-         //    start + perSplit
-         // }
-         //
-         // val components = allComponents
-         //    .subList(start, end)
-         //    .map { TestKey(it) }
-
-         val components = emptyList<TestKey>()
-
-         for (i in components.indices) {
-            for (j in components.indices) {
-               if (i != j && components[i].key == components[j].key) {
-                  throw AssertionError("Duplicate @Preview: '${components[i].key}'")
-               }
-            }
-         }
-
-         return components
-      }
-   }
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+abstract class TestsBase {
+   abstract val splitIndex: Int
 
    data class TestKey(val showkaseBrowserComponent: ShowkaseBrowserComponent) {
       val key = with(showkaseBrowserComponent) {
@@ -60,17 +27,16 @@ open class TestsBase {
       override fun toString(): String = key
    }
 
-   @Before
+   @BeforeEach
    fun setUp() {
       // Note: if you have lottie in your project, uncomment this
       // Workaround for the https://github.com/cashapp/paparazzi/issues/630
       // LottieTask.EXECUTOR = Executor(Runnable::run)
    }
 
-   protected open fun test(
-
-      testKey: TestKey,
-   ) {
+   @ParameterizedTest
+   @MethodSource("provideTestValuesValues")
+   fun test(testKey: TestKey) {
       val paparazzi = Paparazzi(
          deviceConfig = PIXEL_5,
          theme = "android:Theme.Material.Light.NoActionBar",
@@ -146,7 +112,36 @@ open class TestsBase {
       }
    }
 
-   annotation class SplitIndex(val index: Int)
+   fun provideTestValuesValues(): List<TestKey> {
+      //         TODO uncomment this when you have at least one preview marked with @ShowkaseComposable
+      return emptyList()
+
+      // val totalSplits = System.getProperty("numSplits")?.toInt() ?: error("Missing numSplits property")
+      //
+      // val allComponents = Showkase.getMetadata().componentList
+      // val perSplit = allComponents.size / totalSplits
+      //
+      // val start = splitIndex * perSplit
+      // val end = if (splitIndex == totalSplits - 1) {
+      //    allComponents.size
+      // } else {
+      //    start + perSplit
+      // }
+      //
+      // val components = allComponents
+      //    .subList(start, end)
+      //    .map { TestKey(it) }
+      //
+      // for (i in components.indices) {
+      //    for (j in components.indices) {
+      //       if (i != j && components[i].key == components[j].key) {
+      //          throw AssertionError("Duplicate @Preview: '${components[i].key}'")
+      //       }
+      //    }
+      // }
+      //
+      // return components
+   }
 }
 
 private const val DEFAULT_DURATION_MS = 1000
