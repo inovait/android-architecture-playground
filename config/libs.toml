@@ -50,7 +50,7 @@ retrofit = "3.0.0"
 showkase = "1.0.5"
 turbine = "1.2.1"
 unmock-androidJar = "16-robolectric-13921718"
-unmock-plugin = "0.10.1"
+unmock-plugin = "251ce9a56e4d8786d04c1fbfb02546125854034f"
 whatTheStack = "1.0.0-alpha08"
 
 [libraries]
@@ -148,7 +148,7 @@ showkase = { module = "com.airbnb.android:showkase", version.ref = "showkase" }
 showkase-processor = { module = "com.airbnb.android:showkase-processor", version.ref = "showkase" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 unmock-androidJar = { module = "org.robolectric:android-all", version.ref = "unmock-androidJar" }
-unmock-plugin = { module = "com.github.bjoernq:unmockplugin", version.ref = "unmock-plugin" }
+unmock-plugin = { module = "com.github.matejdro:unmock-plugin", version.ref = "unmock-plugin" }
 whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTheStack" }
 
 
