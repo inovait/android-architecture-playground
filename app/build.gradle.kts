@@ -66,7 +66,8 @@ android {
          testProguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"),
             "proguard-rules.pro",
-            "proguard-rules-test.pro"
+            "proguard-rules-test.pro",
+            "proguard-rules-androidtest.pro",
          )
 
          matchingFallbacks += "debug"

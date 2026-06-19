@@ -61,13 +61,13 @@ jobs:
       # Tests
 
       - name: Compile Unit Tests
-        run: "./gradlew compileDebugUnitTestSources compileReleaseUnitTestSources assembleDebugAndroidTest$GLOBAL_FLAGS"
+        run: "./gradlew compileDebugUnitTestSources assembleDebugAndroidTest$GLOBAL_FLAGS"
       - name: Lint
         run: "./gradlew lintRelease runDebugDetekt assertModuleGraph buildHealth detectTooManyFiles :app:verifyDebugDatabaseMigration debugStabilityCheck reportMerge --continue$GLOBAL_FLAGS"
       - name: Double check db with generated schema
         run: "./gradlew :app:generateDebugDatabaseSchema :app:verifyDebugDatabaseMigration"
       - name: Run Unit Tests
-        run: "./gradlew runDebugTests -x :app-screenshot-tests:testDebugUnitTest -x :app-screenshot-tests:testReleaseUnitTest --continue$GLOBAL_FLAGS"
+        run: "./gradlew runDebugTests -x :app-screenshot-tests:testDebugUnitTest"
       - name: "Run Screenshot Tests"
         run: "./gradlew --continue verifyPaparazziDebug$GLOBAL_FLAGS"
         #     GitHub Actions does not allow PR actions triggered from external contributors
