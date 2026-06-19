@@ -18,16 +18,7 @@ import org.gradle.api.Project
  * android {} block that can be used without applying specific android plugin
  */
 fun Project.commonAndroid(
-   block: Action<
-      CommonExtension<
-         BuildFeatures,
-         BuildType,
-         DefaultConfig,
-         ProductFlavor,
-         AndroidResources,
-         Installation
-         >
-      >,
+   block: CommonExtension.() -> Unit,
 ) {
    (this as org.gradle.api.plugins.ExtensionAware).extensions.configure("android", block)
 }
@@ -42,5 +33,5 @@ fun Project.commonAndroidComponents(
 }
 
 fun Project.isAndroidProject(): Boolean {
-   return pluginManager.hasPlugin(KOTLIN_ANDROID_PLUGIN_ID)
+   return pluginManager.hasPlugin("com.android.base")
 }
