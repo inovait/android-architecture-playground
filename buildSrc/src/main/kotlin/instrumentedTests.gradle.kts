@@ -1,3 +1,5 @@
+import org.gradle.api.UnknownTaskException
+
 val androidTestJar by tasks.registering(Jar::class) {
    archiveClassifier.set("androidTest")
 
@@ -14,10 +16,14 @@ val androidTestClasses by configurations.creating {
 }
 
 afterEvaluate {
-   val testCompilation = tasks.named("compileDebugAndroidTestKotlin")
-   androidTestJar.configure {
-      from(testCompilation.map { it.outputs.files })
-      dependsOn(testCompilation)
+   try {
+      val testCompilation = tasks.named("compileDebugAndroidTestKotlin")
+      androidTestJar.configure {
+         from(testCompilation.map { it.outputs.files })
+         dependsOn(testCompilation)
+      }
+   } catch (ignored: UnknownTaskException) {
+      // Ignore projects without android test tasks
    }
 }
 
