@@ -1,12 +1,9 @@
-import com.slack.keeper.optInToKeeper
-
 plugins {
    androidAppModule
    compose
    navigation
    serialization
    showkase
-   id("com.slack.keeper")
    id("androidx.baselineprofile")
 }
 
@@ -72,6 +69,7 @@ android {
          proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"),
             "proguard-rules.pro",
+            "proguard-rules-test.pro"
          )
 
          testProguardFiles(
@@ -104,18 +102,6 @@ android {
          signingConfig = signingConfigs.getByName("release")
       }
    }
-}
-
-androidComponents {
-   beforeVariants { builder ->
-      if (builder.name.contains("proguardedDebug")) {
-         builder.optInToKeeper()
-      }
-   }
-}
-
-keeper {
-   automaticR8RepoManagement = false
 }
 
 custom {
@@ -171,8 +157,6 @@ dependencies {
    androidTestImplementation(libs.okhttp.mockWebServer)
    androidTestUtil(libs.androidx.test.orchestrator)
    androidTestUtil(libs.androidx.test.services)
-
-   keeperR8(libs.androidx.r8)
 
    add("benchmarkRuntimeOnly", libs.androidx.profileInstaller)
    add("benchmarkRuntimeOnly", libs.androidx.compose.tracing)
