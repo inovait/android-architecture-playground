@@ -800,6 +800,8 @@ potential-bugs:
       - kotlin.text.replace
       - kotlin.text.Regex.replace
       - kotlinx.coroutines.flow.combine
+      - kotlin.Pair.<init>
+      - kotlin.Triple.<init>
       - androidx.compose.runtime.LaunchedEffect
       - androidx.compose.runtime.DisposableEffect
       - androidx.compose.ui.input.pointer.pointerInput
