@@ -28,6 +28,10 @@ tasks.withType<Detekt>().configureEach {
    }
 }
 
+kotlin {
+   jvmToolchain(21)
+}
+
 dependencies {
    implementation(libs.androidGradleCacheFix)
    implementation(libs.android.agp)
