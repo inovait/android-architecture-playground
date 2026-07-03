@@ -28,6 +28,10 @@ tasks.withType<Detekt>().configureEach {
    }
 }
 
+kotlin {
+   jvmToolchain(21)
+}
+
 dependencies {
    implementation(libs.androidGradleCacheFix)
    implementation(libs.android.agp)
@@ -35,6 +39,8 @@ dependencies {
    implementation(libs.composeStabilityAnalyzer)
    implementation(libs.detekt.plugin)
    implementation(libs.dependencyAnalysis)
+   // Force kotlin metadata version as a workaround for the https://github.com/autonomousapps/dependency-analysis-gradle-plugin/issues/1661
+   implementation(libs.kotlin.metadata)
    implementation(libs.kotlin.plugin)
    implementation(libs.kotlin.plugin.compose)
    implementation(libs.kotlin.plugin.serialization)
