@@ -18,17 +18,22 @@ composeCompiler {
 // when isolated projects are disabled
 val isolatedProjects = objects.newInstance<BuildFeaturesAccessors>().buildFeatures.isolatedProjects.active.get()
 if (!isolatedProjects) {
-   apply(plugin = "com.github.skydoves.compose.stability.analyzer")
+   // Temporarily disable stability validation until https://github.com/skydoves/compose-stability-analyzer/issues/178 is solved
+   // apply(plugin = "com.github.skydoves.compose.stability.analyzer")
+   //
+   // configure<StabilityAnalyzerExtension> {
+   //    stabilityValidation {
+   //       enabled = false
+   //
+   //       ignoreNonRegressiveChanges = true
+   //       allowMissingBaseline = true
+   //       quietCheck = true
+   //       allowIncrementalDisabling = false
+   //       stabilityConfigurationFiles.add(stableClassesFile)
+   //    }
+   // }
 
-   configure<StabilityAnalyzerExtension> {
-      stabilityValidation {
-         ignoreNonRegressiveChanges = true
-         allowMissingBaseline = true
-         quietCheck = true
-         allowIncrementalDisabling = false
-         stabilityConfigurationFiles.add(stableClassesFile)
-      }
-   }
+   tasks.register("debugStabilityCheck") {}
 } else if (
    gradle.startParameter.taskNames.any { it.contains("stabilityCheck", ignoreCase = true) } ||
    gradle.startParameter.taskNames.any { it.contains("stabilityDump", ignoreCase = true) }
