@@ -74,9 +74,7 @@ we are using dependency cooldowns in renovate. However, this does not work for a
 stating "Unknown", DO NOT MERGE until the PR is at least 7 days old. This ensures that we honor dependency cooldowns even when
 release date is not available.
 
-## Running tests / detekt efficiently
-
-To run all debug and non-Android tests, you can run `./gradlew runDebugTests`.
+## Running detekt efficiently
 
 To run all debug and non-Android detekt checks, you can run `./gradlew runDebugDetekt`.
 

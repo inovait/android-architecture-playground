@@ -12,9 +12,6 @@ plugins {
    jacoco
 }
 
-val runDebugTestsTask = tasks.register("runDebugTests")
-runDebugTestsTask.dependsOn(tasks.test)
-
 val runDebugDetektTask = tasks.register("runDebugDetekt")
 runDebugDetektTask.dependsOn("detektMain")
 runDebugDetektTask.dependsOn("detektTest")

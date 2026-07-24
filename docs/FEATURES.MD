@@ -273,14 +273,13 @@ Experimental [PagingData.toPagingResult()](../common-paging/src/main/kotlin/si/i
 converts the output of the Google's Paging3 library into a regular flow that can then be combined with other flows
 to still allow single output flow pattern even with the Paging library.
 
-# Easy running of debug-only test and detekt task
+# Easy running of debug-only detekt task
 
-Running debug-only detekt/test tasks can be cumbersome on the mixed Android/Kotlin project, as just running `test` will
-run both debug and release tests (which are most often duplicates), while running `testDebug` will skip tests from
+Running debug-only detekt tasks can be cumbersome on the mixed Android/Kotlin project, as just running `detektMain` will
+run both debug and release detekt (which are most often duplicates), while running `detektDebug` will skip tests from
 non-Android modules.
 
-Gradle config of this project introduces `runDebugTests` and `runDebugDetekt` tasks that only run those checks from debug and
-non-Android flavors
+Gradle config of this project introduces `runDebugDetekt` tasks that only run detekt checks from debug and non-Android flavors
 
 # Instrumented tests merging
 
