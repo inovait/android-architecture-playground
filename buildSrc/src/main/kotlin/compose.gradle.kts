@@ -1,6 +1,5 @@
 import com.skydoves.compose.stability.gradle.StabilityAnalyzerExtension
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.the
 import util.isAndroidProject
 
 val libs = the<LibrariesForLibs>()
@@ -18,22 +17,20 @@ composeCompiler {
 // when isolated projects are disabled
 val isolatedProjects = objects.newInstance<BuildFeaturesAccessors>().buildFeatures.isolatedProjects.active.get()
 if (!isolatedProjects) {
-   // Temporarily disable stability validation until https://github.com/skydoves/compose-stability-analyzer/issues/178 is solved
-   // apply(plugin = "com.github.skydoves.compose.stability.analyzer")
-   //
-   // configure<StabilityAnalyzerExtension> {
-   //    stabilityValidation {
-   //       enabled = false
-   //
-   //       ignoreNonRegressiveChanges = true
-   //       allowMissingBaseline = true
-   //       quietCheck = true
-   //       allowIncrementalDisabling = false
-   //       stabilityConfigurationFiles.add(stableClassesFile)
-   //    }
-   // }
+   apply(plugin = "com.github.skydoves.compose.stability.analyzer")
 
-   tasks.register("debugStabilityCheck") {}
+   configure<StabilityAnalyzerExtension> {
+      stabilityValidation {
+         enabled = false
+
+         ignoreNonRegressiveChanges = true
+         allowMissingBaseline = true
+         quietCheck = true
+         allowIncrementalDisabling = false
+      }
+
+      stabilityConfigurationFiles.add(stableClassesFile)
+   }
 } else if (
    gradle.startParameter.taskNames.any { it.contains("stabilityCheck", ignoreCase = true) } ||
    gradle.startParameter.taskNames.any { it.contains("stabilityDump", ignoreCase = true) }
