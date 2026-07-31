@@ -48,7 +48,7 @@ rebugger = "1.0.1"
 retrofit = "3.0.0"
 showkase = "1.0.5"
 turbine = "1.2.1"
-unmock-androidJar = "16-robolectric-13921718"
+unmock-androidJar = "17-robolectric-15733970"
 unmock-plugin = "0.11.0"
 whatTheStack = "1.0.0-alpha08"
 
