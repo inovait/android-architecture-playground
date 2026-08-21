@@ -252,11 +252,6 @@ of Composables that would ordinarily have to load images from the internet.
 `ServiceFactory` system makes it very easy to create modularized, small Retrofit services.
 See `si.inova.androidarchitectureplayground.post.PostsDataComponent.providePostsService()` for an example.
 
-# Easy dependency updating
-
-Included [version-catalog-udpate-plugin](https://github.com/littlerobots/version-catalog-update-plugin) allows easy updating
-of all dependencies in the project.
-
 # Pre-commit hook that prevents pushing from some branches
 
 When using a remote without branch protection, one can quickly accidentally push code into main branch.
