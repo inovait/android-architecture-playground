@@ -27,12 +27,12 @@ import si.inova.kotlinova.core.outcome.Outcome
  */
 @OptIn(ExperimentalPagingApi::class)
 class StaleWhileRevalidateInputPagingWrapper<Value : Any>(
-   private val pager: (
+   pager: (
       pagingSource: () -> PagingSource<Int, Value>,
       remoteMediator: RemoteMediator<Int, Value>,
    ) -> Pager<Int, Value>,
-   private val getFirstPage: (force: Boolean, pageSize: Int) -> Flow<Outcome<List<Value>>>,
-   private val getSubsequentPage: suspend (itemsLoadedSoFar: Int, pageSize: Int) -> List<Value>,
+   getFirstPage: (force: Boolean, pageSize: Int) -> Flow<Outcome<List<Value>>>,
+   getSubsequentPage: suspend (itemsLoadedSoFar: Int, pageSize: Int) -> List<Value>,
 ) {
    var data: List<Value> = emptyList()
    var currentPagingSource: PagingSource<Int, Value>? = null
