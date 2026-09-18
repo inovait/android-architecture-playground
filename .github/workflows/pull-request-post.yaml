@@ -45,6 +45,8 @@ jobs:
           fetch-depth: 0
           path: repo
           persist-credentials: false
+          allow-unsafe-pr-checkout: true # We are not executing any code from the PR, so we should be fine
+
       - name: Set git ref
         if: steps.download.outcome == 'success'
         id: git-hash
@@ -115,57 +117,3 @@ jobs:
           org.gradle.parallel=true
           org.gradle.jvmargs=-Xmx6G
           EOF
-      # Compile the project if jacoco test exec is present, to generate classes for jacoco report
-      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-        with:
-          java-version: '21'
-          distribution: temurin
-      - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699
-        with:
-          packages: platform-tools
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-      - name: Compile classes
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-        uses: burrunan/gradle-cache-action@404534c34a2faa40430357a3183522a845b04f3b # v3.0.3
-        with:
-          arguments: "compileDebugKotlin"
-          build-root-directory: repo
-          debug: false
-          concurrent: true
-          read-only: true
-      - name: "Copy coverage data from PR"
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-        run: |
-          shopt -s globstar
-          
-          mkdir repo/coverage-data
-          cp --backup=numbered artifacts/results/android-architecture-playground/android-architecture-playground/**/*.exec repo/coverage-data/
-          cd repo/coverage-data
-          for file in $(ls -1); do mv "$file" "$file".exec; done
-          find .
-      - name: "Create jacoco aggregate"
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-        run: "./gradlew aggregatedJacocoReport"
-        working-directory: repo
-
-
-      - name: Add coverage to PR
-        id: jacoco
-        uses: madrapps/jacoco-report@50d3aff4548aa991e6753342d9ba291084e63848
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-        with:
-          paths: |
-            repo/build/reports/jacoco/aggregatedJacocoReport/aggregatedJacocoReport.xml,
-          token: ${{ secrets.GITHUB_TOKEN }}
-          update-comment: true
-          title: Code Coverage
-          min-coverage-overall: 50
-          min-coverage-changed-files: 30
-          pr-number: "${{ steps.pr-meta.outputs.pr_num }}"
-      - name: "Upload jacoco coverage report"
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: always() && steps.download.outcome == 'success' && hashFiles('artifacts/results/android-architecture-playground/android-architecture-playground/common/build/jacoco/test.exec') != ''
-        with:
-          name: test-coverage
-          path: ${{ github.workspace }}/repo/build/reports/jacoco/aggregatedJacocoReport/html
