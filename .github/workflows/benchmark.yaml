@@ -54,7 +54,7 @@ jobs:
         run: "./gradlew :app:assembleDevelopBenchmark $GLOBAL_FLAGS"
       - name: "Clear previous results from the cloud"
         run: |
-          gsutil rm -r "gs://firebase-test-results-android-architecture-playground/*" || true
+          gcloud storage rm -r "gs://firebase-test-results-android-architecture-playground/*" || true
       - name: "Build benchmark"
         run: "./gradlew :app-benchmark:assembleDevelopBenchmark"
       - name: "Run benchmarks on Firebase test lab"
@@ -71,7 +71,7 @@ jobs:
           --timeout 20m
       - name: "Copy results from cloud to local machine"
         run: |
-          gsutil cp -r gs://firebase-test-results-android-architecture-playground/results app-benchmark/
+          gcloud storage cp -r gs://firebase-test-results-android-architecture-playground/results app-benchmark/
       - name: "Publish numbers to Cloud Monitoring"
         run: "./gradlew benchmarkResultsUpload"
         env:
