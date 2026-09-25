@@ -23,6 +23,11 @@ dependencyResolutionManagement {
    }
 }
 
+plugins {
+   // We cannot use version catalogs here. So this is the only one place, where we must manually declare a dependency
+   id("io.github.eduardbosch.module.graph.assertion.settings") version "2.10.1"
+}
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "AndroidArchitecturePlayground"
