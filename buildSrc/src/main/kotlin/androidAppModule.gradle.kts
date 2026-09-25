@@ -10,7 +10,7 @@ plugins {
    id("com.android.application")
    id("androidCommon")
    id("kotlinova")
-   id("com.jraska.module.graph.assertion")
+   id("io.github.eduardbosch.module.graph.assertion")
    id("di")
 }
 

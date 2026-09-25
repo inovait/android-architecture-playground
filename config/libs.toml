@@ -42,7 +42,7 @@ kotlinova = "4.1.2"
 ksp = "2.3.12"
 logcat = "0.4"
 metro = "1.4.4"
-moduleGraphAssert = "2.9.1"
+moduleGraphAssert = "2.10.1"
 okhttp = "5.4.0"
 okio = "3.18.2"
 orgJson = "20251224"
@@ -141,7 +141,9 @@ kotlinova-retrofit-test = { module = "si.inova.kotlinova:retrofit-test", version
 ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 logcat = { module = "com.squareup.logcat:logcat", version.ref = "logcat" }
 metro-plugin = { module = "dev.zacsweers.metro:gradle-plugin", version.ref = "metro" }
-moduleGraphAssert = { module = "com.jraska.module.graph.assertion:plugin", version.ref = "moduleGraphAssert" }
+# Use a fork of the graph assert that support isolated projects
+# See https://github.com/jraska/modules-graph-assert/issues/322
+moduleGraphAssert = { module = "io.github.eduardbosch:modules-graph-assert", version.ref = "moduleGraphAssert" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-mockWebServer = { module = "com.squareup.okhttp3:mockwebserver3", version.ref = "okhttp" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
@@ -166,3 +168,4 @@ whatTheStack = { module = "com.github.fvito:WhatTheStack", version.ref = "whatTh
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
+moduleGraphAssertSettings = { id = "io.github.eduardbosch", version.ref = "moduleGraphAssert" }
