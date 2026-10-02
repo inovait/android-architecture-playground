@@ -36,17 +36,6 @@ jobs:
           echo "pr_num=$pr" > $GITHUB_OUTPUT
           echo "pr_ref=refs/pull/$pr/merge" >> $GITHUB_OUTPUT
           mkdir -p repo
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        if: steps.download.outcome == 'success'
-        with:
-          lfs: true
-          submodules: recursive
-          ref: ${{ steps.pr-meta.outputs.pr_ref }}
-          fetch-depth: 0
-          path: repo
-          persist-credentials: false
-          allow-unsafe-pr-checkout: true # We are not executing any code from the PR, so we should be fine
-
       - name: Set git ref
         if: steps.download.outcome == 'success'
         id: git-hash
