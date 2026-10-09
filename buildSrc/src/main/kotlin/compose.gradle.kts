@@ -1,4 +1,5 @@
 import com.skydoves.compose.stability.gradle.StabilityAnalyzerExtension
+import com.skydoves.compose.stability.gradle.StabilityDumpTask
 import org.gradle.accessors.dm.LibrariesForLibs
 import util.isAndroidProject
 
@@ -25,6 +26,23 @@ configure<StabilityAnalyzerExtension> {
    }
 
    stabilityConfigurationFiles.add(stableClassesFile)
+}
+
+tasks.withType<StabilityDumpTask>().configureEach {
+   val forceProperty = project.providers.gradleProperty("force.stability.dump")
+
+   doFirst {
+      if (forceProperty.orNull?.toBoolean() != true) {
+         error(
+            "You should not be using stabilityDump in most cases. " +
+               "Instead, please try to make your Composables stable instead.\n\n" +
+               "If a specific Composable cannot be made stable (for example, due to legacy code or generics), " +
+               "mark it with @IgnoreStabilityReport instead.\n\n" +
+               "If you are absolutely sure that the stabilityDump is the right move, " +
+               "set the force.stability.dump property to true and try again."
+         )
+      }
+   }
 }
 
 dependencies {
