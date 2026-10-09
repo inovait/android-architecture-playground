@@ -72,8 +72,8 @@ tasks.register("code-style", Copy::class) {
    }
    into("$rootDir/../.idea/codeStyles/")
 }
-afterEvaluate {
-   tasks.getByName("jar")
-      .dependsOn("git-hooks")
-      .dependsOn("code-style")
+
+tasks.named("jar") {
+   dependsOn("git-hooks")
+   dependsOn("code-style")
 }
