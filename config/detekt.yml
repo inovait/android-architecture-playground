@@ -115,6 +115,13 @@ complexity:
     ignoreDefaultParameters: true
     ignoreDataClasses: true
     ignoreAnnotated: [ 'Inject', 'Provides', 'AssistedInject', 'Delete', 'Insert', 'Query', 'RawQuery', 'Update', 'Transaction', 'Composable' ]
+  LongParameterList/Compose:
+    active: true
+    allowedFunctionParameters: 8
+    allowedConstructorParameters: 8
+    ignoreDefaultParameters: true
+    ignoreDataClasses: true
+    ignoreAnnotated: [ 'Inject', 'Provides', 'AssistedInject', 'Delete', 'Insert', 'Query', 'RawQuery', 'Update', 'Transaction' ]
   MethodOverloading:
     active: true
     allowedOverloads: 6
