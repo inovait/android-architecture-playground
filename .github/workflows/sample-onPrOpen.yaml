@@ -16,19 +16,19 @@ jobs:
     name: New PR
     runs-on: "node"
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Get jira tickets
-        uses: inovait/actions-common/jira-get-tickets-from-commits@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
+        uses: inovait/actions-common/jira-get-tickets-from-commits@v15
         id: jira-tickets
         with:
           from: ${{ github.event.pull_request.base.sha }}
           to: ${{ github.event.pull_request.head.sha }}
       - run: "echo Tickets: \"${{ steps.jira-tickets.outputs.tickets }}\""
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@e4a76dd2b0a3c2027c3fd84147a67c22ee4c90fa
+        uses: thollander/actions-comment-pull-request@main
         if: steps.jira-tickets.outputs.tickets == ''
         with:
           message: |

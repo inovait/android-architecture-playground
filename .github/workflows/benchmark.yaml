@@ -32,17 +32,17 @@ jobs:
               fi
             '
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db' # v3.0.1
+        uses: 'google-github-actions/setup-gcloud@v3.0.1'
 
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: 'Save Service account'
         run: 'echo "${{ secrets.TEST_GCLOUD_ACCOUNT }}" | base64 -d > test-lab-key.json'
 
-      - uses: inovait/actions-common/android-setup@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
+      - uses: inovait/actions-common/android-setup@v15
         with:
           java_version: '21'
       - name: "Set gcloud project"

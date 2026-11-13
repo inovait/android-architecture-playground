@@ -15,14 +15,14 @@ jobs:
       OWNER_NAME: ${{github.actor}}
       OWNER_MESSAGE: ${{github.event.ref}}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: pull-request
         id: open-pr
-        uses: inovait/pull-request@bfc7ca74d921994018f2b54c0334737de38ddad7
+        uses: inovait/pull-request@master
         with:
           github_token: ${{ github.token }}
           destination_branch: "main"
@@ -30,7 +30,7 @@ jobs:
           pr_body: "Owner ${{env.OWNER_NAME}}"
 
       - name: Get ticket
-        uses: actions-ecosystem/action-regex-match@9e6c4fb3d5e898f505be7a1fb6e7b0a278f6665b # v2.0.2
+        uses: actions-ecosystem/action-regex-match@v2.0.2
         id: get-ticket
         with:
           text: ${{ env.OWNER_MESSAGE }}
@@ -38,7 +38,7 @@ jobs:
 
       - name: Login to Jira
         if: ${{ steps.get-ticket.outputs.match != '' }}
-        uses: atlassian/gajira-login@c22a5debd482401472b285de4f6deedf70ddbb92
+        uses: atlassian/gajira-login@master
         env:
           JIRA_BASE_URL: 'https://myjira.atlassian.net/'
           JIRA_USER_EMAIL: "myacc@jira.com"
@@ -46,7 +46,7 @@ jobs:
 
       - name: Make a jira comment about a new release
         if: ${{ steps.get-ticket.outputs.match != '' }}
-        uses: inovait/actions-common/jira-comment@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
+        uses: inovait/actions-common/jira-comment@v15
         with:
           tickets: "${{ steps.get-ticket.outputs.match }}"
           comment: |
@@ -68,7 +68,7 @@ jobs:
 
       - name: Transition tickets to In Progress
         if: ${{ steps.get-ticket.outputs.match != '' }}
-        uses: inovait/actions-common/jira-transition@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
+        uses: inovait/actions-common/jira-transition@v15
         with:
           tickets: "${{ steps.get-ticket.outputs.match }}"
           from: 'SELECTED FOR DEVELOPMENT'

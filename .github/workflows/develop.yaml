@@ -37,25 +37,25 @@ jobs:
                   echo "GLOBAL_FLAGS=" >> "$GITHUB_ENV";
               fi
             '
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           lfs: true
 
-      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+      - uses: actions/setup-java@v6.1.0
         with:
           java-version: '25'
           distribution: temurin
-      - uses: burrunan/gradle-cache-action@663fbad34e03c8f12b27f4999ac46e3d90f87eca
+      - uses: burrunan/gradle-cache-action@v3.0.1
         with:
           debug: false
           concurrent: true
           read-only: ${{ github.ref != 'refs/heads/main' }}
-      - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699
+      - uses: android-actions/setup-android@v4.0.1
         with:
           packages: platform-tools
       - name: 'Set up Cloud SDK'
-        uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db #v3.0.1
+        uses: google-github-actions/setup-gcloud@v3.0.1
       - name: 'Save Service account'
         run: 'echo "${{ secrets.TEST_GCLOUD_ACCOUNT }}" | base64 -d > test-lab-key.json'
 
@@ -114,7 +114,7 @@ jobs:
             exit 1
           fi
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/linux@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2.24.0
         if: always()
         with:
           comment_mode: failures
@@ -123,7 +123,7 @@ jobs:
             **/build/*-results/**/*.xml
             instrumented_tests_results/**/*.xml
       - name: "Upload Screenshot test failures"
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v7.0.2
         if: failure()
         with:
           name: failed-screenshot-tests
@@ -135,7 +135,7 @@ jobs:
           shopt -s globstar
           zip -r instrumented-test-results.zip instrumented_tests_results/**/*.xml
       - name: "Upload Instrumented tests results"
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v7.0.2
         if: failure()
         with:
           name: instrumented-test-results
@@ -166,7 +166,7 @@ jobs:
       #            app/build/outputs/**/*-release.apk
       #            CHANGELOG.MD
       - name: "Upload proguard mappings"
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: mapping-app-release.txt
           path: app/build/outputs/mapping/release/mapping.txt

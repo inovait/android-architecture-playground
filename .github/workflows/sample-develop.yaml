@@ -38,12 +38,12 @@ jobs:
                   echo "GLOBAL_FLAGS=" >> "$GITHUB_ENV";
               fi
             '
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           lfs: true
 
-      - uses: inovait/actions-common/android-setup@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
+      - uses: inovait/actions-common/android-setup@v15
         with:
           java-version: 21
 
@@ -66,7 +66,7 @@ jobs:
       - name: Run Unit Tests
         run: "./gradlew test -x :app-screenshot-tests:testDebugUnitTest --continue$GLOBAL_FLAGS"
       - name: Run Android Emulator tests
-        uses: inovait/actions-common/android-run-with-emulator@8c52067f51ae2ad3302ce91a03099d014ee8dba6 #v15
+        uses: inovait/actions-common/android-run-with-emulator@v15
         with:
           command: './gradlew -PtestAppWithProguard -PtestAppWithProguard connectedDebugAndroidTest --continue$GLOBAL_FLAGS'
       # This generally does not need to be done on develop, only on PRs. But since there is no PRs on this project,
@@ -80,7 +80,7 @@ jobs:
       - name: "Create jacoco aggregate"
         run: "./gradlew aggregatedJacocoReport"
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/linux@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2.24.0
         if: always()
         with:
           comment_mode: failures
@@ -88,7 +88,7 @@ jobs:
             **/build/outputs/*-results/**/*.xml
             **/build/*-results/**/*.xml
       - name: "Upload Screenshot test failures"
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v7.0.2
         if: failure()
         with:
           name: failed-screenshot-tests
@@ -119,12 +119,12 @@ jobs:
       #            app/build/outputs/**/*-release.apk
       #            CHANGELOG.MD
       - name: "Upload proguard mappings"
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: mapping-app-release.txt
           path: app/build/outputs/mapping/release/mapping.txt
       - name: "Upload jacoco coverage report"
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: test-coverage
           path: ${{ github.workspace }}/build/reports/jacoco/aggregatedJacocoReport/html

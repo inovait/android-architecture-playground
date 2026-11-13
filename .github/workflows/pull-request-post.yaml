@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Set up Cloud SDK'
-        uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db #v3.0.1
+        uses: google-github-actions/setup-gcloud@v3.0.1
       - name: 'Save Service account'
         run: 'echo "${{ secrets.TEST_GCLOUD_ACCOUNT }}" | base64 -d > test-lab-key.json'
 
@@ -36,7 +36,7 @@ jobs:
           echo "pr_num=$pr" > $GITHUB_OUTPUT
           echo "pr_ref=refs/pull/$pr/merge" >> $GITHUB_OUTPUT
           mkdir -p repo
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         if: steps.download.outcome == 'success'
         with:
           lfs: true
@@ -95,7 +95,7 @@ jobs:
           sarif-file: 'artifacts/results/android-architecture-playground/android-architecture-playground/merge.sarif'
           simple: true
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/linux@c950f6fb443cb5af20a377fd0dfaa78838901040
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2.23.0
         if: always() && steps.download.outcome == 'success'
         with:
           comment_mode: failures
