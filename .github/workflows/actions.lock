@@ -48,6 +48,8 @@ workflows:
         - 'inovait/actions-common@v15'
         - 'inovait/sarif-to-comment-action@main'
         - 'madrapps/jacoco-report@v1.7.2'
+    '.github/workflows/verify-lockfile.yml':
+        - 'actions/checkout@v7.0.1'
     '.github/workflows/verifyPr.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-java@v6.1.0'
