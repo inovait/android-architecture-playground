@@ -118,6 +118,7 @@ abstract class TestsBase {
       val totalSplits = System.getProperty("numSplits")?.toInt() ?: error("Missing numSplits property")
 
       val allComponents = Showkase.getMetadata().componentList
+         .map { TestKey(it) }
       val perSplit = allComponents.size / totalSplits
 
       val start = splitIndex * perSplit
@@ -127,15 +128,12 @@ abstract class TestsBase {
          start + perSplit
       }
 
-      val components = allComponents
-         .subList(start, end)
-         .map { TestKey(it) }
+      val components = allComponents.subList(start, end)
 
-      for (i in components.indices) {
-         for (j in components.indices) {
-            if (i != j && components[i].key == components[j].key) {
-               throw AssertionError("Duplicate @Preview: '${components[i].key}'")
-            }
+      val allKeysDistinct = HashSet<String>(allComponents.size)
+      for (component in allComponents) {
+         if (!allKeysDistinct.add(component.key)) {
+            throw AssertionError("Duplicate @Preview: '${component.key}'")
          }
       }
 
