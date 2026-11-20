@@ -5,7 +5,21 @@ set -e
 cp -R app-screenshot-tests/src/test/snapshots/ tmpSnapshots || mkdir tmpSnapshots
 
 # Regenerate snapshots
-./gradlew recordPaparazziDebug
+./gradlew cleanRecordPaparazziDebug
+
+# Delete unused snapshots
+for snapshot in tmpSnapshots/images/*.png; do
+  if [ ! -f app-screenshot-tests/src/test/snapshots/images/${snapshot##*/} ]; then
+    rm -f tmpSnapshots/images/${snapshot##*/}
+    git add tmpSnapshots/images/${snapshot##*/}
+  fi
+done
+for snapshot in tmpSnapshots/videos/*.png; do
+  if [ ! -f app-screenshot-tests/src/test/snapshots/videos/${snapshot##*/} ]; then
+    rm -f tmpSnapshots/videos/${snapshot##*/}
+    git add tmpSnapshots/videos/${snapshot##*/}
+  fi
+done
 
 # Copy previous snapshots back to ensure we only create new snapshot, not delete old ones
 cp -R tmpSnapshots/. app-screenshot-tests/src/test/snapshots/
