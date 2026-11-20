@@ -12,7 +12,7 @@ workflows:
         - 'actions/setup-java@v6.2.0'
         - 'actions/upload-artifact@v7.0.2'
         - 'android-actions/setup-android@v4.0.4'
-        - 'burrunan/gradle-cache-action@v3.0.1'
+        - 'burrunan/gradle-cache-action@v3.0.3'
         - 'enricomi/publish-unit-test-result-action@v2.24.0'
         - 'google-github-actions/setup-gcloud@v3.0.1'
     '.github/workflows/pull-request-post.yaml':
@@ -55,7 +55,7 @@ workflows:
         - 'actions/setup-java@v6.2.0'
         - 'actions/upload-artifact@v7.0.2'
         - 'android-actions/setup-android@v4.0.4'
-        - 'burrunan/gradle-cache-action@v3.0.1'
+        - 'burrunan/gradle-cache-action@v3.0.3'
 dependencies:
     'actions-ecosystem/action-regex-match@v2.0.2':
         ref: 'v2.0.2'
@@ -107,9 +107,9 @@ dependencies:
         commit: 'sha1-c22a5debd482401472b285de4f6deedf70ddbb92'
         owner_id: 168166
         repo_id: 172737737
-    'burrunan/gradle-cache-action@v3.0.1':
-        ref: 'v3.0.1'
-        commit: 'sha1-663fbad34e03c8f12b27f4999ac46e3d90f87eca'
+    'burrunan/gradle-cache-action@v3.0.3':
+        ref: 'v3.0.3'
+        commit: 'sha1-404534c34a2faa40430357a3183522a845b04f3b'
         owner_id: 68738476
         repo_id: 282982149
     'dawidd6/action-download-artifact@980d668e73c8252f062c5b3356914db466ba5d8e':

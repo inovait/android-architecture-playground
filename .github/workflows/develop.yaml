@@ -46,7 +46,7 @@ jobs:
         with:
           java-version: '25'
           distribution: temurin
-      - uses: burrunan/gradle-cache-action@v3.0.1
+      - uses: burrunan/gradle-cache-action@v3.0.3
         with:
           debug: false
           concurrent: true
