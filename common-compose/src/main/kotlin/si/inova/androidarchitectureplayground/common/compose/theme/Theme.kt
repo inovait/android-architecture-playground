@@ -63,6 +63,8 @@ fun AndroidArchitecturePlaygroundTheme(
       if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
          // Workaround for https://issuetracker.google.com/issues/274471576 - Ripple effects do not work on Android 13
          val defaultRippleConfig = LocalRippleConfiguration.current ?: RippleConfiguration()
+
+         @Suppress("DEPRECATION", "Deprecation") // Google does not want us controlling alpha, but we must in order to fix A13
          val transparencyFixRippleConfiguration = RippleConfiguration(
             color = defaultRippleConfig.color,
             rippleAlpha = defaultRippleConfig.rippleAlpha?.run {
