@@ -24,7 +24,11 @@ commonAndroid {
    val uniqueNamespaceSuffix = path.removePrefix(":").replace(':', '.').replace("-", "")
    namespace = "si.inova.androidarchitectureplayground.noresources.$uniqueNamespaceSuffix"
 
-   compileSdk = 37
+   compileSdk {
+      version = release(37) {
+         minorApiLevel = 2
+      }
+   }
 
    compileOptions.apply {
       sourceCompatibility = JavaVersion.VERSION_17

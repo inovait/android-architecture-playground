@@ -9,7 +9,11 @@ plugins {
 }
 
 android {
-   compileSdk = 37
+   compileSdk {
+      version = release(37) {
+         minorApiLevel = 2
+      }
+   }
 
    namespace = "si.inova.androidarchitectureplayground.sharedresources"
 
